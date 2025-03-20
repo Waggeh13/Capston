@@ -1,0 +1,32 @@
+.doctor-available {
+    padding-top: 100px;
+}
+
+thead {
+    font-weight: 600;
+    background: rgb(231, 231, 231);
+}
+
+.btn:hover {
+    background: red;
+}
+
+.status-dropdown {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background: #fff;
+    cursor: pointer;
+}
+
+.status-dropdown option[value="pending"] { color: orange; }
+.status-dropdown option[value="confirmed"] { color: blue; }
+.status-dropdown option[value="in-progress"] { color: darkblue; }
+.status-dropdown option[value="completed"] { color: green; }
+.status-dropdown option[value="cancelled"] { color: red; }
+.status-dropdown option[value="no-show"] { color: gray; }
+.status-dropdown option[value="rescheduled"] { color: purple; }
+
+.btn:hover {
+    background-color: red;
+}

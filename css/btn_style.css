@@ -1,0 +1,16 @@
+.btn:hover {
+    background: red;
+}
+
+.cards {
+    margin-top: 60px;
+    width: 100%; 
+    padding: 35px 20px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 20px;
+    cursor: pointer;
+}
+
+
+

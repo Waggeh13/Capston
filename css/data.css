@@ -1,0 +1,121 @@
+.data {
+    display: flex;
+    flex-wrap: wrap;
+    grid-gap: 24px;
+    margin-top: 24px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.data > div {
+    border-radius: 5px;
+    background: white;
+    padding: 24px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    overflow: hidden; 
+}
+
+.data .heading {
+    display: flex;
+    align-items: center;
+    grid-gap: 16px;
+    margin-bottom: 24px;
+}
+
+.data .heading h2 {
+    margin-right: auto;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.data .todays-appointments {
+    flex-grow: 1;
+    flex-basis: 500px;
+}
+
+.data .todays-appointments table {
+    margin-top: 10px;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data .todays-appointments tbody tr:hover {
+    background-color: #70d8f5;
+    color: #ffffff;
+}
+
+.data .todays-appointments td {
+    padding: 10px 12px;
+}
+
+.data .todays-appointments table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.appointments {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; 
+}
+
+.appointments th, .appointments td {
+    padding: 12px; 
+    text-align: left;
+}
+
+.appointments th {
+    font-weight: bold;
+}
+
+.data .next-patient-card {
+    flex-grow: 1;
+    flex-basis: 200px;
+}
+
+.patient-details {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; 
+}
+
+.calender {
+    margin-top: 25px;
+    margin-bottom: 25px;
+    width: 380px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    background: #ffff;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.header button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 50%;
+    background: #fff;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
+.header button:hover {
+    background: red;
+    color: #ffff;
+}
+
+
+

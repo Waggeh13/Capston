@@ -1,0 +1,151 @@
+.data {
+    display: flex;
+    flex-wrap: wrap;
+    grid-gap: 24px;
+    margin-top: 24px;
+    width: 100%;
+    max-width: 1190px;
+    margin: 0 auto;
+}
+
+.container-request {
+    display: flex;
+    justify-content: center;  /* Adds space between calendar & card */
+    align-items: stretch;  /* Aligns both items at the top */
+    gap: 20px;  /* Adds spacing between them */
+}
+
+.dates {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+}
+
+.calender {
+    flex: 0.5; 
+    margin-left: 20px;
+    padding: 10px; 
+    max-width: 500px; 
+
+}
+
+.days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    padding: 5px;
+    color: #444;
+    font-weight: 500;
+}
+
+.dates {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.date {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    text-align: center;
+    padding: 10px;
+    margin: auto;
+    cursor: pointer;
+    font-weight: 600;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    transition: 0.2s;
+}
+
+.date:hover,
+.date.active {
+    background: #0054A6;
+    color: white;
+}
+
+.date.inactive {
+    color: #b2b2b2;
+}
+
+.date.inactive:hover {
+    color: #ffff;
+}
+
+.monthYear {
+    text-align: center;
+    font-size: 600;
+    width: 150px;
+}
+
+.appointment-requests-card {
+    flex: 0.5; 
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 350px;
+    height: 374px; 
+    margin-top: 26px;
+    overflow-y: auto;
+
+}
+
+.appointment-header {
+    font-size: 18px;
+    font-weight: bold;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #ddd;
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.requests-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.request {
+    background: #f5f5f5;
+    padding: 10px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.request-details p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+.actions button {
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.accept {
+    background: #4CAF50;
+    color: white;
+}
+
+.reject {
+    background: #FF5252;
+    color: white;
+}

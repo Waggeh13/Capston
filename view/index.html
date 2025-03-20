@@ -61,10 +61,20 @@
                 <div class="input-box">
                     <input type="text" placeholder="User ID" required>
                     <i class='bx bxs-user'></i>
-                </div>
+                </div>               
                 <div class="input-box">
                     <input type="password" placeholder="Password" required>
                     <i class='bx bxs-lock-alt' ></i>
+                </div>
+                <div class="input-box">
+                    <select class="role-select" required>
+                        <option value="" disabled selected>Choose Role</option>
+                        <option value="doctor">Doctor</option>
+                        <option value="admin">Admin</option>
+                        <option value="pharmacist">Pharmacist</option>
+                        <option value="lab_technician">Laboratory Technician</option>
+                    </select>
+                    <i class='bx bxs-user'></i>
                 </div>
                 <button type="submit" class="btn">Register</button>
             </form>

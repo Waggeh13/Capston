@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../css/schedule.css">
     <link rel="stylesheet" href="../css/calender.css">
     <link rel="stylesheet" href="../css/data.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.css">
     <title>Doctor Schedule</title>
@@ -22,45 +23,57 @@
                     </a>
                 </li>
                 <li>
-                    <a href="admin_dashboard.html">
+                    <a href="doctor_dashboard.html">
                         <i class="fas fa-th-large"></i>
                         <div class="title">Dashboard</div>
                     </a>
                 </li>
                 <li>
-                    <a href="admin_appointment.html">
+                    <a href="doc_appointment.html">
                         <i class="fas fa-stethoscope"></i>
                         <div class="title">Appointments</div>
                     </a>
                 </li>
                 <li>
-                    <a href="admin_staff.html">
+                    <a href="doc_schedule.html">
                         <i class="fas fa-calendar-alt"></i>
                         <div class="title">Schedule</div>
                     </a>
                 </li>
                 <li>
-                    <a href="admin_patient.html">
+                    <a href="doc_lab.html">
                         <i class="fas fa-vial"></i>
                         <div class="title">Lab Test</div>
                     </a>
                 </li>
                 <li>
-                    <a href="admin_department.html">
+                    <a href="doc_prescription.html">
                         <i class="fas fa-prescription-bottle-alt"></i>
                         <div class="title">Prescription</div>
                     </a>
                 </li>
                 <li>
-                    <a href="admin_clinic.html">
+                    <a href="doc_telemedicine.html">
+                        <i class="fas fa-video"></i>
+                        <div class="title">Virtual Consultation</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="doc_message.html">
                         <i class="fas fa-envelope"></i>
                         <div class="title">Messages</div>
                     </a>
                 </li>
                 <li>
-                    <a href="admin_clinic.html">
+                    <a href="report.html">
                         <i class="fas fa-file-medical"></i>
                         <div class="title">Report Request</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="setting.html">
+                        <i class="fas fa-cog"></i>
+                        <div class="title">Settings</div>
                     </a>
                 </li>
                 <li>
@@ -108,6 +121,7 @@
                 <div class="time-slots">
                     <h3>Select Available Times</h3>
                     <div class="time-options">
+                        <button class="time-slot" data-time="08:00">08:00 AM</button>
                         <button class="time-slot" data-time="09:00">09:00 AM</button>
                         <button class="time-slot" data-time="10:00">10:00 AM</button>
                         <button class="time-slot" data-time="11:00">11:00 AM</button>
@@ -116,6 +130,8 @@
                         <button class="time-slot" data-time="14:00">02:00 PM</button>
                         <button class="time-slot" data-time="15:00">03:00 PM</button>
                         <button class="time-slot" data-time="16:00">04:00 PM</button>
+                        <button class="time-slot" data-time="17:00">05:00 PM</button>
+                        <button class="time-slot" data-time="18:00">06:00 PM</button>
                     </div>
                     <button id="save-schedule" class="save-btn">Save Schedule</button>
                 </div>
@@ -123,5 +139,7 @@
         </div>
     </div>
     <script src= "../js/calender.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.js"></script>
+    <script src= "../js/schedule.js"></script>
 </body>
 </html>

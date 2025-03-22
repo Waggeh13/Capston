@@ -1,0 +1,87 @@
+/* Settings Page Styles */
+.settings-container {
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    margin-top: 70px;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 15px;
+}
+.settings-section {
+    margin-bottom: 30px;
+}
+
+.settings-section h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.settings-option {
+    margin-bottom: 20px;
+}
+
+.settings-option label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: #555;
+}
+
+.settings-option select,
+.settings-option input[type="range"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.settings-option input[type="range"] {
+    padding: 0;
+}
+
+.toggle-switch {
+    display: flex;
+    align-items: center;
+}
+
+.toggle-switch label {
+    margin-left: 10px;
+    font-size: 16px;
+    color: #555;
+}
+
+.toggle-switch input[type="checkbox"] {
+    width: 40px;
+    height: 20px;
+    appearance: none;
+    background-color: #ccc;
+    border-radius: 20px;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.toggle-switch input[type="checkbox"]:checked {
+    background-color: #007bff;
+}
+
+.toggle-switch input[type="checkbox"]::before {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background-color: white;
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.3s ease;
+}
+
+.toggle-switch input[type="checkbox"]:checked::before {
+    transform: translateX(20px);
+}

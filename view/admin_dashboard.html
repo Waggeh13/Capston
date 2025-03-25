@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/btn_style.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/edit_add.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>Admin Dashboard</title>
 </head>
@@ -122,7 +124,7 @@
                 <div class="last-appointments">
                     <div class="heading">
                         <h2>Last Appointments</h2>
-                        <a href="#" class="btn">View All</a>
+                        <a href="admin_appointment.html" class="btn">View All</a>
                     </div>
                     <table class="appointments">
                         <thead>
@@ -136,8 +138,7 @@
                             <td>Dr. Singhateh</td>
                             <td>ENT</td>
                             <td>
-                                <i class="far fa-eye"></i>
-                                <i class="far fa-edit"></i>
+                                <i class="far fa-edit editItemBtn"></i>
                                 <i class="far fa-trash-alt"></i>
                             </td>
                         </tr>
@@ -146,8 +147,7 @@
                             <td>Dr. Singhateh</td>
                             <td>ENT</td>
                             <td>
-                                <i class="far fa-eye"></i>
-                                <i class="far fa-edit"></i>
+                                <i class="far fa-edit editItemBtn"></i>
                                 <i class="far fa-trash-alt"></i>
                             </td>
                         </tr>
@@ -156,8 +156,7 @@
                             <td>Dr. Singhateh</td>
                             <td>ENT</td>
                             <td>
-                                <i class="far fa-eye"></i>
-                                <i class="far fa-edit"></i>
+                                <i class="far fa-edit editItemBtn"></i>
                                 <i class="far fa-trash-alt"></i>
                             </td>
                         </tr>
@@ -166,8 +165,7 @@
                             <td>Dr. Singhateh</td>
                             <td>ENT</td>
                             <td>
-                                <i class="far fa-eye"></i>
-                                <i class="far fa-edit"></i>
+                                <i class="far fa-edit editItemBtn"></i>
                                 <i class="far fa-trash-alt"></i>
                             </td>
                         </tr>
@@ -176,8 +174,7 @@
                             <td>Dr. Singhateh</td>
                             <td>ENT</td>
                             <td>
-                                <i class="far fa-eye"></i>
-                                <i class="far fa-edit"></i>
+                                <i class="far fa-edit editItemBtn"></i>
                                 <i class="far fa-trash-alt"></i>
                             </td>
                         </tr>
@@ -186,8 +183,7 @@
                             <td>Dr. Singhateh</td>
                             <td>ENT</td>
                             <td>
-                                <i class="far fa-eye"></i>
-                                <i class="far fa-edit"></i>
+                                <i class="far fa-edit editItemBtn"></i>
                                 <i class="far fa-trash-alt"></i>
                             </td>
                         </tr>
@@ -196,7 +192,7 @@
                 <div class="doctor-available">
                     <div class="heading">
                         <h2>Doctors Available</h2>
-                        <a href="#" class="btn">View All</a>
+                        <a href="admin_staff.html" class="btn">View All</a>
                     </div>
                     <table class="available">
                         <thead>
@@ -243,5 +239,71 @@
             </div>
         </div>
     </div>
+
+    <!-- Add Appointment Pop-up Form -->
+    <div class="overlay" id="overlay"></div>
+    <div class="popup-form" id="addItemForm">
+        <h3>Add Appointment</h3>
+        <form id="addItem">
+            <input type="text" name="patientName" placeholder="Patient Name" required>
+            <input type="text" name="doctorName" placeholder="Doctor Name" required>
+            <input type="date" name="appointmentDate" placeholder="Date" required>
+            <input type="time" name="appointmentTime" placeholder="Time" required>
+
+            <label>Appointment Type:</label>
+            <div class="radio-group">
+                <label>
+                    <input type="radio" name="appointmentType" value="inPerson" required> In Person
+                </label>
+                <label>
+                    <input type="radio" name="appointmentType" value="virtual" required> Virtual Consultation
+                </label>
+            </div>
+
+            <label for="clinicName">Clinic Name:</label>
+            <select name="clinicName" required>
+                <option value="">Select a clinic</option>
+                <option value="clinic1">Pediatrics</option>
+                <option value="clinic2">OB/GYN</option>
+                <option value="clinic3">Surgical</option>
+            </select>
+
+            <button type="submit">Add</button>
+            <button type="button" class="cancel" id="cancelAddItem">Cancel</button>
+        </form>
+    </div>
+
+    <!-- Edit Appointment Pop-up Form -->
+    <div class="popup-form" id="editItemForm">
+        <h3>Edit Appointment</h3>
+        <form id="editItem">
+            <input type="text" name="patientName" placeholder="Patient Name" required>
+            <input type="text" name="doctorName" placeholder="Doctor Name" required>
+            <input type="date" name="appointmentDate" placeholder="Date" required>
+            <input type="time" name="appointmentTime" placeholder="Time" required>
+
+            <label>Appointment Type:</label>
+            <div class="radio-group">
+                <label>
+                    <input type="radio" name="appointmentType" value="inPerson" required> In Person
+                </label>
+                <label>
+                    <input type="radio" name="appointmentType" value="virtual" required> Virtual Consultation
+                </label>
+            </div>
+
+            <label for="clinicName">Clinic Name:</label>
+            <select name="clinicName" required>
+                <option value="">Select a clinic</option>
+                <option value="clinic1">Pediatrics</option>
+                <option value="clinic2">OB/GYN</option>
+                <option value="clinic3">Surgical</option>
+            </select>
+
+            <button type="submit">Update</button>
+            <button type="button" class="cancel" id="cancelEditItem">Cancel</button>
+        </form>
+    </div>
+    <script src="../js/add_edit.js"></script> 
 </body>
 </html>

@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/style_adminDoctor.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/edit_add.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>Departments</title>
 </head>
@@ -82,7 +84,7 @@
             <div class="doctor-available">
                 <div class="heading">
                     <h2>Patients</h2>
-                    <a href="#" class="btn">Add Department</a>
+                    <a href="#" class="btn" id="addItemBtn">Add Department</a>
                 </div>
                 <table class="available">
                     <thead>
@@ -95,7 +97,7 @@
                             <td>45901939559</td>
                             <td>Pediatrics</td>
                             <td>
-                                <i class="far fa-edit"></i>
+                                <i class="far fa-edit editItemBtn"></i>
                                 <i class="far fa-trash-alt"></i>
                             </td>
                         </tr>
@@ -103,7 +105,7 @@
                             <td>45901939559</td>
                             <td>Pediatrics</td>
                             <td>
-                                <i class="far fa-edit"></i>
+                                <i class="far fa-edit editItemBtn"></i>
                                 <i class="far fa-trash-alt"></i>
                             </td>
                         </tr>
@@ -111,7 +113,7 @@
                             <td>45901939559</td>
                             <td>Pediatrics</td>
                             <td>
-                                <i class="far fa-edit"></i>
+                                <i class="far fa-edit editItemBtn"></i>
                                 <i class="far fa-trash-alt"></i>
                             </td>
                         </tr>
@@ -119,7 +121,7 @@
                             <td>45901939559</td>
                             <td>Pediatrics</td>
                             <td>
-                                <i class="far fa-edit"></i>
+                                <i class="far fa-edit editItemBtn"></i>
                                 <i class="far fa-trash-alt"></i>
                             </td>
                         </tr>
@@ -127,7 +129,7 @@
                             <td>45901939559</td>
                             <td>Pediatrics</td>
                             <td>
-                                <i class="far fa-edit"></i>
+                                <i class="far fa-edit editItemBtn"></i>
                                 <i class="far fa-trash-alt"></i>
                             </td>
                         </tr>
@@ -136,6 +138,32 @@
                 </table>
             </div>
         </div>
-    
+        <!-- Add Department Pop-up Form -->
+        <div class="overlay" id="overlay"></div>
+        <div class="popup-form" id="addItemForm">
+            <h3>Add Department</h3>
+            <form id="addItem">
+                <!-- Department Details -->
+                <input type="text" id="departmentId" placeholder="Department ID" required>
+                <input type="text" id="departmentName" placeholder="Department Name" required>
+
+                <button type="submit">Add</button>
+                <button type="button" class="cancel" id="cancelAddItem">Cancel</button>
+            </form>
+        </div>
+
+        <!-- Edit Department Pop-up Form -->
+        <div class="popup-form" id="editItemForm">
+            <h3>Edit Department</h3>
+            <form id="editItem">
+                <!-- Department Details -->
+                <input type="text" id="editDepartmentId" placeholder="Department ID" required>
+                <input type="text" id="editDepartmentName" placeholder="Department Name" required>
+
+                <button type="submit">Update</button>
+                <button type="button" class="cancel" id="cancelEditItem">Cancel</button>
+            </form>
+        </div>
+        <script src="../js/add_edit.js"></script> 
 </body>
 </html>

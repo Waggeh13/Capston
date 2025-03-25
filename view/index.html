@@ -21,12 +21,18 @@
         .bafrow {
             color: rgb(34, 34, 249);
         }
-
         .care {
             color: red;
         }
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        input {
+            margin-bottom: 10px;
+        }
     </style>
-
 
 </head>
 
@@ -40,12 +46,14 @@
             <form action="">
                 <h1>Login</h1>
                 <div class="input-box">
-                    <input type="text" placeholder="User ID" required>
+                    <input type="text" id="user_id" placeholder="User ID" required>
                     <i class='bx bxs-user'></i>
+                    <div id="idError" class="error-message"></div><br>
                 </div>
                 <div class="input-box">
-                    <input type="password" placeholder="Password" required>
+                    <input type="password" id="password" placeholder="Password" required>
                     <i class='bx bxs-lock-alt' ></i>
+                    <div id="passwordError" class="error-message"></div><br>
                 </div>
                 <div class="forgot-link">
                     <a href="#" style="text-decoration: none;">Forget password?</a>

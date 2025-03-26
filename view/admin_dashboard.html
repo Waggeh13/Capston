@@ -128,64 +128,46 @@
                     </div>
                     <table class="appointments">
                         <thead>
-                            <td>Name</td>
+                            <td>Patient Name</td>
                             <td>Doctor</td>
                             <td>Clinic</td>
-                            <td>Action</td>
+                            <td>Time</td>
                         </thead>
                         <tr>
                             <td>Lamin Sanneh</td>
                             <td>Dr. Singhateh</td>
                             <td>ENT</td>
-                            <td>
-                                <i class="far fa-edit editItemBtn"></i>
-                                <i class="far fa-trash-alt"></i>
-                            </td>
+                            <td>10:00 AM</td>
                         </tr>
                         <tr>
                             <td>Lamin Sanneh</td>
                             <td>Dr. Singhateh</td>
                             <td>ENT</td>
-                            <td>
-                                <i class="far fa-edit editItemBtn"></i>
-                                <i class="far fa-trash-alt"></i>
-                            </td>
+                            <td>11:30 AM</td>
                         </tr>
                         <tr>
                             <td>Lamin Sanneh</td>
                             <td>Dr. Singhateh</td>
                             <td>ENT</td>
-                            <td>
-                                <i class="far fa-edit editItemBtn"></i>
-                                <i class="far fa-trash-alt"></i>
-                            </td>
+                            <td>2:15 PM</td>
                         </tr>
                         <tr>
                             <td>Lamin Sanneh</td>
                             <td>Dr. Singhateh</td>
                             <td>ENT</td>
-                            <td>
-                                <i class="far fa-edit editItemBtn"></i>
-                                <i class="far fa-trash-alt"></i>
-                            </td>
+                            <td>9:00 AM</td>
                         </tr>
                         <tr>
                             <td>Lamin Sanneh</td>
                             <td>Dr. Singhateh</td>
                             <td>ENT</td>
-                            <td>
-                                <i class="far fa-edit editItemBtn"></i>
-                                <i class="far fa-trash-alt"></i>
-                            </td>
+                            <td>3:45 PM</td>
                         </tr>
                         <tr>
                             <td>Lamin Sanneh</td>
                             <td>Dr. Singhateh</td>
                             <td>ENT</td>
-                            <td>
-                                <i class="far fa-edit editItemBtn"></i>
-                                <i class="far fa-trash-alt"></i>
-                            </td>
+                            <td>1:30 PM</td>
                         </tr>
                     </table>
                 </div>
@@ -199,38 +181,37 @@
                             <td>Name</td>
                             <td>Deparatment</td>
                             <td>Available Time</td>
-                            <td>Detail</td>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>Singhateh</td>
                                 <td>Gynocology</td>
                                 <td>8:00 - 13:00</td>
-                                <td><i class="far fa-eye"></i></i></td>
+                                
                             </tr>
                             <tr>
                                 <td>Singhateh</td>
                                 <td>Gynocology</td>
                                 <td>8:00 - 13:00</td>
-                                <td><i class="far fa-eye"></i></i></td>
+                         
                             </tr>
                             <tr>
                                 <td>Singhateh</td>
                                 <td>Gynocology</td>
                                 <td>8:00 - 13:00</td>
-                                <td><i class="far fa-eye"></i></i></td>
+                        
                             </tr>
                             <tr>
                                 <td>Singhateh</td>
                                 <td>Gynocology</td>
                                 <td>8:00 - 13:00</td>
-                                <td><i class="far fa-eye"></i></i></td>
+                              
                             </tr>
                             <tr>
                                 <td>Singhateh</td>
                                 <td>Gynocology</td>
                                 <td>8:00 - 13:00</td>
-                                <td><i class="far fa-eye"></i></i></td>
+                              
                             </tr>
                            
                         </tbody>
@@ -239,71 +220,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Add Appointment Pop-up Form -->
-    <div class="overlay" id="overlay"></div>
-    <div class="popup-form" id="addItemForm">
-        <h3>Add Appointment</h3>
-        <form id="addItem">
-            <input type="text" name="patientName" placeholder="Patient Name" required>
-            <input type="text" name="doctorName" placeholder="Doctor Name" required>
-            <input type="date" name="appointmentDate" placeholder="Date" required>
-            <input type="time" name="appointmentTime" placeholder="Time" required>
-
-            <label>Appointment Type:</label>
-            <div class="radio-group">
-                <label>
-                    <input type="radio" name="appointmentType" value="inPerson" required> In Person
-                </label>
-                <label>
-                    <input type="radio" name="appointmentType" value="virtual" required> Virtual Consultation
-                </label>
-            </div>
-
-            <label for="clinicName">Clinic Name:</label>
-            <select name="clinicName" required>
-                <option value="">Select a clinic</option>
-                <option value="clinic1">Pediatrics</option>
-                <option value="clinic2">OB/GYN</option>
-                <option value="clinic3">Surgical</option>
-            </select>
-
-            <button type="submit">Add</button>
-            <button type="button" class="cancel" id="cancelAddItem">Cancel</button>
-        </form>
-    </div>
-
-    <!-- Edit Appointment Pop-up Form -->
-    <div class="popup-form" id="editItemForm">
-        <h3>Edit Appointment</h3>
-        <form id="editItem">
-            <input type="text" name="patientName" placeholder="Patient Name" required>
-            <input type="text" name="doctorName" placeholder="Doctor Name" required>
-            <input type="date" name="appointmentDate" placeholder="Date" required>
-            <input type="time" name="appointmentTime" placeholder="Time" required>
-
-            <label>Appointment Type:</label>
-            <div class="radio-group">
-                <label>
-                    <input type="radio" name="appointmentType" value="inPerson" required> In Person
-                </label>
-                <label>
-                    <input type="radio" name="appointmentType" value="virtual" required> Virtual Consultation
-                </label>
-            </div>
-
-            <label for="clinicName">Clinic Name:</label>
-            <select name="clinicName" required>
-                <option value="">Select a clinic</option>
-                <option value="clinic1">Pediatrics</option>
-                <option value="clinic2">OB/GYN</option>
-                <option value="clinic3">Surgical</option>
-            </select>
-
-            <button type="submit">Update</button>
-            <button type="button" class="cancel" id="cancelEditItem">Cancel</button>
-        </form>
-    </div>
-    <script src="../js/add_edit.js"></script> 
+    <script src="../js/add_edit.js"></script>  
 </body>
 </html>

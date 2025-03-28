@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/style_adminDoctor.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/edit_add.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>Patients</title>
 </head>
@@ -19,7 +21,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="super_admin.html">
+                    <a href="super_admin_dashboard.html">
                         <i class="fas fa-th-large"></i>
                         <div class="title">Dashboard</div>
                     </a>
@@ -88,7 +90,7 @@
             <div class="doctor-available">
                 <div class="heading">
                     <h2>Patients</h2>
-                    <a href="#" class="btn">Add Patient</a>
+                    <a href="#" class="btn" id="addItemBtn">Add Patient</a>
                 </div>
                 <table class="available">
                     <thead>
@@ -115,7 +117,7 @@
                             <td>Mama Sanneh</td>
                             <td>2385749</td>
                             <td>
-                                <i class="far fa-edit"></i>
+                                <i class="far fa-edit editItemBtn"></i>
                                 <i class="far fa-trash-alt"></i>
                             </td>
                         </tr>
@@ -130,7 +132,7 @@
                             <td>Mama Sanneh</td>
                             <td>2385749</td>
                             <td>
-                                <i class="far fa-edit"></i>
+                                <i class="far fa-edit editItemBtn"></i>
                                 <i class="far fa-trash-alt"></i>
                             </td>
                         </tr>
@@ -145,7 +147,7 @@
                             <td>Mama Sanneh</td>
                             <td>2385749</td>
                             <td>
-                                <i class="far fa-edit"></i>
+                                <i class="far fa-edit editItemBtn"></i>
                                 <i class="far fa-trash-alt"></i>
                             </td>
                         </tr>
@@ -160,7 +162,7 @@
                             <td>Mama Sanneh</td>
                             <td>2385749</td>
                             <td>
-                                <i class="far fa-edit"></i>
+                                <i class="far fa-edit editItemBtn"></i>
                                 <i class="far fa-trash-alt"></i>
                             </td>
                         </tr>
@@ -184,6 +186,55 @@
                 </table>
             </div>
         </div>
-    
+    <!-- Add Patient Pop-up Form -->
+    <div class="overlay" id="overlay"></div>
+    <div class="popup-form" id="addItemForm">
+        <h3>Add Patient</h3>
+        <form id="addItem">
+            <!-- Patient Details -->
+            <input type="text" id="patientId" placeholder="Patient ID" required>
+            <input type="text" id="firstName" placeholder="First Name" required>
+            <input type="text" id="lastName" placeholder="Last Name" required>
+            <input type="date" id="dob" placeholder="Date of Birth" required>
+            <input type="number" id="weight" placeholder="Weight (kg)" required>
+            <input type="text" id="address" placeholder="Address" required>
+            <input type="tel" id="contact" placeholder="Contact Number" required>
+
+            <!-- Next of Kin Details -->
+            <input type="text" id="nextOfKin" placeholder="Next of Kin" required>
+            <input type="tel" id="nextOfKinContact" placeholder="Next of Kin Contact" required>
+            <input type="text" id="nextOfKinGender" placeholder="Gender of Next of Kin" required>
+            <input type="text" id="nextOfKinRelationship" placeholder="Relationship to Kin" required>
+
+            <button type="submit">Add</button>
+            <button type="button" class="cancel" id="cancelAddItem">Cancel</button>
+        </form>
+    </div>
+
+    <!-- Edit Patient Pop-up Form -->
+    <div class="popup-form" id="editItemForm">
+        <h3>Edit Patient</h3>
+        <form id="editItem">
+            <!-- Patient Details -->
+            <input type="hidden" id="editPatientId" name="patient_id"  placeholder="Patient ID" required>
+            <input type="text" id="editFirstName" placeholder="First Name" required>
+            <input type="text" id="editLastName"  placeholder="Last Name" required>
+            <input type="date" id="editDob" placeholder="Date of Birth" required>
+            <input type="number" id="editWeight" placeholder="Weight (kg)" required>
+            <input type="text" id="editAddress"  placeholder="Address" required>
+            <input type="tel" id="editContact"  placeholder="Contact Number" required>
+
+            <!-- Next of Kin Details -->
+            <input type="text" id="editNextOfKin"  placeholder="Next of Kin" required>
+            <input type="tel" id="editNextOfKinContact"  placeholder="Next of Kin Contact" required>
+            <input type="text" id="editNextOfKinGender"  placeholder="Gender of Next of Kin" required>
+            <input type="text" id="editNextOfKinRelationship"  placeholder="Relationship to Kin" required>
+
+            <button type="submit">Update</button>
+            <button type="button" class="cancel" id="cancelEditItem">Cancel</button>
+        </form>
+    </div>
+
+    <script src="../js/add_edit.js"></script>
 </body>
 </html>

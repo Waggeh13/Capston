@@ -1,5 +1,5 @@
 <?php
-require("../../classes/admin_class/admin_patient_class.php");
+require("../classes/admin_class/admin_patient_class.php");
 
 
 

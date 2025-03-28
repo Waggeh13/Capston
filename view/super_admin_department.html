@@ -64,7 +64,7 @@
                 </li>
                 <li>
                     <a href="super_admin_setting.html">
-                        <i class="fas fa-briefcase-medical"></i>
+                        <i class="fas fa-cog"></i>
                         <div class="title">Settings</div>
                     </a>
                 </li>
@@ -144,8 +144,22 @@
                 </table>
             </div>
         </div>
-         <!-- Edit Department Pop-up Form -->
-         <div class="popup-form" id="editItemForm">
+        <!-- Add Department Pop-up Form -->
+        <div class="overlay" id="overlay"></div>
+        <div class="popup-form" id="addItemForm">
+            <h3>Add Department</h3>
+            <form id="addItem">
+                <!-- Department Details -->
+                <input type="text" id="departmentId" placeholder="Department ID" required>
+                <input type="text" id="departmentName" placeholder="Department Name" required>
+
+                <button type="submit">Add</button>
+                <button type="button" class="cancel" id="cancelAddItem">Cancel</button>
+            </form>
+        </div>
+
+        <!-- Edit Department Pop-up Form -->
+        <div class="popup-form" id="editItemForm">
             <h3>Edit Department</h3>
             <form id="editItem">
                 <!-- Department Details -->
@@ -156,6 +170,6 @@
                 <button type="button" class="cancel" id="cancelEditItem">Cancel</button>
             </form>
         </div>
-        <script src="../js/add_edit.js"></script>   
+        <script src="../js/add_edit.js"></script> 
 </body>
 </html>

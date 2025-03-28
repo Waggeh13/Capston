@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../css/sidebar.css">
     <link rel="stylesheet" href="../css/edit_add.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <title>Staff</title>
+    <title>Departments</title>
 </head>
 <body>
     <div class="container">
@@ -21,55 +21,55 @@
                     </a>
                 </li>
                 <li>
-                    <a href="super_admin_dashboard.html">
+                    <a href="super_admin_dashboard.php">
                         <i class="fas fa-th-large"></i>
                         <div class="title">Dashboard</div>
                     </a>
                 </li>
                 <li>
-                    <a href="super_admin_appointment.html">
+                    <a href="super_admin_appointment.php">
                         <i class="fas fa-stethoscope"></i>
                         <div class="title">Appointments</div>
                     </a>
                 </li>
                 <li>
-                    <a href="admin.html">
+                    <a href="admin.php">
                         <i class="fas fa-users"></i>
                         <div class="title">Admins</div>
                     </a>
                 </li>
                 <li>
-                    <a href="super_admin_staff.html">
+                    <a href="super_admin_staff.php">
                         <i class="fas fa-users"></i>
                         <div class="title">Staff</div>
                     </a>
                 </li>
                 <li>
-                    <a href="super_admin_patient.html">
+                    <a href="super_admin_patient.php">
                         <i class="fas fa-user"></i>
                         <div class="title">Patients</div>
                     </a>
                 </li>
                 <li>
-                    <a href="super_admin_department.html">
+                    <a href="super_admin_department.php">
                         <i class="fas fa-puzzle-piece"></i>
                         <div class="title">Departments</div>
                     </a>
                 </li>
                 <li>
-                    <a href="super_admin_clinic.html">
+                    <a href="super_admin_clinic.php">
                         <i class="fas fa-briefcase-medical"></i>
                         <div class="title">Clinics</div>
                     </a>
                 </li>
                 <li>
-                    <a href="super_admin_setting.html">
+                    <a href="super_admin_setting.php">
                         <i class="fas fa-cog"></i>
                         <div class="title">Settings</div>
                     </a>
                 </li>
                 <li>
-                    <a href="index.html">
+                    <a href="index.php">
                         <i class="fas fa-right-from-bracket"></i>
                         <div class="title">Logout</div>
                     </a>
@@ -89,81 +89,51 @@
             </div>
             <div class="doctor-available">
                 <div class="heading">
-                    <h2>Staff</h2>
-                    <a href="#" class="btn" id="addItemBtn">Add Staff</a>
+                    <h2>Departments</h2>
+                    <a href="#" class="btn" id="addItemBtn">Add Department</a>
                 </div>
                 <table class="available">
                     <thead>
-                        <td>Doctor ID</td>
-                        <td>First Name</td>
-                        <td>Last Name</td>
-                        <td>Position</td>
-                        <td>Deparatment</td>
-                        <td>Contact</td>
-                        <td>email</td>
+                        <td>Department ID</td>
+                        <td>Department Name</td>
                         <td>Action</td>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>6789506767</td>
-                            <td>Saloom</td>
-                            <td>Singhateh</td>
-                            <td>Doctor</td>
-                            <td>Gynocology</td>
-                            <td>3678945</td>
-                            <td>Salom@gmail.com</td>
+                            <td>45901939559</td>
+                            <td>Pediatrics</td>
                             <td>
                                 <i class="far fa-edit editItemBtn"></i>
                                 <i class="far fa-trash-alt"></i>
                             </td>
                         </tr>
                         <tr>
-                            <td>6789506767</td>
-                            <td>Saloom</td>
-                            <td>Singhateh</td>
-                            <td>Lab Technician</td>
-                            <td>Gynocology</td>
-                            <td>3678945</td>
-                            <td>Salom@gmail.com</td>
+                            <td>45901939559</td>
+                            <td>Pediatrics</td>
                             <td>
                                 <i class="far fa-edit editItemBtn"></i>
                                 <i class="far fa-trash-alt"></i>
                             </td>
                         </tr>
                         <tr>
-                            <td>6789506767</td>
-                            <td>Saloom</td>
-                            <td>Singhateh</td>
-                            <td>Doctor</td>
-                            <td>Gynocology</td>
-                            <td>3678945</td>
-                            <td>Salom@gmail.com</td>
+                            <td>45901939559</td>
+                            <td>Pediatrics</td>
                             <td>
                                 <i class="far fa-edit editItemBtn"></i>
                                 <i class="far fa-trash-alt"></i>
                             </td>
                         </tr>
                         <tr>
-                            <td>6789506767</td>
-                            <td>Saloom</td>
-                            <td>Singhateh</td>
-                            <td>Pharmacist</td>
-                            <td>Gynocology</td>
-                            <td>3678945</td>
-                            <td>Salom@gmail.com</td>
+                            <td>45901939559</td>
+                            <td>Pediatrics</td>
                             <td>
                                 <i class="far fa-edit editItemBtn"></i>
                                 <i class="far fa-trash-alt"></i>
                             </td>
                         </tr>
                         <tr>
-                            <td>6789506767</td>
-                            <td>Saloom</td>
-                            <td>Singhateh</td>
-                            <td>Doctor</td>
-                            <td>Gynocology</td>
-                            <td>3678945</td>
-                            <td>Salom@gmail.com</td>
+                            <td>45901939559</td>
+                            <td>Pediatrics</td>
                             <td>
                                 <i class="far fa-edit editItemBtn"></i>
                                 <i class="far fa-trash-alt"></i>
@@ -174,63 +144,32 @@
                 </table>
             </div>
         </div>
-        <!-- Add Staff Pop-up Form -->
+        <!-- Add Department Pop-up Form -->
         <div class="overlay" id="overlay"></div>
         <div class="popup-form" id="addItemForm">
-            <h3>Add Staff</h3>
+            <h3>Add Department</h3>
             <form id="addItem">
-                <!-- Staff Details -->
-                <input type="text" id="staffId" placeholder="Staff ID" required>
-                <input type="text" id="firstName" placeholder="First Name" required>
-                <input type="text" id="lastName" placeholder="Last Name" required>
-                <input type="text" id="position" placeholder="Position" required>
-                
-                <!-- Dropdown for Department -->
-                <label for="department">Department:</label>
-                <select id="department" name="department" required>
-                    <option value="">Select a department</option>
-                    <option value="administration">Administration</option>
-                    <option value="pediatrics">Pediatrics</option>
-                    <option value="gynaecology">Gynaecology</option>
-                    <option value="surgical">Surgical</option>
-                </select>
-
-                <input type="tel" id="contact" placeholder="Contact Number" required>
-                <input type="email" id="email" placeholder="Email" required>
+                <!-- Department Details -->
+                <input type="text" id="departmentId" placeholder="Department ID" required>
+                <input type="text" id="departmentName" placeholder="Department Name" required>
 
                 <button type="submit">Add</button>
                 <button type="button" class="cancel" id="cancelAddItem">Cancel</button>
             </form>
         </div>
 
-        <!-- Edit Staff Pop-up Form -->
+        <!-- Edit Department Pop-up Form -->
         <div class="popup-form" id="editItemForm">
-            <h3>Edit Staff</h3>
+            <h3>Edit Department</h3>
             <form id="editItem">
-                <!-- Staff Details -->
-                <input type="hidden" id="editStaffId" placeholder="Staff ID" required>
-                <input type="text" id="editFirstName" placeholder="First Name" required>
-                <input type="text" id="editLastName" placeholder="Last Name" required>
-                <input type="text" id="editPosition" placeholder="Position" required>
-                
-                <!-- Dropdown for Department -->
-                <label for="editDepartment">Department:</label>
-                <select id="editDepartment" name="editDepartment" required>
-                    <option value="">Select a department</option>
-                    <option value="administration">Administration</option>
-                    <option value="pediatrics">Pediatrics</option>
-                    <option value="gynaecology">Gynaecology</option>
-                    <option value="surgical">Surgical</option>
-                </select>
-
-                <input type="tel" id="editContact" placeholder="Contact Number" required>
-                <input type="email" id="editEmail" placeholder="Email" required>
+                <!-- Department Details -->
+                <input type="text" id="editDepartmentId" placeholder="Department ID" required>
+                <input type="text" id="editDepartmentName" placeholder="Department Name" required>
 
                 <button type="submit">Update</button>
                 <button type="button" class="cancel" id="cancelEditItem">Cancel</button>
             </form>
         </div>
-    
-    <script src="../js/add_edit.js"></script> 
+        <script src="../js/add_edit.js"></script> 
 </body>
 </html>

@@ -18,56 +18,56 @@ require('../controllers/admin_controllers/admin_patient_controller.php');
     <div class="container">
         <div class="sidebar">
             <ul>
-                <li>
+            <li>
                     <a href="#">
                         <i class="fas fa-clinic-medical"></i>
                         <div class="title">BafrowCare</div>
                     </a>
                 </li>
                 <li>
-                    <a href="admin_dashboard.html">
+                    <a href="admin_dashboard.php">
                         <i class="fas fa-th-large"></i>
                         <div class="title">Dashboard</div>
                     </a>
                 </li>
                 <li>
-                    <a href="admin_appointment.html">
+                    <a href="admin_appointment.php">
                         <i class="fas fa-stethoscope"></i>
                         <div class="title">Appointments</div>
                     </a>
                 </li>
                 <li>
-                    <a href="admin_staff.html">
+                    <a href="admin_staff.php">
                         <i class="fas fa-users"></i>
                         <div class="title">Staff</div>
                     </a>
                 </li>
                 <li>
-                    <a href="admin_patient.html">
+                    <a href="admin_patient.php">
                         <i class="fas fa-user"></i>
                         <div class="title">Patients</div>
                     </a>
                 </li>
                 <li>
-                    <a href="admin_department.html">
+                    <a href="admin_department.php">
                         <i class="fas fa-puzzle-piece"></i>
                         <div class="title">Departments</div>
                     </a>
                 </li>
                 <li>
-                    <a href="admin_clinic.html">
+                    <a href="admin_clinic.php">
                         <i class="fas fa-briefcase-medical"></i>
                         <div class="title">Clinics</div>
                     </a>
                 </li>
                 <li>
-                    <a href="admin_setting.html">
+                    <a href="admin_setting.php">
                         <i class="fas fa-briefcase-medical"></i>
                         <div class="title">Settings</div>
                     </a>
                 </li>
                 <li>
-                    <a href="index.html">
+                    <a href="index.php">
                         <i class="fas fa-right-from-bracket"></i>
                         <div class="title">Logout</div>
                     </a>

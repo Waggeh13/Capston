@@ -8,62 +8,62 @@
     <link rel="stylesheet" href="../css/sidebar.css">
     <link rel="stylesheet" href="../css/edit_add.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <title>Departments</title>
+    <title>Clinics</title>
 </head>
 <body>
     <div class="container">
         <div class="sidebar">
             <ul>
-                <li>
+            <li>
                     <a href="#">
                         <i class="fas fa-clinic-medical"></i>
                         <div class="title">BafrowCare</div>
                     </a>
                 </li>
                 <li>
-                    <a href="admin_dashboard.html">
+                    <a href="admin_dashboard.php">
                         <i class="fas fa-th-large"></i>
                         <div class="title">Dashboard</div>
                     </a>
                 </li>
                 <li>
-                    <a href="admin_appointment.html">
+                    <a href="admin_appointment.php">
                         <i class="fas fa-stethoscope"></i>
                         <div class="title">Appointments</div>
                     </a>
                 </li>
                 <li>
-                    <a href="admin_staff.html">
+                    <a href="admin_staff.php">
                         <i class="fas fa-users"></i>
                         <div class="title">Staff</div>
                     </a>
                 </li>
                 <li>
-                    <a href="admin_patient.html">
+                    <a href="admin_patient.php">
                         <i class="fas fa-user"></i>
                         <div class="title">Patients</div>
                     </a>
                 </li>
                 <li>
-                    <a href="admin_department.html">
+                    <a href="admin_department.php">
                         <i class="fas fa-puzzle-piece"></i>
                         <div class="title">Departments</div>
                     </a>
                 </li>
                 <li>
-                    <a href="admin_clinic.html">
+                    <a href="admin_clinic.php">
                         <i class="fas fa-briefcase-medical"></i>
                         <div class="title">Clinics</div>
                     </a>
                 </li>
                 <li>
-                    <a href="admin_setting.html">
+                    <a href="admin_setting.php">
                         <i class="fas fa-briefcase-medical"></i>
                         <div class="title">Settings</div>
                     </a>
                 </li>
                 <li>
-                    <a href="index.html">
+                    <a href="index.php">
                         <i class="fas fa-right-from-bracket"></i>
                         <div class="title">Logout</div>
                     </a>
@@ -83,51 +83,57 @@
             </div>
             <div class="doctor-available">
                 <div class="heading">
-                    <h2>Patients</h2>
-                    <a href="#" class="btn" id="addItemBtn">Add Department</a>
+                    <h2>Clinics</h2>
+                    <a href="#" class="btn" id="addItemBtn">Add Clinic</a>
                 </div>
                 <table class="available">
                     <thead>
-                        <td>Department ID</td>
+                        <td>Clinic ID</td>
                         <td>Department Name</td>
+                        <td>Clinic Name</td>
                         <td>Action</td>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>45901939559</td>
-                            <td>Pediatrics</td>
+                            <td>39485595810</td>
+                            <td>OB/GYN</td>
+                            <td>Antenatal</td>
                             <td>
                                 <i class="far fa-edit editItemBtn"></i>
                                 <i class="far fa-trash-alt"></i>
                             </td>
                         </tr>
                         <tr>
-                            <td>45901939559</td>
-                            <td>Pediatrics</td>
+                            <td>39485595810</td>
+                            <td>OB/GYN</td>
+                            <td>Antenatal</td>
                             <td>
                                 <i class="far fa-edit editItemBtn"></i>
                                 <i class="far fa-trash-alt"></i>
                             </td>
                         </tr>
                         <tr>
-                            <td>45901939559</td>
-                            <td>Pediatrics</td>
+                            <td>39485595810</td>
+                            <td>OB/GYN</td>
+                            <td>Antenatal</td>
                             <td>
                                 <i class="far fa-edit editItemBtn"></i>
                                 <i class="far fa-trash-alt"></i>
                             </td>
                         </tr>
                         <tr>
-                            <td>45901939559</td>
-                            <td>Pediatrics</td>
+                            <td>39485595810</td>
+                            <td>OB/GYN</td>
+                            <td>Antenatal</td>
                             <td>
                                 <i class="far fa-edit editItemBtn"></i>
                                 <i class="far fa-trash-alt"></i>
                             </td>
                         </tr>
                         <tr>
-                            <td>45901939559</td>
-                            <td>Pediatrics</td>
+                            <td>39485595810</td>
+                            <td>OB/GYN</td>
+                            <td>Antenatal</td>
                             <td>
                                 <i class="far fa-edit editItemBtn"></i>
                                 <i class="far fa-trash-alt"></i>
@@ -138,32 +144,49 @@
                 </table>
             </div>
         </div>
-        <!-- Add Department Pop-up Form -->
+
+        <!-- Add Item Pop-up Form -->
         <div class="overlay" id="overlay"></div>
         <div class="popup-form" id="addItemForm">
-            <h3>Add Department</h3>
+            <h3>Add Clinic</h3>
             <form id="addItem">
-                <!-- Department Details -->
-                <input type="text" id="departmentId" placeholder="Department ID" required>
-                <input type="text" id="departmentName" placeholder="Department Name" required>
+                <input type="text" id="itemName" placeholder="Enter clinic ID" required>
+                <input type="text" id="itemDescription" placeholder="Enter clinic name" required>
+                
+                <!-- Dropdown for Category -->
+                <label for="itemCategory">Departments:</label>
+                <select id="itemCategory" name="itemCategory" required>
+                    <option value="">Select a department</option>
+                    <option value="category1">Pedeatrics</option>
+                    <option value="category2">OB/GYN</option>
+                    <option value="category3">Surgical</option>
+                </select>
 
                 <button type="submit">Add</button>
                 <button type="button" class="cancel" id="cancelAddItem">Cancel</button>
             </form>
         </div>
 
-        <!-- Edit Department Pop-up Form -->
+        <!-- Edit Item Pop-up Form -->
         <div class="popup-form" id="editItemForm">
-            <h3>Edit Department</h3>
+            <h3>Edit Clinic</h3>
             <form id="editItem">
-                <!-- Department Details -->
-                <input type="text" id="editDepartmentId" placeholder="Department ID" required>
-                <input type="text" id="editDepartmentName" placeholder="Department Name" required>
+                <input type="text" id="editItemName" placeholder="Edit clinic ID" required>
+                <input type="text" id="editItemDescription" placeholder="Edit clinic name" required>
+                
+                <!-- Dropdown for Category -->
+                <label for="editItemCategory">Departments:</label>
+                <select id="editItemCategory" name="editItemCategory" required>
+                    <option value="">Select a department</option>
+                    <option value="category1">Pedeatrics</option>
+                    <option value="category2">OB/GYN</option>
+                    <option value="category3">Surgical</option>
+                </select>
 
                 <button type="submit">Update</button>
                 <button type="button" class="cancel" id="cancelEditItem">Cancel</button>
             </form>
         </div>
         <script src="../js/add_edit.js"></script> 
-</body>
+    </body>
 </html>

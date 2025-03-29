@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="../css/lab_container.css">
     <link rel="stylesheet" href="../css/sidebar.css">
     <link rel="stylesheet" href="../css/setting.css">
-    <link rel="stylesheet" href="../css/change_password.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>Lab Test</title>
 </head>
@@ -16,63 +15,51 @@
     <div class="container">
         <div class="sidebar">
             <ul>
-                <li>
+            <li>
                     <a href="#">
                         <i class="fas fa-clinic-medical"></i>
                         <div class="title">BafrowCare</div>
                     </a>
                 </li>
                 <li>
-                    <a href="doctor_dashboard.php">
+                    <a href="admin_dashboard.php">
                         <i class="fas fa-th-large"></i>
                         <div class="title">Dashboard</div>
                     </a>
                 </li>
                 <li>
-                    <a href="doc_appointment.php">
+                    <a href="admin_appointment.php">
                         <i class="fas fa-stethoscope"></i>
                         <div class="title">Appointments</div>
                     </a>
                 </li>
                 <li>
-                    <a href="doc_schedule.php">
-                        <i class="fas fa-calendar-alt"></i>
-                        <div class="title">Schedule</div>
+                    <a href="admin_staff.php">
+                        <i class="fas fa-users"></i>
+                        <div class="title">Staff</div>
                     </a>
                 </li>
                 <li>
-                    <a href="doc_lab.php">
-                        <i class="fas fa-vial"></i>
-                        <div class="title">Lab Test</div>
+                    <a href="admin_patient.php">
+                        <i class="fas fa-user"></i>
+                        <div class="title">Patients</div>
                     </a>
                 </li>
                 <li>
-                    <a href="doc_prescription.php">
-                        <i class="fas fa-prescription-bottle-alt"></i>
-                        <div class="title">Prescription</div>
+                    <a href="admin_department.php">
+                        <i class="fas fa-puzzle-piece"></i>
+                        <div class="title">Departments</div>
                     </a>
                 </li>
                 <li>
-                    <a href="doc_telemedicine.php">
-                        <i class="fas fa-video"></i>
-                        <div class="title">Virtual Consultation</div>
+                    <a href="admin_clinic.php">
+                        <i class="fas fa-briefcase-medical"></i>
+                        <div class="title">Clinics</div>
                     </a>
                 </li>
                 <li>
-                    <a href="doc_message.php">
-                        <i class="fas fa-envelope"></i>
-                        <div class="title">Messages</div>
-                    </a>
-                </li>
-                <li>
-                    <a href="request.php">
-                        <i class="fas fa-file-medical"></i>
-                        <div class="title">Report Request</div>
-                    </a>
-                </li>
-                <li>
-                    <a href="doc_setting.php">
-                        <i class="fas fa-cog"></i>
+                    <a href="admin_setting.php">
+                        <i class="fas fa-briefcase-medical"></i>
                         <div class="title">Settings</div>
                     </a>
                 </li>
@@ -107,13 +94,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- Change password -->
-                <div class="settings-section">
-                    <h2>Password</h2>
-                    <div class="settings-option">
-                        <button class="change-password-btn" onclick="openPasswordModal()">Change Password</button>
-                    </div>
-                </div>
                 <!-- Language Selection -->
                 <div class="settings-section">
                     <h2>Language</h2>
@@ -137,28 +117,5 @@
                 </div>
             </div>
         </div>
-
-        <!-- Password Change Modal -->
-        <div id="passwordModal" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="closePasswordModal()">&times;</span>
-                <h2>Change Password</h2>
-                <form class="password-form" onsubmit="return validatePasswordForm(event)">
-                    <label for="current-password">Current Password</label>
-                    <input type="password" id="current-password" required>
-
-                    <label for="new-password">New Password</label>
-                    <input type="password" id="new-password" required>
-
-                    <label for="confirm-password">Confirm New Password</label>
-                    <input type="password" id="confirm-password" required>
-
-                    <button type="submit">Change Password</button>
-                    <button type="button" onclick="closePasswordModal()">Cancel</button>
-                </form>
-            </div>
-        </div>
-        <script src="../js/change_password.js"></script>
-
     </body>
 </html>

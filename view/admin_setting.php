@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../css/lab_container.css">
     <link rel="stylesheet" href="../css/sidebar.css">
     <link rel="stylesheet" href="../css/setting.css">
+    <link rel="stylesheet" href="../css/change_password.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>Lab Test</title>
 </head>
@@ -94,6 +95,13 @@
                         </div>
                     </div>
                 </div>
+                <!-- Change password -->
+                <div class="settings-section">
+                    <h2>Password</h2>
+                    <div class="settings-option">
+                        <button class="change-password-btn" onclick="openPasswordModal()">Change Password</button>
+                    </div>
+                </div>
                 <!-- Language Selection -->
                 <div class="settings-section">
                     <h2>Language</h2>
@@ -117,5 +125,26 @@
                 </div>
             </div>
         </div>
+        <!-- Password Change Modal -->
+        <div id="passwordModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closePasswordModal()">&times;</span>
+                <h2>Change Password</h2>
+                <form class="password-form" onsubmit="return validatePasswordForm(event)">
+                    <label for="current-password">Current Password</label>
+                    <input type="password" id="current-password" required>
+
+                    <label for="new-password">New Password</label>
+                    <input type="password" id="new-password" required>
+
+                    <label for="confirm-password">Confirm New Password</label>
+                    <input type="password" id="confirm-password" required>
+
+                    <button type="submit">Change Password</button>
+                    <button type="button" onclick="closePasswordModal()">Cancel</button>
+                </form>
+            </div>
+        </div>
+        <script src="../js/change_password.js"></script>
     </body>
 </html>

@@ -14,68 +14,68 @@
     <div class="container">
         <div class="sidebar">
             <ul>
-                <li>
-                    <a href="#">
-                        <i class="fas fa-clinic-medical"></i>
-                        <div class="title">BafrowCare</div>
-                    </a>
-                </li>
-                <li>
-                    <a href="doctor_dashboard.html">
+            <li>
+                <a href="#">
+                    <i class="fas fa-clinic-medical"></i>
+                    <div class="title">BafrowCare</div>
+                </a>
+            </li>
+            <li>
+                    <a href="doctor_dashboard.php">
                         <i class="fas fa-th-large"></i>
                         <div class="title">Dashboard</div>
                     </a>
                 </li>
                 <li>
-                    <a href="doc_appointment.html">
+                    <a href="doc_appointment.php">
                         <i class="fas fa-stethoscope"></i>
                         <div class="title">Appointments</div>
                     </a>
                 </li>
                 <li>
-                    <a href="doc_schedule.html">
+                    <a href="doc_schedule.php">
                         <i class="fas fa-calendar-alt"></i>
                         <div class="title">Schedule</div>
                     </a>
                 </li>
                 <li>
-                    <a href="doc_lab.html">
+                    <a href="doc_lab.php">
                         <i class="fas fa-vial"></i>
                         <div class="title">Lab Test</div>
                     </a>
                 </li>
                 <li>
-                    <a href="doc_prescription.html">
+                    <a href="doc_prescription.php">
                         <i class="fas fa-prescription-bottle-alt"></i>
                         <div class="title">Prescription</div>
                     </a>
                 </li>
                 <li>
-                    <a href="doc_telemedicine.html">
+                    <a href="doc_telemedicine.php">
                         <i class="fas fa-video"></i>
                         <div class="title">Virtual Consultation</div>
                     </a>
                 </li>
                 <li>
-                    <a href="doc_message.html">
+                    <a href="doc_message.php">
                         <i class="fas fa-envelope"></i>
                         <div class="title">Messages</div>
                     </a>
                 </li>
                 <li>
-                    <a href="request.html">
+                    <a href="request.php">
                         <i class="fas fa-file-medical"></i>
                         <div class="title">Report Request</div>
                     </a>
                 </li>
                 <li>
-                    <a href="setting.html">
+                    <a href="doc_setting.php">
                         <i class="fas fa-cog"></i>
                         <div class="title">Settings</div>
                     </a>
                 </li>
                 <li>
-                    <a href="index.html">
+                    <a href="index.php">
                         <i class="fas fa-right-from-bracket"></i>
                         <div class="title">Logout</div>
                     </a>

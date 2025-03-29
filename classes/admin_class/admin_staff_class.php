@@ -1,5 +1,5 @@
 <?php
-require_once("../../settings/db_class.php");
+require_once("../settings/db_class.php");
 
 class admin_staff_class extends db_connection {
 

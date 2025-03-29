@@ -190,6 +190,8 @@
 
                 <input type="tel" id="contact" placeholder="Contact Number" required>
                 <input type="email" id="email" placeholder="Email" required>
+                <input type="text" id="default-password" name="default-password" placeholder="Enter default password" 
+                minlength="6" required>   
 
                 <button type="submit">Add</button>
                 <button type="button" class="cancel" id="cancelAddItem">Cancel</button>
@@ -218,6 +220,8 @@
 
                 <input type="tel" id="editContact" placeholder="Contact Number" required>
                 <input type="email" id="editEmail" placeholder="Email" required>
+                <input type="hidden" id="default-password" name="default-password" placeholder="Enter default password" 
+                minlength="6" required>   
 
                 <button type="submit">Update</button>
                 <button type="button" class="cancel" id="cancelEditItem">Cancel</button>

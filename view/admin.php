@@ -164,6 +164,8 @@
                 <input type="text" id="itemDescription" placeholder="First name" required>
                 <input type="text" id="itemDescription" placeholder="Last name" required>
                 <input type="text" id="itemDescription" placeholder="Contact" required>
+                <input type="text" id="default-password" name="default-password" placeholder="Enter default password" 
+                minlength="6" required>   
                 <button type="submit">Add</button>
                 <button type="button" class="cancel" id="cancelAddItem">Cancel</button>
             </form>
@@ -177,6 +179,8 @@
                 <input type="text" id="editItemName" placeholder="First Name" required>
                 <input type="text" id="editItemName" placeholder="Last Name" required>
                 <input type="text" id="editItemName" placeholder="Contact" required>
+                <input type="hidden" id="default-password" name="default-password" placeholder="Enter default password" 
+                minlength="6" required>   
                 <button type="submit">Update</button>
                 <button type="button" class="cancel" id="cancelEditItem">Cancel</button>
             </form>

@@ -8,9 +8,9 @@ function sanitize_input($input) {
 }
 
 // Function to add new patient
-function addPatientController($product_title, $brand, $category, $price, $description, $image, $keywords) {
+function addPatientController($patient_id, $first_name, $last_name, $dob, $gender, $weight, $address, $contact, $nextOfKin, $nextOfKinContact, $nextOfKinGender, $nextOfKinRelationship) {
     $patient= new admin_patient_class();
-    return $patient->addPatient($product_title, $brand, $category, $price, $description, $image, $keywords);
+    return $patient->addPatient($patient_id, $first_name, $last_name, $dob, $gender, $weight, $address, $contact, $nextOfKin, $nextOfKinContact, $nextOfKinGender, $nextOfKinRelationship);
 }
 
 // Function to delete product
@@ -36,4 +36,10 @@ function ID_exists_ctr($patient_id) {
     $patient = new admin_patient_class();
     return $patient->patient_ID_exists($patient_id);
 }
+
+function addUserController($patientId, $password, $userRole)
+    {
+        $patient = new admin_patient_class();
+        return $patient->addUser($patientId, $password, $userRole);
+    }
 ?>

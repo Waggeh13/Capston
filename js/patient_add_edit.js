@@ -83,7 +83,7 @@ document.getElementById('addItem').addEventListener('submit', (e) => {
     var formData = new FormData(form);
 
     // Send the data to the server using fetch
-    fetch("../actions/admin_actions/admin_add_patients.php", {
+    fetch("../actions/admin_actions/admin_add_actions/admin_add_patients.php", {
         method: "POST",
         body: formData,
     })
@@ -98,7 +98,9 @@ document.getElementById('addItem').addEventListener('submit', (e) => {
     .then((data) => {
         if (data.success) {
             // Redirect on success
-            location.href = '../view/customerlogin.php';
+            alert('Item added successfully!');
+            addItemForm.classList.remove('active');
+            overlay.classList.remove('active');
         } else {
                 // Log error and reload page on server-side failure
                 alert("Registration error:", data.message);
@@ -107,10 +109,6 @@ document.getElementById('addItem').addEventListener('submit', (e) => {
                 }, 5000);
         }
     });
-
-    alert('Item added successfully!');
-    addItemForm.classList.remove('active');
-    overlay.classList.remove('active');
 });
 
 // Handle Edit Item Form Submission

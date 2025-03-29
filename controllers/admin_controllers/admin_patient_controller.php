@@ -31,4 +31,9 @@ function viewPatientsByIDController($patient_id) {
     $patient = new admin_patient_class();
     return $patient->getPatientsbyID($patient_id);
 }
+
+function ID_exists_ctr($patient_id) {
+    $patient = new admin_patient_class();
+    return $patient->patient_ID_exists($patient_id);
+}
 ?>

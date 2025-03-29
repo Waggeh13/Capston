@@ -62,5 +62,12 @@ class admin_patient_class extends db_connection {
 
         return $this->db_query($sql);
     }
+
+    public function patient_ID_exists($patient_id) {
+        $patient_id= mysqli_real_escape_string($this->db_conn(), $patient_id);
+        $sql = "SELECT patient_id FROM patient_table WHERE patient_id = '$patient_id'";
+        return $this->db_fetch_all($sql);
+    }
+
 }
 ?>

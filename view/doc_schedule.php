@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Schedule</title>
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/schedule.css">
-    <link rel="stylesheet" href="../css/calender.css">
     <link rel="stylesheet" href="../css/data.css">
     <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/calender.css">
+    <link rel="stylesheet" href="../css/schedule.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.css">
-    <title>Doctor Schedule</title>
 </head>
 <body>
     <div class="container">
+        <!-- Sidebar Navigation -->
         <div class="sidebar">
             <ul>
                 <li>
@@ -35,7 +36,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="doc_schedule.php">
+                    <a href="doc_schedule.php" class="active">
                         <i class="fas fa-calendar-alt"></i>
                         <div class="title">Schedule</div>
                     </a>
@@ -84,10 +85,13 @@
                 </li>
             </ul>
         </div>
+
+        <!-- Main Content Area -->
         <div class="main">
+            <!-- Top Navigation Bar -->
             <div class="top-bar">
                 <div class="search">
-                    <input type="text" name="search" placeholder="search here">
+                    <input type="text" name="search" placeholder="Search here">
                     <label for="search"><i class="fas fa-search"></i></label>
                 </div>
                 <i class="fas fa-bell"></i>
@@ -95,31 +99,38 @@
                     <span class="profile-text">Profile</span>
                 </div>
             </div>
+    
             <div class="schedule-container">
-                <h2>Doctor Schedule</h2>
                 <div class="calender">
-                    <div class="header">
-                        <button id="prevBtn">
-                            <i class="fa-solid fa-chevron-left"></i>
-                        </button>
-                        <div class="monthYear" id="monthYear"></div>
-                        <button id="nextBtn">
-                            <i class="fa-solid fa-chevron-right"></i>
-                        </button>
+                        <div class="header">
+                            <button id="prevBtn">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </button>
+                            <div class="monthYear" id="monthYear"></div>
+                            <button id="nextBtn">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </button>
+                        </div>
+                        <div class="days">
+                            <div class="day">Mon</div>
+                            <div class="day">Tue</div>
+                            <div class="day">Wed</div>
+                            <div class="day">Thu</div>
+                            <div class="day">Fri</div>
+                            <div class="day">Sat</div>
+                            <div class="day">Sun</div>
+                        </div>
+                        <div class="dates" id="dates"></div>
                     </div>
-                    <div class="days">
-                        <div class="day">Mon</div>
-                        <div class="day">Tue</div>
-                        <div class="day">Wed</div>
-                        <div class="day">Thu</div>
-                        <div class="day">Fri</div>
-                        <div class="day">Sat</div>
-                        <div class="day">Sun</div>
+                
+                <!-- Time Slots Section -->
+                <div class="timeslots-section">
+                    <div class="timeslots-header">
+                        <h3>Available Time Slots</h3>
+                        <p>Select your available times for <span id="selected-date">June 15, 2023</span></p>
                     </div>
-                    <div class="dates" id="dates"></div>
-                </div>
-                <div class="time-slots">
-                    <h3>Select Available Times</h3>
+                    
+                    <!-- Time Slot Buttons -->
                     <div class="time-options">
                         <button class="time-slot" data-time="08:00">08:00 AM</button>
                         <button class="time-slot" data-time="09:00">09:00 AM</button>
@@ -133,13 +144,17 @@
                         <button class="time-slot" data-time="17:00">05:00 PM</button>
                         <button class="time-slot" data-time="18:00">06:00 PM</button>
                     </div>
+                    
+                    <!-- Save Button -->
                     <button id="save-schedule" class="save-btn">Save Schedule</button>
                 </div>
             </div>
         </div>
     </div>
-    <script src= "../js/calender.js"></script>
+
+    <!-- JavaScript Files -->
+    <script src="../js/calender.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.js"></script>
-    <script src= "../js/schedule.js"></script>
+    <script src="../js/schedule.js"></script>
 </body>
 </html>

@@ -1,0 +1,182 @@
+/* Appointments Page Styles */
+.appointments-container {
+    padding: 20px;
+    margin-top: 70px; /* Matches top-bar height */
+    background: #f5f5f5;
+    min-height: calc(100vh - 70px);
+}
+
+.appointments-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 15px 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.appointments-title {
+    font-size: 1.5rem;
+    color: #0054A6; 
+    font-weight: 600;
+}
+
+.date-selector {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.date-selector button {
+    background: #0054A6;
+    color: white;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.date-selector button:hover {
+    background: red;
+}
+
+.date-selector span {
+    font-weight: 500;
+    color: #333;
+}
+
+.appointments-list {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.appointments-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.appointments-table th {
+    background: #0054A6; 
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    color: white;
+}
+
+.appointments-table td {
+    padding: 15px;
+    border-bottom: 1px solid #e0e0e0;
+    color: #333;
+}
+
+.appointments-table tr:last-child td {
+    border-bottom: none;
+}
+
+.appointments-table tr:hover {
+    background: #70d8f5;
+}
+
+.patient-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.patient-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #70d8f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+}
+
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    display: inline-block;
+    text-align: center;
+    min-width: 80px;
+}
+
+.status-confirmed {
+    background: #e6f7ee;
+    color: #006633;
+    border: 1px solid #00cc66;
+}
+
+.status-pending {
+    background: #fff8e6;
+    color: #cc7a00;
+    border: 1px solid #ffcc00;
+}
+
+.status-completed {
+    background: #e6f0ff;
+    color: #003399;
+    border: 1px solid #0055ff;
+}
+
+.status-cancelled {
+    background: #ffe6e6;
+    color: #990000;
+    border: 1px solid #ff3333;
+}
+
+.no-appointments {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+}
+
+.no-appointments i {
+    font-size: 3rem;
+    color: #0054A6;
+    margin-bottom: 15px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .appointments-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .appointments-table {
+        display: block;
+        overflow-x: auto;
+    }
+    
+    .patient-info {
+        min-width: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    .appointments-table th, 
+    .appointments-table td {
+        padding: 10px 5px;
+        font-size: 0.9rem;
+    }
+    
+    .status-badge {
+        min-width: 70px;
+        font-size: 0.7rem;
+    }
+}

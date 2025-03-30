@@ -7,8 +7,9 @@
     <link rel="stylesheet" href="../css/lab_request.css">
     <link rel="stylesheet" href="../css/lab_container.css">
     <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/doc_appointment.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <title>Lab Test</title>
+    <title>Doctor Appointments</title>
 </head>
 <body>
     <div class="container">
@@ -85,7 +86,7 @@
         <div class="main">
             <div class="top-bar">
                 <div class="search">
-                    <input type="text" name="search" placeholder="search here">
+                    <input type="text" name="search" placeholder="Search appointments...">
                     <label for="search"><i class="fas fa-search"></i></label>
                 </div>
                 <i class="fas fa-bell"></i>
@@ -93,6 +94,119 @@
                     <span class="profile-text">Profile</span>
                 </div>
             </div>
+            
+            <div class="appointments-container">
+                <div class="appointments-header">
+                    <h1 class="appointments-title">Today's Appointments</h1>
+                    <div class="date-selector">
+                        <button><i class="fas fa-chevron-left"></i></button>
+                        <span><?php echo date('F j, Y'); ?></span>
+                        <button><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+                
+                <div class="appointments-list">
+                    <table class="appointments-table">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Patient</th>
+                                <th>Appointment Type</th>
+                                <th>Clinic Name</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>09:00 AM</td>
+                                <td>
+                                    <div class="patient-info">
+                                        <div class="patient-avatar">
+                                            <i class="fas fa-user"></i>
+                                        </div>
+                                        <div>
+                                            <div>John Doe</div>
+                                            <div style="font-size: 0.8rem; color: #718096;">ID: PT12345</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>In-person</td>
+                                <td>Postnatal</td>
+                                <td><span class="status-badge status-confirmed">Confirmed</span></td>
+                            </tr>
+                            <tr>
+                                <td>10:30 AM</td>
+                                <td>
+                                    <div class="patient-info">
+                                        <div class="patient-avatar">
+                                            <i class="fas fa-user"></i>
+                                        </div>
+                                        <div>
+                                            <div>Sarah Johnson</div>
+                                            <div style="font-size: 0.8rem; color: #718096;">ID: PT12346</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>In-person</td>
+                                <td>Postnatal</td>
+                                <td><span class="status-badge status-confirmed">Confirmed</span></td>
+                            </tr>
+                            <tr>
+                                <td>11:45 AM</td>
+                                <td>
+                                    <div class="patient-info">
+                                        <div class="patient-avatar">
+                                            <i class="fas fa-user"></i>
+                                        </div>
+                                        <div>
+                                            <div>Michael Brown</div>
+                                            <div style="font-size: 0.8rem; color: #718096;">ID: PT12347</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>In-person</td>
+                                <td>Postnatal</td>
+                                <td><span class="status-badge status-pending">Pending</span></td>
+                            </tr>
+                            <tr>
+                                <td>02:15 PM</td>
+                                <td>
+                                    <div class="patient-info">
+                                        <div class="patient-avatar">
+                                            <i class="fas fa-user"></i>
+                                        </div>
+                                        <div>
+                                            <div>Amina Ceesay</div>
+                                            <div style="font-size: 0.8rem; color: #718096;">ID: PT12348</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>In-person</td>
+                                <td>Postnatal</td>
+                                <td><span class="status-badge status-completed">Completed</span></td>
+                            </tr>
+                            <tr>
+                                <td>03:30 PM</td>
+                                <td>
+                                    <div class="patient-info">
+                                        <div class="patient-avatar">
+                                            <i class="fas fa-user"></i>
+                                        </div>
+                                        <div>
+                                            <div>David Camara</div>
+                                            <div style="font-size: 0.8rem; color: #718096;">ID: PT12349</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>In-person</td>
+                                <td>Postnatal</td>
+                                <td><span class="status-badge status-cancelled">Cancelled</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
+    </div>
     </body>
 </html>

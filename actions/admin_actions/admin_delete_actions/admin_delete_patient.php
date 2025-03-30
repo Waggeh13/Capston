@@ -1,5 +1,5 @@
 <?php
-require("../../../controllers/admin_controllers/admin_patient_controller.php");
+require("../controllers/admin_controllers/admin_patient_controller.php");
 
 if (isset($_POST['patient_id']) && !empty($_POST['patient_id'])) {
     $patient_id = intval($_POST['patient_id']);

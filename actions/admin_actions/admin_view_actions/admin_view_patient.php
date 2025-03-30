@@ -1,6 +1,6 @@
 <?php
 
-require("../../../controllers/admin_controllers/admin_patient_controller.php");
+require("../controllers/admin_controllers/admin_patient_controller.php");
 
 
 

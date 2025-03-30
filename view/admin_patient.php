@@ -118,10 +118,6 @@ require('../controllers/admin_controllers/admin_patient_controller.php');
                                     echo "<td>{$patient['weight']}</td>";
                                     echo "<td>{$patient['address']}</td>";
                                     echo "<td>{$patient['contact']}</td>";
-                                    echo "<td>{$patient['nextofkin']}</td>";
-                                    echo "<td>{$patient['nextofkincontact']}</td>";
-                                    echo "<td>{$patient['nextofkingender']}</td>";
-                                    echo "<td>{$patient['nextofkinrelationship']}</td>";
                                     echo "<td>
                                         <form method='POST' action='../actions/admin_actions/admin_delete_actions/admin_delete_patient.php' style='display:inline;'>
                                             <input type='hidden' name='patient_id' value='{$patient['patient_id']}'>
@@ -151,15 +147,14 @@ require('../controllers/admin_controllers/admin_patient_controller.php');
                 <input type="date" id="dob" placeholder="Date of Birth" required>
                 <input type="number" id="weight" placeholder="Weight (kg)" required>
                 <input type="text" id="address" placeholder="Address" required>
-                <input type="tel" id="contact" placeholder="Contact Number" required>            
+                <input type="tel" id="contact" placeholder="Contact Number" required>
 
                 <!-- Next of Kin Details -->
                 <input type="text" id="nextOfKin" placeholder="Next of Kin" required>
                 <input type="tel" id="nextOfKinContact" placeholder="Next of Kin Contact" required>
                 <input type="text" id="nextOfKinGender" placeholder="Gender of Next of Kin" required>
                 <input type="text" id="nextOfKinRelationship" placeholder="Relationship to Kin" required>
-                <input type="text" id="default-password" name="default-password" placeholder="Enter default password" 
-                minlength="6" required>   
+                <input type="hidden" id="default-password" value ="Bafrrow@2025">
 
                 <button type="submit">Add</button>
                 <button type="button" class="cancel" id="cancelAddItem">Cancel</button>
@@ -184,14 +179,12 @@ require('../controllers/admin_controllers/admin_patient_controller.php');
                 <input type="tel" id="editNextOfKinContact"  placeholder="Next of Kin Contact" required>
                 <input type="text" id="editNextOfKinGender"  placeholder="Gender of Next of Kin" required>
                 <input type="text" id="editNextOfKinRelationship"  placeholder="Relationship to Kin" required>
-                <input type="hidden" id="default-password" name="default-password" placeholder="Enter default password" 
-                minlength="6" required>   
 
                 <button type="submit">Update</button>
                 <button type="button" class="cancel" id="cancelEditItem">Cancel</button>
             </form>
         </div>
     
-        <script src="../js/add_edit.js"></script>
+        <script src="../js/patient_add_edit.js"></script>
     </body>
 </html>

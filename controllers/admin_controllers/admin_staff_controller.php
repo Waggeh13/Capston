@@ -1,5 +1,5 @@
 <?php
-require("../../classes/admin_class/admin_staff__class.php");
+require("../classes/admin_class/admin_staff__class.php");
 
 function sanitize_input($input) {
     return htmlspecialchars(stripslashes(trim($input)));

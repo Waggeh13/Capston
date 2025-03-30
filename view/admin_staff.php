@@ -39,9 +39,9 @@
                     </a>
                 </li>
                 <li>
-                    <a href="admin_patient.php">
+                    <a href="admin_staff.php">
                         <i class="fas fa-user"></i>
-                        <div class="title">Patients</div>
+                        <div class="title">staffs</div>
                     </a>
                 </li>
                 <li>
@@ -98,72 +98,28 @@
                         <td>Action</td>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>6789506767</td>
-                            <td>Saloom</td>
-                            <td>Singhateh</td>
-                            <td>Doctor</td>
-                            <td>Gynocology</td>
-                            <td>3678945</td>
-                            <td>Salom@gmail.com</td>
-                            <td>
-                                <i class="far fa-edit editItemBtn"></i>
-                                <i class="far fa-trash-alt"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>6789506767</td>
-                            <td>Saloom</td>
-                            <td>Singhateh</td>
-                            <td>Lab Technician</td>
-                            <td>Gynocology</td>
-                            <td>3678945</td>
-                            <td>Salom@gmail.com</td>
-                            <td>
-                                <i class="far fa-edit editItemBtn"></i>
-                                <i class="far fa-trash-alt"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>6789506767</td>
-                            <td>Saloom</td>
-                            <td>Singhateh</td>
-                            <td>Doctor</td>
-                            <td>Gynocology</td>
-                            <td>3678945</td>
-                            <td>Salom@gmail.com</td>
-                            <td>
-                                <i class="far fa-edit editItemBtn"></i>
-                                <i class="far fa-trash-alt"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>6789506767</td>
-                            <td>Saloom</td>
-                            <td>Singhateh</td>
-                            <td>Pharmacist</td>
-                            <td>Gynocology</td>
-                            <td>3678945</td>
-                            <td>Salom@gmail.com</td>
-                            <td>
-                                <i class="far fa-edit editItemBtn"></i>
-                                <i class="far fa-trash-alt"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>6789506767</td>
-                            <td>Saloom</td>
-                            <td>Singhateh</td>
-                            <td>Doctor</td>
-                            <td>Gynocology</td>
-                            <td>3678945</td>
-                            <td>Salom@gmail.com</td>
-                            <td>
-                                <i class="far fa-edit editItemBtn"></i>
-                                <i class="far fa-trash-alt"></i>
-                            </td>
-                        </tr>
-                    </tbody>
+                            <?php
+                            $staffs = viewstaffsController();
+                            if (!empty($staffs)) {
+                                foreach ($staffs as $staff) {
+                                    echo "<tr>";
+                                    echo "<td>{$staff['staff_id']}</td>";
+                                    echo "<td>{$staff['first_name']}</td>";
+                                    echo "<td>{$staff['last_name']}</td>";
+                                    echo "<td>{$staff['Position']}</td>";
+                                    echo "<td>{$staff['Department']}</td>";
+                                    echo "<td>{$staff['contact']}</td>";
+                                    echo "<td>
+                                        <i data-staff-id='{$staff['staff_id']}' class='far fa-trash-alt deleteItemBtn'></i>
+                                        <i data-staff-id='{$staff['staff_id']}' class='far fa-edit editItemBtn'></i>
+                                    </td>";
+                                    echo "</tr>";
+                                }
+                            } else {
+                                echo "<tr><td colspan='3' class='text-center'>No staffs</td></tr>";
+                            }
+                            ?>
+                        </tbody>
                 </table>
             </div>
         </div>
@@ -173,10 +129,10 @@
             <h3>Add Staff</h3>
             <form id="addItem">
                 <!-- Staff Details -->
-                <input type="text" id="staffId" placeholder="Staff ID" required>
-                <input type="text" id="firstName" placeholder="First Name" required>
-                <input type="text" id="lastName" placeholder="Last Name" required>
-                <input type="text" id="position" placeholder="Position" required>
+                <input type="text" id="staffId" name ="staffId" placeholder="Staff ID" required>
+                <input type="text" id="firstName" name="firstName" placeholder="First Name" required>
+                <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
+                <input type="text" id="position" name="postion" placeholder="Position" required>
                 
                 <!-- Dropdown for Department -->
                 <label for="department">Department:</label>

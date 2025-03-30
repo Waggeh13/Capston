@@ -67,10 +67,10 @@ class admin_patient_class extends db_connection {
                     weight = '$weight', 
                     address = '$address', 
                     contact = '$contact', 
-                    nextOfKin = '$nextOfKin', 
-                    nextOfKinContact = '$nextOfKinContact', 
-                    nextOfKinGender = '$nextOfKinGender', 
-                    nextOfKinRelationship = '$nextOfKinRelationship' 
+                    nextofkinname = '$nextOfKin', 
+                    nextofkincontact = '$nextOfKinContact', 
+                    nextofkingender = '$nextOfKinGender', 
+                    nextofkinrelationship = '$nextOfKinRelationship' 
                 WHERE patient_id = '$patient_id'";
     
         return $this->db_query($sql);

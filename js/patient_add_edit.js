@@ -5,7 +5,8 @@ const editItemForm = document.getElementById('editItemForm');
 const overlay = document.getElementById('overlay');
 const cancelAddItem = document.getElementById('cancelAddItem');
 const cancelEditItem = document.getElementById('cancelEditItem');
-const editItemBtns = document.querySelectorAll('.editItemBtn');
+const editItemBtn = document.querySelectorAll('.editItemBtn');
+const deleteItemBtn = document.querySelector('.deleteItemBtn');
 
 // Show Add Item Form
 addItemBtn.addEventListener('click', () => {
@@ -14,13 +15,13 @@ addItemBtn.addEventListener('click', () => {
 });
 
 // Show Edit Item Form and fetch patient data
-editItemBtns.forEach(btn => {
+editItemBtn.forEach(btn => {
     btn.addEventListener('click', async () => {
         const patientId = btn.getAttribute('data-patient-id');
         
         try {
             // Fetch patient data
-            const response = await fetch('../actions/admin_actions/admin_view_actions/admin_view_patient.php', {
+            const response = await fetch('../actions/admin_view_patient.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -32,7 +33,11 @@ editItemBtns.forEach(btn => {
                 throw new Error('Network response was not ok');
             }
             
-            const patient = await response.json();
+            let patientData = await response.json();
+            
+            // Since the response is an array, get the first item
+            const patient = patientData[0];
+            console.log(patient);
             
             // Populate form fields
             document.getElementById('editPatientId').value = patient.patient_id;
@@ -42,7 +47,8 @@ editItemBtns.forEach(btn => {
             document.getElementById('editWeight').value = patient.weight;
             document.getElementById('editAddress').value = patient.address;
             document.getElementById('editContact').value = patient.contact;
-            document.getElementById('editNextOfKin').value = patient.nextofkin;
+            document.getElementById('editGender').value = patient.Gender;
+            document.getElementById('editNextOfKin').value = patient.nextofkinname;
             document.getElementById('editNextOfKinContact').value = patient.nextofkincontact;
             document.getElementById('editNextOfKinGender').value = patient.nextofkingender;
             document.getElementById('editNextOfKinRelationship').value = patient.nextofkinrelationship;
@@ -57,6 +63,7 @@ editItemBtns.forEach(btn => {
         }
     });
 });
+
 
 // Close Forms
 cancelAddItem.addEventListener('click', () => {
@@ -82,32 +89,29 @@ document.getElementById('addItem').addEventListener('submit', (e) => {
     var form = document.getElementById("addItem");
     var formData = new FormData(form);
 
-    // Send the data to the server using fetch
-    fetch("../actions/admin_actions/admin_add_actions/admin_add_patients.php", {
+    fetch("../actions/admin_add_patients.php", {
         method: "POST",
         body: formData,
     })
     .then((response) => {
-        const contentType = response.headers.get("content-type");
-        if (contentType && contentType.includes("application/json")) {
-            return response.json();
-        } else {
-            return response.text().then(text => { throw new Error(text); });
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
         }
+        return response.json();
     })
     .then((data) => {
         if (data.success) {
-            // Redirect on success
-            alert('Item added successfully!');
+            alert(data.message);
             addItemForm.classList.remove('active');
             overlay.classList.remove('active');
         } else {
-                // Log error and reload page on server-side failure
-                alert("Registration error:", data.message);
-                setTimeout(() => {
-                    location.reload();
-                }, 5000);
+            alert(data.message);
+            form.reset();
         }
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        alert('An unexpected error occurred. Please try again.');
     });
 });
 
@@ -119,7 +123,7 @@ document.getElementById('editItem').addEventListener('submit', (e) => {
     var formData = new FormData(form);
 
     // Send the data to the server using fetch
-    fetch("../actions/admin_actions/admin_update_patiens.php", {
+    fetch("../actions/admin_update_patients.php", {
         method: "POST",
         body: formData,
     })
@@ -134,7 +138,7 @@ document.getElementById('editItem').addEventListener('submit', (e) => {
     .then((data) => {
         if (data.success) {
             // Redirect on success
-            location.href = '../view/customerlogin.php';
+            location.href = '../view/admin_patient.php';
         } else {
                 // Log error and reload page on server-side failure
                 alert("Registration error:", data.message);
@@ -147,4 +151,40 @@ document.getElementById('editItem').addEventListener('submit', (e) => {
     alert('Item updated successfully!');
     editItemForm.classList.remove('active');
     overlay.classList.remove('active');
+});
+
+// Handle Delete Item
+document.addEventListener('click', async (e) => {
+    if (e.target.classList.contains('deleteItemBtn')) {
+        const patientId = e.target.getAttribute('data-patient-id');
+        
+        // Confirm before deleting
+        if (confirm('Are you sure you want to delete this patient record?')) {
+            try {
+                const response = await fetch('../actions/admin_delete_patient.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `patient_id=${patientId}`
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert(data.message);
+                    location.reload();
+                } else {
+                    alert(data.message);
+                }
+            } catch (error) {
+                console.error('Error deleting patient:', error);
+                alert('Error deleting patient record. Please try again.');
+            }
+        }
+    }
 });

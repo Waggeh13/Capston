@@ -1,5 +1,5 @@
 <?php
-require("../classes/admin_class/admin_patient_class.php");
+require("../classes/admin_patient_class.php");
 
 
 
@@ -42,4 +42,10 @@ function addUserController($patientId, $password, $userRole)
         $patient = new admin_patient_class();
         return $patient->addUser($patientId, $password, $userRole);
     }
+    
+// Function to update user
+function updatePatientController($patient_id, $first_name, $last_name, $dob, $gender, $weight, $address, $contact, $nextOfKin, $nextOfKinContact, $nextOfKinGender, $nextOfKinRelationship) {
+    $patient= new admin_patient_class();
+    return $patient->updatePatient($patient_id, $first_name, $last_name, $dob, $gender, $weight, $address, $contact, $nextOfKin, $nextOfKinContact, $nextOfKinGender, $nextOfKinRelationship);
+}
 ?>

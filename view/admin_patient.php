@@ -11,7 +11,7 @@
     <title>Patients</title>
 </head>
 <?php
-require('../controllers/admin_controllers/admin_patient_controller.php');
+require('../controllers/admin_patient_controller.php');
 ?>
 
 <body>
@@ -99,10 +99,6 @@ require('../controllers/admin_controllers/admin_patient_controller.php');
                         <td>Weight</td>
                         <td>Address</td>
                         <td>Contact</td>
-                        <td>Next of Kin</td>
-                        <td>Contact of next of Kin</td>
-                        <td>Gender of Next of Kin</td>
-                        <td>Relationship to Kin</td>
                         <td>Action</td>
                     </thead>
                         <tbody>
@@ -119,10 +115,7 @@ require('../controllers/admin_controllers/admin_patient_controller.php');
                                     echo "<td>{$patient['address']}</td>";
                                     echo "<td>{$patient['contact']}</td>";
                                     echo "<td>
-                                        <form method='POST' action='../actions/admin_actions/admin_delete_actions/admin_delete_patient.php' style='display:inline;'>
-                                            <input type='hidden' name='patient_id' value='{$patient['patient_id']}'>
-                                            <button type='submit' class='far fa-trash-alt deleteItemBtn'></i>
-                                        </form>
+                                        <i data-patient-id='{$patient['patient_id']}' class='far fa-trash-alt deleteItemBtn'></i>
                                         <i data-patient-id='{$patient['patient_id']}' class='far fa-edit editItemBtn'></i>
                                     </td>";
                                     echo "</tr>";
@@ -141,45 +134,69 @@ require('../controllers/admin_controllers/admin_patient_controller.php');
             <h3>Add Patient</h3>
             <form id="addItem">
                 <!-- Patient Details -->
-                <input type="text" id="patientId" placeholder="Patient ID" required>
-                <input type="text" id="firstName" placeholder="First Name" required>
-                <input type="text" id="lastName" placeholder="Last Name" required>
-                <input type="date" id="dob" placeholder="Date of Birth" required>
-                <input type="number" id="weight" placeholder="Weight (kg)" required>
-                <input type="text" id="address" placeholder="Address" required>
-                <input type="tel" id="contact" placeholder="Contact Number" required>
-
+                <input type="text" id="patientId" name="patientId" placeholder="Patient ID" required>
+                <input type="text" id="firstName" name="firstName" placeholder="First Name" required>
+                <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
+                <input type="date" id="dob" name="dob" placeholder="Date of Birth" required>
+                <input type="number" id="weight" name="weight" placeholder="Weight (kg)" required>
+                <input type="text" id="address" name="address" placeholder="Address" required>
+                <input type="tel" id="contact" name="contact" placeholder="Contact Number" required>
+                <!-- Gender Field (missing in original form) -->
+                <select id="gender" name="gender" required>
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+                
                 <!-- Next of Kin Details -->
-                <input type="text" id="nextOfKin" placeholder="Next of Kin" required>
-                <input type="tel" id="nextOfKinContact" placeholder="Next of Kin Contact" required>
-                <input type="text" id="nextOfKinGender" placeholder="Gender of Next of Kin" required>
-                <input type="text" id="nextOfKinRelationship" placeholder="Relationship to Kin" required>
-                <input type="hidden" id="default-password" value ="Bafrrow@2025">
-
+                <input type="text" id="nextOfKin" name="nextOfKin" placeholder="Next of Kin" required>
+                <input type="tel" id="nextOfKinContact" name="nextOfKinContact" placeholder="Next of Kin Contact" required>
+                <select id="nextOfKinGender" name="nextOfKinGender" required>
+                    <option value="">Select Kin's Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+                <input type="text" id="nextOfKinRelationship" name="nextOfKinRelationship" placeholder="Relationship to Kin" required>
+                <!-- Hidden password field -->
+                <input type="hidden" id="default-password" name="default-password" value="Bafrrow@2025">
+                <!-- Form buttons -->
                 <button type="submit">Add</button>
                 <button type="button" class="cancel" id="cancelAddItem">Cancel</button>
             </form>
         </div>
-
+        
         <!-- Edit Patient Pop-up Form -->
         <div class="popup-form" id="editItemForm">
             <h3>Edit Patient</h3>
             <form id="editItem">
                 <!-- Patient Details -->
-                <input type="hidden" id="editPatientId" name="patient_id"  placeholder="Patient ID" required>
-                <input type="text" id="editFirstName" placeholder="First Name" required>
-                <input type="text" id="editLastName"  placeholder="Last Name" required>
-                <input type="date" id="editDob" placeholder="Date of Birth" required>
-                <input type="number" id="editWeight" placeholder="Weight (kg)" required>
-                <input type="text" id="editAddress"  placeholder="Address" required>
-                <input type="tel" id="editContact"  placeholder="Contact Number" required>
-
+                <input type="hidden" id="editPatientId" name="patient_id" placeholder="Patient ID" required>
+                <input type="text" id="editFirstName" name="first_name" placeholder="First Name" required>
+                <input type="text" id="editLastName" name="last_name" placeholder="Last Name" required>
+                <input type="date" id="editDob" name="DOB" placeholder="Date of Birth" required>
+                <input type="number" id="editWeight" name="weight" placeholder="Weight (kg)" required>
+                <input type="text" id="editAddress" name="address" placeholder="Address" required>
+                <input type="tel" id="editContact" name="contact" placeholder="Contact Number" required>
+                <!-- Gender Field (missing in original form) -->
+                <select id="editGender" name="gender" required>
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
                 <!-- Next of Kin Details -->
-                <input type="text" id="editNextOfKin"  placeholder="Next of Kin" required>
-                <input type="tel" id="editNextOfKinContact"  placeholder="Next of Kin Contact" required>
-                <input type="text" id="editNextOfKinGender"  placeholder="Gender of Next of Kin" required>
-                <input type="text" id="editNextOfKinRelationship"  placeholder="Relationship to Kin" required>
-
+                <input type="text" id="editNextOfKin" name="nextofkinname" placeholder="Next of Kin" required>
+                <input type="tel" id="editNextOfKinContact" name="nextofkincontact" placeholder="Next of Kin Contact" required>
+                <select id="editNextOfKinGender" name="nextofkingender" required>
+                    <option value="">Select Kin's Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+                <input type="text" id="editNextOfKinRelationship" name="nextofkinrelationship" placeholder="Relationship to Kin" required>
+                
                 <button type="submit">Update</button>
                 <button type="button" class="cancel" id="cancelEditItem">Cancel</button>
             </form>

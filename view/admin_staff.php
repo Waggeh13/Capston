@@ -129,28 +129,55 @@
             <h3>Add Staff</h3>
             <form id="addItem">
                 <!-- Staff Details -->
-                <input type="text" id="staffId" name ="staffId" placeholder="Staff ID" required>
-                <input type="text" id="firstName" name="firstName" placeholder="First Name" required>
-                <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
-                <input type="text" id="position" name="postion" placeholder="Position" required>
-                
-                <!-- Dropdown for Department -->
-                <label for="department">Department:</label>
-                <select id="department" name="department" required>
-                    <option value="">Select a department</option>
-                    <option value="administration">Administration</option>
-                    <option value="pediatrics">Pediatrics</option>
-                    <option value="gynaecology">Gynaecology</option>
-                    <option value="surgical">Surgical</option>
-                </select>
+                <div class="form-group">
+                    <label for="staffId">Staff ID:</label>
+                    <input type="text" id="staffId" name="staffId" placeholder="Enter staff ID" required>
+                </div>
 
-                <input type="tel" id="contact" placeholder="Contact Number" required>
-                <input type="email" id="email" placeholder="Email" required>
-                <input type="text" id="default-password" name="default-password" placeholder="Enter default password" 
-                minlength="6" required>   
+                <div class="form-group">
+                    <label>Full Name:</label>
+                    <div class="name-fields">
+                        <input type="text" id="firstName" name="firstName" placeholder="First Name" required>
+                        <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
+                    </div>
+                </div>
 
-                <button type="submit">Add</button>
-                <button type="button" class="cancel" id="cancelAddItem">Cancel</button>
+                <div class="form-group">
+                    <label for="position">Position:</label>
+                    <input type="text" id="position" name="position" placeholder="Enter position" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="department">Department:</label>
+                    <select id="department" name="department" required>
+                        <option value="">Select a department</option>
+                        <option value="administration">Administration</option>
+                        <option value="pediatrics">Pediatrics</option>
+                        <option value="gynaecology">Gynaecology</option>
+                        <option value="surgical">Surgical</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="contact">Contact Number:</label>
+                    <input type="tel" id="contact" name="contact" placeholder="Enter phone number" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" placeholder="Enter email address" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="default-password">Default Password:</label>
+                    <input type="text" id="default-password" name="default-password" 
+                        placeholder="Set default password" minlength="6" required>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit">Add Staff</button>
+                    <button type="button" class="cancel" id="cancelAddItem">Cancel</button>
+                </div>
             </form>
         </div>
 
@@ -159,30 +186,54 @@
             <h3>Edit Staff</h3>
             <form id="editItem">
                 <!-- Staff Details -->
-                <input type="text" id="editStaffId" placeholder="Staff ID" required>
-                <input type="text" id="editFirstName" placeholder="First Name" required>
-                <input type="text" id="editLastName" placeholder="Last Name" required>
-                <input type="text" id="editPosition" placeholder="Position" required>
-                
-                <!-- Dropdown for Department -->
-                <label for="editDepartment">Department:</label>
-                <select id="editDepartment" name="editDepartment" required>
-                    <option value="">Select a department</option>
-                    <option value="administration">Administration</option>
-                    <option value="pediatrics">Pediatrics</option>
-                    <option value="gynaecology">Gynaecology</option>
-                    <option value="surgical">Surgical</option>
-                </select>
+                <div class="form-group">
+                    <label for="editStaffId">Staff ID:</label>
+                    <input type="text" id="editStaffId" name="staffId" placeholder="Enter staff ID" required>
+                </div>
 
-                <input type="tel" id="editContact" placeholder="Contact Number" required>
-                <input type="email" id="editEmail" placeholder="Email" required>
-                <input type="hidden" id="default-password" name="default-password" placeholder="Enter default password" 
-                minlength="6" required>   
+                <div class="form-group">
+                    <label>Full Name:</label>
+                    <div class="name-fields">
+                        <input type="text" id="editFirstName" name="firstName" placeholder="First Name" required>
+                        <input type="text" id="editLastName" name="lastName" placeholder="Last Name" required>
+                    </div>
+                </div>
 
-                <button type="submit">Update</button>
-                <button type="button" class="cancel" id="cancelEditItem">Cancel</button>
+                <div class="form-group">
+                    <label for="editPosition">Position:</label>
+                    <input type="text" id="editPosition" name="position" placeholder="Enter position" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="editDepartment">Department:</label>
+                    <select id="editDepartment" name="department" required>
+                        <option value="">Select a department</option>
+                        <option value="administration">Administration</option>
+                        <option value="pediatrics">Pediatrics</option>
+                        <option value="gynaecology">Gynaecology</option>
+                        <option value="surgical">Surgical</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="editContact">Contact Number:</label>
+                    <input type="tel" id="editContact" name="contact" placeholder="Enter phone number" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="editEmail">Email:</label>
+                    <input type="email" id="editEmail" name="email" placeholder="Enter email address" required>
+                </div>
+
+                <input type="hidden" id="default-password" name="default-password">
+
+                <div class="form-buttons">
+                    <button type="submit">Update Staff</button>
+                    <button type="button" class="cancel" id="cancelEditItem">Cancel</button>
+                </div>
             </form>
         </div>
+        
     
     <script src="../js/add_edit.js"></script> 
 </body>

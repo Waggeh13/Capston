@@ -104,6 +104,7 @@ document.getElementById('addItem').addEventListener('submit', (e) => {
             alert(data.message);
             addItemForm.classList.remove('active');
             overlay.classList.remove('active');
+            location.reload();
         } else {
             alert(data.message);
             form.reset();

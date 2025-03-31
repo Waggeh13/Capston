@@ -155,37 +155,71 @@
                 </table>
             </div>
         </div>
-        <!-- Add Item Pop-up Form -->
+        <!-- Add Clinic Admin Pop-up Form -->
         <div class="overlay" id="overlay"></div>
         <div class="popup-form" id="addItemForm">
-            <h3>Add Clinic</h3>
+            <h3>Add Clinic Admin</h3>
             <form id="addItem">
-                <input type="text" id="itemName" placeholder="Admin ID" required>
-                <input type="text" id="itemDescription" placeholder="First name" required>
-                <input type="text" id="itemDescription" placeholder="Last name" required>
-                <input type="text" id="itemDescription" placeholder="Contact" required>
-                <input type="text" id="default-password" name="default-password" placeholder="Enter default password" 
-                minlength="6" required>   
-                <button type="submit">Add</button>
-                <button type="button" class="cancel" id="cancelAddItem">Cancel</button>
+                <div class="form-group">
+                    <label for="adminId">Admin ID:</label>
+                    <input type="text" id="adminId" name="adminId" placeholder="Enter admin ID" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Full Name:</label>
+                    <div class="name-fields">
+                        <input type="text" id="firstName" name="firstName" placeholder="First name" required>
+                        <input type="text" id="lastName" name="lastName" placeholder="Last name" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="contact">Contact Number:</label>
+                    <input type="tel" id="contact" name="contact" placeholder="Enter phone number" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Default Password:</label>
+                    <input type="text" id="password" name="password" 
+                        placeholder="Set default password" minlength="6" required>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit">Add Admin</button>
+                    <button type="button" class="cancel" id="cancelAddItem">Cancel</button>
+                </div>
             </form>
         </div>
 
-        <!-- Edit Item Pop-up Form -->
+        <!-- Edit Clinic Admin Pop-up Form -->
         <div class="popup-form" id="editItemForm">
-            <h3>Edit Clinic</h3>
+            <h3>Edit Clinic Admin</h3>
             <form id="editItem">
-                <input type="hidden" id="editItemName" placeholder="Admin ID" required>
-                <input type="text" id="editItemName" placeholder="First Name" required>
-                <input type="text" id="editItemName" placeholder="Last Name" required>
-                <input type="text" id="editItemName" placeholder="Contact" required>
-                <input type="hidden" id="default-password" name="default-password" placeholder="Enter default password" 
-                minlength="6" required>   
-                <button type="submit">Update</button>
-                <button type="button" class="cancel" id="cancelEditItem">Cancel</button>
+                <input type="hidden" id="editAdminId" name="adminId">
+
+                <div class="form-group">
+                    <label>Full Name:</label>
+                    <div class="name-fields">
+                        <input type="text" id="editFirstName" name="firstName" placeholder="First name" required>
+                        <input type="text" id="editLastName" name="lastName" placeholder="Last name" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="editContact">Contact Number:</label>
+                    <input type="tel" id="editContact" name="contact" placeholder="Enter phone number" required>
+                </div>
+
+                <input type="hidden" id="editPassword" name="password">
+
+                <div class="form-buttons">
+                    <button type="submit">Update Admin</button>
+                    <button type="button" class="cancel" id="cancelEditItem">Cancel</button>
+                </div>
             </form>
         </div>
-        <script src="../js/add_edit.js"></script> 
+    </div>
+    <script src="../js/add_edit.js"></script> 
     
 </body>
 </html>

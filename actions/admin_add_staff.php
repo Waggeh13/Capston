@@ -19,20 +19,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $firstName = sanitize_input($_POST['firstName']);
     $lastName = sanitize_input($_POST['lastName']);
     $position = sanitize_input($_POST['position']);
-    $weight = sanitize_input($_POST['weight']);
+    $department = sanitize_input($_POST['department']);
     $contact = sanitize_input($_POST['contact']);
-    $gender = sanitize_input($_POST['gender']);
-    $nextOfKin = sanitize_input($_POST['nextOfKin']);
-    $nextOfKinContact = sanitize_input($_POST['nextOfKinContact']);
-    $nextOfKinGender = sanitize_input($_POST['nextOfKinGender']);
-    $nextOfKinRelationship = sanitize_input($_POST['nextOfKinRelationship']);
+    $email = sanitize_input($_POST['email']);
     $password = sanitize_input($_POST['default-password']);
-    $address = sanitize_input($_POST['address']);
     $userRole = sanitize_input('staff');
 
     $result1 = addUserController($staffId, $password, $userRole);
     if($result1) {
-        $result2 = addstaffController($staffId, $firstName, $lastName, $dob, $gender, $weight, $address, $contact, $nextOfKin, $nextOfKinContact, $nextOfKinGender, $nextOfKinRelationship);
+        $result2 = addstaffController($staffId, $firstName, $lastName, $department, $contact, $email, $password);
     }
     
     if ($result2) {

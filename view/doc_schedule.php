@@ -14,7 +14,6 @@
 </head>
 <body>
     <div class="container">
-        <!-- Sidebar Navigation -->
         <div class="sidebar">
             <ul>
                 <li>
@@ -144,15 +143,12 @@
                         <button class="time-slot" data-time="17:00">05:00 PM</button>
                         <button class="time-slot" data-time="18:00">06:00 PM</button>
                     </div>
-                    
-                    <!-- Save Button -->
                     <button id="save-schedule" class="save-btn">Save Schedule</button>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- JavaScript Files -->
+    
     <script src="../js/calender.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.js"></script>
     <script src="../js/schedule.js"></script>

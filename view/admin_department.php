@@ -144,8 +144,8 @@
             <h3>Add Department</h3>
             <form id="addItem">
                 <!-- Department Details -->
-                <input type="text" id="departmentId" placeholder="Department ID" required>
-                <input type="text" id="departmentName" placeholder="Department Name" required>
+                <input type="text" id="departmentId" name="departmentId" placeholder="Department ID" required>
+                <input type="text" id="departmentName" name="departmentName" placeholder="Department Name" required>
 
                 <button type="submit">Add</button>
                 <button type="button" class="cancel" id="cancelAddItem">Cancel</button>
@@ -157,8 +157,8 @@
             <h3>Edit Department</h3>
             <form id="editItem">
                 <!-- Department Details -->
-                <input type="text" id="editDepartmentId" placeholder="Department ID" required>
-                <input type="text" id="editDepartmentName" placeholder="Department Name" required>
+                <input type="text" id="editDepartmentId" name="departmentId" placeholder="Department ID" required>
+                <input type="text" id="editDepartmentName" name="departmentName" placeholder="Department Name" required>
 
                 <button type="submit">Update</button>
                 <button type="button" class="cancel" id="cancelEditItem">Cancel</button>

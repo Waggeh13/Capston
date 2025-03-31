@@ -20,6 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $lastName = sanitize_input($_POST['lastName']);
     $position = sanitize_input($_POST['position']);
     $department = sanitize_input($_POST['department']);
+    $gender = sanitize_input($_POST['gender']);
     $contact = sanitize_input($_POST['contact']);
     $email = sanitize_input($_POST['email']);
     $password = sanitize_input($_POST['default-password']);
@@ -27,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $result1 = addUserController($staffId, $password, $userRole);
     if($result1) {
-        $result2 = addstaffController($staffId, $firstName, $lastName, $department, $contact, $email, $password);
+        $result2 = addstaffController($staffId, $firstName, $lastName,$gender, $position,$department, $contact, $email);
     }
     
     if ($result2) {

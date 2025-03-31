@@ -14,50 +14,40 @@ addItemBtn.addEventListener('click', () => {
     overlay.classList.add('active');
 });
 
-// Show Edit Item Form and fetch patient data
+// Show Edit Item Form and fetch department data
 editItemBtn.forEach(btn => {
     btn.addEventListener('click', async () => {
-        const patientId = btn.getAttribute('data-patient-id');
+        const departmentId = btn.getAttribute('data-department-id');
         
         try {
-            // Fetch patient data
-            const response = await fetch('../actions/admin_view_patient.php', {
+            // Fetch department data
+            const response = await fetch('../actions/admin_view_department.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: `patient_id=${patientId}`
+                body: `department_id=${departmentId}`
             });
             
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
             
-            let patientData = await response.json();
+            let departmentData = await response.json();
             
             // Since the response is an array, get the first item
-            const patient = patientData[0];
+            const department = departmentData[0];
             
             // Populate form fields
-            document.getElementById('editPatientId').value = patient.patient_id;
-            document.getElementById('editFirstName').value = patient.first_name;
-            document.getElementById('editLastName').value = patient.last_name;
-            document.getElementById('editDob').value = patient.DOB;
-            document.getElementById('editWeight').value = patient.weight;
-            document.getElementById('editAddress').value = patient.address;
-            document.getElementById('editContact').value = patient.contact;
-            document.getElementById('editGender').value = patient.Gender;
-            document.getElementById('editNextOfKin').value = patient.nextofkinname;
-            document.getElementById('editNextOfKinContact').value = patient.nextofkincontact;
-            document.getElementById('editNextOfKinGender').value = patient.nextofkingender;
-            document.getElementById('editNextOfKinRelationship').value = patient.nextofkinrelationship;
+            document.getElementById('editDepartmentId').value = department.department_id;
+            document.getElementById('editDepartmentName').value = department.department_name;
             
             // Show the form
             editItemForm.classList.add('active');
             overlay.classList.add('active');
             
         } catch (error) {
-            alert('Error loading patient data. Please try again.');
+            alert('Error loading department data. Please try again.');
         }
     });
 });
@@ -87,7 +77,7 @@ document.getElementById('addItem').addEventListener('submit', (e) => {
     var form = document.getElementById("addItem");
     var formData = new FormData(form);
 
-    fetch("../actions/admin_add_patients.php", {
+    fetch("../actions/admin_add_department.php", {
         method: "POST",
         body: formData,
     })
@@ -121,7 +111,7 @@ document.getElementById('editItem').addEventListener('submit', (e) => {
     var formData = new FormData(form);
 
     // Send the data to the server using fetch
-    fetch("../actions/admin_update_patients.php", {
+    fetch("../actions/admin_update_department.php", {
         method: "POST",
         body: formData,
     })
@@ -136,17 +126,14 @@ document.getElementById('editItem').addEventListener('submit', (e) => {
     .then((data) => {
         if (data.success) {
             // Redirect on success
-            location.href = '../view/admin_patient.php';
+            location.href = '../view/admin_department.php';
         } else {
-                // Log error and reload page on server-side failure
                 alert("Registration error:", data.message);
                 setTimeout(() => {
                     location.reload();
                 }, 5000);
         }
     });
-
-    alert('Item updated successfully!');
     editItemForm.classList.remove('active');
     overlay.classList.remove('active');
 });
@@ -154,17 +141,17 @@ document.getElementById('editItem').addEventListener('submit', (e) => {
 // Handle Delete Item
 document.addEventListener('click', async (e) => {
     if (e.target.classList.contains('deleteItemBtn')) {
-        const patientId = e.target.getAttribute('data-patient-id');
+        const departmentId = e.target.getAttribute('data-department-id');
         
         // Confirm before deleting
-        if (confirm('Are you sure you want to delete this patient record?')) {
+        if (confirm('Are you sure you want to delete this department record?')) {
             try {
-                const response = await fetch('../actions/admin_delete_patient.php', {
+                const response = await fetch('../actions/admin_delete_department.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                    body: `patient_id=${patientId}`
+                    body: `department_id=${departmentId}`
                 });
                 
                 if (!response.ok) {
@@ -180,7 +167,7 @@ document.addEventListener('click', async (e) => {
                     alert(data.message);
                 }
             } catch (error) {
-                alert('Error deleting patient record. Please try again.');
+                alert('Error deleting department record. Please try again.');
             }
         }
     }

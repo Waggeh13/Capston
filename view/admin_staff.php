@@ -10,6 +10,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>Staff</title>
 </head>
+<?php
+require('../controllers/admin_staff_controller.php');
+require('../controllers/admin_department_controller.php');
+?>
 <body>
     <div class="container">
         <div class="sidebar">
@@ -93,6 +97,7 @@
                         <td>Last Name</td>
                         <td>Position</td>
                         <td>Deparatment</td>
+                        <td>Gender</td>
                         <td>Contact</td>
                         <td>email</td>
                         <td>Action</td>
@@ -106,9 +111,11 @@
                                     echo "<td>{$staff['staff_id']}</td>";
                                     echo "<td>{$staff['first_name']}</td>";
                                     echo "<td>{$staff['last_name']}</td>";
-                                    echo "<td>{$staff['Position']}</td>";
-                                    echo "<td>{$staff['Department']}</td>";
-                                    echo "<td>{$staff['contact']}</td>";
+                                    echo "<td>{$staff['position']}</td>";
+                                    echo "<td>{$staff['department_id']}</td>";
+                                    echo "<td>{$staff['Gender']}</td>";
+                                    echo "<td>{$staff['phone']}</td>";
+                                    echo "<td>{$staff['email']}</td>";
                                     echo "<td>
                                         <i data-staff-id='{$staff['staff_id']}' class='far fa-trash-alt deleteItemBtn'></i>
                                         <i data-staff-id='{$staff['staff_id']}' class='far fa-edit editItemBtn'></i>
@@ -141,22 +148,35 @@
                         <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
                     </div>
                 </div>
+                <div class="form-group">
+                    <select id="gender" name="gender" required>
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
 
                 <div class="form-group">
                     <label for="position">Position:</label>
                     <input type="text" id="position" name="position" placeholder="Enter position" required>
                 </div>
 
-                <div class="form-group">
-                    <label for="department">Department:</label>
-                    <select id="department" name="department" required>
-                        <option value="">Select a department</option>
-                        <option value="administration">Administration</option>
-                        <option value="pediatrics">Pediatrics</option>
-                        <option value="gynaecology">Gynaecology</option>
-                        <option value="surgical">Surgical</option>
-                    </select>
-                </div>
+<div class="form-group">
+    <label for="department">Department:</label>
+    <select id="department" name="department" required>
+        <option value="">Select a department</option>
+        <?php
+        $departments = viewdepartmentsController();
+        if (!empty($departments)) {
+            foreach ($departments as $department) {
+                echo "<option value='{$department['department_id']}'>{$department['department_name']}</option>";
+            }
+        }
+        ?>
+    </select>
+</div>
+
 
                 <div class="form-group">
                     <label for="contact">Contact Number:</label>
@@ -166,12 +186,7 @@
                 <div class="form-group">
                     <label for="email">Email:</label>
                     <input type="email" id="email" name="email" placeholder="Enter email address" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="default-password">Default Password:</label>
-                    <input type="text" id="default-password" name="default-password" 
-                        placeholder="Set default password" minlength="6" required>
+                    <input type="hidden" id="default-password" name="default-password" value="Bafrrow@2025">
                 </div>
 
                 <div class="form-buttons">
@@ -198,6 +213,12 @@
                         <input type="text" id="editLastName" name="lastName" placeholder="Last Name" required>
                     </div>
                 </div>
+                <select id="editGender" name="gender" required>
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
 
                 <div class="form-group">
                     <label for="editPosition">Position:</label>
@@ -205,15 +226,19 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="editDepartment">Department:</label>
-                    <select id="editDepartment" name="department" required>
-                        <option value="">Select a department</option>
-                        <option value="administration">Administration</option>
-                        <option value="pediatrics">Pediatrics</option>
-                        <option value="gynaecology">Gynaecology</option>
-                        <option value="surgical">Surgical</option>
-                    </select>
-                </div>
+    <label for="editDepartment">Department:</label>
+    <select id="editDepartment" name="department" required>
+        <option value="">Select a department</option>
+        <?php
+        $departments = viewdepartmentsController();
+        if (!empty($departments)) {
+            foreach ($departments as $department) {
+                echo "<option value='{$department['department_id']}'>{$department['department_name']}</option>";
+            }
+        }
+        ?>
+    </select>
+</div>
 
                 <div class="form-group">
                     <label for="editContact">Contact Number:</label>
@@ -235,6 +260,6 @@
         </div>
         
     
-    <script src="../js/add_edit.js"></script> 
+    <script src="../js/staff_add_edit.js"></script>
 </body>
 </html>

@@ -95,6 +95,7 @@ require('../controllers/admin_patient_controller.php');
                         <td>Patient ID</td>
                         <td>First Name</td>
                         <td>Last Name</td>
+                        <td>Gender</td>
                         <td>DOB</td>
                         <td>Weight</td>
                         <td>Address</td>
@@ -111,6 +112,7 @@ require('../controllers/admin_patient_controller.php');
                                     echo "<td>{$patient['first_name']}</td>";
                                     echo "<td>{$patient['last_name']}</td>";
                                     echo "<td>{$patient['DOB']}</td>";
+                                    echo "<td>{$patient['Gender']}</td>";
                                     echo "<td>{$patient['weight']}</td>";
                                     echo "<td>{$patient['address']}</td>";
                                     echo "<td>{$patient['contact']}</td>";
@@ -179,7 +181,6 @@ require('../controllers/admin_patient_controller.php');
                 <input type="number" id="editWeight" name="weight" placeholder="Weight (kg)" required>
                 <input type="text" id="editAddress" name="address" placeholder="Address" required>
                 <input type="tel" id="editContact" name="contact" placeholder="Contact Number" required>
-                <!-- Gender Field (missing in original form) -->
                 <select id="editGender" name="gender" required>
                     <option value="">Select Gender</option>
                     <option value="Male">Male</option>

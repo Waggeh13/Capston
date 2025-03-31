@@ -5,7 +5,8 @@ const editItemForm = document.getElementById('editItemForm');
 const overlay = document.getElementById('overlay');
 const cancelAddItem = document.getElementById('cancelAddItem');
 const cancelEditItem = document.getElementById('cancelEditItem');
-const editItemBtns = document.querySelectorAll('.editItemBtn');
+const editItemBtn = document.querySelectorAll('.editItemBtn');
+const deleteItemBtn = document.querySelector('.deleteItemBtn');
 
 // Show Add Item Form
 addItemBtn.addEventListener('click', () => {
@@ -13,50 +14,50 @@ addItemBtn.addEventListener('click', () => {
     overlay.classList.add('active');
 });
 
-// Show Edit Item Form and fetch patient data
-editItemBtns.forEach(btn => {
+// Show Edit Item Form and fetch staff data
+editItemBtn.forEach(btn => {
     btn.addEventListener('click', async () => {
-        const patientId = btn.getAttribute('data-patient-id');
+        const staffId = btn.getAttribute('data-staff-id');
         
         try {
-            // Fetch patient data
-            const response = await fetch('../actions/admin_actions/admin_edit_actions/admin_view_patient.php', {
+            // Fetch staff data
+            const response = await fetch('../actions/admin_view_staff.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: `patient_id=${patientId}`
+                body: `staff_id=${staffId}`
             });
             
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
             
-            const patient = await response.json();
+            let staffData = await response.json();
+            
+            // Since the response is an array, get the first item
+            const staff = staffData[0];
             
             // Populate form fields
-            document.getElementById('editPatientId').value = patient.patient_id;
-            document.getElementById('editFirstName').value = patient.first_name;
-            document.getElementById('editLastName').value = patient.last_name;
-            document.getElementById('editDob').value = patient.DOB;
-            document.getElementById('editWeight').value = patient.weight;
-            document.getElementById('editAddress').value = patient.address;
-            document.getElementById('editContact').value = patient.contact;
-            document.getElementById('editNextOfKin').value = patient.nextofkin;
-            document.getElementById('editNextOfKinContact').value = patient.nextofkincontact;
-            document.getElementById('editNextOfKinGender').value = patient.nextofkingender;
-            document.getElementById('editNextOfKinRelationship').value = patient.nextofkinrelationship;
+            document.getElementById('editStaffId').value = staff.staff_id;
+            document.getElementById('editFirstName').value = staff.first_name;
+            document.getElementById('editLastName').value = staff.last_name;
+            document.getElementById('editGender').value = staff.Gender;
+            document.getElementById('editPosition').value = staff.position;
+            document.getElementById('editDepartment').value = staff.department_id;
+            document.getElementById('editContact').value = staff.phone;
+            document.getElementById('editEmail').value = staff.email;
             
             // Show the form
             editItemForm.classList.add('active');
             overlay.classList.add('active');
             
         } catch (error) {
-            console.error('Error fetching patient data:', error);
-            alert('Error loading patient data. Please try again.');
+            alert('Error loading staff data. Please try again.');
         }
     });
 });
+
 
 // Close Forms
 cancelAddItem.addEventListener('click', () => {
@@ -82,35 +83,30 @@ document.getElementById('addItem').addEventListener('submit', (e) => {
     var form = document.getElementById("addItem");
     var formData = new FormData(form);
 
-    // Send the data to the server using fetch
-    fetch("../actions/admin_actions/admin_add_patients.php", {
+    fetch("../actions/admin_add_staff.php", {
         method: "POST",
         body: formData,
     })
     .then((response) => {
-        const contentType = response.headers.get("content-type");
-        if (contentType && contentType.includes("application/json")) {
-            return response.json();
-        } else {
-            return response.text().then(text => { throw new Error(text); });
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
         }
+        return response.json();
     })
     .then((data) => {
         if (data.success) {
-            // Redirect on success
-            location.href = '../view/customerlogin.php';
+            alert(data.message);
+            addItemForm.classList.remove('active');
+            overlay.classList.remove('active');
+            location.reload();
         } else {
-                // Log error and reload page on server-side failure
-                alert("Registration error:", data.message);
-                setTimeout(() => {
-                    location.reload();
-                }, 5000);
+            alert(data.message);
+            form.reset();
         }
+    })
+    .catch((error) => {
+        alert('An unexpected error occurred. Please try again.');
     });
-
-    alert('Item added successfully!');
-    addItemForm.classList.remove('active');
-    overlay.classList.remove('active');
 });
 
 // Handle Edit Item Form Submission
@@ -121,7 +117,7 @@ document.getElementById('editItem').addEventListener('submit', (e) => {
     var formData = new FormData(form);
 
     // Send the data to the server using fetch
-    fetch("../actions/admin_actions/admin_update_patiens.php", {
+    fetch("../actions/admin_update_staff.php", {
         method: "POST",
         body: formData,
     })
@@ -136,7 +132,7 @@ document.getElementById('editItem').addEventListener('submit', (e) => {
     .then((data) => {
         if (data.success) {
             // Redirect on success
-            location.href = '../view/customerlogin.php';
+            location.href = '../view/admin_staff.php';
         } else {
                 // Log error and reload page on server-side failure
                 alert("Registration error:", data.message);
@@ -149,4 +145,39 @@ document.getElementById('editItem').addEventListener('submit', (e) => {
     alert('Item updated successfully!');
     editItemForm.classList.remove('active');
     overlay.classList.remove('active');
+});
+
+// Handle Delete Item
+document.addEventListener('click', async (e) => {
+    if (e.target.classList.contains('deleteItemBtn')) {
+        const staffId = e.target.getAttribute('data-staff-id');
+        
+        // Confirm before deleting
+        if (confirm('Are you sure you want to delete this staff record?')) {
+            try {
+                const response = await fetch('../actions/admin_delete_staff.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `Staff_id=${staffId}`
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert(data.message);
+                    location.reload();
+                } else {
+                    alert(data.message);
+                }
+            } catch (error) {
+                alert('Error deleting staff record. Please try again.');
+            }
+        }
+    }
 });

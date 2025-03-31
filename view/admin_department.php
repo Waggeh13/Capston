@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>Departments</title>
 </head>
+<?php
+require('../controllers/admin_department_controller.php');
+?>
 <body>
     <div class="container">
         <div class="sidebar">
@@ -41,7 +44,7 @@
                 <li>
                     <a href="admin_patient.php">
                         <i class="fas fa-user"></i>
-                        <div class="title">Patients</div>
+                        <div class="title">departments</div>
                     </a>
                 </li>
                 <li>
@@ -83,7 +86,7 @@
             </div>
             <div class="doctor-available">
                 <div class="heading">
-                    <h2>Patients</h2>
+                    <h2>departments</h2>
                     <a href="#" class="btn" id="addItemBtn">Add Department</a>
                 </div>
                 <table class="available">
@@ -93,47 +96,23 @@
                         <td>Action</td>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>45901939559</td>
-                            <td>Pediatrics</td>
-                            <td>
-                                <i class="far fa-edit editItemBtn"></i>
-                                <i class="far fa-trash-alt"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>45901939559</td>
-                            <td>Pediatrics</td>
-                            <td>
-                                <i class="far fa-edit editItemBtn"></i>
-                                <i class="far fa-trash-alt"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>45901939559</td>
-                            <td>Pediatrics</td>
-                            <td>
-                                <i class="far fa-edit editItemBtn"></i>
-                                <i class="far fa-trash-alt"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>45901939559</td>
-                            <td>Pediatrics</td>
-                            <td>
-                                <i class="far fa-edit editItemBtn"></i>
-                                <i class="far fa-trash-alt"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>45901939559</td>
-                            <td>Pediatrics</td>
-                            <td>
-                                <i class="far fa-edit editItemBtn"></i>
-                                <i class="far fa-trash-alt"></i>
-                            </td>
-                        </tr>
-                       
+                        <?php
+                            $departments = viewdepartmentsController();
+                            if (!empty($departments)) {
+                                foreach ($departments as $department) {
+                                    echo "<tr>";
+                                    echo "<td>{$department['department_id']}</td>";
+                                    echo "<td>{$department['department_name']}</td>";
+                                    echo "<td>
+                                        <i data-department-id='{$department['department_id']}' class='far fa-trash-alt deleteItemBtn'></i>
+                                        <i data-department-id='{$department['department_id']}' class='far fa-edit editItemBtn'></i>
+                                    </td>";
+                                    echo "</tr>";
+                                }
+                            } else {
+                                echo "<tr><td colspan='3' class='text-center'>No departments</td></tr>";
+                            }
+                            ?>
                     </tbody>
                 </table>
             </div>
@@ -164,6 +143,6 @@
                 <button type="button" class="cancel" id="cancelEditItem">Cancel</button>
             </form>
         </div>
-        <script src="../js/add_edit.js"></script> 
+        <script src="../js/department_add_edit.js"></script>
 </body>
 </html>

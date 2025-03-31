@@ -39,9 +39,9 @@
                     </a>
                 </li>
                 <li>
-                    <a href="admin_staff.php">
+                    <a href="admin_patient.php">
                         <i class="fas fa-user"></i>
-                        <div class="title">staffs</div>
+                        <div class="title">Patients</div>
                     </a>
                 </li>
                 <li>

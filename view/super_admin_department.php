@@ -149,12 +149,20 @@
         <div class="popup-form" id="addItemForm">
             <h3>Add Department</h3>
             <form id="addItem">
-                <!-- Department Details -->
-                <input type="text" id="departmentId" placeholder="Department ID" required>
-                <input type="text" id="departmentName" placeholder="Department Name" required>
+                <div class="form-group">
+                    <label for="departmentId">Department ID:</label>
+                    <input type="text" id="departmentId" name="departmentId" placeholder="Enter department ID" required>
+                </div>
 
-                <button type="submit">Add</button>
-                <button type="button" class="cancel" id="cancelAddItem">Cancel</button>
+                <div class="form-group">
+                    <label for="departmentName">Department Name:</label>
+                    <input type="text" id="departmentName" name="departmentName" placeholder="Enter department name" required>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit">Add Department</button>
+                    <button type="button" class="cancel" id="cancelAddItem">Cancel</button>
+                </div>
             </form>
         </div>
 
@@ -162,12 +170,20 @@
         <div class="popup-form" id="editItemForm">
             <h3>Edit Department</h3>
             <form id="editItem">
-                <!-- Department Details -->
-                <input type="text" id="editDepartmentId" placeholder="Department ID" required>
-                <input type="text" id="editDepartmentName" placeholder="Department Name" required>
+                <div class="form-group">
+                    <label for="editDepartmentId">Department ID:</label>
+                    <input type="text" id="editDepartmentId" name="departmentId" placeholder="Edit department ID" required>
+                </div>
 
-                <button type="submit">Update</button>
-                <button type="button" class="cancel" id="cancelEditItem">Cancel</button>
+                <div class="form-group">
+                    <label for="editDepartmentName">Department Name:</label>
+                    <input type="text" id="editDepartmentName" name="departmentName" placeholder="Edit department name" required>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit">Update Department</button>
+                    <button type="button" class="cancel" id="cancelEditItem">Cancel</button>
+                </div>
             </form>
         </div>
         <script src="../js/add_edit.js"></script> 

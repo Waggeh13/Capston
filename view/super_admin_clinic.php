@@ -151,46 +151,66 @@
             </div>
         </div>
 
-        <!-- Add Item Pop-up Form -->
+        <!-- Add Clinic Pop-up Form -->
         <div class="overlay" id="overlay"></div>
         <div class="popup-form" id="addItemForm">
             <h3>Add Clinic</h3>
             <form id="addItem">
-                <input type="text" id="itemName" placeholder="Enter clinic ID" required>
-                <input type="text" id="itemDescription" placeholder="Enter clinic name" required>
-                
-                <!-- Dropdown for Category -->
-                <label for="itemCategory">Departments:</label>
-                <select id="itemCategory" name="itemCategory" required>
-                    <option value="">Select a department</option>
-                    <option value="category1">Pedeatrics</option>
-                    <option value="category2">OB/GYN</option>
-                    <option value="category3">Surgical</option>
-                </select>
+                <div class="form-group">
+                    <label for="clinicId">Clinic ID:</label>
+                    <input type="text" id="clinicId" name="clinicId" placeholder="Enter clinic ID" required>
+                </div>
 
-                <button type="submit">Add</button>
-                <button type="button" class="cancel" id="cancelAddItem">Cancel</button>
+                <div class="form-group">
+                    <label for="clinicName">Clinic Name:</label>
+                    <input type="text" id="clinicName" name="clinicName" placeholder="Enter clinic name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="department">Department:</label>
+                    <select id="department" name="department" required>
+                        <option value="">Select a department</option>
+                        <option value="pediatrics">Pediatrics</option>
+                        <option value="obgyn">OB/GYN</option>
+                        <option value="surgical">Surgical</option>
+                    </select>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit">Add Clinic</button>
+                    <button type="button" class="cancel" id="cancelAddItem">Cancel</button>
+                </div>
             </form>
         </div>
 
-        <!-- Edit Item Pop-up Form -->
+        <!-- Edit Clinic Pop-up Form -->
         <div class="popup-form" id="editItemForm">
             <h3>Edit Clinic</h3>
             <form id="editItem">
-                <input type="text" id="editItemName" placeholder="Edit clinic ID" required>
-                <input type="text" id="editItemDescription" placeholder="Edit clinic name" required>
-                
-                <!-- Dropdown for Category -->
-                <label for="editItemCategory">Departments:</label>
-                <select id="editItemCategory" name="editItemCategory" required>
-                    <option value="">Select a department</option>
-                    <option value="category1">Pedeatrics</option>
-                    <option value="category2">OB/GYN</option>
-                    <option value="category3">Surgical</option>
-                </select>
+                <div class="form-group">
+                    <label for="editClinicId">Clinic ID:</label>
+                    <input type="text" id="editClinicId" name="clinicId" placeholder="Edit clinic ID" required>
+                </div>
 
-                <button type="submit">Update</button>
-                <button type="button" class="cancel" id="cancelEditItem">Cancel</button>
+                <div class="form-group">
+                    <label for="editClinicName">Clinic Name:</label>
+                    <input type="text" id="editClinicName" name="clinicName" placeholder="Edit clinic name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="editDepartment">Department:</label>
+                    <select id="editDepartment" name="department" required>
+                        <option value="">Select a department</option>
+                        <option value="pediatrics">Pediatrics</option>
+                        <option value="obgyn">OB/GYN</option>
+                        <option value="surgical">Surgical</option>
+                    </select>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit">Update Clinic</button>
+                    <button type="button" class="cancel" id="cancelEditItem">Cancel</button>
+                </div>
             </form>
         </div>
         <script src="../js/add_edit.js"></script> 

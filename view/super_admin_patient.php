@@ -187,51 +187,144 @@
             </div>
         </div>
     <!-- Add Patient Pop-up Form -->
-    <div class="overlay" id="overlay"></div>
-    <div class="popup-form" id="addItemForm">
-        <h3>Add Patient</h3>
-        <form id="addItem">
-            <!-- Patient Details -->
-            <input type="text" id="patientId" placeholder="Patient ID" required>
-            <input type="text" id="firstName" placeholder="First Name" required>
-            <input type="text" id="lastName" placeholder="Last Name" required>
-            <input type="date" id="dob" placeholder="Date of Birth" required>
-            <input type="number" id="weight" placeholder="Weight (kg)" required>
-            <input type="text" id="address" placeholder="Address" required>
-            <input type="tel" id="contact" placeholder="Contact Number" required>
+<div class="overlay" id="overlay"></div>
+<div class="popup-form" id="addItemForm">
+    <h3>Add Patient</h3>
+    <form id="addItem">
+        <!-- Patient Details -->
+        <div class="form-section">
+            <h4>Patient Information</h4>
+            <div class="form-group">
+                <label for="patientId">Patient ID:</label>
+                <input type="text" id="patientId" name="patientId" placeholder="Enter patient ID" required>
+            </div>
+            <div class="name-fields">
+                <div class="form-group">
+                    <label for="firstName">First Name:</label>
+                    <input type="text" id="firstName" name="firstName" placeholder="Enter first name" required>
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name:</label>
+                    <input type="text" id="lastName" name="lastName" placeholder="Enter last name" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="dob">Date of Birth:</label>
+                <input type="date" id="dob" name="dob" required>
+            </div>
+            <div class="form-group">
+                <label for="weight">Weight (kg):</label>
+                <input type="number" id="weight" name="weight" placeholder="Enter weight in kg" step="0.1" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Address:</label>
+                <input type="text" id="address" name="address" placeholder="Enter full address" required>
+            </div>
+            <div class="form-group">
+                <label for="contact">Contact Number:</label>
+                <input type="tel" id="contact" name="contact" placeholder="Enter phone number" required>
+            </div>
+        </div>
 
-            <!-- Next of Kin Details -->
-            <input type="text" id="nextOfKin" placeholder="Next of Kin" required>
-            <input type="tel" id="nextOfKinContact" placeholder="Next of Kin Contact" required>
-            <input type="text" id="nextOfKinGender" placeholder="Gender of Next of Kin" required>
-            <input type="text" id="nextOfKinRelationship" placeholder="Relationship to Kin" required>
+        <!-- Next of Kin Details -->
+        <div class="form-section">
+            <h4>Next of Kin Information</h4>
+            <div class="form-group">
+                <label for="nextOfKin">Full Name:</label>
+                <input type="text" id="nextOfKin" name="nextOfKin" placeholder="Enter next of kin name" required>
+            </div>
+            <div class="form-group">
+                <label for="nextOfKinContact">Contact Number:</label>
+                <input type="tel" id="nextOfKinContact" name="nextOfKinContact" placeholder="Enter phone number" required>
+            </div>
+            <div class="form-group">
+                <label for="nextOfKinGender">Gender:</label>
+                <select id="nextOfKinGender" name="nextOfKinGender" required>
+                    <option value="">Select gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="nextOfKinRelationship">Relationship:</label>
+                <input type="text" id="nextOfKinRelationship" name="nextOfKinRelationship" placeholder="Enter relationship" required>
+            </div>
+        </div>
 
-            <button type="submit">Add</button>
+        <div class="form-buttons">
+            <button type="submit">Add Patient</button>
             <button type="button" class="cancel" id="cancelAddItem">Cancel</button>
-        </form>
-    </div>
+        </div>
+    </form>
+</div>
 
     <!-- Edit Patient Pop-up Form -->
     <div class="popup-form" id="editItemForm">
         <h3>Edit Patient</h3>
         <form id="editItem">
             <!-- Patient Details -->
-            <input type="hidden" id="editPatientId" name="patient_id"  placeholder="Patient ID" required>
-            <input type="text" id="editFirstName" placeholder="First Name" required>
-            <input type="text" id="editLastName"  placeholder="Last Name" required>
-            <input type="date" id="editDob" placeholder="Date of Birth" required>
-            <input type="number" id="editWeight" placeholder="Weight (kg)" required>
-            <input type="text" id="editAddress"  placeholder="Address" required>
-            <input type="tel" id="editContact"  placeholder="Contact Number" required>
+            <div class="form-section">
+                <h4>Patient Information</h4>
+                <input type="hidden" id="editPatientId" name="patientId">
+                <div class="name-fields">
+                    <div class="form-group">
+                        <label for="editFirstName">First Name:</label>
+                        <input type="text" id="editFirstName" name="firstName" placeholder="Enter first name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editLastName">Last Name:</label>
+                        <input type="text" id="editLastName" name="lastName" placeholder="Enter last name" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="editDob">Date of Birth:</label>
+                    <input type="date" id="editDob" name="dob" required>
+                </div>
+                <div class="form-group">
+                    <label for="editWeight">Weight (kg):</label>
+                    <input type="number" id="editWeight" name="weight" placeholder="Enter weight in kg" step="0.1" required>
+                </div>
+                <div class="form-group">
+                    <label for="editAddress">Address:</label>
+                    <input type="text" id="editAddress" name="address" placeholder="Enter full address" required>
+                </div>
+                <div class="form-group">
+                    <label for="editContact">Contact Number:</label>
+                    <input type="tel" id="editContact" name="contact" placeholder="Enter phone number" required>
+                </div>
+            </div>
 
             <!-- Next of Kin Details -->
-            <input type="text" id="editNextOfKin"  placeholder="Next of Kin" required>
-            <input type="tel" id="editNextOfKinContact"  placeholder="Next of Kin Contact" required>
-            <input type="text" id="editNextOfKinGender"  placeholder="Gender of Next of Kin" required>
-            <input type="text" id="editNextOfKinRelationship"  placeholder="Relationship to Kin" required>
+            <div class="form-section">
+                <h4>Next of Kin Information</h4>
+                <div class="form-group">
+                    <label for="editNextOfKin">Full Name:</label>
+                    <input type="text" id="editNextOfKin" name="nextOfKin" placeholder="Enter next of kin name" required>
+                </div>
+                <div class="form-group">
+                    <label for="editNextOfKinContact">Contact Number:</label>
+                    <input type="tel" id="editNextOfKinContact" name="nextOfKinContact" placeholder="Enter phone number" required>
+                </div>
+                <div class="form-group">
+                    <label for="editNextOfKinGender">Gender:</label>
+                    <select id="editNextOfKinGender" name="nextOfKinGender" required>
+                        <option value="">Select gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="editNextOfKinRelationship">Relationship:</label>
+                    <input type="text" id="editNextOfKinRelationship" name="nextOfKinRelationship" placeholder="Enter relationship" required>
+                </div>
+            </div>
 
-            <button type="submit">Update</button>
-            <button type="button" class="cancel" id="cancelEditItem">Cancel</button>
+            <div class="form-buttons">
+                <button type="submit">Update Patient</button>
+                <button type="button" class="cancel" id="cancelEditItem">Cancel</button>
+            </div>
         </form>
     </div>
 

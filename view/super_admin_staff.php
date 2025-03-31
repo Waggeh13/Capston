@@ -174,16 +174,16 @@
                 </table>
             </div>
         </div>
-        <!-- Add Staff Pop-up Form -->
-        <div class="overlay" id="overlay"></div>
+       <!-- Add Staff Pop-up Form -->
+       <div class="overlay" id="overlay"></div>
         <div class="popup-form" id="addItemForm">
             <h3>Add Staff</h3>
             <form id="addItem">
                 <!-- Staff Details -->
-                <input type="text" id="staffId" placeholder="Staff ID" required>
-                <input type="text" id="firstName" placeholder="First Name" required>
-                <input type="text" id="lastName" placeholder="Last Name" required>
-                <input type="text" id="position" placeholder="Position" required>
+                <input type="text" id="staffId" name="staffId" placeholder="Staff ID" required>
+                <input type="text" id="firstName" name="firstName" placeholder="First Name" required>
+                <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
+                <input type="text" id="position" name="position" placeholder="Position" required>
                 
                 <!-- Dropdown for Department -->
                 <label for="department">Department:</label>
@@ -195,8 +195,8 @@
                     <option value="surgical">Surgical</option>
                 </select>
 
-                <input type="tel" id="contact" placeholder="Contact Number" required>
-                <input type="email" id="email" placeholder="Email" required>
+                <input type="tel" id="contact" name="contact" placeholder="Contact Number" required>
+                <input type="email" id="email" name="email" placeholder="Email" required>
 
                 <button type="submit">Add</button>
                 <button type="button" class="cancel" id="cancelAddItem">Cancel</button>
@@ -208,14 +208,14 @@
             <h3>Edit Staff</h3>
             <form id="editItem">
                 <!-- Staff Details -->
-                <input type="hidden" id="editStaffId" placeholder="Staff ID" required>
-                <input type="text" id="editFirstName" placeholder="First Name" required>
-                <input type="text" id="editLastName" placeholder="Last Name" required>
-                <input type="text" id="editPosition" placeholder="Position" required>
+                <input type="hidden" id="editStaffId" name="staffId" placeholder="Staff ID" required>
+                <input type="text" id="editFirstName" name="firstName" placeholder="First Name" required>
+                <input type="text" id="editLastName" name="lastName" placeholder="Last Name" required>
+                <input type="text" id="editPosition" name="position" placeholder="Position" required>
                 
                 <!-- Dropdown for Department -->
                 <label for="editDepartment">Department:</label>
-                <select id="editDepartment" name="editDepartment" required>
+                <select id="editDepartment" name="department" required>
                     <option value="">Select a department</option>
                     <option value="administration">Administration</option>
                     <option value="pediatrics">Pediatrics</option>
@@ -223,13 +223,14 @@
                     <option value="surgical">Surgical</option>
                 </select>
 
-                <input type="tel" id="editContact" placeholder="Contact Number" required>
-                <input type="email" id="editEmail" placeholder="Email" required>
+                <input type="tel" id="editContact" name="contact" placeholder="Contact Number" required>
+                <input type="email" id="editEmail" name="email" placeholder="Email" required>
 
                 <button type="submit">Update</button>
                 <button type="button" class="cancel" id="cancelEditItem">Cancel</button>
             </form>
         </div>
+
     
     <script src="../js/add_edit.js"></script> 
 </body>

@@ -1,5 +1,5 @@
 <?php
-include("../controllers/admin_staff_controller.php");
+include("../controllers/staff_controller.php");
 
 $response = array("success" => false, "message" => "");
 

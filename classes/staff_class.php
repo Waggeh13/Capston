@@ -1,7 +1,7 @@
 <?php
 require_once("../settings/db_class.php");
 
-class admin_staff_class extends db_connection {
+class staff_class extends db_connection {
 
     // Add staff
     public function addstaff($staff_id, $first_name, $last_name, $gender, $position, $department_id,$contact,$email) {

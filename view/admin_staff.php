@@ -11,8 +11,8 @@
     <title>Staff</title>
 </head>
 <?php
-require('../controllers/admin_staff_controller.php');
-require('../controllers/admin_department_controller.php');
+require_once('../controllers/staff_controller.php');
+require_once('../controllers/department_controller.php');
 ?>
 <body>
     <div class="container">
@@ -103,29 +103,36 @@ require('../controllers/admin_department_controller.php');
                         <td>Action</td>
                     </thead>
                     <tbody>
-                            <?php
-                            $staffs = viewstaffsController();
-                            if (!empty($staffs)) {
-                                foreach ($staffs as $staff) {
-                                    echo "<tr>";
-                                    echo "<td>{$staff['staff_id']}</td>";
-                                    echo "<td>{$staff['first_name']}</td>";
-                                    echo "<td>{$staff['last_name']}</td>";
-                                    echo "<td>{$staff['position']}</td>";
-                                    echo "<td>{$staff['department_id']}</td>";
-                                    echo "<td>{$staff['Gender']}</td>";
-                                    echo "<td>{$staff['phone']}</td>";
-                                    echo "<td>{$staff['email']}</td>";
-                                    echo "<td>
-                                        <i data-staff-id='{$staff['staff_id']}' class='far fa-trash-alt deleteItemBtn'></i>
-                                        <i data-staff-id='{$staff['staff_id']}' class='far fa-edit editItemBtn'></i>
-                                    </td>";
-                                    echo "</tr>";
-                                }
-                            } else {
-                                echo "<tr><td colspan='3' class='text-center'>No staffs</td></tr>";
+                    <?php
+                    $staffs = viewstaffsController();
+                    $departments = viewdepartmentsController(); // Fetch all departments once
+                    $departmentMap = [];
+                    foreach ($departments as $dept) {
+                        $departmentMap[$dept['department_id']] = $dept['department_name']; // Fixed the assignment operator
+                        }
+                        if (!empty($staffs)) {
+                            foreach ($staffs as $staff) {
+                                echo "<tr>";
+                                echo "<td>{$staff['staff_id']}</td>";
+                                echo "<td>{$staff['first_name']}</td>";
+                                echo "<td>{$staff['last_name']}</td>";
+                                echo "<td>{$staff['position']}</td>";
+                                // Get department name from the map with a fallback
+                                $deptName = $departmentMap[$staff['department_id']] ?? 'N/A'; // Fixed array access
+                                echo "<td>{$deptName}</td>";
+                                echo "<td>{$staff['Gender']}</td>";
+                                echo "<td>{$staff['phone']}</td>";
+                                echo "<td>{$staff['email']}</td>";
+                                echo "<td>
+                                <i data-staff-id='{$staff['staff_id']}' class='far fa-trash-alt deleteItemBtn'></i>
+                                <i data-staff-id='{$staff['staff_id']}' class='far fa-edit editItemBtn'></i>
+                                </td>";
+                                echo "</tr>";
                             }
-                            ?>
+                        } else {
+                            echo "<tr><td colspan='9' class='text-center'>No staffs found</td></tr>";
+                        }
+                        ?>
                         </tbody>
                 </table>
             </div>
@@ -161,21 +168,21 @@ require('../controllers/admin_department_controller.php');
                     <label for="position">Position:</label>
                     <input type="text" id="position" name="position" placeholder="Enter position" required>
                 </div>
-
-<div class="form-group">
-    <label for="department">Department:</label>
-    <select id="department" name="department" required>
-        <option value="">Select a department</option>
-        <?php
-        $departments = viewdepartmentsController();
-        if (!empty($departments)) {
-            foreach ($departments as $department) {
-                echo "<option value='{$department['department_id']}'>{$department['department_name']}</option>";
-            }
-        }
-        ?>
-    </select>
-</div>
+                
+                <div class="form-group">
+                    <label for="department">Department:</label>
+                    <select id="department" name="department" required>
+                        <option value="">Select a department</option>
+                        <?php
+                        $departments = viewdepartmentsController();
+                        if (!empty($departments)) {
+                            foreach ($departments as $department) {
+                                echo "<option value='{$department['department_id']}'>{$department['department_name']}</option>";
+                            }
+                        }
+                        ?>
+                    </select>
+                </div>
 
 
                 <div class="form-group">
@@ -226,19 +233,19 @@ require('../controllers/admin_department_controller.php');
                 </div>
 
                 <div class="form-group">
-    <label for="editDepartment">Department:</label>
-    <select id="editDepartment" name="department" required>
-        <option value="">Select a department</option>
-        <?php
-        $departments = viewdepartmentsController();
-        if (!empty($departments)) {
-            foreach ($departments as $department) {
-                echo "<option value='{$department['department_id']}'>{$department['department_name']}</option>";
-            }
-        }
-        ?>
-    </select>
-</div>
+                    <label for="editDepartment">Department:</label>
+                    <select id="editDepartment" name="department" required>
+                        <option value="">Select a department</option>
+                        <?php
+                        $departments = viewdepartmentsController();
+                        if (!empty($departments)) {
+                            foreach ($departments as $department) {
+                                echo "<option value='{$department['department_id']}'>{$department['department_name']}</option>";
+                            }
+                        }
+                        ?>
+                    </select>
+                </div>
 
                 <div class="form-group">
                     <label for="editContact">Contact Number:</label>

@@ -21,7 +21,7 @@ editItemBtn.forEach(btn => {
         
         try {
             // Fetch department data
-            const response = await fetch('../actions/admin_view_department.php', {
+            const response = await fetch('../actions/view_department.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -77,7 +77,7 @@ document.getElementById('addItem').addEventListener('submit', (e) => {
     var form = document.getElementById("addItem");
     var formData = new FormData(form);
 
-    fetch("../actions/admin_add_department.php", {
+    fetch("../actions/add_department.php", {
         method: "POST",
         body: formData,
     })
@@ -111,7 +111,7 @@ document.getElementById('editItem').addEventListener('submit', (e) => {
     var formData = new FormData(form);
 
     // Send the data to the server using fetch
-    fetch("../actions/admin_update_department.php", {
+    fetch("../actions/update_department.php", {
         method: "POST",
         body: formData,
     })
@@ -126,7 +126,7 @@ document.getElementById('editItem').addEventListener('submit', (e) => {
     .then((data) => {
         if (data.success) {
             // Redirect on success
-            location.href = '../view/admin_department.php';
+            location.href = '../view/department.php';
         } else {
                 alert("Registration error:", data.message);
                 setTimeout(() => {
@@ -146,7 +146,7 @@ document.addEventListener('click', async (e) => {
         // Confirm before deleting
         if (confirm('Are you sure you want to delete this department record?')) {
             try {
-                const response = await fetch('../actions/admin_delete_department.php', {
+                const response = await fetch('../actions/delete_department.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',

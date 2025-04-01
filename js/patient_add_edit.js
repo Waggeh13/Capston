@@ -21,7 +21,7 @@ editItemBtn.forEach(btn => {
         
         try {
             // Fetch patient data
-            const response = await fetch('../actions/admin_view_patient.php', {
+            const response = await fetch('../actions/view_patient.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -87,7 +87,7 @@ document.getElementById('addItem').addEventListener('submit', (e) => {
     var form = document.getElementById("addItem");
     var formData = new FormData(form);
 
-    fetch("../actions/admin_add_patients.php", {
+    fetch("../actions/add_patients.php", {
         method: "POST",
         body: formData,
     })
@@ -121,7 +121,7 @@ document.getElementById('editItem').addEventListener('submit', (e) => {
     var formData = new FormData(form);
 
     // Send the data to the server using fetch
-    fetch("../actions/admin_update_patients.php", {
+    fetch("../actions/update_patients.php", {
         method: "POST",
         body: formData,
     })
@@ -136,7 +136,7 @@ document.getElementById('editItem').addEventListener('submit', (e) => {
     .then((data) => {
         if (data.success) {
             // Redirect on success
-            location.href = '../view/admin_patient.php';
+            location.href = '../view/patient.php';
         } else {
                 // Log error and reload page on server-side failure
                 alert("Registration error:", data.message);
@@ -159,7 +159,7 @@ document.addEventListener('click', async (e) => {
         // Confirm before deleting
         if (confirm('Are you sure you want to delete this patient record?')) {
             try {
-                const response = await fetch('../actions/admin_delete_patient.php', {
+                const response = await fetch('../actions/delete_patient.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',

@@ -10,6 +10,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>Staff</title>
 </head>
+<?php
+require_once('../controllers/staff_controller.php');
+require_once('../controllers/department_controller.php');
+?>
 <body>
     <div class="container">
         <div class="sidebar">
@@ -64,7 +68,7 @@
                 </li>
                 <li>
                     <a href="super_admin_setting.php">
-                        <i class="fas fa-cog"></i>
+                        <i class="fas fa-briefcase-medical"></i>
                         <div class="title">Settings</div>
                     </a>
                 </li>
@@ -94,112 +98,114 @@
                 </div>
                 <table class="available">
                     <thead>
-                        <td>Doctor ID</td>
+                        <td>Staff ID</td>
                         <td>First Name</td>
                         <td>Last Name</td>
                         <td>Position</td>
                         <td>Deparatment</td>
+                        <td>Gender</td>
                         <td>Contact</td>
                         <td>email</td>
                         <td>Action</td>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>6789506767</td>
-                            <td>Saloom</td>
-                            <td>Singhateh</td>
-                            <td>Doctor</td>
-                            <td>Gynocology</td>
-                            <td>3678945</td>
-                            <td>Salom@gmail.com</td>
-                            <td>
-                                <i class="far fa-edit editItemBtn"></i>
-                                <i class="far fa-trash-alt"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>6789506767</td>
-                            <td>Saloom</td>
-                            <td>Singhateh</td>
-                            <td>Lab Technician</td>
-                            <td>Gynocology</td>
-                            <td>3678945</td>
-                            <td>Salom@gmail.com</td>
-                            <td>
-                                <i class="far fa-edit editItemBtn"></i>
-                                <i class="far fa-trash-alt"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>6789506767</td>
-                            <td>Saloom</td>
-                            <td>Singhateh</td>
-                            <td>Doctor</td>
-                            <td>Gynocology</td>
-                            <td>3678945</td>
-                            <td>Salom@gmail.com</td>
-                            <td>
-                                <i class="far fa-edit editItemBtn"></i>
-                                <i class="far fa-trash-alt"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>6789506767</td>
-                            <td>Saloom</td>
-                            <td>Singhateh</td>
-                            <td>Pharmacist</td>
-                            <td>Gynocology</td>
-                            <td>3678945</td>
-                            <td>Salom@gmail.com</td>
-                            <td>
-                                <i class="far fa-edit editItemBtn"></i>
-                                <i class="far fa-trash-alt"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>6789506767</td>
-                            <td>Saloom</td>
-                            <td>Singhateh</td>
-                            <td>Doctor</td>
-                            <td>Gynocology</td>
-                            <td>3678945</td>
-                            <td>Salom@gmail.com</td>
-                            <td>
-                                <i class="far fa-edit editItemBtn"></i>
-                                <i class="far fa-trash-alt"></i>
-                            </td>
-                        </tr>
-                       
-                    </tbody>
+                    <?php
+                    $staffs = viewstaffsController();
+                    $departments = viewdepartmentsController(); // Fetch all departments once
+                    $departmentMap = [];
+                    foreach ($departments as $dept) {
+                        $departmentMap[$dept['department_id']] = $dept['department_name']; // Fixed the assignment operator
+                        }
+                        if (!empty($staffs)) {
+                            foreach ($staffs as $staff) {
+                                echo "<tr>";
+                                echo "<td>{$staff['staff_id']}</td>";
+                                echo "<td>{$staff['first_name']}</td>";
+                                echo "<td>{$staff['last_name']}</td>";
+                                echo "<td>{$staff['position']}</td>";
+                                // Get department name from the map with a fallback
+                                $deptName = $departmentMap[$staff['department_id']] ?? 'N/A'; // Fixed array access
+                                echo "<td>{$deptName}</td>";
+                                echo "<td>{$staff['Gender']}</td>";
+                                echo "<td>{$staff['phone']}</td>";
+                                echo "<td>{$staff['email']}</td>";
+                                echo "<td>
+                                <i data-staff-id='{$staff['staff_id']}' class='far fa-trash-alt deleteItemBtn'></i>
+                                <i data-staff-id='{$staff['staff_id']}' class='far fa-edit editItemBtn'></i>
+                                </td>";
+                                echo "</tr>";
+                            }
+                        } else {
+                            echo "<tr><td colspan='9' class='text-center'>No staffs found</td></tr>";
+                        }
+                        ?>
+                        </tbody>
                 </table>
             </div>
         </div>
-       <!-- Add Staff Pop-up Form -->
-       <div class="overlay" id="overlay"></div>
+        <!-- Add Staff Pop-up Form -->
+        <div class="overlay" id="overlay"></div>
         <div class="popup-form" id="addItemForm">
             <h3>Add Staff</h3>
             <form id="addItem">
                 <!-- Staff Details -->
-                <input type="text" id="staffId" name="staffId" placeholder="Staff ID" required>
-                <input type="text" id="firstName" name="firstName" placeholder="First Name" required>
-                <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
-                <input type="text" id="position" name="position" placeholder="Position" required>
+                <div class="form-group">
+                    <label for="staffId">Staff ID:</label>
+                    <input type="text" id="staffId" name="staffId" placeholder="Enter staff ID" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Full Name:</label>
+                    <div class="name-fields">
+                        <input type="text" id="firstName" name="firstName" placeholder="First Name" required>
+                        <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <select id="gender" name="gender" required>
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="position">Position:</label>
+                    <input type="text" id="position" name="position" placeholder="Enter position" required>
+                </div>
                 
-                <!-- Dropdown for Department -->
-                <label for="department">Department:</label>
-                <select id="department" name="department" required>
-                    <option value="">Select a department</option>
-                    <option value="administration">Administration</option>
-                    <option value="pediatrics">Pediatrics</option>
-                    <option value="gynaecology">Gynaecology</option>
-                    <option value="surgical">Surgical</option>
-                </select>
+                <div class="form-group">
+                    <label for="department">Department:</label>
+                    <select id="department" name="department" required>
+                        <option value="">Select a department</option>
+                        <?php
+                        $departments = viewdepartmentsController();
+                        if (!empty($departments)) {
+                            foreach ($departments as $department) {
+                                echo "<option value='{$department['department_id']}'>{$department['department_name']}</option>";
+                            }
+                        }
+                        ?>
+                    </select>
+                </div>
 
-                <input type="tel" id="contact" name="contact" placeholder="Contact Number" required>
-                <input type="email" id="email" name="email" placeholder="Email" required>
 
-                <button type="submit">Add</button>
-                <button type="button" class="cancel" id="cancelAddItem">Cancel</button>
+                <div class="form-group">
+                    <label for="contact">Contact Number:</label>
+                    <input type="tel" id="contact" name="contact" placeholder="Enter phone number" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" placeholder="Enter email address" required>
+                    <input type="hidden" id="default-password" name="default-password" value="Bafrrow@2025">
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit">Add Staff</button>
+                    <button type="button" class="cancel" id="cancelAddItem">Cancel</button>
+                </div>
             </form>
         </div>
 
@@ -208,30 +214,65 @@
             <h3>Edit Staff</h3>
             <form id="editItem">
                 <!-- Staff Details -->
-                <input type="hidden" id="editStaffId" name="staffId" placeholder="Staff ID" required>
-                <input type="text" id="editFirstName" name="firstName" placeholder="First Name" required>
-                <input type="text" id="editLastName" name="lastName" placeholder="Last Name" required>
-                <input type="text" id="editPosition" name="position" placeholder="Position" required>
-                
-                <!-- Dropdown for Department -->
-                <label for="editDepartment">Department:</label>
-                <select id="editDepartment" name="department" required>
-                    <option value="">Select a department</option>
-                    <option value="administration">Administration</option>
-                    <option value="pediatrics">Pediatrics</option>
-                    <option value="gynaecology">Gynaecology</option>
-                    <option value="surgical">Surgical</option>
+                <div class="form-group">
+                    <label for="editStaffId">Staff ID:</label>
+                    <input type="text" id="editStaffId" name="staffId" placeholder="Enter staff ID" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Full Name:</label>
+                    <div class="name-fields">
+                        <input type="text" id="editFirstName" name="firstName" placeholder="First Name" required>
+                        <input type="text" id="editLastName" name="lastName" placeholder="Last Name" required>
+                    </div>
+                </div>
+                <select id="editGender" name="gender" required>
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
                 </select>
 
-                <input type="tel" id="editContact" name="contact" placeholder="Contact Number" required>
-                <input type="email" id="editEmail" name="email" placeholder="Email" required>
+                <div class="form-group">
+                    <label for="editPosition">Position:</label>
+                    <input type="text" id="editPosition" name="position" placeholder="Enter position" required>
+                </div>
 
-                <button type="submit">Update</button>
-                <button type="button" class="cancel" id="cancelEditItem">Cancel</button>
+                <div class="form-group">
+                    <label for="editDepartment">Department:</label>
+                    <select id="editDepartment" name="department" required>
+                        <option value="">Select a department</option>
+                        <?php
+                        $departments = viewdepartmentsController();
+                        if (!empty($departments)) {
+                            foreach ($departments as $department) {
+                                echo "<option value='{$department['department_id']}'>{$department['department_name']}</option>";
+                            }
+                        }
+                        ?>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="editContact">Contact Number:</label>
+                    <input type="tel" id="editContact" name="contact" placeholder="Enter phone number" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="editEmail">Email:</label>
+                    <input type="email" id="editEmail" name="email" placeholder="Enter email address" required>
+                </div>
+
+                <input type="hidden" id="default-password" name="default-password">
+
+                <div class="form-buttons">
+                    <button type="submit">Update Staff</button>
+                    <button type="button" class="cancel" id="cancelEditItem">Cancel</button>
+                </div>
             </form>
         </div>
-
+        
     
-    <script src="../js/add_edit.js"></script> 
+    <script src="../js/staff_add_edit.js"></script>
 </body>
 </html>

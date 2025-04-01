@@ -11,7 +11,7 @@
     <title>Patients</title>
 </head>
 <?php
-require('../controllers/admin_patient_controller.php');
+require('../controllers/patient_controller.php');
 ?>
 
 <body>

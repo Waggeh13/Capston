@@ -1,7 +1,7 @@
 <?php
 require_once("../settings/db_class.php");
 
-class admin_patient_class extends db_connection {
+class patient_class extends db_connection {
 
     // Add Patient
     public function addPatient($patient_id, $first_name, $last_name, $dob, $gender, $weight, $address, $contact,$nextOfKin,$nextOfKinContact, $nextOfKinGender, $nextOfKinRelationship) {

@@ -10,11 +10,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>Appointments</title>
 </head>
+<?php
+require_once('../controllers/clinic_controller.php');
+?>
 <body>
     <div class="container">
         <div class="sidebar">
             <ul>
-            <li>
+                <li>
                     <a href="#">
                         <i class="fas fa-clinic-medical"></i>
                         <div class="title">BafrowCare</div>
@@ -64,7 +67,7 @@
                 </li>
                 <li>
                     <a href="super_admin_setting.php">
-                        <i class="fas fa-cog"></i>
+                        <i class="fas fa-briefcase-medical"></i>
                         <div class="title">Settings</div>
                     </a>
                 </li>
@@ -89,7 +92,7 @@
             </div>
             <div class="doctor-available">
                 <div class="heading">
-                    <h2>Appointments</h2>
+                    <h2>Patients</h2>
                     <a href="#" class="btn" id="addItemBtn">Add Appointment</a>
                 </div>
                 <table class="available">
@@ -214,12 +217,10 @@
                                 <i class="far fa-trash-alt"></i>
                             </td>
                         </tr>
-                       
                     </tbody>
                 </table>
             </div>
         </div>
-
         <!-- Add Appointment Pop-up Form -->
         <div class="overlay" id="overlay"></div>
         <div class="popup-form" id="addItemForm">
@@ -241,11 +242,16 @@
                 </div>
 
                 <label for="clinicName">Clinic Name:</label>
-                <select name="clinicName" required>
+                <select id="clinic" name="clinic_id" required>
                     <option value="">Select a clinic</option>
-                    <option value="clinic1">Pediatrics</option>
-                    <option value="clinic2">OB/GYN</option>
-                    <option value="clinic3">Surgical</option>
+                    <?php
+                    $clinics = viewclinicsController();
+                    if (!empty($clinics)) {
+                        foreach ($clinics as $clinic) {
+                            echo "<option value='{$clinic['clinic_id']}'>{$clinic['clinic_name']}</option>";
+                        }
+                    }
+                    ?>
                 </select>
 
                 <button type="submit">Add</button>
@@ -273,18 +279,23 @@
                 </div>
 
                 <label for="clinicName">Clinic Name:</label>
-                <select name="clinicName" required>
-                    <option value="">Select a clinic</option>
-                    <option value="clinic1">Pediatrics</option>
-                    <option value="clinic2">OB/GYN</option>
-                    <option value="clinic3">Surgical</option>
-                </select>
+                <select id="editclinic" name="clinic_id" required>
+                        <option value="">Select a clinic</option>
+                        <?php
+                        $clinics = viewclinicsController();
+                        if (!empty($clinics)) {
+                            foreach ($clinics as $clinic) {
+                                echo "<option value='{$clinic['clinic_id']}'>{$clinic['clinic_name']}</option>";
+                            }
+                        }
+                        ?>
+                    </select>
 
                 <button type="submit">Update</button>
                 <button type="button" class="cancel" id="cancelEditItem">Cancel</button>
             </form>
         </div>
-        <script src="../js/add_edit.js"></script> 
+        <script src="../js/appointment_add_edit.js"></script>
 
         <script>
             document.querySelectorAll('.status-dropdown').forEach(select => {
@@ -297,7 +308,7 @@
                         "cancelled": "red",
                         "no-show": "gray",
                         "rescheduled": "purple"
-                    }[dropdown.value] || "black"; // Default to black
+                    }[dropdown.value] || "black"; 
             
                     dropdown.style.color = color;
                 }
@@ -310,6 +321,7 @@
                     updateColor(this);
                 });
             });
+
         </script>
     
 </body>

@@ -1,7 +1,7 @@
 <?php
 require_once("../settings/db_class.php");
 
-class admin_department_class extends db_connection {
+class department_class extends db_connection {
 
     // Add department
     public function adddepartment($department_id, $departmentName) {

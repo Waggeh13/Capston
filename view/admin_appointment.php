@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>Appointments</title>
 </head>
+<?php
+require_once('../controllers/clinic_controller.php');
+?>
 <body>
     <div class="container">
         <div class="sidebar">
@@ -208,7 +211,6 @@
                                 <i class="far fa-trash-alt"></i>
                             </td>
                         </tr>
-                       
                     </tbody>
                 </table>
             </div>
@@ -234,11 +236,16 @@
                 </div>
 
                 <label for="clinicName">Clinic Name:</label>
-                <select name="clinicName" required>
+                <select id="clinic" name="clinic_id" required>
                     <option value="">Select a clinic</option>
-                    <option value="clinic1">Pediatrics</option>
-                    <option value="clinic2">OB/GYN</option>
-                    <option value="clinic3">Surgical</option>
+                    <?php
+                    $clinics = viewclinicsController();
+                    if (!empty($clinics)) {
+                        foreach ($clinics as $clinic) {
+                            echo "<option value='{$clinic['clinic_id']}'>{$clinic['clinic_name']}</option>";
+                        }
+                    }
+                    ?>
                 </select>
 
                 <button type="submit">Add</button>
@@ -266,18 +273,23 @@
                 </div>
 
                 <label for="clinicName">Clinic Name:</label>
-                <select name="clinicName" required>
-                    <option value="">Select a clinic</option>
-                    <option value="clinic1">Pediatrics</option>
-                    <option value="clinic2">OB/GYN</option>
-                    <option value="clinic3">Surgical</option>
-                </select>
+                <select id="editclinic" name="clinic_id" required>
+                        <option value="">Select a clinic</option>
+                        <?php
+                        $clinics = viewclinicsController();
+                        if (!empty($clinics)) {
+                            foreach ($clinics as $clinic) {
+                                echo "<option value='{$clinic['clinic_id']}'>{$clinic['clinic_name']}</option>";
+                            }
+                        }
+                        ?>
+                    </select>
 
                 <button type="submit">Update</button>
                 <button type="button" class="cancel" id="cancelEditItem">Cancel</button>
             </form>
         </div>
-        <script src="../js/add_edit.js"></script> 
+        <script src="../js/appointment_add_edit.js"></script>
 
         <script>
             document.querySelectorAll('.status-dropdown').forEach(select => {

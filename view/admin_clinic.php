@@ -10,6 +10,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>Clinics</title>
 </head>
+<?php
+require_once('../controllers/clinic_controller.php');
+require_once('../controllers/department_controller.php');
+?>
 <body>
     <div class="container">
         <div class="sidebar">
@@ -89,60 +93,38 @@
                 <table class="available">
                     <thead>
                         <td>Clinic ID</td>
-                        <td>Department Name</td>
                         <td>Clinic Name</td>
+                        <td> Department Name</td>
                         <td>Action</td>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>39485595810</td>
-                            <td>OB/GYN</td>
-                            <td>Antenatal</td>
-                            <td>
-                                <i class="far fa-edit editItemBtn"></i>
-                                <i class="far fa-trash-alt"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>39485595810</td>
-                            <td>OB/GYN</td>
-                            <td>Antenatal</td>
-                            <td>
-                                <i class="far fa-edit editItemBtn"></i>
-                                <i class="far fa-trash-alt"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>39485595810</td>
-                            <td>OB/GYN</td>
-                            <td>Antenatal</td>
-                            <td>
-                                <i class="far fa-edit editItemBtn"></i>
-                                <i class="far fa-trash-alt"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>39485595810</td>
-                            <td>OB/GYN</td>
-                            <td>Antenatal</td>
-                            <td>
-                                <i class="far fa-edit editItemBtn"></i>
-                                <i class="far fa-trash-alt"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>39485595810</td>
-                            <td>OB/GYN</td>
-                            <td>Antenatal</td>
-                            <td>
-                                <i class="far fa-edit editItemBtn"></i>
-                                <i class="far fa-trash-alt"></i>
-                            </td>
-                        </tr>
-                       
-                    </tbody>
-                </table>
-            </div>
+                        <!-- Data will be fetched from the database -->
+                        <?php
+                            $clinics = viewclinicsController();
+                            $departments = viewdepartmentsController();
+                            foreach ($departments as $dept) {
+                                $departmentMap[$dept['department_id']] = $dept['department_name']; // Fixed the assignment operator
+                                }
+                                if (!empty($clinics)) {
+                                    foreach ($clinics as $clinic) {
+                                        echo "<tr>";
+                                        echo "<td>{$clinic['clinic_id']}</td>";
+                                        echo "<td>{$clinic['clinic_name']}</td>";
+                                        $deptName = $departmentMap[$clinic['department_id']] ?? 'N/A';
+                                        echo "<td>{$deptName}</td>";
+                                        echo "<td>
+                                            <i data-clinic-id='{$clinic['clinic_id']}' class='far fa-trash-alt deleteItemBtn'></i>
+                                            <i data-clinic-id='{$clinic['clinic_id']}' class='far fa-edit editItemBtn'></i>
+                                        </td>";
+                                        echo "</tr>";
+                                    }
+                                } else {
+                                    echo "<tr><td colspan='3' class='text-center'>No clinics</td></tr>";
+                                }
+                                ?>
+                                </tbody>
+                            </table>
+                        </div>
         </div>
 
         <!-- Add Item Pop-up Form -->
@@ -150,18 +132,22 @@
         <div class="popup-form" id="addItemForm">
             <h3>Add Clinic</h3>
             <form id="addItem">
-                <input type="text" id="itemName" placeholder="Enter clinic ID" required>
-                <input type="text" id="itemDescription" placeholder="Enter clinic name" required>
+                <input type="text" id="clinicID" name="clinicID" placeholder="Enter clinic ID" required>
+                <input type="text" id="clinicName" name="clinicName" placeholder="Enter clinic name" required>
                 
                 <!-- Dropdown for Category -->
-                <label for="itemCategory">Departments:</label>
-                <select id="itemCategory" name="itemCategory" required>
+                <label for="department">Department:</label>
+                <select id="department" name="department_id" required>
                     <option value="">Select a department</option>
-                    <option value="category1">Pedeatrics</option>
-                    <option value="category2">OB/GYN</option>
-                    <option value="category3">Surgical</option>
+                    <?php
+                    $departments = viewdepartmentsController();
+                    if (!empty($departments)) {
+                        foreach ($departments as $department) {
+                            echo "<option value='{$department['department_id']}'>{$department['department_name']}</option>";
+                        }
+                    }
+                    ?>
                 </select>
-
                 <button type="submit">Add</button>
                 <button type="button" class="cancel" id="cancelAddItem">Cancel</button>
             </form>
@@ -171,22 +157,27 @@
         <div class="popup-form" id="editItemForm">
             <h3>Edit Clinic</h3>
             <form id="editItem">
-                <input type="text" id="editItemName" placeholder="Edit clinic ID" required>
-                <input type="text" id="editItemDescription" placeholder="Edit clinic name" required>
+                <input type="hidden" id="editClinicID" name="clinicId">
+                <input type="text" id="editClinicName" name="clinicName" placeholder="Edit clinic name" required>
                 
                 <!-- Dropdown for Category -->
-                <label for="editItemCategory">Departments:</label>
-                <select id="editItemCategory" name="editItemCategory" required>
-                    <option value="">Select a department</option>
-                    <option value="category1">Pedeatrics</option>
-                    <option value="category2">OB/GYN</option>
-                    <option value="category3">Surgical</option>
-                </select>
+                <label for="editDepartment">Department:</label>
+                    <select id="editDepartment" name="department_id" required>
+                        <option value="">Select a department</option>
+                        <?php
+                        $departments = viewdepartmentsController();
+                        if (!empty($departments)) {
+                            foreach ($departments as $department) {
+                                echo "<option value='{$department['department_id']}'>{$department['department_name']}</option>";
+                            }
+                        }
+                        ?>
+                    </select>
 
                 <button type="submit">Update</button>
                 <button type="button" class="cancel" id="cancelEditItem">Cancel</button>
             </form>
         </div>
-        <script src="../js/add_edit.js"></script> 
+        <script src="../js/clinic_add_edit.js"></script>
     </body>
 </html>

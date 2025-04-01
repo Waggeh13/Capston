@@ -11,7 +11,7 @@
     <title>Departments</title>
 </head>
 <?php
-require('../controllers/admin_department_controller.php');
+require('../controllers/department_controller.php');
 ?>
 <body>
     <div class="container">
@@ -44,7 +44,7 @@ require('../controllers/admin_department_controller.php');
                 <li>
                     <a href="admin_patient.php">
                         <i class="fas fa-user"></i>
-                        <div class="title">departments</div>
+                        <div class="title">Patients</div>
                     </a>
                 </li>
                 <li>
@@ -136,7 +136,7 @@ require('../controllers/admin_department_controller.php');
             <h3>Edit Department</h3>
             <form id="editItem">
                 <!-- Department Details -->
-                <input type="text" id="editDepartmentId" name="departmentId" placeholder="Department ID" required>
+                <input type="hidden" id="editDepartmentId" name="departmentId">
                 <input type="text" id="editDepartmentName" name="departmentName" placeholder="Department Name" required>
 
                 <button type="submit">Update</button>

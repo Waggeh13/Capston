@@ -1,13 +1,13 @@
 <?php
-include("../controllers/admin_department_controller.php");
+include("../controllers/super_admin_clinic_controller.php");
 
 $response = array("success" => false, "message" => "");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $departmentId = sanitize_input($_POST['departmentId']);
+    $clinicId = sanitize_input($_POST['clinicID']);
 
     // Check if ID already exists
-    if (department_exists_ctr($departmentId)) {
+    if (clinic_exists_ctr($clinicId)) {
         $response = [
             "success" => false,
             "message" => "ID already registered. Please Verify."
@@ -16,17 +16,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
-    $departmentName = sanitize_input($_POST['departmentName']);
+    $clinicName = sanitize_input($_POST['clinicName']);
+    $clinicdepartment = sanitize_input($_POST['department_id']);
 
 
-    $result = adddepartmentController($departmentId, $departmentName);
+    $result = addclinicController($clinicId, $clinicName, $clinicdepartment);
     
     if ($result) {
         $response["success"] = true;
-        $response["message"] = "Department registered successfully.";
+        $response["message"] = "Clinic registered successfully.";
     } else {
         $response["success"] = false;
-        $response["message"] = "Error: Unable to register department. Please try again.";
+        $response["message"] = "Error: Unable to register clinic. Please try again.";
     }
 } else {
     $response["message"] = "Invalid request method.";

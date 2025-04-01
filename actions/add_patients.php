@@ -1,5 +1,5 @@
 <?php
-include("../controllers/admin_patient_controller.php");
+include("../controllers/patient_controller.php");
 
 $response = array("success" => false, "message" => "");
 

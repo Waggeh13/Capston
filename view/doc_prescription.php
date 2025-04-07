@@ -107,7 +107,10 @@
                     <label>Patient Full Name</label>
                     <input type="text" name="pFullName" placeholder="Enter patient full name" required>
                 </div>
-                
+                <div class="input-box">
+                    <label>Date of Prescription</label>
+                    <input type="date" name="date" placeholder="Enter prescription date" required>
+                </div>
                 <!-- Medication Container - will hold all medication entries -->
                 <div id="medicationsContainer">
                     <!-- First medication entry (default) -->

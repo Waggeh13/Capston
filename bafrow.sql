@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 07, 2025 at 05:30 PM
+-- Generation Time: Apr 07, 2025 at 09:22 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -142,10 +142,10 @@ CREATE TABLE `prescription_table` (
   `patient_id` varchar(50) DEFAULT NULL,
   `staff_id` varchar(50) DEFAULT NULL,
   `medication` text DEFAULT NULL,
-  `dosage` text DEFAULT NULL,
-  `status` enum('Pending','Dispensed','Cancelled') DEFAULT NULL,
-  `price` decimal(10,2) DEFAULT NULL,
-  `quantity` int(11) DEFAULT NULL
+  `dosage` longtext DEFAULT NULL,
+  `instructions` longtext NOT NULL,
+  `medication_date` date NOT NULL,
+  `status` enum('Pending','Dispensed','Cancelled') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -276,7 +276,8 @@ ALTER TABLE `lab_table`
 -- Indexes for table `patient_table`
 --
 ALTER TABLE `patient_table`
-  ADD PRIMARY KEY (`patient_id`);
+  ADD PRIMARY KEY (`patient_id`),
+  ADD KEY `idx_patient_name` (`first_name`,`last_name`);
 
 --
 -- Indexes for table `prescription_table`
@@ -300,7 +301,8 @@ ALTER TABLE `receipt_table`
 --
 ALTER TABLE `staff_table`
   ADD PRIMARY KEY (`staff_id`),
-  ADD KEY `department_id` (`department_id`);
+  ADD KEY `department_id` (`department_id`),
+  ADD KEY `idx_staff_name` (`first_name`,`last_name`);
 
 --
 -- Indexes for table `telemedicine_table`

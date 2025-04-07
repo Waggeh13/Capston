@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 31, 2025 at 01:26 AM
+-- Generation Time: Apr 07, 2025 at 05:30 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -59,8 +59,16 @@ CREATE TABLE `booking_table` (
 
 CREATE TABLE `clinic_table` (
   `clinic_id` int(11) NOT NULL,
+  `clinic_name` varchar(50) NOT NULL,
   `department_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `clinic_table`
+--
+
+INSERT INTO `clinic_table` (`clinic_id`, `clinic_name`, `department_id`) VALUES
+(935953, 'hahajhs', 756545);
 
 -- --------------------------------------------------------
 
@@ -72,6 +80,13 @@ CREATE TABLE `department_table` (
   `department_id` int(11) NOT NULL,
   `department_name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `department_table`
+--
+
+INSERT INTO `department_table` (`department_id`, `department_name`) VALUES
+(756545, 'Computer science');
 
 -- --------------------------------------------------------
 
@@ -113,7 +128,8 @@ CREATE TABLE `patient_table` (
 --
 
 INSERT INTO `patient_table` (`patient_id`, `first_name`, `last_name`, `DOB`, `Gender`, `weight`, `address`, `contact`, `nextofkinname`, `nextofkincontact`, `nextofkingender`, `nextofkinrelationship`) VALUES
-('88888888', 'Kwame', 'emerole', '2025-03-07', 'Male', 50.00, 'Bort 36', '0551718945', 'kwaku', '0551718945', 'Female', 'brother');
+('88888888', 'Fatou', 'Waggeh', '2025-04-03', 'Male', 89.00, 'hgkjd', '0551718945', 'kwaku', '0551718945', 'Male', 'brother'),
+('967589', 'Kwame', 'emerole', '2025-04-03', 'Male', 50.00, 'Bort 36', '0551718945', 'kwaku', '0551718945', 'Female', 'brother');
 
 -- --------------------------------------------------------
 
@@ -164,6 +180,15 @@ CREATE TABLE `staff_table` (
   `position` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `staff_table`
+--
+
+INSERT INTO `staff_table` (`staff_id`, `first_name`, `last_name`, `Gender`, `department_id`, `phone`, `email`, `position`) VALUES
+('238983009', 'Fatou', 'Waggeh', 'Female', 756545, '0551718945', 'ktprodu@ashesi.edu.gh', 'Staff'),
+('62374', 'Kwame', 'Waggeh', 'Female', NULL, '0551718945', 'mntawiah@gmail.com', 'Staff'),
+('62374434', 'Kwame', 'emerole', 'Female', 756545, '0551718945', 'mntawiah@gmail.com', 'Staff');
+
 -- --------------------------------------------------------
 
 --
@@ -200,7 +225,11 @@ CREATE TABLE `user_table` (
 --
 
 INSERT INTO `user_table` (`user_id`, `password`, `role`) VALUES
-('88888888', '$2y$10$4tDc5kAcSTIoMXZsWivoie1x5NVWimimyZnPLTSQmEBGk2UmrcdJa', 'Patient');
+('238983009', '$2y$10$o6EDE7J18uvRUKTrh3kzReFGi1eW0UFZCC7c7XTm5xQZFDpaGdBQ6', 'staff'),
+('62374', '$2y$10$dmwwQvujqkrSyb46BLgXAOi9FHRxPbozXFkcUV8F9glnysfhwPyL2', 'staff'),
+('62374434', '$2y$10$tH3AMK4whtrQ.Y7h7/RuYO1yYeSXIwSNjoWfcbcrUcqNhei1aKcRy', 'staff'),
+('88888888', '$2y$10$3oqfAKngFH/6i3eyGoEtv.kMNGb4BDpSrei2pdaVatBzI.ajj3LFi', 'Patient'),
+('967589', '$2y$10$GUxoAMk6H38nY53ycKjP4.91uqueHBUP4WUBxe4BJOqLk2jJCBxRm', 'Patient');
 
 --
 -- Indexes for dumped tables
@@ -305,13 +334,13 @@ ALTER TABLE `booking_table`
 -- AUTO_INCREMENT for table `clinic_table`
 --
 ALTER TABLE `clinic_table`
-  MODIFY `clinic_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `clinic_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7584938;
 
 --
 -- AUTO_INCREMENT for table `department_table`
 --
 ALTER TABLE `department_table`
-  MODIFY `department_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `department_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=756546;
 
 --
 -- AUTO_INCREMENT for table `lab_table`
@@ -387,7 +416,8 @@ ALTER TABLE `receipt_table`
 -- Constraints for table `staff_table`
 --
 ALTER TABLE `staff_table`
-  ADD CONSTRAINT `staff_table_ibfk_1` FOREIGN KEY (`department_id`) REFERENCES `department_table` (`department_id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `staff_table_ibfk_1` FOREIGN KEY (`department_id`) REFERENCES `department_table` (`department_id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `staff_table_ibfk_2` FOREIGN KEY (`staff_id`) REFERENCES `user_table` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `telemedicine_table`

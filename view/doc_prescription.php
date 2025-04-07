@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../css/lab_request.css">
     <link rel="stylesheet" href="../css/lab_container.css">
     <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/prescription.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>Lab Test</title>
 </head>
@@ -97,26 +98,46 @@
                 <h2>Prescription Form</h2>
             </div>
             <div class="lab-container">
-                <form action="#" class="form">
-                    <div class="input-box">
-                        <label>Doctor Full Name</label>
-                        <input type="text" name="dFullName" placeholder="Enter doctor full name" required>
+            <form action="#" class="form" id="prescriptionForm">
+                <div class="input-box">
+                    <label>Doctor Full Name</label>
+                    <input type="text" name="dFullName" placeholder="Enter doctor full name" required>
+                </div>
+                <div class="input-box">
+                    <label>Patient Full Name</label>
+                    <input type="text" name="pFullName" placeholder="Enter patient full name" required>
+                </div>
+                
+                <!-- Medication Container - will hold all medication entries -->
+                <div id="medicationsContainer">
+                    <!-- First medication entry (default) -->
+                    <div class="medication-entry">
+                        <div class="input-row">
+                            <div class="input-box">
+                                <label>Medicine Name</label>
+                                <input type="text" name="medicines[]" placeholder="Enter medication name" required>
+                            </div>
+                            <div class="input-box">
+                                <label>Dosage</label>
+                                <input type="text" name="dosages[]" placeholder="e.g., 500mg, 1 tablet" required>
+                            </div>
+                        </div>
+                        <div class="input-box">
+                            <label>Instructions</label>
+                            <textarea name="instructions[]" rows="3" placeholder="Enter instructions (frequency, duration, etc.)" required></textarea>
+                        </div>
                     </div>
-                    <div class="input-box">
-                        <label>Patient Full Name</label>
-                        <input type="text" name="pFullName" placeholder="Enter patient full name" required>
-                    </div>     
-                    <div class="input-box">
-                        <label>Medicine</label>
-                        <textarea id="instructions" id="medicine" name="medicine" rows="5" placeholder="Enter medications and dosage here..."></textarea>
-                    </div>
-                    <div class="input-box">
-                        <label>Instructions</label>
-                        <textarea id="instructions" id="instructions" name="instructions" rows="5" placeholder="Enter detailed instructions here..."></textarea>
-                    </div>
-                    <button  class="request-btn">Submit Prescription</button>
-                </form>
-            </div>
+                </div>
+                
+                <!-- Button to add more medications -->
+                <button type="button" id="addMedicationBtn" class="add-btn">
+                    <i class="fas fa-plus"></i> Add Another Medication
+                </button>
+                
+                <button type="submit" class="request-btn">Submit Prescription</button>
+            </form>
         </div>
+    </div>
+    <script src="../js/prescription.js"></script>
 </body>
 </html>

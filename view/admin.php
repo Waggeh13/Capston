@@ -64,7 +64,7 @@
                 </li>
                 <li>
                     <a href="super_admin_setting.php">
-                        <i class="fas fa-briefcase-medical"></i>
+                        <i class="fas fa-cog"></i>
                         <div class="title">Settings</div>
                     </a>
                 </li>

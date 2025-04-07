@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Virtual Consultation</title>
-    <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/data.css">
     <link rel="stylesheet" href="../css/sidebar.css">
     <link rel="stylesheet" href="../css/telemedicine.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/sidebarx.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
@@ -22,55 +23,37 @@
                     </a>
                 </li>
                 <li>
-                    <a href="doctor_dashboard.php">
+                    <a href="patient_dashboard.php">
                         <i class="fas fa-th-large"></i>
                         <div class="title">Dashboard</div>
                     </a>
                 </li>
                 <li>
-                    <a href="doc_appointment.php">
-                        <i class="fas fa-stethoscope"></i>
+                    <a href="patient_appointments.php">
+                        <i class="fas fa-calendar-check"></i>
                         <div class="title">Appointments</div>
                     </a>
                 </li>
                 <li>
-                    <a href="doc_schedule.php">
-                        <i class="fas fa-calendar-alt"></i>
-                        <div class="title">Schedule</div>
-                    </a>
-                </li>
-                <li>
-                    <a href="doc_lab.php">
-                        <i class="fas fa-vial"></i>
-                        <div class="title">Lab Test</div>
-                    </a>
-                </li>
-                <li>
-                    <a href="doc_prescription.php">
+                    <a href="patient_prescriptions.php">
                         <i class="fas fa-prescription-bottle-alt"></i>
-                        <div class="title">Prescription</div>
+                        <div class="title">Prescriptions</div>
                     </a>
                 </li>
                 <li>
-                    <a href="doc_telemedicine.php" class="active">
+                    <a href="patient_telemedicine.php">
                         <i class="fas fa-video"></i>
-                        <div class="title">Virtual Consultation</div>
+                        <div class="title">Virtual consultation</div>
                     </a>
                 </li>
                 <li>
-                    <a href="doc_message.php">
+                    <a href="patient_messages.php">
                         <i class="fas fa-envelope"></i>
                         <div class="title">Messages</div>
                     </a>
                 </li>
                 <li>
-                    <a href="request.php">
-                        <i class="fas fa-file-medical"></i>
-                        <div class="title">Report Request</div>
-                    </a>
-                </li>
-                <li>
-                    <a href="doc_setting.php">
+                    <a href="patient_setting.php">
                         <i class="fas fa-cog"></i>
                         <div class="title">Settings</div>
                     </a>
@@ -102,7 +85,7 @@
             <div class="telemedicine-container">
                 <div class="consultation-header">
                     <h1><i class="fas fa-video"></i> Virtual Consultation</h1>
-                    <p>Connect with your patients through secure video consultations</p>
+                    <p>Connect with your doctor through secure video consultations</p>
                 </div>
 
                 <!-- Upcoming Consultations -->
@@ -116,7 +99,7 @@
                                     <i class="fas fa-user"></i>
                                 </div>
                                 <div>
-                                    <h3>John Doe</h3>
+                                    <h3>Dr Doe</h3>
                                     <p>ID: PT12345 | Today, 10:30 AM</p>
                                 </div>
                             </div>
@@ -137,7 +120,7 @@
                                     <i class="fas fa-user"></i>
                                 </div>
                                 <div>
-                                    <h3>Amina Ceesay</h3>
+                                    <h3>Dr Ceesay</h3>
                                     <p>ID: PT12346 | Tomorrow, 02:15 PM</p>
                                 </div>
                             </div>
@@ -182,12 +165,12 @@
                     <h2>Schedule New Consultation</h2>
                     <form class="consultation-form">
                         <div class="form-group">
-                            <label for="patientSelect">Select Patient</label>
+                            <label for="patientSelect">Select Doctor</label>
                             <select id="patientSelect" name="patientSelect" required>
                                 <option value="">-- Select Patient --</option>
-                                <option value="PT12345">John Doe (PT12345)</option>
-                                <option value="PT12346">Amina Ceesay (PT12346)</option>
-                                <option value="PT12347">Michael Brown (PT12347)</option>
+                                <option value="PT12345">Dr Badji</option>
+                                <option value="PT12346">Dr Ceesay</option>
+                                <option value="PT12347">Dr Brown</option>
                             </select>
                         </div>
                         <div class="form-group">

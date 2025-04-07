@@ -61,7 +61,7 @@ require_once('../controllers/clinic_controller.php');
                 </li>
                 <li>
                     <a href="admin_setting.php">
-                        <i class="fas fa-briefcase-medical"></i>
+                        <i class="fas fa-cog"></i>
                         <div class="title">Settings</div>
                     </a>
                 </li>

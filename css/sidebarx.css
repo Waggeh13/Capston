@@ -1,0 +1,21 @@
+.sidebar ul li a {
+    width: 100%;
+    text-decoration: none;
+    color: #fff;
+    height: 70px;
+    display: flex;
+    align-items: center;
+}
+
+/* Mobile Toggle Styles */
+.menu-toggle {
+    display: none;
+    cursor: pointer;
+    font-size: 25px;
+    color: #0054A6;
+    padding: 10px;
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    z-index: 3;
+}

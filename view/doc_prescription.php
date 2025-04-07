@@ -100,48 +100,19 @@
                 <form action="#" class="form">
                     <div class="input-box">
                         <label>Doctor Full Name</label>
-                        <input type="text" placeholder="Enter doctor full name" required>
+                        <input type="text" name="dFullName" placeholder="Enter doctor full name" required>
                     </div>
                     <div class="input-box">
                         <label>Patient Full Name</label>
-                        <input type="text" placeholder="Enter patient full name" required>
-                    </div>
-                    <div class="gender-box">
-                        <h3>Gender</h3>
-                        <div class="gender-option">
-                            <div class="gender">
-                                <input type="radio" name="gender">
-                                <label>Male</label>
-                            </div>
-                            <div class="gender">
-                                <input type="radio" name="gender">
-                                <label>Female</label>
-                            </div>
-                        </div>
+                        <input type="text" name="pFullName" placeholder="Enter patient full name" required>
+                    </div>     
+                    <div class="input-box">
+                        <label>Medicine</label>
+                        <textarea id="instructions" id="medicine" name="medicine" rows="5" placeholder="Enter medications and dosage here..."></textarea>
                     </div>
                     <div class="input-box">
-                        <label>Patient D.O.B</label>
-                        <input type="date" placeholder="Enter birth date" required>
-                    </div>
-                    <div class="input-box">
-                        <label>Patient Weight</label>
-                        <input type="number" placeholder="Enter patient weight in kg" required>
-                    </div>
-                    <div class="input-box">
-                        <label>Patient Address</label>
-                        <input type="text" placeholder="Enter patient address" required>
-                    </div>
-                    <div class="input-box">
-                        <label>Dosage</label>
-                        <textarea id="instructions" name="instructions" rows="5" placeholder="Enter medications here..."></textarea>
-                    </div>
-                    <div class="input-box">
-                        <label>Dosage</label>
-                        <textarea id="instructions" name="instructions" rows="5" placeholder="Enter detailed instructions here..."></textarea>
-                    </div>
-                    <div class="input-box">
-                        <label>Price</label>
-                        <input type="number" placeholder="Enter total medication price" required>
+                        <label>Instructions</label>
+                        <textarea id="instructions" id="instructions" name="instructions" rows="5" placeholder="Enter detailed instructions here..."></textarea>
                     </div>
                     <button  class="request-btn">Submit Prescription</button>
                 </form>

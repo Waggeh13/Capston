@@ -1,5 +1,3 @@
-
-
 /* Modal styles */
 .modal {
     display: none;
@@ -341,19 +339,59 @@
     background-color: #2980b9;
 }
 
-/* Results form styles */
-.results-form table {
+ /* Results Table Styles */
+ .results-table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px;
+    margin-top: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.results-form th, .results-form td {
-    border: 1px solid #ddd;
-    padding: 8px;
+.results-table th {
+    background-color: #0054A6;
+    color: white;
+    padding: 12px;
     text-align: left;
+    font-weight: 500;
 }
 
-.results-form th {
-    background-color: #f2f2f2;
+.results-table td {
+    padding: 12px;
+    border-bottom: 1px solid #e0e0e0;
+    background-color: white;
+}
+
+.results-table tr:hover td {
+    background-color: #70d8f5;
+}
+
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    display: inline-block;
+    text-align: center;
+    min-width: 80px;
+}
+
+/* Status Badges */
+.status-completed {
+    background: #e6f7ee;
+    color: #006633;
+    border: 1px solid #00cc66;
+}
+
+.status-pending {
+    background: #fff8e6;
+    color: #cc7a00;
+    border: 1px solid #ffcc00;
+}
+
+/* Table Container */
+.table-container {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }

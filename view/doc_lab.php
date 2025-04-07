@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/sidebar.css">
     <link rel="stylesheet" href="../css/lab.css">
+    <link rel="stylesheet" href="../css/lab_title.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>Lab Test</title>
 </head>
@@ -95,53 +96,58 @@
             
             <!-- Lab Content Section -->
             <div class="lab-content">
-                <div class="section-title">
-                    <h2>Lab Results</h2>
-                    <button class="new-request-btn" id="newRequestBtn">+ New Lab Request</button>
+                <div class="lab-results-header">
+                    <div class="header-content">
+                        <h2 class="section-title">Lab Test</h2>
+                        <button class="new-request-btn" id="newRequestBtn">
+                            <i class="fas fa-plus"></i> New Lab Request
+                        </button>
+                    </div>
                 </div>
                 
-                <table class="results-table">
-                    <thead>
-                        <tr>
-                            <th>Patient ID</th>
-                            <th>Patient Name</th>
-                            <th>Test Type</th>
-                            <th>Request Date</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="result-item" data-id="1">
-                            <td>PAT001</td>
-                            <td>John Doe</td>
-                            <td>Full Blood Count & DIFF</td>
-                            <td>2023-10-15</td>
-                            <td class="status-completed">Completed</td>
-                        </tr>
-                        <tr class="result-item" data-id="2">
-                            <td>PAT002</td>
-                            <td>Jane Smith</td>
-                            <td>Haemoglobin, Blood Group</td>
-                            <td>2023-10-16</td>
-                            <td class="status-completed">Completed</td>
-                        </tr>
-                        <tr class="result-item" data-id="3">
-                            <td>PAT003</td>
-                            <td>Michael Johnson</td>
-                            <td>Sickle Test, Hb genotype</td>
-                            <td>2023-10-17</td>
-                            <td class="status-pending">Pending</td>
-                        </tr>
-                        <tr class="result-item" data-id="4">
-                            <td>PAT004</td>
-                            <td>Sarah Williams</td>
-                            <td>PT, aPTT, INR</td>
-                            <td>2023-10-18</td>
-                            <td class="status-completed">Completed</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                <div class="table-container">
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th>Patient ID</th>
+                                <th>Patient Name</th>
+                                <th>Test Type</th>
+                                <th>Request Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="result-item" data-id="1">
+                                <td>PAT001</td>
+                                <td>John Doe</td>
+                                <td>Full Blood Count & DIFF</td>
+                                <td>2023-10-15</td>
+                                <td><span class="status-badge status-completed">Completed</span></td>
+                            </tr>
+                            <tr class="result-item" data-id="2">
+                                <td>PAT002</td>
+                                <td>Jane Smith</td>
+                                <td>Haemoglobin, Blood Group</td>
+                                <td>2023-10-16</td>
+                                <td><span class="status-badge status-completed">Completed</span></td>
+                            </tr>
+                            <tr class="result-item" data-id="3">
+                                <td>PAT003</td>
+                                <td>Michael Johnson</td>
+                                <td>Sickle Test, Hb genotype</td>
+                                <td>2023-10-17</td>
+                                <td><span class="status-badge status-pending">Pending</span></td>
+                            </tr>
+                            <tr class="result-item" data-id="4">
+                                <td>PAT004</td>
+                                <td>Sarah Williams</td>
+                                <td>PT, aPTT, INR</td>
+                                <td>2023-10-18</td>
+                                <td><span class="status-badge status-completed">Completed</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
         </div>
     
         <!-- Lab Request Modal -->

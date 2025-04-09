@@ -101,36 +101,37 @@
     
             <div class="schedule-container">
                 <div class="calender">
-                        <div class="header">
-                            <button id="prevBtn">
-                                <i class="fa-solid fa-chevron-left"></i>
-                            </button>
-                            <div class="monthYear" id="monthYear"></div>
-                            <button id="nextBtn">
-                                <i class="fa-solid fa-chevron-right"></i>
-                            </button>
-                        </div>
-                        <div class="days">
-                            <div class="day">Mon</div>
-                            <div class="day">Tue</div>
-                            <div class="day">Wed</div>
-                            <div class="day">Thu</div>
-                            <div class="day">Fri</div>
-                            <div class="day">Sat</div>
-                            <div class="day">Sun</div>
-                        </div>
-                        <div class="dates" id="dates"></div>
+                    <div class="header">
+                        <button id="prevBtn">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+                        <div class="monthYear" id="monthYear"></div>
+                        <button id="nextBtn">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
                     </div>
+                    <div class="days">
+                        <div class="day">Mon</div>
+                        <div class="day">Tue</div>
+                        <div class="day">Wed</div>
+                        <div class="day">Thu</div>
+                        <div class="day">Fri</div>
+                        <div class="day">Sat</div>
+                        <div class="day">Sun</div>
+                    </div>
+                    <div class="dates" id="dates"></div>
+                </div>
                 
                 <!-- Time Slots Section -->
                 <div class="timeslots-section">
                     <div class="timeslots-header">
                         <h3>Available Time Slots</h3>
-                        <p>Select your available times for <span id="selected-date">June 15, 2023</span></p>
+                        <p>Select your available times for <span id="selected-date">Please select a date</span></p>
                     </div>
                     
                     <!-- Time Slot Buttons -->
                     <div class="time-options">
+                        <button class="time-slot" data-time="07:00">07:00 AM</button>
                         <button class="time-slot" data-time="08:00">08:00 AM</button>
                         <button class="time-slot" data-time="09:00">09:00 AM</button>
                         <button class="time-slot" data-time="10:00">10:00 AM</button>
@@ -144,6 +145,12 @@
                         <button class="time-slot" data-time="18:00">06:00 PM</button>
                     </div>
                     <button id="save-schedule" class="save-btn">Save Schedule</button>
+
+                    <!-- Display Selected Schedule -->
+                    <div class="selected-schedule" id="selected-schedule">
+                        <h4>Scheduled Times:</h4>
+                        <ul id="schedule-list"></ul>
+                    </div>
                 </div>
             </div>
         </div>

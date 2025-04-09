@@ -198,3 +198,38 @@
         grid-template-columns: 1fr;
     }
 }
+
+.date.today {
+    background-color: #e0f7fa; /* Light cyan for today */
+    font-weight: bold;
+}
+
+.date.selected {
+    background-color: #007bff; /* Blue for selected */
+    color: white;
+}
+
+.date.disabled {
+    background-color: #f0f0f0; /* Gray for past dates */
+    color: #999;
+    pointer-events: none; /* Disable clicking */
+}
+
+.time-slot.selected {
+    background-color: #28a745; /* Green for selected times */
+    color: white;
+}
+
+.time-slot:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.selected-schedule {
+    margin-top: 20px;
+}
+
+.selected-schedule ul {
+    list-style-type: none;
+    padding: 0;
+}

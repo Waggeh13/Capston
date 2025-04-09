@@ -4,6 +4,8 @@ const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
 
 let currentDate = new Date();
+const today = new Date();
+today.setHours(0, 0, 0, 0); // Normalize today for comparison
 
 const updateCalender = () => {
     const currentYear = currentDate.getFullYear();
@@ -12,10 +14,10 @@ const updateCalender = () => {
     const firstDay = new Date(currentYear, currentMonth, 1);
     const lastDay = new Date(currentYear, currentMonth + 1, 0);
     const totalDays = lastDay.getDate();
-    const firstDayIndex = (firstDay.getDay() + 6) % 7;
-    const lastDayIndex = lastDay.getDay();
+    const firstDayIndex = (firstDay.getDay() + 6) % 7; // Monday as 0
+    const lastDayIndex = (lastDay.getDay() + 6) % 7;
 
-    // Correcting the typo in currentDate
+    // Set month and year
     const monthYearString = currentDate.toLocaleString('default', { month: 'long', year: 'numeric' });
     monthYearElement.textContent = monthYearString;
 
@@ -30,8 +32,11 @@ const updateCalender = () => {
     // Current month's days
     for (let i = 1; i <= totalDays; i++) {
         const date = new Date(currentYear, currentMonth, i);
-        const activeClass = date.toDateString() === new Date().toDateString() ? 'active' : '';
-        datesHTML += `<div class="date ${activeClass}">${i}</div>`;
+        const isToday = date.toDateString() === today.toDateString();
+        const isPast = date < today;
+        const activeClass = isToday ? 'today' : '';
+        const disabledClass = isPast ? 'disabled' : '';
+        datesHTML += `<div class="date ${activeClass} ${disabledClass}">${i}</div>`;
     }
 
     // Next month's leading days
@@ -40,7 +45,6 @@ const updateCalender = () => {
         datesHTML += `<div class="date inactive">${nextDate.getDate()}</div>`;
     }
 
-    // Fixing the incorrect variable name
     datesElement.innerHTML = datesHTML;
 };
 

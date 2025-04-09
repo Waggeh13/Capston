@@ -152,82 +152,83 @@
     
         <!-- Lab Request Modal -->
         <div id="labModal" class="modal">
-        <div class="modal-content">
-    <span class="close">&times;</span>
-    <div class="modal-container">
-        <form id="labRequestForm" class="form">
-            <!-- Section 1: PATIENT INFORMATION -->
-            <div class="form-section">
-                <h3>PATIENT INFORMATION</h3>
-                <div class="input-row">
-                    <div class="input-box">
-                        <label>Last Name</label>
-                        <input type="text" id="lastName" name="lastName" placeholder="Enter last name" required>
-                    </div>
-                    <div class="input-box">
-                        <label>First Name</label>
-                        <input type="text" id="firstName" name="firstName" placeholder="Enter first name" required>
-                    </div>
-                </div>
-                <div class="input-box">
-                    <label>Suspected Diagnosis</label>
-                    <input type="text" id="diagnosis" name="diagnosis" placeholder="Enter suspected diagnosis" required>
-                </div>
-                <div class="input-box">
-                    <label>Lab Code</label>
-                    <input type="text" id="labCode" name="labCode" placeholder="Enter lab code">
-                </div>
-            </div>
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>BAFROW HEMATOLOGY REQUEST FORM</h2>
 
-            <!-- Section 2: ORDERING PHYSICIAN INFORMATION -->
-            <div class="form-section">
-                <h3>ORDERING PHYSICIAN INFORMATION</h3>
-                <div class="input-box">
-                    <label>Doctor Full Name</label>
-                    <input type="text" id="dFullName" name="dFullName" placeholder="Enter doctor full name" required>
-                </div>
-                <div class="input-row">
-                    <div class="input-box">
-                        <label>Signature</label>
-                        <input type="text" id="signature" name="signature" placeholder="Physician signature" required>
-                    </div>
-                    <div class="input-box">
-                        <label>Extension</label>
-                        <input type="text" id="extension" name="extension" placeholder="Ext.">
-                    </div>
-                </div>
-                <div class="input-box">
-                    <label>Request Date</label>
-                    <input type="date" id="requestDate" name="requestDate" required>
-                </div>
-            </div>
-
-            <!-- TEST REQUESTS -->
-            <div class="form-section">
-                <h3>TEST REQUESTS</h3>
-                <div class="checkbox-group">
-                    <div class="checkbox-options">
-                        <div class="checkbox-column">
-                            <label><input type="checkbox" name="testRequest[]" value="Haemoglobin"> Haemoglobin</label>
-                            <label><input type="checkbox" name="testRequest[]" value="Full Blood Count & DIFF"> Full Blood Count & DIFF</label>
-                            <label><input type="checkbox" name="testRequest[]" value="Blood Film"> Blood Film</label>
-                            <label><input type="checkbox" name="testRequest[]" value="Blood group"> Blood group</label>
-                            <label><input type="checkbox" name="testRequest[]" value="Retics"> Retics</label>
+                <form action ="#"  id="labRequestForm" class="form">
+                    <!-- Section 1: PATIENT INFORMATION -->
+                    <div class="form-section">
+                        <h3>PATIENT INFORMATION</h3>
+                        <div class="input-row">
+                            <div class="input-box">
+                                <label>Last Name</label>
+                                <input type="text" id="lastName" name="lastName" placeholder="Enter last name" required>
+                            </div>
+                            <div class="input-box">
+                                <label>First Name</label>
+                                <input type="text" id="firstName" name="firstName" placeholder="Enter first name" required>
+                            </div>
                         </div>
-                        <div class="checkbox-column">
-                            <label><input type="checkbox" name="testRequest[]" value="Sickle test"> Sickle test</label>
-                            <label><input type="checkbox" name="testRequest[]" value="Hb genotype"> Hb genotype</label>
-                            <label><input type="checkbox" name="testRequest[]" value="PT"> PT</label>
-                            <label><input type="checkbox" name="testRequest[]" value="aPTT"> aPTT</label>
-                            <label><input type="checkbox" name="testRequest[]" value="INR"> INR</label>
+                        <div class="input-box">
+                            <label>Suspected Diagnosis</label>
+                            <input type="text" id="diagnosis" name="diagnosis" placeholder="Enter suspected diagnosis" required>
+                        </div>
+                        <div class="input-box">
+                            <label>Lab Code</label>
+                            <input type="text" id="labCode" name="labCode" placeholder="Enter lab code">
                         </div>
                     </div>
-                </div>
+
+                    <!-- Section 2: ORDERING PHYSICIAN INFORMATION -->
+                    <div class="form-section">
+                        <h3>ORDERING PHYSICIAN INFORMATION</h3>
+                        <div class="input-box">
+                            <label>Doctor Full Name</label>
+                            <input type="text" id="dFullName" name="dFullName" placeholder="Enter doctor full name" required>
+                        </div>
+                        <div class="input-row">
+                            <div class="input-box">
+                                <label>Signature</label>
+                                <input type="text" id="signature" name="signature" placeholder="Physician signature" required>
+                            </div>
+                            <div class="input-box">
+                                <label>Extension</label>
+                                <input type="text" id="extension" name="extension" placeholder="Ext.">
+                            </div>
+                        </div>
+                        <div class="input-box">
+                            <label>Request Date</label>
+                            <input type="date" id="requestDate" name="requestDate" required>
+                        </div>
+                    </div>
+
+                    <!-- TEST REQUESTS -->
+                    <div class="form-section">
+                        <h3>TEST REQUESTS</h3>
+                        <div class="checkbox-group">
+                            <div class="checkbox-options">
+                                <div class="checkbox-column">
+                                    <label><input type="checkbox" name="testRequest[]" value="Haemoglobin"> Haemoglobin</label>
+                                    <label><input type="checkbox" name="testRequest[]" value="Full Blood Count & DIFF"> Full Blood Count & DIFF</label>
+                                    <label><input type="checkbox" name="testRequest[]" value="Blood Film"> Blood Film</label>
+                                    <label><input type="checkbox" name="testRequest[]" value="Blood group"> Blood group</label>
+                                    <label><input type="checkbox" name="testRequest[]" value="Retics"> Retics</label>
+                                </div>
+                                <div class="checkbox-column">
+                                    <label><input type="checkbox" name="testRequest[]" value="Sickle test"> Sickle test</label>
+                                    <label><input type="checkbox" name="testRequest[]" value="Hb genotype"> Hb genotype</label>
+                                    <label><input type="checkbox" name="testRequest[]" value="PT"> PT</label>
+                                    <label><input type="checkbox" name="testRequest[]" value="aPTT"> aPTT</label>
+                                    <label><input type="checkbox" name="testRequest[]" value="INR"> INR</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="request-btn">Submit Lab Test Request</button>
+                </form>
             </div>
-            <button type="submit" class="request-btn">Submit Lab Test Request</button>
-        </form>
-    </div>
-</div>
+        </div>
 
         <!-- Results Modal -->
         <div id="resultsModal" class="modal">

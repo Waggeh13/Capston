@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $signature = sanitize_input($_POST['signature']);
         $extension = sanitize_input($_POST['extension'] ?? '');
         $requestDate = sanitize_input($_POST['requestDate']);
-        $testRequests = $_POST['testRequest'] ?? [];
+        $testRequests = array_unique($_POST['testRequest'] ?? []); // Deduplicate test requests
 
         if (empty($testRequests)) {
             throw new Exception("Please select at least one test.");
@@ -47,8 +47,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 echo json_encode($response);
 exit();
-
-function sanitize_input($data) {
-    return htmlspecialchars(stripslashes(trim($data)));
-}
 ?>

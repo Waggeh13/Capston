@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 07, 2025 at 09:22 PM
+-- Generation Time: Apr 09, 2025 at 08:02 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -98,9 +98,41 @@ CREATE TABLE `lab_table` (
   `lab_id` int(11) NOT NULL,
   `patient_id` varchar(50) DEFAULT NULL,
   `staff_id` varchar(50) DEFAULT NULL,
-  `testtype` text DEFAULT NULL,
-  `status` enum('Pending','Completed','Cancelled') DEFAULT NULL
+  `suspected_diagnosis` varchar(255) DEFAULT NULL,
+  `signature` varchar(100) DEFAULT NULL,
+  `extension` varchar(20) DEFAULT NULL,
+  `request_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `lab_table`
+--
+
+INSERT INTO `lab_table` (`lab_id`, `patient_id`, `staff_id`, `suspected_diagnosis`, `signature`, `extension`, `request_date`) VALUES
+(8, '88888888', '238983009', 'malaria', 'Kwame', 'hmm', '2025-04-04');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `lab_test_table`
+--
+
+CREATE TABLE `lab_test_table` (
+  `lab_test_id` int(11) NOT NULL,
+  `lab_id` int(11) NOT NULL,
+  `test_type_id` int(11) NOT NULL,
+  `result` text DEFAULT NULL,
+  `result_status` enum('Pending','Completed','Abnormal') DEFAULT 'Pending'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `lab_test_table`
+--
+
+INSERT INTO `lab_test_table` (`lab_test_id`, `lab_id`, `test_type_id`, `result`, `result_status`) VALUES
+(26, 8, 6, NULL, 'Pending'),
+(27, 8, 8, NULL, 'Pending'),
+(28, 8, 9, NULL, 'Pending');
 
 -- --------------------------------------------------------
 
@@ -134,6 +166,28 @@ INSERT INTO `patient_table` (`patient_id`, `first_name`, `last_name`, `DOB`, `Ge
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `prescription_medication_table`
+--
+
+CREATE TABLE `prescription_medication_table` (
+  `medication_id` int(11) NOT NULL,
+  `prescription_id` int(11) NOT NULL,
+  `medication` text NOT NULL,
+  `dosage` varchar(100) NOT NULL,
+  `instructions` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `prescription_medication_table`
+--
+
+INSERT INTO `prescription_medication_table` (`medication_id`, `prescription_id`, `medication`, `dosage`, `instructions`) VALUES
+(8, 5, 'hmm ', '500mg', 'jhbjkb'),
+(9, 5, 'kjsidu', '5000', 'hbjlk ');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `prescription_table`
 --
 
@@ -141,12 +195,16 @@ CREATE TABLE `prescription_table` (
   `prescription_id` int(11) NOT NULL,
   `patient_id` varchar(50) DEFAULT NULL,
   `staff_id` varchar(50) DEFAULT NULL,
-  `medication` text DEFAULT NULL,
-  `dosage` longtext DEFAULT NULL,
-  `instructions` longtext NOT NULL,
   `medication_date` date NOT NULL,
   `status` enum('Pending','Dispensed','Cancelled') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `prescription_table`
+--
+
+INSERT INTO `prescription_table` (`prescription_id`, `patient_id`, `staff_id`, `medication_date`, `status`) VALUES
+(5, '967589', '238983009', '2025-04-04', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -207,6 +265,34 @@ CREATE TABLE `telemedicine_table` (
   `join_url` text DEFAULT NULL,
   `password` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `test_type_table`
+--
+
+CREATE TABLE `test_type_table` (
+  `test_type_id` int(11) NOT NULL,
+  `test_name` varchar(100) NOT NULL,
+  `description` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `test_type_table`
+--
+
+INSERT INTO `test_type_table` (`test_type_id`, `test_name`, `description`) VALUES
+(1, 'Haemoglobin', NULL),
+(2, 'Full Blood Count & DIFF', NULL),
+(3, 'Blood Film', NULL),
+(4, 'Blood group', NULL),
+(5, 'Retics', NULL),
+(6, 'Sickle test', NULL),
+(7, 'Hb genotype', NULL),
+(8, 'PT', NULL),
+(9, 'aPTT', NULL),
+(10, 'INR', NULL);
 
 -- --------------------------------------------------------
 
@@ -273,11 +359,26 @@ ALTER TABLE `lab_table`
   ADD KEY `staff_id` (`staff_id`);
 
 --
+-- Indexes for table `lab_test_table`
+--
+ALTER TABLE `lab_test_table`
+  ADD PRIMARY KEY (`lab_test_id`),
+  ADD KEY `lab_id` (`lab_id`),
+  ADD KEY `test_type_id` (`test_type_id`);
+
+--
 -- Indexes for table `patient_table`
 --
 ALTER TABLE `patient_table`
   ADD PRIMARY KEY (`patient_id`),
   ADD KEY `idx_patient_name` (`first_name`,`last_name`);
+
+--
+-- Indexes for table `prescription_medication_table`
+--
+ALTER TABLE `prescription_medication_table`
+  ADD PRIMARY KEY (`medication_id`),
+  ADD KEY `prescription_id` (`prescription_id`);
 
 --
 -- Indexes for table `prescription_table`
@@ -309,6 +410,13 @@ ALTER TABLE `staff_table`
 --
 ALTER TABLE `telemedicine_table`
   ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `test_type_table`
+--
+ALTER TABLE `test_type_table`
+  ADD PRIMARY KEY (`test_type_id`),
+  ADD UNIQUE KEY `test_name` (`test_name`);
 
 --
 -- Indexes for table `user_table`
@@ -348,19 +456,37 @@ ALTER TABLE `department_table`
 -- AUTO_INCREMENT for table `lab_table`
 --
 ALTER TABLE `lab_table`
-  MODIFY `lab_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `lab_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `lab_test_table`
+--
+ALTER TABLE `lab_test_table`
+  MODIFY `lab_test_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+
+--
+-- AUTO_INCREMENT for table `prescription_medication_table`
+--
+ALTER TABLE `prescription_medication_table`
+  MODIFY `medication_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `prescription_table`
 --
 ALTER TABLE `prescription_table`
-  MODIFY `prescription_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `prescription_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `receipt_table`
 --
 ALTER TABLE `receipt_table`
   MODIFY `receipt_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `test_type_table`
+--
+ALTER TABLE `test_type_table`
+  MODIFY `test_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Constraints for dumped tables
@@ -377,8 +503,8 @@ ALTER TABLE `appointment_table`
 --
 ALTER TABLE `booking_table`
   ADD CONSTRAINT `booking_table_ibfk_1` FOREIGN KEY (`patient_id`) REFERENCES `patient_table` (`patient_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `booking_table_ibfk_2` FOREIGN KEY (`staff_id`) REFERENCES `staff_table` (`staff_id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `booking_table_ibfk_3` FOREIGN KEY (`clinic_id`) REFERENCES `clinic_table` (`clinic_id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `booking_table_ibfk_2` FOREIGN KEY (`staff_id`) REFERENCES `staff_table` (`staff_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `booking_table_ibfk_3` FOREIGN KEY (`clinic_id`) REFERENCES `clinic_table` (`clinic_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `clinic_table`
@@ -391,7 +517,14 @@ ALTER TABLE `clinic_table`
 --
 ALTER TABLE `lab_table`
   ADD CONSTRAINT `lab_table_ibfk_1` FOREIGN KEY (`patient_id`) REFERENCES `patient_table` (`patient_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `lab_table_ibfk_2` FOREIGN KEY (`staff_id`) REFERENCES `staff_table` (`staff_id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `lab_table_ibfk_2` FOREIGN KEY (`staff_id`) REFERENCES `staff_table` (`staff_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `lab_test_table`
+--
+ALTER TABLE `lab_test_table`
+  ADD CONSTRAINT `lab_test_table_ibfk_1` FOREIGN KEY (`lab_id`) REFERENCES `lab_table` (`lab_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `lab_test_table_ibfk_2` FOREIGN KEY (`test_type_id`) REFERENCES `test_type_table` (`test_type_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `patient_table`
@@ -400,25 +533,31 @@ ALTER TABLE `patient_table`
   ADD CONSTRAINT `patient_table_ibfk_1` FOREIGN KEY (`patient_id`) REFERENCES `user_table` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `prescription_medication_table`
+--
+ALTER TABLE `prescription_medication_table`
+  ADD CONSTRAINT `prescription_medication_table_ibfk_1` FOREIGN KEY (`prescription_id`) REFERENCES `prescription_table` (`prescription_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `prescription_table`
 --
 ALTER TABLE `prescription_table`
   ADD CONSTRAINT `prescription_table_ibfk_1` FOREIGN KEY (`patient_id`) REFERENCES `patient_table` (`patient_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `prescription_table_ibfk_2` FOREIGN KEY (`staff_id`) REFERENCES `staff_table` (`staff_id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `prescription_table_ibfk_2` FOREIGN KEY (`staff_id`) REFERENCES `staff_table` (`staff_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `receipt_table`
 --
 ALTER TABLE `receipt_table`
   ADD CONSTRAINT `receipt_table_ibfk_1` FOREIGN KEY (`patient_id`) REFERENCES `patient_table` (`patient_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `receipt_table_ibfk_2` FOREIGN KEY (`lab_id`) REFERENCES `lab_table` (`lab_id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `receipt_table_ibfk_3` FOREIGN KEY (`prescription_id`) REFERENCES `prescription_table` (`prescription_id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `receipt_table_ibfk_2` FOREIGN KEY (`lab_id`) REFERENCES `lab_table` (`lab_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `receipt_table_ibfk_3` FOREIGN KEY (`prescription_id`) REFERENCES `prescription_table` (`prescription_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `staff_table`
 --
 ALTER TABLE `staff_table`
-  ADD CONSTRAINT `staff_table_ibfk_1` FOREIGN KEY (`department_id`) REFERENCES `department_table` (`department_id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `staff_table_ibfk_1` FOREIGN KEY (`department_id`) REFERENCES `department_table` (`department_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `staff_table_ibfk_2` FOREIGN KEY (`staff_id`) REFERENCES `user_table` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --

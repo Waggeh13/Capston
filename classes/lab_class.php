@@ -3,55 +3,61 @@ require_once("../settings/db_class.php");
 
 class lab_class extends db_connection {
 
-    // Add Lab Request with multiple tests
     public function requestform($doctor_fullname, $patient_fullname, $testRequests, $susdiag, $signature, $ext, $request_date) {
+        $conn = $this->db_conn();
+        
+        if ($conn === false) {
+            throw new Exception("Database connection failed.");
+        }
+
         // Sanitize inputs
-        $doctor_fullname = $this->db_conn()->real_escape_string($doctor_fullname);
-        $patient_fullname = $this->db_conn()->real_escape_string($patient_fullname);
-        $susdiag = $this->db_conn()->real_escape_string($susdiag);
-        $signature = $this->db_conn()->real_escape_string($signature);
-        $ext = $this->db_conn()->real_escape_string($ext);
-        $request_date = $this->db_conn()->real_escape_string($request_date);
+        $doctor_fullname = mysqli_real_escape_string($conn, $doctor_fullname);
+        $patient_fullname = mysqli_real_escape_string($conn, $patient_fullname);
+        $susdiag = mysqli_real_escape_string($conn, $susdiag);
+        $signature = mysqli_real_escape_string($conn, $signature);
+        $ext = mysqli_real_escape_string($conn, $ext);
+        $request_date = mysqli_real_escape_string($conn, $request_date);
 
         // Start transaction
-        $this->db_conn()->begin_transaction();
+        if (!mysqli_begin_transaction($conn)) {
+            throw new Exception("Failed to start transaction: " . mysqli_error($conn));
+        }
 
         try {
             // Get patient_id
             $names = explode(' ', $patient_fullname, 2);
-            $firstName = $this->db_conn()->real_escape_string($names[0]);
-            $lastName = isset($names[1]) ? $this->db_conn()->real_escape_string($names[1]) : '';
+            $firstName = mysqli_real_escape_string($conn, $names[0]);
+            $lastName = isset($names[1]) ? mysqli_real_escape_string($conn, $names[1]) : '';
             
             $patient_sql = "SELECT patient_id FROM patient_table 
                            WHERE first_name = '$firstName' AND last_name = '$lastName'";
-            $patient_result = $this->db_query($patient_sql);
+            $patient_result = mysqli_query($conn, $patient_sql);
             
-            if ($this->db_count() == 0) {
+            if ($patient_result === false || mysqli_num_rows($patient_result) == 0) {
                 throw new Exception("Patient not found: $patient_fullname");
             }
-            $patient_row = $this->db_fetch($patient_result);
+            $patient_row = mysqli_fetch_assoc($patient_result);
             $patient_id = $patient_row['patient_id'];
 
-            // Get doctor_id (assuming doctor is in staff_table)
+            // Get doctor_id from staff_table using doctor's full name
             $doctor_names = explode(' ', $doctor_fullname, 2);
-            $docFirstName = $this->db_conn()->real_escape_string($doctor_names[0]);
-            $docLastName = isset($doctor_names[1]) ? $this->db_conn()->real_escape_string($doctor_names[1]) : '';
+            $docFirstName = mysqli_real_escape_string($conn, $doctor_names[0]);
+            $docLastName = isset($doctor_names[1]) ? mysqli_real_escape_string($conn, $doctor_names[1]) : '';
             
             $doctor_sql = "SELECT staff_id FROM staff_table 
-                          WHERE first_name = '$docFirstName' AND last_name = '$docLastName' 
-                          AND position LIKE '%doctor%'";
-            $doctor_result = $this->db_query($doctor_sql);
+                          WHERE first_name = '$docFirstName' AND last_name = '$docLastName'";
+            $doctor_result = mysqli_query($conn, $doctor_sql);
             
-            if ($this->db_count() == 0) {
+            if ($doctor_result === false || mysqli_num_rows($doctor_result) == 0) {
                 throw new Exception("Doctor not found: $doctor_fullname");
             }
-            $doctor_row = $this->db_fetch($doctor_result);
+            $doctor_row = mysqli_fetch_assoc($doctor_result);
             $doctor_id = $doctor_row['staff_id'];
 
-            // Insert into lab_table
+            // Insert into lab_table with doctor_id (staff_id)
             $lab_sql = "INSERT INTO lab_table (
                             patient_id, 
-                            doctor_id, 
+                            staff_id, 
                             suspected_diagnosis, 
                             signature, 
                             extension, 
@@ -65,29 +71,49 @@ class lab_class extends db_connection {
                             '$request_date'
                         )";
             
-            $lab_result = $this->db_query($lab_sql);
-            
-            if (!$lab_result) {
-                throw new Exception("Failed to create lab record: " . $this->db_conn()->error);
+            if (!mysqli_query($conn, $lab_sql)) {
+                throw new Exception("Failed to create lab record: " . mysqli_error($conn));
             }
 
-            $lab_id = $this->db_conn()->insert_id;
+            $lab_id = mysqli_insert_id($conn);
+            if ($lab_id === 0) {
+                throw new Exception("Failed to get lab ID");
+            }
+
+            // Deduplicate test requests
+            $testRequests = array_unique($testRequests);
 
             // Insert each test request into lab_test_table
             foreach ($testRequests as $testName) {
-                $testName = $this->db_conn()->real_escape_string($testName);
+                $testName = mysqli_real_escape_string($conn, $testName);
                 
-                // Get test_type_id
+                // Check if test already exists for this lab_id to prevent duplicates
+                $check_sql = "SELECT COUNT(*) FROM lab_test_table lt
+                            JOIN test_type_table tt ON lt.test_type_id = tt.test_type_id
+                            WHERE lt.lab_id = '$lab_id' AND tt.test_name = '$testName'";
+                $check_result = mysqli_query($conn, $check_sql);
+                $count = mysqli_fetch_row($check_result)[0];
+                
+                if ($count > 0) {
+                    continue; // Skip if test already exists for this lab_id
+                }
+
+                // Get or create test_type_id
                 $test_sql = "SELECT test_type_id FROM test_type_table WHERE test_name = '$testName'";
-                $test_result = $this->db_query($test_sql);
+                $test_result = mysqli_query($conn, $test_sql);
                 
-                if ($this->db_count() == 0) {
-                    // If test type doesn't exist, create it
+                if ($test_result === false) {
+                    throw new Exception("Test query failed: " . mysqli_error($conn));
+                }
+                
+                if (mysqli_num_rows($test_result) == 0) {
                     $insert_test_sql = "INSERT INTO test_type_table (test_name) VALUES ('$testName')";
-                    $this->db_query($insert_test_sql);
-                    $test_type_id = $this->db_conn()->insert_id;
+                    if (!mysqli_query($conn, $insert_test_sql)) {
+                        throw new Exception("Failed to create test type: " . mysqli_error($conn));
+                    }
+                    $test_type_id = mysqli_insert_id($conn);
                 } else {
-                    $test_row = $this->db_fetch($test_result);
+                    $test_row = mysqli_fetch_assoc($test_result);
                     $test_type_id = $test_row['test_type_id'];
                 }
 
@@ -102,28 +128,30 @@ class lab_class extends db_connection {
                                     'Pending'
                                 )";
                 
-                $lab_test_result = $this->db_query($lab_test_sql);
-                
-                if (!$lab_test_result) {
-                    throw new Exception("Failed to add test '$testName': " . $this->db_conn()->error);
+                if (!mysqli_query($conn, $lab_test_sql)) {
+                    throw new Exception("Failed to add test '$testName': " . mysqli_error($conn));
                 }
             }
 
             // Commit transaction
-            $this->db_conn()->commit();
+            if (!mysqli_commit($conn)) {
+                throw new Exception("Failed to commit transaction: " . mysqli_error($conn));
+            }
             return true;
 
         } catch (Exception $e) {
-            $this->db_conn()->rollback();
+            mysqli_rollback($conn);
             throw $e;
+        } finally {
+            mysqli_close($conn);
         }
     }
 
-    // Get all lab results
     public function getlabresult() {
+        $conn = $this->db_conn();
         $sql = "SELECT l.lab_id, p.first_name, p.last_name, l.request_date, 
-                       GROUP_CONCAT(tt.test_name SEPARATOR ', ') as tests,
-                       MIN(lt.result_status) as overall_status
+                    GROUP_CONCAT(tt.test_name SEPARATOR ', ') as tests,
+                    MIN(lt.result_status) as overall_status
                 FROM lab_table l
                 JOIN patient_table p ON l.patient_id = p.patient_id
                 JOIN lab_test_table lt ON l.lab_id = lt.lab_id
@@ -131,64 +159,105 @@ class lab_class extends db_connection {
                 GROUP BY l.lab_id
                 ORDER BY l.request_date DESC";
         
-        return $this->db_query($sql);
+        $result = mysqli_query($conn, $sql);
+        $rows = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $rows[] = $row;
+        }
+        mysqli_close($conn);
+        return $rows;
     }
 
-    // Get lab result by ID
     public function getlabresultbyid($lab_id) {
-        $lab_id = $this->db_conn()->real_escape_string($lab_id);
+        $conn = $this->db_conn();
+        $lab_id = mysqli_real_escape_string($conn, $lab_id);
         
         $sql = "SELECT l.*, p.first_name, p.last_name, p.contact, 
                        s.first_name as doctor_first, s.last_name as doctor_last,
                        GROUP_CONCAT(DISTINCT tt.test_name SEPARATOR ', ') as tests
                 FROM lab_table l
                 JOIN patient_table p ON l.patient_id = p.patient_id
-                JOIN staff_table s ON l.doctor_id = s.staff_id
+                JOIN staff_table s ON l.staff_id = s.staff_id
                 JOIN lab_test_table lt ON l.lab_id = lt.lab_id
                 JOIN test_type_table tt ON lt.test_type_id = tt.test_type_id
                 WHERE l.lab_id = '$lab_id'";
         
-        return $this->db_query($sql);
+        $result = mysqli_query($conn, $sql);
+        $rows = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $rows[] = $row;
+        }
+        mysqli_close($conn);
+        return $rows;
     }
 
-    // Get all test types
     public function getTestTypes() {
+        $conn = $this->db_conn();
         $sql = "SELECT * FROM test_type_table ORDER BY test_name";
-        return $this->db_query($sql);
+        
+        $result = mysqli_query($conn, $sql);
+        $rows = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $rows[] = $row;
+        }
+        mysqli_close($conn);
+        return $rows;
     }
 
-    // Get all patient records
     public function gettests() {
+        $conn = $this->db_conn();
         $sql = "SELECT * FROM patient_table";
-        return $this->db_fetch_all($sql);
+        
+        $result = mysqli_query($conn, $sql);
+        $rows = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $rows[] = $row;
+        }
+        mysqli_close($conn);
+        return $rows;
     }
 
-    // Get patient information by id
     public function getPatientsbyID($id) {
-        $id = mysqli_real_escape_string($this->db_conn(), $id);
+        $conn = $this->db_conn();
+        $id = mysqli_real_escape_string($conn, $id);
         $sql = "SELECT * FROM patient_table WHERE patient_id = '$id'";
-        return $this->db_fetch_all($sql);
+        
+        $result = mysqli_query($conn, $sql);
+        $rows = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $rows[] = $row;
+        }
+        mysqli_close($conn);
+        return $rows;
     }
     
-
     public function patient_ID_exists($patient_id) {
-        $patient_id= mysqli_real_escape_string($this->db_conn(), $patient_id);
+        $conn = $this->db_conn();
+        $patient_id = mysqli_real_escape_string($conn, $patient_id);
         $sql = "SELECT patient_id FROM patient_table WHERE patient_id = '$patient_id'";
-        return $this->db_fetch_all($sql);
+        
+        $result = mysqli_query($conn, $sql);
+        $rows = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $rows[] = $row;
+        }
+        mysqli_close($conn);
+        return $rows;
     }
 
-    public function addUser($patientId, $password, $userRole)
-    {
-        $patientId = mysqli_real_escape_string($this->db_conn(), $patientId);
-        $password = mysqli_real_escape_string($this->db_conn(), $password);
-        $userRole = mysqli_real_escape_string($this->db_conn(), $userRole);
+    public function addUser($patientId, $password, $userRole) {
+        $conn = $this->db_conn();
+        $patientId = mysqli_real_escape_string($conn, $patientId);
+        $password = mysqli_real_escape_string($conn, $password);
+        $userRole = mysqli_real_escape_string($conn, $userRole);
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
         $sql = "INSERT INTO user_table(user_id, password, role)
                 VALUES ('$patientId', '$hashed_password', '$userRole')";
         
-        return $this->db_query($sql);
+        $result = mysqli_query($conn, $sql);
+        mysqli_close($conn);
+        return $result;
     }
-
 }
 ?>

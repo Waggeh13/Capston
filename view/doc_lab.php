@@ -229,7 +229,6 @@
     </div>
 </div>
 
-<script src="../js/doc_lab.js"></script>
         <!-- Results Modal -->
         <div id="resultsModal" class="modal">
             <div class="modal-content">

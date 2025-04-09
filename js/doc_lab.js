@@ -34,3 +34,37 @@ window.onclick = function(event) {
         resultsModal.style.display = "none";
     }
 }
+
+// Handle lab request form submission
+document.getElementById('labRequestForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Get form data
+    const formData = new FormData(this);
+    const testRequests = Array.from(document.querySelectorAll('input[name="testRequest[]"]:checked')).map(el => el.value);
+    
+    // Add test requests to form data
+    testRequests.forEach(test => {
+        formData.append('testRequest[]', test);
+    });
+    
+    // Send AJAX request
+    fetch('../actions/lab_form_action.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Lab request submitted successfully!');
+            labModal.style.display = "none";
+            // Refresh or update the UI as needed
+        } else {
+            alert('Error: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while submitting the lab request.');
+    });
+});

@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>Staff</title>
 </head>
+<?php
+require_once('../controllers/admin_controller.php');
+?>
 <body>
     <div class="container">
         <div class="sidebar">
@@ -101,56 +104,25 @@
                         <td>Action</td>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>B789Y012</td>
-                            <td>Saloom</td>
-                            <td>Singhateh</td>
-                            <td>3678945</td>
-                            <td>
-                                <i class="far fa-edit editItemBtn"></i>
-                                <i class="far fa-trash-alt editItemBtn"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>B789Y012</td>
-                            <td>Saloom</td>
-                            <td>Singhateh</td>
-                            <td>3678945</td>
-                            <td>
-                                <i class="far fa-edit editItemBtn"></i>
-                                <i class="far fa-trash-alt"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>B789Y012</td>
-                            <td>Saloom</td>
-                            <td>Singhateh</td>
-                            <td>3678945</td>
-                            <td>
-                                <i class="far fa-edit editItemBtn"></i>
-                                <i class="far fa-trash-alt"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>B789Y012</td>
-                            <td>Saloom</td>
-                            <td>Singhateh</td>
-                            <td>3678945</td>
-                            <td>
-                                <i class="far fa-edit editItemBtn"></i>
-                                <i class="far fa-trash-alt"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>B789Y012</td>
-                            <td>Saloom</td>
-                            <td>Singhateh</td>
-                            <td>3678945</td>
-                            <td>
-                                <i class="far fa-edit editItemBtn"></i>
-                                <i class="far fa-trash-alt"></i>
-                            </td>
-                        </tr>    
+                    <?php
+                            $admins = viewadminsController();
+                            if (!empty($admins)) {
+                                foreach ($admins as $admin) {
+                                    echo "<tr>";
+                                    echo "<td>{$admin['admin_id']}</td>";
+                                    echo "<td>{$admin['first_name']}</td>";
+                                    echo "<td>{$admin['last_name']}</td>";
+                                    echo "<td>{$admin['contact']}</td>";
+                                    echo "<td>
+                                        <i data-admin-id='{$admin['admin_id']}' class='far fa-trash-alt deleteItemBtn'></i>
+                                        <i data-admin-id='{$admin['admin_id']}' class='far fa-edit editItemBtn'></i>
+                                    </td>";
+                                    echo "</tr>";
+                                }
+                            } else {
+                                echo "<tr><td colspan='3' class='text-center'>No admins</td></tr>";
+                            }
+                            ?>
                     </tbody>
                 </table>
             </div>

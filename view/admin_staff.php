@@ -96,7 +96,7 @@ require_once('../controllers/department_controller.php');
                         <td>First Name</td>
                         <td>Last Name</td>
                         <td>Position</td>
-                        <td>Deparatment</td>
+                        <td>Department</td>
                         <td>Gender</td>
                         <td>Contact</td>
                         <td>email</td>
@@ -235,12 +235,12 @@ require_once('../controllers/department_controller.php');
 
                 <div class="form-group">
                     <label for="position">Position:</label>
-                    <select id="position" name="position" required>
+                    <select id="editPosition" name="editPosition" required>
                     <option value="">Select Position</option>
-                        <option value="Male">Doctor</option>
-                        <option value="Female">Lab Technician</option>
-                        <option value="Other">Pharmacist</option>
-                        <option value="Other">Cashier</option>
+                        <option value="Doctor">Doctor</option>
+                        <option value="Lab Technician">Lab Technician</option>
+                        <option value="Pharmacist">Pharmacist</option>
+                        <option value="Cashier">Cashier</option>
                     </select>
                 </div>
 

@@ -120,9 +120,9 @@
                 <div class="appointments-header">
                     <h1 class="appointments-title">Today's Appointments</h1>
                     <div class="date-selector">
-                        <button><i class="fas fa-chevron-left"></i></button>
-                        <span><?php echo date('F j, Y'); ?></span>
-                        <button><i class="fas fa-chevron-right"></i></button>
+                    <button id="prevDay"><i class="fas fa-chevron-left"></i></button>
+                        <span id="currentDate">Loading...</span>
+                    <button id="nextDay"><i class="fas fa-chevron-right"></i></button>
                     </div>
                 </div>
                 
@@ -300,5 +300,6 @@
             });
 
         </script>
+        <script src="../js/doc_aptmt_date.js"></script>
     </body>
 </html>

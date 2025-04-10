@@ -86,7 +86,7 @@ require_once('../controllers/clinic_controller.php');
             </div>
             <div class="doctor-available">
                 <div class="heading">
-                    <h2>Patients</h2>
+                    <h2>Appointments</h2>
                     <a href="#" class="btn" id="addItemBtn">Add Appointment</a>
                 </div>
                 <table class="available">

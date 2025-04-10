@@ -165,8 +165,14 @@ require_once('../controllers/department_controller.php');
                 </div>
 
                 <div class="form-group">
-                    <label for="position">Position:</label>
-                    <input type="text" id="position" name="position" placeholder="Enter position" required>
+                <label for="position">Position:</label>
+                    <select id="position" name="position" required>
+                    <option value="">Select Position</option>
+                        <option value="Male">Doctor</option>
+                        <option value="Female">Lab Technician</option>
+                        <option value="Other">Pharmacist</option>
+                        <option value="Other">Cashier</option>
+                    </select>
                 </div>
                 
                 <div class="form-group">
@@ -228,8 +234,14 @@ require_once('../controllers/department_controller.php');
                 </select>
 
                 <div class="form-group">
-                    <label for="editPosition">Position:</label>
-                    <input type="text" id="editPosition" name="position" placeholder="Enter position" required>
+                    <label for="position">Position:</label>
+                    <select id="position" name="position" required>
+                    <option value="">Select Position</option>
+                        <option value="Male">Doctor</option>
+                        <option value="Female">Lab Technician</option>
+                        <option value="Other">Pharmacist</option>
+                        <option value="Other">Cashier</option>
+                    </select>
                 </div>
 
                 <div class="form-group">

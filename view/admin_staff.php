@@ -168,10 +168,10 @@ require_once('../controllers/department_controller.php');
                 <label for="position">Position:</label>
                     <select id="position" name="position" required>
                     <option value="">Select Position</option>
-                        <option value="Male">Doctor</option>
-                        <option value="Female">Lab Technician</option>
-                        <option value="Other">Pharmacist</option>
-                        <option value="Other">Cashier</option>
+                        <option value="Doctor">Doctor</option>
+                        <option value="Lab Technician">Lab Technician</option>
+                        <option value="Pharmacist">Pharmacist</option>
+                        <option value="Cashier">Cashier</option>
                     </select>
                 </div>
                 

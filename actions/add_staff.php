@@ -24,9 +24,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $contact = sanitize_input($_POST['contact']);
     $email = sanitize_input($_POST['email']);
     $password = sanitize_input($_POST['default-password']);
-    $userRole = sanitize_input('staff');
 
-    $result1 = addUserController($staffId, $password, $userRole);
+    $result1 = addUserController($staffId, $password, $position);
     if($result1) {
         $result2 = addstaffController($staffId, $firstName, $lastName,$gender, $position,$department, $contact, $email);
     }

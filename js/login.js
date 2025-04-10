@@ -43,11 +43,11 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
           } else {
             if (response.user_role == "Doctor") {
               window.location.href = '../view/doctor_dashboard.php';
-            } else if (response.user_role == 2) {
+            } else if (response.user_role == "Lab Technician") {
               window.location.href = '../view/userDash.php';
-            } else if (response.user_role == 3) {
-              window.location.href = '../view/admindashboard.php';
-            } else if (response.user_role == 4) {
+            } else if (response.user_role == "Pharmacist") {
+              window.location.href = '../view/pharmacist.php';
+            } else if (response.user_role == "Cashier") {
               window.location.href = '../view/doctor_dashboard.php';
             }
             // Add more role redirections as needed

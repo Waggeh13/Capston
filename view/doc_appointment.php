@@ -11,6 +11,27 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>Doctor Appointments</title>
 </head>
+<style>
+    .status-dropdown {
+    padding: 10px 15px;
+    border: 1px solid #ccc; /* Grey border */
+    border-radius: 8px; /* Rounded edges */
+    background-color: white;
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.3s ease;
+    appearance: none; /* Removes default system styling */
+    -webkit-appearance: none; /* For Safari */
+    -moz-appearance: none; /* For Firefox */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+    padding-right: 35px; 
+    }
+</style>
 <body>
     <div class="container">
         <div class="sidebar">
@@ -132,7 +153,16 @@
                                 </td>
                                 <td>In-person</td>
                                 <td>Postnatal</td>
-                                <td><span class="status-badge status-confirmed">Confirmed</span></td>
+                                <td>
+                                <select class="status-dropdown">
+                                    <option value="pending">Pending</option>
+                                    <option value="confirmed">Confirmed</option>
+                                    <option value="in-progress">In Progress</option>
+                                    <option value="completed">Completed</option>
+                                    <option value="cancelled">Cancelled</option>
+                                    <option value="rescheduled">Rescheduled</option>
+                                </select>
+                            </td>
                             </tr>
                             <tr>
                                 <td>10:30 AM</td>
@@ -149,7 +179,16 @@
                                 </td>
                                 <td>In-person</td>
                                 <td>Postnatal</td>
-                                <td><span class="status-badge status-confirmed">Confirmed</span></td>
+                                <td>
+                                <select class="status-dropdown">
+                                    <option value="pending">Pending</option>
+                                    <option value="confirmed">Confirmed</option>
+                                    <option value="in-progress">In Progress</option>
+                                    <option value="completed">Completed</option>
+                                    <option value="cancelled">Cancelled</option>
+                                    <option value="rescheduled">Rescheduled</option>
+                                </select>
+                            </td>
                             </tr>
                             <tr>
                                 <td>11:45 AM</td>
@@ -166,7 +205,16 @@
                                 </td>
                                 <td>In-person</td>
                                 <td>Postnatal</td>
-                                <td><span class="status-badge status-pending">Pending</span></td>
+                                <td>
+                                <select class="status-dropdown">
+                                    <option value="pending">Pending</option>
+                                    <option value="confirmed">Confirmed</option>
+                                    <option value="in-progress">In Progress</option>
+                                    <option value="completed">Completed</option>
+                                    <option value="cancelled">Cancelled</option>
+                                    <option value="rescheduled">Rescheduled</option>
+                                </select>
+                            </td>
                             </tr>
                             <tr>
                                 <td>02:15 PM</td>
@@ -183,7 +231,16 @@
                                 </td>
                                 <td>In-person</td>
                                 <td>Postnatal</td>
-                                <td><span class="status-badge status-completed">Completed</span></td>
+                                <td>
+                                <select class="status-dropdown">
+                                    <option value="pending">Pending</option>
+                                    <option value="confirmed">Confirmed</option>
+                                    <option value="in-progress">In Progress</option>
+                                    <option value="completed">Completed</option>
+                                    <option value="cancelled">Cancelled</option>
+                                    <option value="rescheduled">Rescheduled</option>
+                                </select>
+                            </td>
                             </tr>
                             <tr>
                                 <td>03:30 PM</td>
@@ -200,7 +257,16 @@
                                 </td>
                                 <td>In-person</td>
                                 <td>Postnatal</td>
-                                <td><span class="status-badge status-cancelled">Cancelled</span></td>
+                                <td>
+                                <select class="status-dropdown">
+                                    <option value="pending">Pending</option>
+                                    <option value="confirmed">Confirmed</option>
+                                    <option value="in-progress">In Progress</option>
+                                    <option value="completed">Completed</option>
+                                    <option value="cancelled">Cancelled</option>
+                                    <option value="rescheduled">Rescheduled</option>
+                                </select>
+                            </td>
                             </tr>
                         </tbody>
                     </table>
@@ -208,5 +274,31 @@
             </div>
         </div>
     </div>
+    <script>
+            document.querySelectorAll('.status-dropdown').forEach(select => {
+                function updateColor(dropdown) {
+                    let color = {
+                        "pending": "orange",
+                        "confirmed": "blue",
+                        "in-progress": "darkblue",
+                        "completed": "green",
+                        "cancelled": "red",
+                        "no-show": "gray",
+                        "rescheduled": "purple"
+                    }[dropdown.value] || "black"; 
+            
+                    dropdown.style.color = color;
+                }
+            
+                // Update color on page load
+                updateColor(select);
+            
+                // Update color when the value changes
+                select.addEventListener('change', function() {
+                    updateColor(this);
+                });
+            });
+
+        </script>
     </body>
 </html>

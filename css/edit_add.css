@@ -68,8 +68,8 @@
 /* Radio Button Styles */
 .radio-group {
     display: flex;
-    gap: 15px; /* Adds spacing between radio buttons */
-    align-items: center; /* Aligns items properly */
+    gap: 15px; 
+    align-items: center;
     margin-bottom: 10px;
 }
 

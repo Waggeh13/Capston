@@ -7,10 +7,47 @@
     <link rel="stylesheet" href="../css/btn_style.css">
     <link rel="stylesheet" href="../css/sidebar.css">
     <link rel="stylesheet" href="../css/edit_add.css">
+    <link rel="stylesheet" href="../css/reset_password.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>Admin Dashboard</title>
 </head>
 <body>
+
+    <!-- Password Reset Modal -->
+    <div class="password-modal" id="passwordModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-key"></i> Change Password</h2>
+            </div>
+            <div class="modal-body">
+                <p style="margin-bottom: 20px;">For security reasons, please change your default password.</p>
+                
+                <div class="form-group">
+                    <label for="currentPassword">Current Password</label>
+                    <input type="password" id="currentPassword" placeholder="Enter your current password">
+                    <div class="error-message" id="currentPasswordError"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="newPassword">New Password</label>
+                    <input type="password" id="newPassword" placeholder="Enter your new password">
+                    <div class="password-strength">Must be at least 8 characters with numbers and special characters</div>
+                    <div class="error-message" id="newPasswordError"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm New Password</label>
+                    <input type="password" id="confirmPassword" placeholder="Confirm your new password">
+                    <div class="error-message" id="confirmPasswordError"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-modal btn-secondary" id="cancelBtn">Cancel</button>
+                <button class="btn-modal btn-primary" id="submitBtn">Update Password</button>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="sidebar">
             <ul>
@@ -221,5 +258,6 @@
         </div>
     </div>
     <script src="../js/add_edit.js"></script>  
+    <script src="../js/reset_password.js"></script>  
 </body>
 </html>

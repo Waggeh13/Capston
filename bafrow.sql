@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 09, 2025 at 08:02 PM
+-- Generation Time: Apr 10, 2025 at 12:54 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -109,7 +109,8 @@ CREATE TABLE `lab_table` (
 --
 
 INSERT INTO `lab_table` (`lab_id`, `patient_id`, `staff_id`, `suspected_diagnosis`, `signature`, `extension`, `request_date`) VALUES
-(8, '88888888', '238983009', 'malaria', 'Kwame', 'hmm', '2025-04-04');
+(8, '88888888', '238983009', 'malaria', 'Kwame', 'hmm', '2025-04-04'),
+(9, '88888888', '238983009', 'malaria', 'Kwame', 'hmm', '2025-04-03');
 
 -- --------------------------------------------------------
 
@@ -132,7 +133,10 @@ CREATE TABLE `lab_test_table` (
 INSERT INTO `lab_test_table` (`lab_test_id`, `lab_id`, `test_type_id`, `result`, `result_status`) VALUES
 (26, 8, 6, NULL, 'Pending'),
 (27, 8, 8, NULL, 'Pending'),
-(28, 8, 9, NULL, 'Pending');
+(28, 8, 9, NULL, 'Pending'),
+(29, 9, 1, NULL, 'Pending'),
+(30, 9, 2, NULL, 'Pending'),
+(31, 9, 3, NULL, 'Pending');
 
 -- --------------------------------------------------------
 
@@ -456,13 +460,13 @@ ALTER TABLE `department_table`
 -- AUTO_INCREMENT for table `lab_table`
 --
 ALTER TABLE `lab_table`
-  MODIFY `lab_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `lab_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `lab_test_table`
 --
 ALTER TABLE `lab_test_table`
-  MODIFY `lab_test_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `lab_test_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `prescription_medication_table`

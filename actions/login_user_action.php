@@ -2,7 +2,7 @@
 session_start();
 include("../controllers/login_controller.php");
 
-$response = ['error' => false, 'message' => '', 'User_role' => '', 'user_id' => ''];
+$response = ['error' => false, 'message' => '', 'user_role' => '', 'user_id' => ''];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     $user_id = sanitize_input($_POST['user_id']);

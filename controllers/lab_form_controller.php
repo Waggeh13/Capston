@@ -5,9 +5,9 @@ function sanitize_input($input) {
     return htmlspecialchars(stripslashes(trim($input)));
 }
 
-function addrequestcontroller($doctor_fullname, $patient_fullname, $testRequests, $susdiag, $signature, $ext, $request_date) {
+function addrequestcontroller($staff_id, $patient_fullname, $testRequests, $susdiag, $signature, $ext, $request_date) {
     $lab = new lab_class();
-    return $lab->requestform($doctor_fullname, $patient_fullname, $testRequests, $susdiag, $signature, $ext, $request_date);
+    return $lab->requestform($staff_id, $patient_fullname, $testRequests, $susdiag, $signature, $ext, $request_date);
 }
 
 function viewlabresultController() {

@@ -44,17 +44,17 @@
 
     <div class="container">
         <div class="form-box login">
-            <form action="">
+            <form id="loginForm" method="POST">
                 <h1>Login</h1>
                 <div class="input-box">
-                    <input type="text" id="user_id" placeholder="User ID" required>
+                    <input type="text" id="user_id" name="user_id" placeholder="User ID" required>
                     <i class='bx bxs-user'></i>
-                    <div id="idError" class="error-message"></div><br>
+                    <div id="idError" name="idError" class="error-message"></div><br>
                 </div>
                 <div class="input-box">
-                    <input type="password" id="password" placeholder="Password" required>
+                    <input type="password" id="password" name="password" placeholder="Password" required>
                     <i class='bx bxs-lock-alt' ></i>
-                    <div id="passwordError" class="error-message"></div><br>
+                    <div id="passwordError" name="passwordError" class="error-message"></div><br>
                 </div>
                 <div class="forgot-link">
                     <a href="#" style="text-decoration: none;">Forget password?</a>
@@ -72,6 +72,6 @@
         </div>
     </div>
     
-    <script src="../js/script.js"></script>
+    <script src="../js/login.js"></script>
 </body>
 </html>

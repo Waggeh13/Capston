@@ -1,11 +1,17 @@
 <?php
+session_start(); // Start the session
 include("../controllers/prescription_controller.php");
 
 $response = array("success" => false, "message" => "");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
-        $doctor_fullname = sanitize_input($_POST['dFullName']);
+        // Get staff_id from session instead of form
+        if (!isset($_SESSION['user_id'])) {
+            throw new Exception("Doctor not authenticated. Please log in.");
+        }
+        $staff_id = $_SESSION['user_id'];
+        
         $patient_fullname = sanitize_input($_POST['pFullName']);
         $medication_date = sanitize_input($_POST['date']);
         $medicines = $_POST['medicines'] ?? [];
@@ -21,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             throw new Exception("At least one medication is required.");
         }
 
-        $result = prescription_controller($doctor_fullname, $patient_fullname, $medication_date, $medicines, $dosages, $instructions);
+        $result = prescription_controller($staff_id, $patient_fullname, $medication_date, $medicines, $dosages, $instructions);
 
         if ($result) {
             $response["success"] = true;

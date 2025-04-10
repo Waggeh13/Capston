@@ -1,4 +1,5 @@
 <?php
+session_start(); // Start session to access staff_id
 include("../controllers/lab_form_controller.php");
 
 header('Content-Type: application/json');
@@ -6,12 +7,17 @@ $response = array("success" => false, "message" => "");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
+        // Ensure staff_id is available in session
+        if (!isset($_SESSION['user_id'])) {
+            throw new Exception("Doctor not logged in. Please log in again.");
+        }
+        $staff_id = sanitize_input($_SESSION['user_id']);
+
         // Get form data
         $firstName = sanitize_input($_POST['firstName']);
         $lastName = sanitize_input($_POST['lastName']);
         $diagnosis = sanitize_input($_POST['diagnosis']);
         $labCode = sanitize_input($_POST['labCode'] ?? '');
-        $dFullName = sanitize_input($_POST['dFullName']);
         $signature = sanitize_input($_POST['signature']);
         $extension = sanitize_input($_POST['extension'] ?? '');
         $requestDate = sanitize_input($_POST['requestDate']);
@@ -21,9 +27,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             throw new Exception("Please select at least one test.");
         }
 
-        // Process the lab request
+        // Process the lab request using staff_id from session
         $result = addrequestcontroller(
-            $dFullName,
+            $staff_id,
             $firstName . ' ' . $lastName,
             $testRequests,
             $diagnosis,

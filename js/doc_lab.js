@@ -52,7 +52,6 @@ document.getElementById('labRequestForm').addEventListener('submit', function(e)
     formData.append('lastName', document.getElementById('lastName').value);
     formData.append('diagnosis', document.getElementById('diagnosis').value);
     formData.append('labCode', document.getElementById('labCode').value);
-    formData.append('dFullName', document.getElementById('dFullName').value);
     formData.append('signature', document.getElementById('signature').value);
     formData.append('extension', document.getElementById('extension').value);
     formData.append('requestDate', document.getElementById('requestDate').value);
@@ -74,11 +73,9 @@ document.getElementById('labRequestForm').addEventListener('submit', function(e)
     })
     .then(response => {
         return response.text().then(rawResponse => {
-            console.log('Raw response:', rawResponse);
             try {
                 return JSON.parse(rawResponse);
             } catch (e) {
-                console.error('Failed to parse JSON:', e);
                 throw new Error('Invalid JSON response');
             }
         });
@@ -87,17 +84,15 @@ document.getElementById('labRequestForm').addEventListener('submit', function(e)
         if (data.success) {
             alert('Lab request submitted successfully!');
             labModal.style.display = "none";
-            this.reset(); // Reset form after success
-            // Refresh or update the UI as needed
+            this.reset();
         } else {
             alert('Error: ' + data.message);
         }
     })
     .catch(error => {
-        console.error('Error:', error);
         alert('An error occurred while submitting the lab request.');
     })
     .finally(() => {
-        submitButton.disabled = false; // Re-enable submit button
+        submitButton.disabled = false;
     });
 });

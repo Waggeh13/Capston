@@ -48,6 +48,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 this.classList.add('selected');
                 timeSlots.forEach(slot => slot.disabled = false);
                 timeSlots.forEach(slot => slot.classList.remove('selected'));
+                
+                // Load existing schedule for selected date
+                loadExistingSchedule(selectedDate);
             });
         });
 
@@ -56,6 +59,40 @@ document.addEventListener('DOMContentLoaded', function () {
             if (todayElement && !selectedDate) {
                 todayElement.click();
             }
+        }
+    }
+
+    function loadExistingSchedule(date) {
+        const formattedDate = date.toISOString().split('T')[0];
+        
+        fetch('actions/doc_schedule_action.php?action=get&date=' + formattedDate)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.schedule) {
+                    // Clear all selected time slots
+                    timeSlots.forEach(slot => slot.classList.remove('selected'));
+                    
+                    // Mark the existing time slots as selected
+                    data.schedule.forEach(time => {
+                        const timeSlot = document.querySelector(`.time-slot[data-time="${time}"]`);
+                        if (timeSlot) {
+                            timeSlot.classList.add('selected');
+                        }
+                    });
+                    
+                    updateScheduleList(date, data.schedule);
+                }
+            })
+            .catch(error => {
+                console.error('Error loading schedule:', error);
+            });
+    }
+
+    function updateScheduleList(date, times) {
+        if (times && times.length > 0) {
+            scheduleList.innerHTML = `<li>${date.toDateString()}: ${times.join(', ')}</li>`;
+        } else {
+            scheduleList.innerHTML = '';
         }
     }
 
@@ -86,38 +123,33 @@ document.addEventListener('DOMContentLoaded', function () {
         const selectedTimes = Array.from(document.querySelectorAll('.time-slot.selected'))
             .map(slot => slot.getAttribute('data-time'));
 
-        if (selectedTimes.length > 0) {
-            // Format date for database (YYYY-MM-DD)
-            const formattedDate = selectedDate.toISOString().split('T')[0];
-            
-            // Send to backend
-            fetch('actions/doc_schedule_action.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    date: formattedDate,
-                    times: selectedTimes
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    scheduleList.innerHTML = `<li>${selectedDate.toDateString()}: ${selectedTimes.join(', ')}</li>`;
-                    alert(data.message);
-                } else {
-                    alert(data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred while saving the schedule.');
-            });
-        } else {
-            alert('No times selected!');
-            scheduleList.innerHTML = '';
-        }
+        // Format date for database (YYYY-MM-DD)
+        const formattedDate = selectedDate.toISOString().split('T')[0];
+        
+        // Create FormData object to send data
+        const formData = new FormData();
+        formData.append('action', 'save');
+        formData.append('date', formattedDate);
+        formData.append('times', JSON.stringify(selectedTimes));
+
+        // Send to backend
+        fetch('../actions/doc_schedule_action.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                updateScheduleList(selectedDate, selectedTimes);
+                alert(data.message);
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while saving the schedule.');
+        });
     });
 
     timeSlots.forEach(slot => slot.disabled = true);

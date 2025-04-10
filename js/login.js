@@ -7,11 +7,10 @@ function validation() {
   var user_id = document.getElementById("user_id").value;
   var loginPassword = document.getElementById("password").value;
 
-  if (!/^[a-zA-Z0-9]+$/.test(user_id) || user_id < 8 ) {
+  if (!/^[a-zA-Z0-9]+$/.test(user_id) || user_id.length < 8) {
     document.getElementById("idError").textContent = "Invalid user Id";
     isValid = false;
-}
-
+  }
 
   if (loginPassword.length < 8 ||
       !/[a-zA-Z]/.test(loginPassword) ||
@@ -36,32 +35,34 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
     xhr.addEventListener('load', function () {
-      var response = JSON.parse(this.responseText);
-      if (this.status == 200) {
-        if (response.error) {
-          if (response.errorType === 'user_id') {
-            document.getElementById("IdError").textContent = response.message;
-          } else if (response.errorType === 'password') {
-            document.getElementById("passwordError").textContent = response.message;
+      try {
+        var response = JSON.parse(this.responseText);
+        if (this.status == 200) {
+          if (response.error) {
+            document.getElementById("idError").textContent = response.message;
           } else {
-            document.getElementById("generalError").textContent = "An unexpected error occured:" + response.message;
-          }
-        } else {
-          console.log("User Role:", response.user_role);
-
-          if (response.user_role == 1) {
-            window.location.href = '../view/viewproduct.php';
-          } else if (response.user_role == 2) {
-            window.location.href = '../view/userDash.php';
-          }
-          else if (response.user_role ==3) {
-            window.location.href = '../view/admindashboard.php';
+            if (response.user_role == "Doctor") {
+              window.location.href = '../view/doctor_dashboard.php';
+            } else if (response.user_role == 2) {
+              window.location.href = '../view/userDash.php';
+            } else if (response.user_role == 3) {
+              window.location.href = '../view/admindashboard.php';
+            } else if (response.user_role == 4) {
+              window.location.href = '../view/doctor_dashboard.php';
+            }
+            // Add more role redirections as needed
           }
         }
+      } catch (e) {
+        document.getElementById("idError").textContent = "An error occurred during login";
       }
     });
 
-    xhr.send('submit=true&email=' + encodeURIComponent(user_id) + '&password=' + encodeURIComponent(password));
+    xhr.addEventListener('error', function() {
+      document.getElementById("idError").textContent = "Network error occurred";
+    });
+
+    xhr.send('submit=true&user_id=' + encodeURIComponent(user_id) + '&password=' + encodeURIComponent(password));
   }
 });
 

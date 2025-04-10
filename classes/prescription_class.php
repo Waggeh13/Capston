@@ -4,7 +4,7 @@ require_once("../settings/db_class.php");
 class prescription_class extends db_connection {
 
     // Add Patient
-    public function prescription_form($doctor_fullname, $patient_fullname, $medication_date, $medicines, $dosages, $instructions) {
+    public function prescription_form($staff_id, $patient_fullname, $medication_date, $medicines, $dosages, $instructions) {
         $conn = $this->db_conn();
     
         // Check if connection failed
@@ -13,7 +13,7 @@ class prescription_class extends db_connection {
         }
     
         // Sanitize inputs
-        $doctor_fullname = mysqli_real_escape_string($conn, $doctor_fullname);
+        $staff_id = mysqli_real_escape_string($conn, $staff_id);
         $patient_fullname = mysqli_real_escape_string($conn, $patient_fullname);
         $medication_date = mysqli_real_escape_string($conn, $medication_date);
         $status = 'Pending'; // Must match ENUM values
@@ -27,21 +27,10 @@ class prescription_class extends db_connection {
         $patient_row = mysqli_fetch_assoc($patient_result);
         $patient_id = $patient_row['patient_id'] ?? null;
     
-        // Get doctor_id
-        $doctor_sql = "SELECT staff_id FROM staff_table WHERE CONCAT(first_name, ' ', last_name) = '$doctor_fullname'";
-        $doctor_result = mysqli_query($conn, $doctor_sql);
-        if ($doctor_result === false) {
-            throw new Exception("Query failed: " . mysqli_error($conn));
-        }
-        $doctor_row = mysqli_fetch_assoc($doctor_result);
-        $staff_id = $doctor_row['staff_id'] ?? null;
     
         // Check if patient and doctor exist
         if (!$patient_id) {
             throw new Exception("Patient not found: $patient_fullname");
-        }
-        if (!$staff_id) {
-            throw new Exception("Doctor not found: $doctor_fullname");
         }
     
         // Start transaction to ensure atomicity

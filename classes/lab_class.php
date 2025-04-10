@@ -3,7 +3,7 @@ require_once("../settings/db_class.php");
 
 class lab_class extends db_connection {
 
-    public function requestform($doctor_fullname, $patient_fullname, $testRequests, $susdiag, $signature, $ext, $request_date) {
+    public function requestform($staff_id, $patient_fullname, $testRequests, $susdiag, $signature, $ext, $request_date) {
         $conn = $this->db_conn();
         
         if ($conn === false) {
@@ -11,7 +11,7 @@ class lab_class extends db_connection {
         }
 
         // Sanitize inputs
-        $doctor_fullname = mysqli_real_escape_string($conn, $doctor_fullname);
+        $staff_id = mysqli_real_escape_string($conn, $staff_id);
         $patient_fullname = mysqli_real_escape_string($conn, $patient_fullname);
         $susdiag = mysqli_real_escape_string($conn, $susdiag);
         $signature = mysqli_real_escape_string($conn, $signature);
@@ -30,7 +30,7 @@ class lab_class extends db_connection {
             $lastName = isset($names[1]) ? mysqli_real_escape_string($conn, $names[1]) : '';
             
             $patient_sql = "SELECT patient_id FROM patient_table 
-                           WHERE first_name = '$firstName' AND last_name = '$lastName'";
+            WHERE first_name = '$firstName' AND last_name = '$lastName'";
             $patient_result = mysqli_query($conn, $patient_sql);
             
             if ($patient_result === false || mysqli_num_rows($patient_result) == 0) {
@@ -39,20 +39,6 @@ class lab_class extends db_connection {
             $patient_row = mysqli_fetch_assoc($patient_result);
             $patient_id = $patient_row['patient_id'];
 
-            // Get doctor_id from staff_table using doctor's full name
-            $doctor_names = explode(' ', $doctor_fullname, 2);
-            $docFirstName = mysqli_real_escape_string($conn, $doctor_names[0]);
-            $docLastName = isset($doctor_names[1]) ? mysqli_real_escape_string($conn, $doctor_names[1]) : '';
-            
-            $doctor_sql = "SELECT staff_id FROM staff_table 
-                          WHERE first_name = '$docFirstName' AND last_name = '$docLastName'";
-            $doctor_result = mysqli_query($conn, $doctor_sql);
-            
-            if ($doctor_result === false || mysqli_num_rows($doctor_result) == 0) {
-                throw new Exception("Doctor not found: $doctor_fullname");
-            }
-            $doctor_row = mysqli_fetch_assoc($doctor_result);
-            $doctor_id = $doctor_row['staff_id'];
 
             // Insert into lab_table with doctor_id (staff_id)
             $lab_sql = "INSERT INTO lab_table (
@@ -64,7 +50,7 @@ class lab_class extends db_connection {
                             request_date
                         ) VALUES (
                             '$patient_id',
-                            '$doctor_id',
+                            '$staff_id',
                             '$susdiag',
                             '$signature',
                             '$ext',

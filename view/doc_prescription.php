@@ -98,10 +98,6 @@
             <div class="lab-container">
             <form action="#" class="form" id="prescriptionForm">
                 <div class="input-box">
-                    <label>Doctor Full Name</label>
-                    <input type="text" name="dFullName" placeholder="Enter doctor full name" required>
-                </div>
-                <div class="input-box">
                     <label>Patient Full Name</label>
                     <input type="text" name="pFullName" placeholder="Enter patient full name" required>
                 </div>

@@ -48,7 +48,10 @@
     <div class="dashboard">
         <div class="header">
             <input type="text" class="search-bar" placeholder="Search patient name/ID...">
-            <div><i class="fas fa-calendar-alt"></i> Tuesday, May 14</div>
+            <div class="header-date">
+                <i class="fas fa-calendar-alt"></i> 
+                <span id="real-time-date"></span>
+            </div>
         </div>
         
         <!-- View Prescription Mode -->
@@ -154,12 +157,14 @@
         </div>
         
         <div class="footer">
-            <button class="btn btn-secondary">
+            <button class="btn btn-secondary" onclick="window.location.href='index.php';">
                 <i class="fas fa-sign-out-alt"></i> Logout
             </button>
         </div>
     </div>
 
     <script src="../js/reset_password.js"></script>
+    <script src="../js/pharmacist.js"></script>
+    <script src="../js/real_time_date.js"></script>
 </body>
 </html>

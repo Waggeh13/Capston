@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 10, 2025 at 12:54 AM
+-- Generation Time: Apr 14, 2025 at 10:24 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -30,9 +30,48 @@ SET time_zone = "+00:00";
 CREATE TABLE `appointment_table` (
   `appointment_id` int(11) NOT NULL,
   `staff_id` varchar(50) DEFAULT NULL,
-  `availabletimes` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`availabletimes`)),
-  `unavailabletimes` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`unavailabletimes`))
+  `appointment_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `appointment_table`
+--
+
+INSERT INTO `appointment_table` (`appointment_id`, `staff_id`, `appointment_date`) VALUES
+(1, '623744348888', '2025-04-16'),
+(2, '623744348888', '2025-04-15'),
+(3, '623744348888', '2025-04-17');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `appointment_timeslots`
+--
+
+CREATE TABLE `appointment_timeslots` (
+  `timeslot_id` int(11) NOT NULL,
+  `appointment_id` int(11) NOT NULL,
+  `time_slot` time NOT NULL,
+  `status` enum('Available','Booked') DEFAULT 'Available'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `appointment_timeslots`
+--
+
+INSERT INTO `appointment_timeslots` (`timeslot_id`, `appointment_id`, `time_slot`, `status`) VALUES
+(1, 1, '07:00:00', 'Available'),
+(2, 1, '09:00:00', 'Booked'),
+(3, 1, '12:00:00', 'Available'),
+(4, 1, '15:00:00', 'Available'),
+(5, 2, '07:00:00', 'Available'),
+(6, 2, '08:00:00', 'Available'),
+(7, 2, '09:00:00', 'Booked'),
+(8, 2, '10:00:00', 'Available'),
+(9, 3, '07:00:00', 'Available'),
+(10, 3, '12:00:00', 'Available'),
+(11, 3, '13:00:00', 'Available'),
+(12, 3, '14:00:00', 'Available');
 
 -- --------------------------------------------------------
 
@@ -42,14 +81,20 @@ CREATE TABLE `appointment_table` (
 
 CREATE TABLE `booking_table` (
   `booking_id` int(11) NOT NULL,
-  `patient_id` varchar(50) DEFAULT NULL,
-  `staff_id` varchar(50) DEFAULT NULL,
-  `date` date NOT NULL,
-  `time` time NOT NULL,
-  `appointment_type` varchar(100) DEFAULT NULL,
-  `clinic_id` int(11) DEFAULT NULL,
-  `status` enum('Scheduled','Completed','Cancelled') DEFAULT NULL
+  `patient_id` varchar(50) NOT NULL,
+  `timeslot_id` int(11) NOT NULL,
+  `appointment_type` varchar(100) NOT NULL,
+  `clinic_id` int(11) NOT NULL,
+  `status` enum('Scheduled','Completed','Cancelled') DEFAULT 'Scheduled'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `booking_table`
+--
+
+INSERT INTO `booking_table` (`booking_id`, `patient_id`, `timeslot_id`, `appointment_type`, `clinic_id`, `status`) VALUES
+(6, '88888888', 7, 'Virtual', 9345678, 'Completed'),
+(7, '88888888', 2, 'In-Person', 935953, 'Scheduled');
 
 -- --------------------------------------------------------
 
@@ -68,7 +113,10 @@ CREATE TABLE `clinic_table` (
 --
 
 INSERT INTO `clinic_table` (`clinic_id`, `clinic_name`, `department_id`) VALUES
-(935953, 'hahajhs', 756545);
+(935953, 'hahajhsjkjldsdad', 756545),
+(9345678, 'Postnatal', 756545),
+(12345654, 'sgjsrntrs rt', 756545),
+(2147483647, 'gfdggdfh', 88567);
 
 -- --------------------------------------------------------
 
@@ -86,7 +134,8 @@ CREATE TABLE `department_table` (
 --
 
 INSERT INTO `department_table` (`department_id`, `department_name`) VALUES
-(756545, 'Computer science');
+(88567, 'ivfjkggdfgsdf'),
+(756545, 'Computer scienc');
 
 -- --------------------------------------------------------
 
@@ -164,6 +213,7 @@ CREATE TABLE `patient_table` (
 --
 
 INSERT INTO `patient_table` (`patient_id`, `first_name`, `last_name`, `DOB`, `Gender`, `weight`, `address`, `contact`, `nextofkinname`, `nextofkincontact`, `nextofkingender`, `nextofkinrelationship`) VALUES
+('12345678', 'Fat', 'dairy', '2003-05-05', 'Male', 34.00, 'hgkjd', '0551718945', 'kwaku', '0551718945', 'Male', 'brother'),
 ('88888888', 'Fatou', 'Waggeh', '2025-04-03', 'Male', 89.00, 'hgkjd', '0551718945', 'kwaku', '0551718945', 'Male', 'brother'),
 ('967589', 'Kwame', 'emerole', '2025-04-03', 'Male', 50.00, 'Bort 36', '0551718945', 'kwaku', '0551718945', 'Female', 'brother');
 
@@ -249,7 +299,8 @@ CREATE TABLE `staff_table` (
 INSERT INTO `staff_table` (`staff_id`, `first_name`, `last_name`, `Gender`, `department_id`, `phone`, `email`, `position`) VALUES
 ('238983009', 'Fatou', 'Waggeh', 'Female', 756545, '0551718945', 'ktprodu@ashesi.edu.gh', 'Staff'),
 ('62374', 'Kwame', 'Waggeh', 'Female', NULL, '0551718945', 'mntawiah@gmail.com', 'Staff'),
-('62374434', 'Kwame', 'emerole', 'Female', 756545, '0551718945', 'mntawiah@gmail.com', 'Staff');
+('62374434', 'Kwame', 'emerole', 'Female', 756545, '0551718945', 'mntawiah@gmail.com', 'Staff'),
+('623744348888', 'Kay', 'emerole', 'Male', 88567, '0551718945', 'ktproductions124@ashesi.edu.gh', 'Doctor');
 
 -- --------------------------------------------------------
 
@@ -315,9 +366,11 @@ CREATE TABLE `user_table` (
 --
 
 INSERT INTO `user_table` (`user_id`, `password`, `role`) VALUES
+('12345678', '$2y$10$lddjxVm7VReYtJgsVS6GSeDYtzES.qOAiSOACuH3AH.nn9lcmS2/.', 'Patient'),
 ('238983009', '$2y$10$o6EDE7J18uvRUKTrh3kzReFGi1eW0UFZCC7c7XTm5xQZFDpaGdBQ6', 'staff'),
 ('62374', '$2y$10$dmwwQvujqkrSyb46BLgXAOi9FHRxPbozXFkcUV8F9glnysfhwPyL2', 'staff'),
 ('62374434', '$2y$10$tH3AMK4whtrQ.Y7h7/RuYO1yYeSXIwSNjoWfcbcrUcqNhei1aKcRy', 'staff'),
+('623744348888', '$2y$10$OHXlwKATE/RdaGXcZ7O2qORpQq34b99Cf1vI8K4Iaqt8acvSbjlpC', 'Doctor'),
 ('88888888', '$2y$10$3oqfAKngFH/6i3eyGoEtv.kMNGb4BDpSrei2pdaVatBzI.ajj3LFi', 'Patient'),
 ('967589', '$2y$10$GUxoAMk6H38nY53ycKjP4.91uqueHBUP4WUBxe4BJOqLk2jJCBxRm', 'Patient');
 
@@ -333,12 +386,19 @@ ALTER TABLE `appointment_table`
   ADD KEY `staff_id` (`staff_id`);
 
 --
+-- Indexes for table `appointment_timeslots`
+--
+ALTER TABLE `appointment_timeslots`
+  ADD PRIMARY KEY (`timeslot_id`),
+  ADD KEY `appointment_id` (`appointment_id`);
+
+--
 -- Indexes for table `booking_table`
 --
 ALTER TABLE `booking_table`
   ADD PRIMARY KEY (`booking_id`),
   ADD KEY `patient_id` (`patient_id`),
-  ADD KEY `staff_id` (`staff_id`),
+  ADD KEY `timeslot_id` (`timeslot_id`),
   ADD KEY `clinic_id` (`clinic_id`);
 
 --
@@ -436,19 +496,25 @@ ALTER TABLE `user_table`
 -- AUTO_INCREMENT for table `appointment_table`
 --
 ALTER TABLE `appointment_table`
-  MODIFY `appointment_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `appointment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `appointment_timeslots`
+--
+ALTER TABLE `appointment_timeslots`
+  MODIFY `timeslot_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `booking_table`
 --
 ALTER TABLE `booking_table`
-  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `clinic_table`
 --
 ALTER TABLE `clinic_table`
-  MODIFY `clinic_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7584938;
+  MODIFY `clinic_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2147483648;
 
 --
 -- AUTO_INCREMENT for table `department_table`
@@ -503,11 +569,17 @@ ALTER TABLE `appointment_table`
   ADD CONSTRAINT `appointment_table_ibfk_1` FOREIGN KEY (`staff_id`) REFERENCES `staff_table` (`staff_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `appointment_timeslots`
+--
+ALTER TABLE `appointment_timeslots`
+  ADD CONSTRAINT `appointment_timeslots_ibfk_1` FOREIGN KEY (`appointment_id`) REFERENCES `appointment_table` (`appointment_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `booking_table`
 --
 ALTER TABLE `booking_table`
   ADD CONSTRAINT `booking_table_ibfk_1` FOREIGN KEY (`patient_id`) REFERENCES `patient_table` (`patient_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `booking_table_ibfk_2` FOREIGN KEY (`staff_id`) REFERENCES `staff_table` (`staff_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `booking_table_ibfk_2` FOREIGN KEY (`timeslot_id`) REFERENCES `appointment_timeslots` (`timeslot_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `booking_table_ibfk_3` FOREIGN KEY (`clinic_id`) REFERENCES `clinic_table` (`clinic_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --

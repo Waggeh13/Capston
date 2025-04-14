@@ -5,8 +5,8 @@ $response = array("success" => false, "message" => "");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $departmentId = sanitize_input($_POST['departmentId']);
-    $departmentName= sanitize_input($_POST['departmentName']);
+    $departmentId = sanitize_input($_POST['editdepartmentId']);
+    $departmentName= sanitize_input($_POST['editdepartmentName']);
 
     $result = updatedepartmentController($departmentId, $departmentName);
     if ($result) {

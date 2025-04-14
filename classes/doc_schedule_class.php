@@ -15,15 +15,15 @@ class schedule_class extends db_connection {
             mysqli_begin_transaction($conn);
 
             // First, delete any existing schedule for this date
-            $delete_sql = "DELETE FROM appointment_table 
-                          WHERE staff_id = ? AND appointment_date = ?";
+            $delete_sql = "DELETE FROM appointment_table
+                        WHERE staff_id = ? AND appointment_date = ?";
             $stmt = mysqli_prepare($conn, $delete_sql);
             mysqli_stmt_bind_param($stmt, "is", $staff_id, $appointment_date);
             mysqli_stmt_execute($stmt);
             
             // Insert new appointment
             $appointment_sql = "INSERT INTO appointment_table (staff_id, appointment_date) 
-                              VALUES (?, ?)";
+                            VALUES (?, ?)";
             $stmt = mysqli_prepare($conn, $appointment_sql);
             mysqli_stmt_bind_param($stmt, "is", $staff_id, $appointment_date);
             
@@ -63,10 +63,10 @@ class schedule_class extends db_connection {
     public function get_doctor_schedule_for_date($staff_id, $date) {
         $conn = $this->db_conn();
         
-        $sql = "SELECT t.time_slot
+        $sql = "SELECT t.timeslot_id, t.time_slot
                 FROM appointment_table a
                 JOIN appointment_timeslots t ON a.appointment_id = t.appointment_id
-                WHERE a.staff_id = ? AND a.appointment_date = ?";
+                WHERE a.staff_id = ? AND a.appointment_date = ? AND t.status = 'Available'";
                 
         $stmt = mysqli_prepare($conn, $sql);
         mysqli_stmt_bind_param($stmt, "is", $staff_id, $date);
@@ -75,7 +75,7 @@ class schedule_class extends db_connection {
         
         $time_slots = array();
         while ($row = mysqli_fetch_assoc($result)) {
-            $time_slots[] = $row['time_slot'];
+            $time_slots[] = $row;
         }
         
         mysqli_stmt_close($stmt);
@@ -107,6 +107,50 @@ class schedule_class extends db_connection {
         mysqli_stmt_close($stmt);
         mysqli_close($conn);
         return $rows;
+    }
+
+    // Get all doctors with schedules
+    public function get_doctors_with_schedules() {
+        $conn = $this->db_conn();
+        
+        $sql = "SELECT DISTINCT a.staff_id, s.first_name, s.last_name
+                FROM appointment_table a
+                JOIN staff_table s ON a.staff_id = s.staff_id
+                JOIN user_table u ON s.staff_id = u.user_id
+                WHERE u.role = 'Doctor'";
+                
+        $result = mysqli_query($conn, $sql);
+        $doctors = array();
+        while ($row = mysqli_fetch_assoc($result)) {
+            $doctors[] = $row;
+        }
+        
+        mysqli_close($conn);
+        return $doctors;
+    }
+
+    // Get available dates for a doctor
+    public function get_doctor_available_dates($staff_id) {
+        $conn = $this->db_conn();
+        
+        $sql = "SELECT DISTINCT appointment_date
+                FROM appointment_table
+                WHERE staff_id = ?
+                ORDER BY appointment_date";
+                
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, "i", $staff_id);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        
+        $dates = array();
+        while ($row = mysqli_fetch_assoc($result)) {
+            $dates[] = $row['appointment_date'];
+        }
+        
+        mysqli_stmt_close($stmt);
+        mysqli_close($conn);
+        return $dates;
     }
 }
 ?>

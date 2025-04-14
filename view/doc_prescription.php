@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../css/sidebar.css">
     <link rel="stylesheet" href="../css/prescription.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <title>Lab Test</title>
+    <title>Prescription Form</title>
 </head>
 <body>
     <div class="container">

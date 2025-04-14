@@ -12,6 +12,7 @@
 </head>
 <?php
 require_once('../controllers/clinic_controller.php');
+require_once('../controllers/doc_schedule_controller.php');
 ?>
 <body>
     <div class="container">
@@ -101,116 +102,7 @@ require_once('../controllers/clinic_controller.php');
                         <td>Action</td>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Lalia Jobe</td>
-                            <td>Alfa Jarju</td>
-                            <td>13/12/25</td>
-                            <td>13:15</td>
-                            <td>In-Person</td>
-                            <td>Postnatal</td>
-                            <td>
-                                <select class="status-dropdown">
-                                    <option value="pending">Pending</option>
-                                    <option value="confirmed">Confirmed</option>
-                                    <option value="in-progress">In Progress</option>
-                                    <option value="completed">Completed</option>
-                                    <option value="cancelled">Cancelled</option>
-                                    <option value="rescheduled">Rescheduled</option>
-                                </select>
-                            </td>
-                            <td>
-                                <i class="far fa-edit editItemBtn"></i>
-                                <i class="far fa-trash-alt"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Lalia Jobe</td>
-                            <td>Alfa Jarju</td>
-                            <td>13/12/25</td>
-                            <td>13:15</td>
-                            <td>In-Person</td>
-                            <td>Postnatal</td>
-                            <td>
-                                <select class="status-dropdown">
-                                    <option value="pending">Pending</option>
-                                    <option value="confirmed">Confirmed</option>
-                                    <option value="in-progress">In Progress</option>
-                                    <option value="completed">Completed</option>
-                                    <option value="cancelled">Cancelled</option>
-                                    <option value="rescheduled">Rescheduled</option>
-                                </select>
-                            </td>
-                            <td>
-                                <i class="far fa-edit editItemBtn"></i>
-                                <i class="far fa-trash-alt"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Lalia Jobe</td>
-                            <td>Alfa Jarju</td>
-                            <td>13/12/25</td>
-                            <td>13:15</td>
-                            <td>In-Person</td>
-                            <td>Postnatal</td>
-                            <td>
-                                <select class="status-dropdown">
-                                    <option value="pending">Pending</option>
-                                    <option value="confirmed">Confirmed</option>
-                                    <option value="in-progress">In Progress</option>
-                                    <option value="completed">Completed</option>
-                                    <option value="cancelled">Cancelled</option>
-                                    <option value="rescheduled">Rescheduled</option>
-                                </select>
-                            </td>
-                            <td>
-                                <i class="far fa-edit editItemBtn"></i>
-                                <i class="far fa-trash-alt"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Lalia Jobe</td>
-                            <td>Alfa Jarju</td>
-                            <td>13/12/25</td>
-                            <td>13:15</td>
-                            <td>In-Person</td>
-                            <td>Postnatal</td>
-                            <td>
-                                <select class="status-dropdown">
-                                    <option value="pending">Pending</option>
-                                    <option value="confirmed">Confirmed</option>
-                                    <option value="in-progress">In Progress</option>
-                                    <option value="completed">Completed</option>
-                                    <option value="cancelled">Cancelled</option>
-                                    <option value="rescheduled">Rescheduled</option>
-                                </select>
-                            </td>
-                            <td>
-                                <i class="far fa-edit editItemBtn"></i>
-                                <i class="far fa-trash-alt"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Lalia Jobe</td>
-                            <td>Alfa Jarju</td>
-                            <td>13/12/25</td>
-                            <td>13:15</td>
-                            <td>In-Person</td>
-                            <td>Postnatal</td>
-                            <td>
-                                <select class="status-dropdown">
-                                    <option value="pending">Pending</option>
-                                    <option value="confirmed">Confirmed</option>
-                                    <option value="in-progress">In Progress</option>
-                                    <option value="completed">Completed</option>
-                                    <option value="cancelled">Cancelled</option>
-                                    <option value="rescheduled">Rescheduled</option>
-                                </select>
-                            </td>
-                            <td>
-                                <i class="far fa-edit editItemBtn"></i>
-                                <i class="far fa-trash-alt"></i>
-                            </td>
-                        </tr>
+                        <!-- Dynamic data will be loaded here -->
                     </tbody>
                 </table>
             </div>
@@ -220,10 +112,33 @@ require_once('../controllers/clinic_controller.php');
         <div class="popup-form" id="addItemForm">
             <h3>Add Appointment</h3>
             <form id="addItem">
-                <input type="text" name="patientName" placeholder="Patient Name" required>
-                <input type="text" name="doctorName" placeholder="Doctor Name" required>
-                <input type="date" name="appointmentDate" placeholder="Date" required>
-                <input type="time" name="appointmentTime" placeholder="Time" required>
+                <label for="patientName">Patient Name:</label>
+                <input type="text" id="patientName" name="patientName" placeholder="Full Name" required>
+                
+                <label for="doctorName">Doctor Name:</label>
+                <select id="doctorName" name="staff_id" required>
+                    <option value="">Select a doctor</option>
+                    <?php
+                    $doctors = get_doctors_with_schedules_ctr();
+                    if (!empty($doctors)) {
+                        foreach ($doctors as $doctor) {
+                            echo "<option value='{$doctor['staff_id']}'>{$doctor['first_name']} {$doctor['last_name']}</option>";
+                        }
+                    }
+                    ?>
+                </select>
+
+                <label for="appointmentDate">Appointment Date:</label>
+                <select id="appointmentDate" name="appointmentDate" required>
+                    <option value="">Select a date</option>
+                    <!-- Dates will be populated dynamically -->
+                </select>
+
+                <label for="appointmentTime">Appointment Time:</label>
+                <select id="appointmentTime" name="appointmentTime" required>
+                    <option value="">Select a time</option>
+                    <!-- Times will be populated dynamically -->
+                </select>
 
                 <label>Appointment Type:</label>
                 <div class="radio-group">
@@ -235,7 +150,7 @@ require_once('../controllers/clinic_controller.php');
                     </label>
                 </div>
 
-                <label for="clinicName">Clinic Name:</label>
+                <label for="clinic">Clinic Name:</label>
                 <select id="clinic" name="clinic_id" required>
                     <option value="">Select a clinic</option>
                     <?php
@@ -257,10 +172,34 @@ require_once('../controllers/clinic_controller.php');
         <div class="popup-form" id="editItemForm">
             <h3>Edit Appointment</h3>
             <form id="editItem">
-                <input type="text" name="patientName" placeholder="Patient Name" required>
-                <input type="text" name="doctorName" placeholder="Doctor Name" required>
-                <input type="date" name="appointmentDate" placeholder="Date" required>
-                <input type="time" name="appointmentTime" placeholder="Time" required>
+                <input type="hidden" id="editBookingId" name="booking_id">
+                <label for="editpatientName">Patient Name:</label>
+                <input type="text" id="editpatientName" name="patientName" placeholder="Full Name" required>
+                
+                <label for="editdoctorName">Doctor Name:</label>
+                <select id="editdoctorName" name="staff_id" required>
+                    <option value="">Select a doctor</option>
+                    <?php
+                    $doctors = get_doctors_with_schedules_ctr();
+                    if (!empty($doctors)) {
+                        foreach ($doctors as $doctor) {
+                            echo "<option value='{$doctor['staff_id']}'>{$doctor['first_name']} {$doctor['last_name']}</option>";
+                        }
+                    }
+                    ?>
+                </select>
+
+                <label for="editappointmentDate">Appointment Date:</label>
+                <select id="editappointmentDate" name="appointmentDate" required>
+                    <option value="">Select a date</option>
+                    <!-- Dates will be populated dynamically -->
+                </select>
+
+                <label for="editappointmentTime">Appointment Time:</label>
+                <select id="editappointmentTime" name="appointmentTime" required>
+                    <option value="">Select a time</option>
+                    <!-- Times will be populated dynamically -->
+                </select>
 
                 <label>Appointment Type:</label>
                 <div class="radio-group">
@@ -272,51 +211,40 @@ require_once('../controllers/clinic_controller.php');
                     </label>
                 </div>
 
-                <label for="clinicName">Clinic Name:</label>
+                <label for="editclinic">Clinic Name:</label>
                 <select id="editclinic" name="clinic_id" required>
-                        <option value="">Select a clinic</option>
-                        <?php
-                        $clinics = viewclinicsController();
-                        if (!empty($clinics)) {
-                            foreach ($clinics as $clinic) {
-                                echo "<option value='{$clinic['clinic_id']}'>{$clinic['clinic_name']}</option>";
-                            }
+                    <option value="">Select a clinic</option>
+                    <?php
+                    $clinics = viewclinicsController();
+                    if (!empty($clinics)) {
+                        foreach ($clinics as $clinic) {
+                            echo "<option value='{$clinic['clinic_id']}'>{$clinic['clinic_name']}</option>";
                         }
-                        ?>
-                    </select>
+                    }
+                    ?>
+                </select>
 
                 <button type="submit">Update</button>
                 <button type="button" class="cancel" id="cancelEditItem">Cancel</button>
             </form>
         </div>
-        <script src="../js/appointment_add_edit.js"></script>
-
-        <script>
-            document.querySelectorAll('.status-dropdown').forEach(select => {
-                function updateColor(dropdown) {
-                    let color = {
-                        "pending": "orange",
-                        "confirmed": "blue",
-                        "in-progress": "darkblue",
-                        "completed": "green",
-                        "cancelled": "red",
-                        "no-show": "gray",
-                        "rescheduled": "purple"
-                    }[dropdown.value] || "black"; 
-            
-                    dropdown.style.color = color;
-                }
-            
-                // Update color on page load
-                updateColor(select);
-            
-                // Update color when the value changes
-                select.addEventListener('change', function() {
-                    updateColor(this);
-                });
+    </div>
+    <script src="../js/appointment_add_edit.js"></script>
+    <script>
+        document.querySelectorAll('.status-dropdown').forEach(select => {
+            function updateColor(dropdown) {
+                let color = {
+                    "Scheduled": "blue",
+                    "Completed": "green",
+                    "Cancelled": "red"
+                }[dropdown.value] || "black";
+                dropdown.style.color = color;
+            }
+            updateColor(select);
+            select.addEventListener('change', function() {
+                updateColor(this);
             });
-
-        </script>
-    
+        });
+    </script>
 </body>
 </html>

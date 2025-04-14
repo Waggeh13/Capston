@@ -136,9 +136,8 @@ require('../controllers/department_controller.php');
             <h3>Edit Department</h3>
             <form id="editItem">
                 <!-- Department Details -->
-                <input type="hidden" id="editDepartmentId" name="departmentId">
-                <input type="text" id="editDepartmentName" name="departmentName" placeholder="Department Name" required>
-
+                <input type="hidden" id="editDepartmentId" name="editdepartmentId">
+                <input type="text" id="editDepartmentName" name="editdepartmentName" placeholder="Department Name" required>
                 <button type="submit">Update</button>
                 <button type="button" class="cancel" id="cancelEditItem">Cancel</button>
             </form>

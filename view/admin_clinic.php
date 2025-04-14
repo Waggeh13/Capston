@@ -157,12 +157,12 @@ require_once('../controllers/department_controller.php');
         <div class="popup-form" id="editItemForm">
             <h3>Edit Clinic</h3>
             <form id="editItem">
-                <input type="hidden" id="editClinicID" name="clinicId">
-                <input type="text" id="editClinicName" name="clinicName" placeholder="Edit clinic name" required>
+                <input type="hidden" id="editclinicId" name="editclinicId">
+                <input type="text" id="editclinicName" name="editclinicName" placeholder="Edit clinic name" required>
                 
                 <!-- Dropdown for Category -->
                 <label for="editDepartment">Department:</label>
-                    <select id="editDepartment" name="department_id" required>
+                    <select id="editDepartment" name="editDepartment" required>
                         <option value="">Select a department</option>
                         <?php
                         $departments = viewdepartmentsController();

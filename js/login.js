@@ -54,7 +54,6 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
               window.location.href = '../view/patient_dashboard.php';
             }
             
-            // Add more role redirections as needed
           }
         }
       } catch (e) {
@@ -73,7 +72,7 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
 var showPasswordIcon = document.getElementById("show-password");
 var passwordField = document.getElementById("password");
 
-showPasswordIcon.addEventListener('click', function () { 
+showPasswordIcon.addEventListener('click', function () {
   if (passwordField.type === "password") {
     passwordField.type = "text";
   } else {

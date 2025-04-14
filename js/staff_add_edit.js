@@ -142,7 +142,7 @@ document.getElementById('editItem').addEventListener('submit', (e) => {
         }
     });
 
-    alert('Item updated successfully!');
+    alert('Staff updated successfully!');
     editItemForm.classList.remove('active');
     overlay.classList.remove('active');
 });

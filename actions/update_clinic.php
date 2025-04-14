@@ -4,9 +4,9 @@ include("../controllers/clinic_controller.php");
 $response = array("success" => false, "message" => "");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $clinicId = sanitize_input($_POST['clinicId']);
-    $clinicName= sanitize_input($_POST['clinicName']);
-    $department_id = sanitize_input($_POST['department_id']);
+    $clinicId = sanitize_input($_POST['editclinicId']);
+    $clinicName= sanitize_input($_POST['editclinicName']);
+    $department_id = sanitize_input($_POST['editDepartment']);
 
     $result = updateclinicController($clinicId, $clinicName, $department_id);
     if ($result) {

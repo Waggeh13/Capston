@@ -126,7 +126,9 @@ document.getElementById('editItem').addEventListener('submit', (e) => {
     .then((data) => {
         if (data.success) {
             // Redirect on success
-            location.href = '../view/department.php';
+            editItemForm.classList.remove('active');
+            overlay.classList.remove('active');
+            location.reload();
         } else {
                 alert("Registration error:", data.message);
                 setTimeout(() => {

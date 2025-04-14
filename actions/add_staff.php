@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     if ($result2) {
         $response["success"] = true;
-        $response["message"] = "staff registered successfully.";
+        $response["message"] = "Staff registered successfully.";
     } else {
         $response["success"] = false;
         $response["message"] = "Error: Unable to register staff. Please try again.";

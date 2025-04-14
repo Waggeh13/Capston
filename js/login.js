@@ -50,6 +50,10 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
             } else if (response.user_role == "Cashier") {
               window.location.href = '../view/doctor_dashboard.php';
             }
+            else if (response.user_role == "Patient") {
+              window.location.href = '../view/patient_dashboard.php';
+            }
+            
             // Add more role redirections as needed
           }
         }

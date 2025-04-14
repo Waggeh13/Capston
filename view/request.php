@@ -153,15 +153,6 @@
                         </div>
                     </div>
                 </div>
-                
-                <!-- Empty state example (hidden by default) -->
-                <!--
-                <div class="no-requests">
-                    <i class="fas fa-file-medical" style="font-size: 3rem; color: #0054A6; margin-bottom: 15px;"></i>
-                    <h3>No Medical Summary Requests</h3>
-                    <p>When patients request medical summaries for transfer, they'll appear here.</p>
-                </div>
-                -->
             </div>
         </div>
     </body>

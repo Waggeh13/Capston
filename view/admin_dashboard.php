@@ -51,7 +51,7 @@
     <div class="container">
         <div class="sidebar">
             <ul>
-            <li>
+                <li>
                     <a href="#">
                         <i class="fas fa-clinic-medical"></i>
                         <div class="title">BafrowCare</div>
@@ -161,7 +161,7 @@
                 <div class="last-appointments">
                     <div class="heading">
                         <h2>Last Appointments</h2>
-                        <a href="admin_appointment.html" class="btn">View All</a>
+                        <a href="admin_appointment.php" class="btn">View All</a>
                     </div>
                     <table class="appointments">
                         <thead>
@@ -211,7 +211,7 @@
                 <div class="doctor-available">
                     <div class="heading">
                         <h2>Doctors Available</h2>
-                        <a href="admin_staff.html" class="btn">View All</a>
+                        <a href="admin_staff.php" class="btn">View All</a>
                     </div>
                     <table class="available">
                         <thead>

@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function() {
             ZoomMtg.prepareWebSDK();
 
             const meetingConfig = {
-                sdkKey: meeting.sdk_key,
+                sdkKey: meeting.sdk_key, // Use sdkKey only
                 meetingNumber: meeting.meeting_id,
                 password: meeting.password,
                 userName: 'Patient',
@@ -156,32 +156,39 @@ document.addEventListener('DOMContentLoaded', function() {
                 role: 0
             };
 
+            console.log('Meeting Config:', meetingConfig); // Debug meeting config
+
             await ZoomMtg.init({
                 leaveUrl: meetingConfig.leaveUrl,
                 success: async () => {
                     try {
+                        console.log('ZoomMtg.init success, attempting to join meeting...');
                         await ZoomMtg.join({
+                            sdkKey: meetingConfig.sdkKey, // Use sdkKey explicitly
                             signature: meetingConfig.signature,
-                            sdkKey: meetingConfig.sdk_key,
                             meetingNumber: meetingConfig.meetingNumber,
                             passWord: meetingConfig.password,
                             userName: meetingConfig.userName,
                             userEmail: meetingConfig.userEmail,
                             success: () => {
+                                console.log('Successfully joined Zoom meeting');
                                 client = ZoomMtg;
                                 isMeetingActive = true;
                                 setupMeetingControls();
                             },
                             error: (error) => {
-                                throw new Error('Failed to join meeting: ' + error.message);
+                                console.error('ZoomMtg.join error:', error);
+                                throw new Error('Failed to join meeting: ' + (error.message || JSON.stringify(error)));
                             }
                         });
                     } catch (joinError) {
+                        console.error('Error during ZoomMtg.join:', joinError);
                         throw joinError;
                     }
                 },
                 error: (error) => {
-                    throw new Error('Failed to initialize meeting: ' + error.message);
+                    console.error('ZoomMtg.init error:', error);
+                    throw new Error('Failed to initialize meeting: ' + (error.message || JSON.stringify(error)));
                 }
             });
         } catch (error) {

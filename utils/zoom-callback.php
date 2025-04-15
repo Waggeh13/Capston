@@ -4,7 +4,7 @@ require_once("../settings/db_class.php");
 class ZoomCallback extends db_connection {
     private $zoom_client_id = 'JWxNJ_siTs6WKTBZZ9IFw';
     private $zoom_client_secret = 'DNxXbSOv70Md8i5ohHgazs6ooxDuuGTW';
-    private $redirect_uri = 'https://91bf-154-161-44-234.ngrok-free.app/capston/utils/zoom-callback.php';
+    private $redirect_uri = 'https://96b3-154-161-170-39.ngrok-free.app/capston/utils/zoom-callback.php';
 
     public function handleCallback() {
         error_log("Zoom callback invoked");

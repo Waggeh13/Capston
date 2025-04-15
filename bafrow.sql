@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 15, 2025 at 04:55 AM
+-- Generation Time: Apr 15, 2025 at 07:36 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -63,9 +63,9 @@ INSERT INTO `appointment_timeslots` (`timeslot_id`, `appointment_id`, `time_slot
 (1, 1, '07:00:00', 'Available'),
 (2, 1, '09:00:00', 'Booked'),
 (3, 1, '12:00:00', 'Available'),
-(4, 1, '15:00:00', 'Available'),
+(4, 1, '15:00:00', 'Booked'),
 (5, 2, '07:00:00', 'Available'),
-(6, 2, '08:00:00', 'Available'),
+(6, 2, '08:00:00', 'Booked'),
 (7, 2, '09:00:00', 'Booked'),
 (8, 2, '10:00:00', 'Available'),
 (9, 3, '07:00:00', 'Available'),
@@ -94,7 +94,9 @@ CREATE TABLE `booking_table` (
 
 INSERT INTO `booking_table` (`booking_id`, `patient_id`, `timeslot_id`, `appointment_type`, `clinic_id`, `status`) VALUES
 (6, '88888888', 7, 'Virtual', 9345678, 'Completed'),
-(7, '88888888', 2, 'In-Person', 935953, 'Scheduled');
+(7, '88888888', 2, 'In-Person', 935953, 'Scheduled'),
+(16, '12345678', 6, 'In-Person', 9345678, 'Scheduled'),
+(23, '12345678', 4, 'Virtual', 9345678, 'Scheduled');
 
 -- --------------------------------------------------------
 
@@ -311,14 +313,23 @@ INSERT INTO `staff_table` (`staff_id`, `first_name`, `last_name`, `Gender`, `dep
 CREATE TABLE `telemedicine_table` (
   `telemedicine_id` int(11) NOT NULL,
   `booking_id` int(11) NOT NULL,
-  `token_id` int(11) NOT NULL,
+  `patient_id` varchar(50) NOT NULL,
+  `staff_id` varchar(50) NOT NULL,
   `meeting_id` varchar(50) NOT NULL,
-  `topic` varchar(200) DEFAULT NULL,
+  `join_url` text NOT NULL,
+  `password` varchar(50) DEFAULT NULL,
+  `topic` varchar(255) DEFAULT NULL,
   `start_time` datetime NOT NULL,
   `duration` int(11) NOT NULL,
-  `join_url` text NOT NULL,
-  `password` varchar(50) DEFAULT NULL
+  `status` enum('Scheduled','Completed','Cancelled') DEFAULT 'Scheduled'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `telemedicine_table`
+--
+
+INSERT INTO `telemedicine_table` (`telemedicine_id`, `booking_id`, `patient_id`, `staff_id`, `meeting_id`, `join_url`, `password`, `topic`, `start_time`, `duration`, `status`) VALUES
+(5, 23, '12345678', '623744348888', '81670602143', 'https://us05web.zoom.us/j/81670602143?pwd=nEccWOr44TGmSUGwt9jFOD7puXQJMy.1', 'd580hibv', 'Virtual Consultation with Patient 12345678', '2025-04-16 15:00:00', 30, 'Scheduled');
 
 -- --------------------------------------------------------
 
@@ -359,8 +370,16 @@ CREATE TABLE `token_table` (
   `access_token` text NOT NULL,
   `refresh_token` text DEFAULT NULL,
   `expires_at` datetime NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp()
+  `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `token_table`
+--
+
+INSERT INTO `token_table` (`token_id`, `access_token`, `refresh_token`, `expires_at`, `created_at`) VALUES
+(4, 'eyJzdiI6IjAwMDAwMiIsImFsZyI6IkhTNTEyIiwidiI6IjIuMCIsImtpZCI6IjNlNmE5ZmFmLWM3YzMtNDhjZi05MGYyLWVjNjA1N2YxNmU4MSJ9.eyJhdWQiOiJodHRwczovL29hdXRoLnpvb20udXMiLCJ1aWQiOiJKcFd1S25WQVRYQzYwMC13Y2pTZjVRIiwidmVyIjoxMCwiYXVpZCI6IjE4NDY1YjU0YzhmODNkZDFlZWUyMDhiMTc1M2E2NTQ1OTc2MzAxY2NmOTU1OTRiMTZhYjg3Y2JiMWViNDYzMzAiLCJuYmYiOjE3NDQ2OTEwNzgsImNvZGUiOiJ3OWJPc1RhMXpKZm1id2lCQ3piUmh1NEptNnVFazk1dWciLCJpc3MiOiJ6bTpjaWQ6Sld4Tkpfc2lUczZXS1RCWlo5SUZ3IiwiZ25vIjowLCJleHAiOjE3NDQ2OTQ2NzgsInR5cGUiOjAsImlhdCI6MTc0NDY5MTA3OCwiYWlkIjoiOEtGelo4NFBUVGVOZm5GUjRsMG42USJ9.hHGaPQV6h2U-ya84m_arJEcZ7BvoWqAXt1QrOjuF3ESiAQtOJNyXs3TL-kilbuCkY7k7i-3ljFYiIdB4XcR8Ew', 'eyJzdiI6IjAwMDAwMiIsImFsZyI6IkhTNTEyIiwidiI6IjIuMCIsImtpZCI6ImJhMGQ5ZTcyLTA0YmEtNDliNi1iMWFjLTljZmVmNDdjZGIyNCJ9.eyJhdWQiOiJodHRwczovL29hdXRoLnpvb20udXMiLCJ1aWQiOiJKcFd1S25WQVRYQzYwMC13Y2pTZjVRIiwidmVyIjoxMCwiYXVpZCI6IjE4NDY1YjU0YzhmODNkZDFlZWUyMDhiMTc1M2E2NTQ1OTc2MzAxY2NmOTU1OTRiMTZhYjg3Y2JiMWViNDYzMzAiLCJuYmYiOjE3NDQ2OTEwNzgsImNvZGUiOiJ3OWJPc1RhMXpKZm1id2lCQ3piUmh1NEptNnVFazk1dWciLCJpc3MiOiJ6bTpjaWQ6Sld4Tkpfc2lUczZXS1RCWlo5SUZ3IiwiZ25vIjowLCJleHAiOjE3NTI0NjcwNzgsInR5cGUiOjEsImlhdCI6MTc0NDY5MTA3OCwiYWlkIjoiOEtGelo4NFBUVGVOZm5GUjRsMG42USJ9.G6GIKwAFuWLil6pFfGHC7AWSWo8oBHmNv7HzS0Hwwxd2-ToyCXBiC7iwZHOg-9KSHTsjoR8Pfo_9uWJK3pHqOQ', '2025-04-15 07:24:35', '2025-04-15 04:24:36'),
+(5, 'eyJzdiI6IjAwMDAwMiIsImFsZyI6IkhTNTEyIiwidiI6IjIuMCIsImtpZCI6IjA0NmRlY2QyLWE3OWYtNDlhMS1iNWU1LTU0MmM4NTczZDgyMCJ9.eyJhdWQiOiJodHRwczovL29hdXRoLnpvb20udXMiLCJ1aWQiOiJKcFd1S25WQVRYQzYwMC13Y2pTZjVRIiwidmVyIjoxMCwiYXVpZCI6IjE4NDY1YjU0YzhmODNkZDFlZWUyMDhiMTc1M2E2NTQ1OTc2MzAxY2NmOTU1OTRiMTZhYjg3Y2JiMWViNDYzMzAiLCJuYmYiOjE3NDQ3Mzc1ODYsImNvZGUiOiJ3OWJPc1RhMXpKZm1id2lCQ3piUmh1NEptNnVFazk1dWciLCJpc3MiOiJ6bTpjaWQ6Sld4Tkpfc2lUczZXS1RCWlo5SUZ3IiwiZ25vIjowLCJleHAiOjE3NDQ3NDExODYsInR5cGUiOjAsImlhdCI6MTc0NDczNzU4NiwiYWlkIjoiOEtGelo4NFBUVGVOZm5GUjRsMG42USJ9.vm8nwKTq2a1GLvkB1alqFAAIbnFbxiD1-wDEeTVv1b859ZuqvRl81U7X0GMXhAZ0nliT3gFtDQqpRa_XqGACUQ', 'eyJzdiI6IjAwMDAwMiIsImFsZyI6IkhTNTEyIiwidiI6IjIuMCIsImtpZCI6ImViNjExZTQwLThkMmEtNDllNi04Njg0LTkxMTljYmI3ZDBlYSJ9.eyJhdWQiOiJodHRwczovL29hdXRoLnpvb20udXMiLCJ1aWQiOiJKcFd1S25WQVRYQzYwMC13Y2pTZjVRIiwidmVyIjoxMCwiYXVpZCI6IjE4NDY1YjU0YzhmODNkZDFlZWUyMDhiMTc1M2E2NTQ1OTc2MzAxY2NmOTU1OTRiMTZhYjg3Y2JiMWViNDYzMzAiLCJuYmYiOjE3NDQ3Mzc1ODYsImNvZGUiOiJ3OWJPc1RhMXpKZm1id2lCQ3piUmh1NEptNnVFazk1dWciLCJpc3MiOiJ6bTpjaWQ6Sld4Tkpfc2lUczZXS1RCWlo5SUZ3IiwiZ25vIjowLCJleHAiOjE3NTI1MTM1ODYsInR5cGUiOjEsImlhdCI6MTc0NDczNzU4NiwiYWlkIjoiOEtGelo4NFBUVGVOZm5GUjRsMG42USJ9.uGfdVjtTmLADOhAiMKUs28W487gx63wNucBzaPOp-wZHMqSZMzCccJZ1efrgsJPqFvqApl7fKZg_HLvfa337oA', '2025-04-15 20:19:45', '2025-04-15 17:19:46');
 
 -- --------------------------------------------------------
 
@@ -488,7 +507,8 @@ ALTER TABLE `staff_table`
 ALTER TABLE `telemedicine_table`
   ADD PRIMARY KEY (`telemedicine_id`),
   ADD KEY `booking_id` (`booking_id`),
-  ADD KEY `token_id` (`token_id`);
+  ADD KEY `patient_id` (`patient_id`),
+  ADD KEY `staff_id` (`staff_id`);
 
 --
 -- Indexes for table `test_type_table`
@@ -529,7 +549,7 @@ ALTER TABLE `appointment_timeslots`
 -- AUTO_INCREMENT for table `booking_table`
 --
 ALTER TABLE `booking_table`
-  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `clinic_table`
@@ -577,7 +597,7 @@ ALTER TABLE `receipt_table`
 -- AUTO_INCREMENT for table `telemedicine_table`
 --
 ALTER TABLE `telemedicine_table`
-  MODIFY `telemedicine_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `telemedicine_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `test_type_table`
@@ -589,7 +609,7 @@ ALTER TABLE `test_type_table`
 -- AUTO_INCREMENT for table `token_table`
 --
 ALTER TABLE `token_table`
-  MODIFY `token_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `token_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
@@ -674,7 +694,8 @@ ALTER TABLE `staff_table`
 --
 ALTER TABLE `telemedicine_table`
   ADD CONSTRAINT `telemedicine_table_ibfk_1` FOREIGN KEY (`booking_id`) REFERENCES `booking_table` (`booking_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `telemedicine_table_ibfk_2` FOREIGN KEY (`token_id`) REFERENCES `token_table` (`token_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `telemedicine_table_ibfk_2` FOREIGN KEY (`patient_id`) REFERENCES `patient_table` (`patient_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `telemedicine_table_ibfk_3` FOREIGN KEY (`staff_id`) REFERENCES `staff_table` (`staff_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

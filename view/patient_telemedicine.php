@@ -10,6 +10,13 @@
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/sidebarx.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://source.zoom.us/3.12.0/lib/vendor/react.min.js"></script>
+    <script src="https://source.zoom.us/3.12.0/lib/vendor/react-dom.min.js"></script>
+    <script src="https://source.zoom.us/3.12.0/lib/vendor/redux.min.js"></script>
+    <script src="https://source.zoom.us/3.12.0/lib/vendor/redux-thunk.min.js"></script>
+    <script src="https://source.zoom.us/3.12.0/lib/vendor/lodash.min.js"></script>
+    <script src="https://source.zoom.us/zoom-meeting-3.12.0.min.js"></script>
+    <script src="../js/telemedicine.js"></script>
 </head>
 <body>
     <div class="container">
@@ -91,61 +98,15 @@
                 <!-- Upcoming Consultations -->
                 <div class="upcoming-consultations">
                     <h2>Upcoming Consultations</h2>
-                    <div class="consultation-list">
-                        <!-- Consultation Item 1 -->
-                        <div class="consultation-card">
-                            <div class="patient-info">
-                                <div class="patient-avatar">
-                                    <i class="fas fa-user"></i>
-                                </div>
-                                <div>
-                                    <h3>Dr Doe</h3>
-                                    <p>ID: PT12345 | Today, 10:30 AM</p>
-                                </div>
-                            </div>
-                            <div class="consultation-actions">
-                                <button class="btn start-consultation" data-meeting-id="123456789">
-                                    <i class="fas fa-video"></i> Start Consultation
-                                </button>
-                                <button class="btn btn-outline">
-                                    <i class="fas fa-calendar-alt"></i> Reschedule
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Consultation Item 2 -->
-                        <div class="consultation-card">
-                            <div class="patient-info">
-                                <div class="patient-avatar">
-                                    <i class="fas fa-user"></i>
-                                </div>
-                                <div>
-                                    <h3>Dr Ceesay</h3>
-                                    <p>ID: PT12346 | Tomorrow, 02:15 PM</p>
-                                </div>
-                            </div>
-                            <div class="consultation-actions">
-                                <button class="btn" disabled>
-                                    <i class="fas fa-video"></i> Start Consultation
-                                </button>
-                                <button class="btn btn-outline">
-                                    <i class="fas fa-calendar-alt"></i> Reschedule
-                                </button>
-                            </div>
-                        </div>
+                    <div class="consultation-list" id="consultationList">
+                        <!-- Consultation cards will be populated by JavaScript -->
                     </div>
                 </div>
 
-                <!-- Consultation Area (shown when consultation starts) -->
+                <!-- Consultation Area -->
                 <div class="consultation-area" id="consultationArea" style="display: none;">
                     <div class="video-container">
-                        <div class="video-placeholder" id="zoomEmbed">
-                            <!-- Zoom meeting will be embedded here -->
-                            <div class="zoom-placeholder">
-                                <i class="fas fa-video"></i>
-                                <p>Consultation session will begin shortly...</p>
-                            </div>
-                        </div>
+                        <div id="zoomMeeting"></div>
                         <div class="consultation-controls">
                             <button class="control-btn" id="muteBtn"><i class="fas fa-microphone"></i></button>
                             <button class="control-btn" id="videoBtn"><i class="fas fa-video"></i></button>
@@ -155,44 +116,12 @@
                     </div>
                     <div class="consultation-notes">
                         <h3>Consultation Notes</h3>
-                        <textarea placeholder="Enter consultation notes here..."></textarea>
-                        <button class="btn save-notes"><i class="fas fa-save"></i> Save Notes</button>
+                        <textarea id="consultationNotes" placeholder="Enter consultation notes here..."></textarea>
+                        <button class="btn save-notes" id="saveNotesBtn"><i class="fas fa-save"></i> Save Notes</button>
                     </div>
-                </div>
-
-                <!-- Schedule New Consultation -->
-                <div class="schedule-consultation">
-                    <h2>Schedule New Consultation</h2>
-                    <form class="consultation-form">
-                        <div class="form-group">
-                            <label for="patientSelect">Select Doctor</label>
-                            <select id="patientSelect" name="patientSelect" required>
-                                <option value="">-- Select Patient --</option>
-                                <option value="PT12345">Dr Badji</option>
-                                <option value="PT12346">Dr Ceesay</option>
-                                <option value="PT12347">Dr Brown</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="consultDate">Date</label>
-                            <input type="date" id="consultDate" name="consultDate" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="consultTime">Time</label>
-                            <input type="time" id="consultTime" name="consultTime" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="consultReason">Reason</label>
-                            <textarea id="consultReason" name="consultReason" placeholder="Brief reason for consultation"></textarea>
-                        </div>
-                        <button type="submit" class="btn schedule-btn">
-                            <i class="fas fa-calendar-plus"></i> Schedule Consultation
-                        </button>
-                    </form>
                 </div>
             </div>
         </div>
     </div>
-
 </body>
 </html>

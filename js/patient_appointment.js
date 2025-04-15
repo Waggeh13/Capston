@@ -240,10 +240,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const timeslotId = addTimeSelect.value;
         formData.append('timeslot_id', timeslotId);
         try {
-            console.log('Form Data:');
-            for (let [key, value] of formData.entries()) {
-                console.log(`${key}: ${value}`);
-            }
             const response = await fetch('../actions/patient_book_appointment.php', {
                 method: 'POST',
                 body: formData
@@ -251,10 +247,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
-            const rawResponse = await response.text();
-            console.log('Raw Server Response:', rawResponse);
-            const data = JSON.parse(rawResponse);
-            console.log('Parsed Server Response:', data);
+            const data = JSON.parse(await response.text());
             if (data.success) {
                 alert(data.message);
                 closeAddAppointmentModal();
@@ -266,7 +259,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert(data.message || 'Failed to book appointment: Unknown error');
             }
         } catch (error) {
-            console.error('Error booking appointment:', error);
             alert(`Error booking appointment: ${error.message}`);
         }
     });

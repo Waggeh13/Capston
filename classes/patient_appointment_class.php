@@ -4,7 +4,7 @@ require_once("../settings/db_class.php");
 class patient_appointment_class extends db_connection {
     private $zoom_client_id = 'JWxNJ_siTs6WKTBZZ9IFw';
     private $zoom_client_secret = 'DNxXbSOv70Md8i5ohHgazs6ooxDuuGTW';
-    private $zoom_redirect_uri = 'https://91bf-154-161-44-234.ngrok-free.app/capston/utils/zoom-callback.php';
+    private $zoom_redirect_uri = 'https://96b3-154-161-170-39.ngrok-free.app/capston/utils/zoom-callback.php';
 
     public function book_appointment($patient_id, $staff_id, $appointmentDate, $appointmentTime, $appointmentType, $clinic_id, $timeslot_id) {
         $conn = $this->db_conn();

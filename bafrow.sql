@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 14, 2025 at 10:24 AM
+-- Generation Time: Apr 15, 2025 at 04:55 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -309,16 +309,15 @@ INSERT INTO `staff_table` (`staff_id`, `first_name`, `last_name`, `Gender`, `dep
 --
 
 CREATE TABLE `telemedicine_table` (
-  `user_id` varchar(50) DEFAULT NULL,
-  `email` varchar(100) NOT NULL,
-  `zoom_role` text DEFAULT NULL,
-  `meeting_id` text DEFAULT NULL,
-  `host_id` text DEFAULT NULL,
-  `topic` text DEFAULT NULL,
-  `start_time` time DEFAULT NULL,
-  `duration` int(11) DEFAULT NULL,
-  `join_url` text DEFAULT NULL,
-  `password` text DEFAULT NULL
+  `telemedicine_id` int(11) NOT NULL,
+  `booking_id` int(11) NOT NULL,
+  `token_id` int(11) NOT NULL,
+  `meeting_id` varchar(50) NOT NULL,
+  `topic` varchar(200) DEFAULT NULL,
+  `start_time` datetime NOT NULL,
+  `duration` int(11) NOT NULL,
+  `join_url` text NOT NULL,
+  `password` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -348,6 +347,20 @@ INSERT INTO `test_type_table` (`test_type_id`, `test_name`, `description`) VALUE
 (8, 'PT', NULL),
 (9, 'aPTT', NULL),
 (10, 'INR', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `token_table`
+--
+
+CREATE TABLE `token_table` (
+  `token_id` int(11) NOT NULL,
+  `access_token` text NOT NULL,
+  `refresh_token` text DEFAULT NULL,
+  `expires_at` datetime NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -473,7 +486,9 @@ ALTER TABLE `staff_table`
 -- Indexes for table `telemedicine_table`
 --
 ALTER TABLE `telemedicine_table`
-  ADD KEY `user_id` (`user_id`);
+  ADD PRIMARY KEY (`telemedicine_id`),
+  ADD KEY `booking_id` (`booking_id`),
+  ADD KEY `token_id` (`token_id`);
 
 --
 -- Indexes for table `test_type_table`
@@ -481,6 +496,12 @@ ALTER TABLE `telemedicine_table`
 ALTER TABLE `test_type_table`
   ADD PRIMARY KEY (`test_type_id`),
   ADD UNIQUE KEY `test_name` (`test_name`);
+
+--
+-- Indexes for table `token_table`
+--
+ALTER TABLE `token_table`
+  ADD PRIMARY KEY (`token_id`);
 
 --
 -- Indexes for table `user_table`
@@ -553,10 +574,22 @@ ALTER TABLE `receipt_table`
   MODIFY `receipt_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `telemedicine_table`
+--
+ALTER TABLE `telemedicine_table`
+  MODIFY `telemedicine_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `test_type_table`
 --
 ALTER TABLE `test_type_table`
   MODIFY `test_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `token_table`
+--
+ALTER TABLE `token_table`
+  MODIFY `token_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
@@ -640,7 +673,8 @@ ALTER TABLE `staff_table`
 -- Constraints for table `telemedicine_table`
 --
 ALTER TABLE `telemedicine_table`
-  ADD CONSTRAINT `telemedicine_table_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user_table` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `telemedicine_table_ibfk_1` FOREIGN KEY (`booking_id`) REFERENCES `booking_table` (`booking_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `telemedicine_table_ibfk_2` FOREIGN KEY (`token_id`) REFERENCES `token_table` (`token_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

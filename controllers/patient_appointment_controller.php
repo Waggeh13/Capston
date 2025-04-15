@@ -1,10 +1,8 @@
 <?php
-require("../classes/patient_appointment_class.php");
+require_once("../classes/patient_appointment_class.php");
 
-if (!function_exists('sanitize_input')) {
-    function sanitize_input($input) {
-        return htmlspecialchars(stripslashes(trim($input)));
-    }
+function sanitize_input($data) {
+    return htmlspecialchars(stripslashes(trim($data)));
 }
 
 function patient_bookappointmentController($patient_id, $staff_id, $appointmentDate, $appointmentTime, $appointmentType, $clinic_id, $timeslot_id) {

@@ -13,14 +13,23 @@
 </head>
 <?php
 require_once('../classes/getUpcomingAppointments_class.php');
+require_once('../classes/getAvailableDoctors_class.php');
 
 // Fetch upcoming appointments
 $db = new getUpcomingAppointments_class();
 $appointments = $db->getUpcomingAppointments(5);
 
+// Fetch available doctors
+$doctors_db = new getAvailableDoctors_class();
+$available_doctors = $doctors_db->getAvailableDoctors(5);
+
 // Ensure $appointments is an array
 if (!is_array($appointments)) {
     $appointments = [];
+}
+
+if (!is_array($available_doctors)) {
+    $available_doctors = [];
 }
 ?>
 <body>
@@ -219,37 +228,23 @@ if (!is_array($appointments)) {
                             <td>Available Time</td>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Singhateh</td>
-                                <td>Gynocology</td>
-                                <td>8:00 - 13:00</td>
-                                
-                            </tr>
-                            <tr>
-                                <td>Singhateh</td>
-                                <td>Gynocology</td>
-                                <td>8:00 - 13:00</td>
-                         
-                            </tr>
-                            <tr>
-                                <td>Singhateh</td>
-                                <td>Gynocology</td>
-                                <td>8:00 - 13:00</td>
-                        
-                            </tr>
-                            <tr>
-                                <td>Singhateh</td>
-                                <td>Gynocology</td>
-                                <td>8:00 - 13:00</td>
-                              
-                            </tr>
-                            <tr>
-                                <td>Singhateh</td>
-                                <td>Gynocology</td>
-                                <td>8:00 - 13:00</td>
-                              
-                            </tr>
-                           
+                        <?php if (!empty($available_doctors)): ?>
+                                <?php foreach ($available_doctors as $doc): ?>
+                                    <tr>
+                                        <td><?= htmlspecialchars($doc['doctor_name'] ?? 'N/A') ?></td>
+                                        <td><?= htmlspecialchars($doc['department_name'] ?? 'N/A') ?></td>
+                                        <td>
+                                            <?= !empty($doc['time_slot']) ? date('g:i A', strtotime($doc['time_slot'])) . ' - ' . date('g:i A', strtotime($doc['time_slot'] . ' +5 hours')) : 'N/A' ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="3" style="text-align: center;">
+                                        No available doctors found
+                                    </td>
+                                </tr>
+                            <?php endif; ?>
                         </tbody>
                     </table>
                 </div>

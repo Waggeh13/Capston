@@ -11,6 +11,32 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>Admin Dashboard</title>
 </head>
+<?php
+require_once('../classes/getUpcomingAppointments_class.php');
+require_once('../classes/getAvailableDoctors_class.php');
+
+// Fetch upcoming appointments
+$db = new getUpcomingAppointments_class();
+$appointments = $db->getUpcomingAppointments(5);
+$appointment_count = $db->countScheduledAppointments();
+$patient_count = $db->countPatients();
+$staff_count = $db->countStaff();
+$department_count = $db->countDepartments();
+
+// Fetch available doctors
+$doctors_db = new getAvailableDoctors_class();
+$available_doctors = $doctors_db->getAvailableDoctors(5);
+
+// Ensure $appointments is an array
+if (!is_array($appointments)) {
+    $appointments = [];
+}
+
+if (!is_array($available_doctors)) {
+    $available_doctors = [];
+}
+?>
+
 <body>
 
     <!-- Password Reset Modal -->
@@ -121,7 +147,7 @@
             <div class="cards">
                 <div class="card">
                     <div class="card-content">
-                        <div class="number">67</div>
+                        <div class="number"><?= htmlspecialchars($appointment_count) ?></div>
                         <div class="card-name">Appointments</div>
                     </div>
                     <div class="icon-box">
@@ -130,7 +156,7 @@
                 </div>
                 <div class="card">
                     <div class="card-content">
-                        <div class="number">105</div>
+                        <div class="number"><?= htmlspecialchars($patient_count) ?></div>
                         <div class="card-name">Patients</div>
                     </div>
                     <div class="icon-box">
@@ -139,7 +165,7 @@
                 </div>
                 <div class="card">
                     <div class="card-content">
-                        <div class="number">100</div>
+                        <div class="number"><?= htmlspecialchars($staff_count) ?></div>
                         <div class="card-name">Staff</div>
                     </div>
                     <div class="icon-box">
@@ -148,7 +174,7 @@
                 </div>
                 <div class="card">
                     <div class="card-content">
-                        <div class="number">12</div>
+                        <div class="number"><?= htmlspecialchars($department_count) ?></div>
                         <div class="card-name">Departments</div>
                     </div>
                     <div class="icon-box">
@@ -170,42 +196,24 @@
                             <td>Clinic</td>
                             <td>Time</td>
                         </thead>
-                        <tr>
-                            <td>Lamin Sanneh</td>
-                            <td>Dr. Singhateh</td>
-                            <td>ENT</td>
-                            <td>10:00 AM</td>
-                        </tr>
-                        <tr>
-                            <td>Lamin Sanneh</td>
-                            <td>Dr. Singhateh</td>
-                            <td>ENT</td>
-                            <td>11:30 AM</td>
-                        </tr>
-                        <tr>
-                            <td>Lamin Sanneh</td>
-                            <td>Dr. Singhateh</td>
-                            <td>ENT</td>
-                            <td>2:15 PM</td>
-                        </tr>
-                        <tr>
-                            <td>Lamin Sanneh</td>
-                            <td>Dr. Singhateh</td>
-                            <td>ENT</td>
-                            <td>9:00 AM</td>
-                        </tr>
-                        <tr>
-                            <td>Lamin Sanneh</td>
-                            <td>Dr. Singhateh</td>
-                            <td>ENT</td>
-                            <td>3:45 PM</td>
-                        </tr>
-                        <tr>
-                            <td>Lamin Sanneh</td>
-                            <td>Dr. Singhateh</td>
-                            <td>ENT</td>
-                            <td>1:30 PM</td>
-                        </tr>
+                        <?php if (!empty($appointments)): ?>
+                            <?php foreach ($appointments as $apt): ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($apt['patient_full_name'] ?? 'N/A') ?></td>
+                                    <td><?= htmlspecialchars($apt['doctor_name'] ?? 'N/A') ?></td>
+                                    <td><?= htmlspecialchars($apt['clinic_name'] ?? 'N/A') ?></td>
+                                    <td>
+                                        <?= !empty($apt['time_slot']) ? date('g:i A', strtotime($apt['time_slot'])) : 'N/A' ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="4" style="text-align: center;">
+                                    No upcoming appointments found
+                                </td>
+                            </tr>
+                        <?php endif; ?>
                     </table>
                 </div>
                 <div class="doctor-available">
@@ -220,37 +228,23 @@
                             <td>Available Time</td>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Singhateh</td>
-                                <td>Gynocology</td>
-                                <td>8:00 - 13:00</td>
-                                
-                            </tr>
-                            <tr>
-                                <td>Singhateh</td>
-                                <td>Gynocology</td>
-                                <td>8:00 - 13:00</td>
-                         
-                            </tr>
-                            <tr>
-                                <td>Singhateh</td>
-                                <td>Gynocology</td>
-                                <td>8:00 - 13:00</td>
-                        
-                            </tr>
-                            <tr>
-                                <td>Singhateh</td>
-                                <td>Gynocology</td>
-                                <td>8:00 - 13:00</td>
-                              
-                            </tr>
-                            <tr>
-                                <td>Singhateh</td>
-                                <td>Gynocology</td>
-                                <td>8:00 - 13:00</td>
-                              
-                            </tr>
-                           
+                        <?php if (!empty($available_doctors)): ?>
+                                <?php foreach ($available_doctors as $doc): ?>
+                                    <tr>
+                                        <td><?= htmlspecialchars($doc['doctor_name'] ?? 'N/A') ?></td>
+                                        <td><?= htmlspecialchars($doc['department_name'] ?? 'N/A') ?></td>
+                                        <td>
+                                            <?= !empty($doc['time_slot']) ? date('g:i A', strtotime($doc['time_slot'])) . ' - ' . date('g:i A', strtotime($doc['time_slot'] . ' +5 hours')) : 'N/A' ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="3" style="text-align: center;">
+                                        No available doctors found
+                                    </td>
+                                </tr>
+                            <?php endif; ?>             
                         </tbody>
                     </table>
                 </div>

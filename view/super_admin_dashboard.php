@@ -6,10 +6,23 @@
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/btn_style.css">
     <link rel="stylesheet" href="../css/sidebar.css">
-    <link rel="stylesheet" href="../css/rest_password.css">
+    <link rel="stylesheet" href="../css/edit_add.css">
+    <link rel="stylesheet" href="../css/reset_password.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>Admin Dashboard</title>
 </head>
+<?php
+require_once('../classes/getUpcomingAppointments_class.php');
+
+// Fetch upcoming appointments
+$db = new getUpcomingAppointments_class();
+$appointments = $db->getUpcomingAppointments(5);
+
+// Ensure $appointments is an array
+if (!is_array($appointments)) {
+    $appointments = [];
+}
+?>
 <body>
     <!-- Password Reset Modal -->
     <div class="password-modal" id="passwordModal">
@@ -174,42 +187,24 @@
                             <td>Clinic</td>
                             <td>Time</td>
                         </thead>
-                        <tr>
-                            <td>Lamin Sanneh</td>
-                            <td>Dr. Singhateh</td>
-                            <td>ENT</td>
-                            <td>10:00 AM</td>
-                        </tr>
-                        <tr>
-                            <td>Lamin Sanneh</td>
-                            <td>Dr. Singhateh</td>
-                            <td>ENT</td>
-                            <td>11:30 AM</td>
-                        </tr>
-                        <tr>
-                            <td>Lamin Sanneh</td>
-                            <td>Dr. Singhateh</td>
-                            <td>ENT</td>
-                            <td>2:15 PM</td>
-                        </tr>
-                        <tr>
-                            <td>Lamin Sanneh</td>
-                            <td>Dr. Singhateh</td>
-                            <td>ENT</td>
-                            <td>9:00 AM</td>
-                        </tr>
-                        <tr>
-                            <td>Lamin Sanneh</td>
-                            <td>Dr. Singhateh</td>
-                            <td>ENT</td>
-                            <td>3:45 PM</td>
-                        </tr>
-                        <tr>
-                            <td>Lamin Sanneh</td>
-                            <td>Dr. Singhateh</td>
-                            <td>ENT</td>
-                            <td>1:30 PM</td>
-                        </tr>
+                        <?php if (!empty($appointments)): ?>
+                            <?php foreach ($appointments as $apt): ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($apt['patient_full_name'] ?? 'N/A') ?></td>
+                                    <td><?= htmlspecialchars($apt['doctor_name'] ?? 'N/A') ?></td>
+                                    <td><?= htmlspecialchars($apt['clinic_name'] ?? 'N/A') ?></td>
+                                    <td>
+                                        <?= !empty($apt['time_slot']) ? date('g:i A', strtotime($apt['time_slot'])) : 'N/A' ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="4" style="text-align: center;">
+                                    No upcoming appointments found
+                                </td>
+                            </tr>
+                        <?php endif; ?>
                     </table>
                 </div>
                 <div class="doctor-available">

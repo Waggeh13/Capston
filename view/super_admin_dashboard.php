@@ -18,6 +18,10 @@ require_once('../classes/getAvailableDoctors_class.php');
 // Fetch upcoming appointments
 $db = new getUpcomingAppointments_class();
 $appointments = $db->getUpcomingAppointments(5);
+$appointment_count = $db->countScheduledAppointments();
+$patient_count = $db->countPatients();
+$staff_count = $db->countStaff();
+$department_count = $db->countDepartments();
 
 // Fetch available doctors
 $doctors_db = new getAvailableDoctors_class();
@@ -147,7 +151,7 @@ if (!is_array($available_doctors)) {
             <div class="cards">
                 <div class="card">
                     <div class="card-content">
-                        <div class="number">67</div>
+                        <div class="number"><?= htmlspecialchars($appointment_count) ?></div>
                         <div class="card-name">Appointments</div>
                     </div>
                     <div class="icon-box">
@@ -156,7 +160,7 @@ if (!is_array($available_doctors)) {
                 </div>
                 <div class="card">
                     <div class="card-content">
-                        <div class="number">105</div>
+                        <div class="number"><?= htmlspecialchars($patient_count) ?></div>
                         <div class="card-name">Patients</div>
                     </div>
                     <div class="icon-box">
@@ -165,7 +169,7 @@ if (!is_array($available_doctors)) {
                 </div>
                 <div class="card">
                     <div class="card-content">
-                        <div class="number">100</div>
+                        <div class="number"><?= htmlspecialchars($staff_count) ?></div>
                         <div class="card-name">Staff</div>
                     </div>
                     <div class="icon-box">
@@ -174,7 +178,7 @@ if (!is_array($available_doctors)) {
                 </div>
                 <div class="card">
                     <div class="card-content">
-                        <div class="number">12</div>
+                        <div class="number"><?= htmlspecialchars($department_count) ?></div>
                         <div class="card-name">Departments</div>
                     </div>
                     <div class="icon-box">

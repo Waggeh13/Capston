@@ -37,6 +37,12 @@ require_once('../controllers/doc_schedule_controller.php');
                     </a>
                 </li>
                 <li>
+                    <a href="admin.php">
+                        <i class="fas fa-users"></i>
+                        <div class="title">Admins</div>
+                    </a>
+                </li>
+                <li>
                     <a href="super_admin_staff.php">
                         <i class="fas fa-users"></i>
                         <div class="title">Staff</div>
@@ -140,15 +146,7 @@ require_once('../controllers/doc_schedule_controller.php');
                     <!-- Times will be populated dynamically -->
                 </select>
 
-                <label>Appointment Type:</label>
-                <div class="radio-group">
-                    <label>
-                        <input type="radio" name="appointmentType" value="inPerson" required> In Person
-                    </label>
-                    <label>
-                        <input type="radio" name="appointmentType" value="virtual" required> Virtual Consultation
-                    </label>
-                </div>
+                <input type="hidden" name="appointmentType" value="inPerson">
 
                 <label for="clinic">Clinic Name:</label>
                 <select id="clinic" name="clinic_id" required>

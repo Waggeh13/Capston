@@ -191,7 +191,7 @@ if (!is_array($available_doctors)) {
                 <div class="last-appointments">
                     <div class="heading">
                         <h2>Last Appointments</h2>
-                        <a href="super_admin_appointment.html" class="btn">View All</a>
+                        <a href="super_admin_appointment.php" class="btn">View All</a>
                     </div>
                     <table class="appointments">
                         <thead>
@@ -223,7 +223,7 @@ if (!is_array($available_doctors)) {
                 <div class="doctor-available">
                     <div class="heading">
                         <h2>Doctors Available</h2>
-                        <a href="super_admin_staff.html" class="btn">View All</a>
+                        <a href="super_admin_staff.php" class="btn">View All</a>
                     </div>
                     <table class="available">
                         <thead>

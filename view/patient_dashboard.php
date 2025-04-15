@@ -14,6 +14,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>Patient Dashboard</title>
 </head>
+<?php
+session_start();
+require_once('../classes/getPatientAppointments_class.php');
+
+// Get patient_id from session (assumed)
+$patient_id = $_SESSION['patient_id'] ?? null;
+
+// Fetch patient appointments
+$db = new getPatientAppointments_class();
+$appointments = $patient_id ? $db->getPatientAppointments($patient_id, 5) : [];
+
+// Ensure appointments is an array
+if (!is_array($appointments)) {
+    $appointments = [];
+}
+?>
 <body>
     <!-- Password Reset Modal -->
     <div class="password-modal" id="passwordModal">
@@ -121,7 +137,7 @@
 
             <!-- Quick Actions -->
             <div class="quick-actions">
-                <div class="action-card" onclick="location.href='book_appointment.php'">
+                <div class="action-card" onclick="location.href='patient_appointments.php'">
                     <i class="fas fa-calendar-plus"></i>
                     <h3>Book Appointment</h3>
                     <p>Schedule with your doctor</p>
@@ -150,18 +166,27 @@
                     <button class="btn" onclick="location.href='patient_appointments.php'">View All</button>
                 </div>
                 <ul class="appointment-list">
-                    <li class="appointment-item">
-                        <div>
-                            <strong>Dr. John Smith</strong>
-                            <p>Cardiology - May 15, 2023 at 10:00 AM</p>
-                        </div>
-                    </li>
-                    <li class="appointment-item">
-                        <div>
-                            <strong>Dr. Sarah Johnson</strong>
-                            <p>Dermatology - May 18, 2023 at 2:30 PM</p>
-                        </div>
-                    </li>
+                    <?php if (!empty($appointments)): ?>
+                            <?php foreach ($appointments as $apt): ?>
+                                <li class="appointment-item">
+                                    <div>
+                                        <strong><?= htmlspecialchars($apt['doctor_name'] ?? 'N/A') ?></strong>
+                                        <p>
+                                            <?= htmlspecialchars($apt['department_name'] ?? 'N/A') ?> - 
+                                            <?= !empty($apt['appointment_date']) && !empty($apt['time_slot']) 
+                                                ? date('F j, Y', strtotime($apt['appointment_date'])) . ' at ' . date('g:i A', strtotime($apt['time_slot']))
+                                                : 'N/A' ?>
+                                        </p>
+                                    </div>
+                                </li>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <li class="appointment-item">
+                                <div>
+                                    <p>No upcoming appointments found</p>
+                                </div>
+                            </li>
+                        <?php endif; ?>
                 </ul>
             </div>
 

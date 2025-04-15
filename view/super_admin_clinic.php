@@ -37,6 +37,12 @@ require_once('../controllers/department_controller.php');
                     </a>
                 </li>
                 <li>
+                    <a href="admin.php">
+                        <i class="fas fa-users"></i>
+                        <div class="title">Admins</div>
+                    </a>
+                </li>
+                <li>
                     <a href="super_admin_staff.php">
                         <i class="fas fa-users"></i>
                         <div class="title">Staff</div>

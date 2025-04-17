@@ -78,5 +78,6 @@ redirect_if_logged_in();
         </div>
     </div>
     <script src="../js/login.js"></script>
+    <script src="../js/dark_mode.js"></script>
 </body>
 </html>

@@ -187,3 +187,25 @@
         padding: 0 10px;
     }
 }
+
+/* Dark Mode Styles */
+body.dark-mode .sidebar {
+    background: #003d7a;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .sidebar ul li:hover {
+    background: #005bb5;
+}
+
+body.dark-mode .sidebar ul li:first-child {
+    border-bottom: 1px solid #aaa;
+}
+
+body.dark-mode .sidebar ul li a {
+    color: #e0e0e0;
+}
+
+body.dark-mode .sidebar ul li a i {
+    color: #e0e0e0;
+}

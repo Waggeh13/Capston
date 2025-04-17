@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="../css/lab_tech.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
+<?php
+require_once('../settings/core.php');
+redirect_if_not_logged_in();
+?>
 <body>
     <div class="dashboard">
         <div class="header">
@@ -150,5 +154,6 @@
     </div>
 
     <script src="../js/lab_tech.js"></script>
+    <script src="../js/dark_mode.js"></script>
 </body>
 </html>

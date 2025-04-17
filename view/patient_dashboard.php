@@ -32,13 +32,11 @@
     }
 </style>
 <?php
-session_start();
 require_once('../classes/getPatientAppointments_class.php');
 require_once('../classes/getPatientPrescriptions_class.php');
 require_once('../classes/userName_class.php');
-
-// Get patient_id from session (assumed)
-$patient_id = $_SESSION['user_id'] ?? null;
+require_once('../settings/core.php');
+redirect_if_not_logged_in();
 
 // Fetch patient appointments
 $db = new getPatientAppointments_class();
@@ -223,5 +221,6 @@ if (!is_array($prescriptions)) {
 
     </script>
     <script src="../js/toggle.js"></script>
+    <script src="../js/dark_mode.js"></script>
 </body>
 </html>

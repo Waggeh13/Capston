@@ -19,3 +19,12 @@
     top: 20px;
     z-index: 3;
 }
+
+/* Dark Mode Styles */
+body.dark-mode .sidebar ul li a {
+    color: #e0e0e0;
+}
+
+body.dark-mode .menu-toggle {
+    color: #66b0ff;
+}

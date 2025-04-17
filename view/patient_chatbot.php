@@ -14,15 +14,11 @@
 <?php
 session_start();
 require_once('../classes/userName_class.php');
+require_once('../settings/core.php');
+redirect_if_not_logged_in();
 
-// Get patient_id from session
-$patient_id = $_SESSION['user_id'] ?? null;
 $userProfile = new userName_class();
 
-if (!$patient_id) {
-    header('Location: login.php');
-    exit;
-}
 ?>
 <body>
     <div class="container">
@@ -104,5 +100,6 @@ if (!$patient_id) {
     </div>
 
 <script src="../js/chatbot.js"></script>
+<script src="../js/dark_mode.js"></script>
 </body>
 </html>

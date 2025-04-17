@@ -141,9 +141,9 @@
 }
 
 @media (min-width: 1200px) {
-.lab-container {
-    max-width: 800px;
-}
+    .lab-container {
+        max-width: 800px;
+    }
 }
 
 /* Responsive Styles */
@@ -175,4 +175,51 @@
     .input-box select {
         padding: 8px;
     }
+}
+
+/* Dark Mode Styles */
+body.dark-mode .lab-container {
+    background-color: #2c2c2c;
+    box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .heading h2 {
+    color: #66b0ff;
+}
+
+body.dark-mode .input-box label {
+    color: #aaa;
+}
+
+body.dark-mode .input-box input,
+body.dark-mode .input-box textarea,
+body.dark-mode .input-box select {
+    background-color: #444;
+    color: #e0e0e0;
+    border: 1px solid #555;
+}
+
+body.dark-mode .medication-entry {
+    border: 1px solid #555;
+    background-color: #444;
+}
+
+body.dark-mode .add-btn {
+    background-color: #007bff;
+}
+
+body.dark-mode .add-btn:hover {
+    background-color: #ff3333;
+}
+
+body.dark-mode .request-btn {
+    background-color: #005bb5;
+}
+
+body.dark-mode .remove-btn {
+    background-color: #c0392b;
+}
+
+body.dark-mode .remove-btn:hover {
+    background-color: #a52727;
 }

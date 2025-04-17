@@ -10,6 +10,7 @@ h1 {
     color: #333;
     margin-bottom: 15px;
 }
+
 .settings-section {
     margin-bottom: 30px;
 }
@@ -84,4 +85,44 @@ h1 {
 
 .toggle-switch input[type="checkbox"]:checked::before {
     transform: translateX(20px);
+}
+
+/* Dark Mode Styles */
+body.dark-mode .settings-container {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode h1 {
+    color: #e0e0e0;
+}
+
+body.dark-mode .settings-section h2 {
+    color: #e0e0e0;
+}
+
+body.dark-mode .settings-option label {
+    color: #aaa;
+}
+
+body.dark-mode .settings-option select,
+body.dark-mode .settings-option input[type="range"] {
+    background-color: #444;
+    color: #e0e0e0;
+    border: 1px solid #555;
+}
+
+body.dark-mode .toggle-switch label {
+    color: #aaa;
+}
+
+body.dark-mode .toggle-switch input[type="checkbox"] {
+    background-color: #555;
+}
+
+body.dark-mode .toggle-switch input[type="checkbox"]:checked {
+    background-color: #007bff;
+}
+
+body.dark-mode .toggle-switch input[type="checkbox"]::before {
+    background-color: #e0e0e0;
 }

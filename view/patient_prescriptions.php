@@ -28,11 +28,10 @@
     }
 </style>
 <?php
-session_start();
 require_once('../classes/userName_class.php');
+require_once('../settings/core.php');
+redirect_if_not_logged_in();
 
-// Get patient_id from session
-$patient_id = $_SESSION['user_id'] ?? null;
 $userProfile = new userName_class();
 ?>
 <body>
@@ -76,7 +75,7 @@ $userProfile = new userName_class();
                     </a>
                 </li>
                 <li>
-                    <a href="admin_setting.php">
+                    <a href="patient_setting.php">
                         <i class="fas fa-cog"></i>
                         <div class="title">Settings</div>
                     </a>
@@ -187,6 +186,7 @@ $userProfile = new userName_class();
             </div>
         </div>
     </div>
+    </div>
         <script>
     // This would be connected to your actual reminder system
     document.addEventListener('DOMContentLoaded', function() {
@@ -218,3 +218,6 @@ $userProfile = new userName_class();
         updateNextDoseDisplay();
     });
 </script>
+<script src="../js/dark_mode.js"></script>
+</body>
+</html>

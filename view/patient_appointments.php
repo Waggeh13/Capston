@@ -36,8 +36,9 @@ require_once('../controllers/clinic_controller.php');
 require_once('../controllers/doc_schedule_controller.php');
 require_once('../classes/userName_class.php');
 
-// Get patient_id from session
-$patient_id = $_SESSION['user_id'] ?? null;
+require_once('../settings/core.php');
+redirect_if_not_logged_in();
+
 $userProfile = new userName_class();
 ?>
 <body>
@@ -278,5 +279,6 @@ $userProfile = new userName_class();
     </div>
 
     <script src="../js/patient_appointment.js"></script>
+    <script src="../js/dark_mode.js"></script>
 </body>
 </html>

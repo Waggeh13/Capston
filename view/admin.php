@@ -12,6 +12,8 @@
 </head>
 <?php
 require_once('../controllers/admin_controller.php');
+require_once('../settings/core.php');
+redirect_if_not_logged_in();
 ?>
 <body>
     <div class="container">
@@ -184,7 +186,7 @@ require_once('../controllers/admin_controller.php');
             </form>
         </div>
     </div>
-    <script src="../js/admin_add_edit.js"></script> 
-    
+    <script src="../js/admin_add_edit.js"></script>
+    <script src="../js/dark_mode.js"></script>
 </body>
 </html>

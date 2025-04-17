@@ -1,4 +1,3 @@
-// Password Modal Functions
 function openPasswordModal() {
     const modal = document.getElementById('passwordModal');
     if (modal) {
@@ -13,6 +12,13 @@ function closePasswordModal() {
     const modal = document.getElementById('passwordModal');
     if (modal) {
         modal.style.display = 'none';
+        // Reset the form and error messages
+        document.getElementById('PasswordForm').reset();
+        document.getElementById('currentPasswordError').style.display = 'none';
+        document.getElementById('newPasswordError').style.display = 'none';
+        document.getElementById('confirmPasswordError').style.display = 'none';
+        document.getElementById('passwordStrength').textContent = '';
+        document.getElementById('passwordStrength').style.color = '';
         console.log('Modal closed');
     } else {
         console.error('Modal element not found');
@@ -28,10 +34,10 @@ window.onclick = function(event) {
     }
 }
 
-// Form Validation
+// Form Validation and Submission
 function validatePasswordForm(event) {
     event.preventDefault();
-    
+
     const currentPassword = document.getElementById('currentPassword').value;
     const newPassword = document.getElementById('newPassword').value;
     const confirmPassword = document.getElementById('confirmPassword').value;
@@ -59,27 +65,100 @@ function validatePasswordForm(event) {
         return false;
     }
 
-    if (newPassword !== confirmPassword) {
-        confirmPasswordError.textContent = 'New passwords do not match!';
-        confirmPasswordError.style.display = 'block';
-        return false;
-    }
-
     if (newPassword.length < 8) {
-        newPasswordError.textContent = 'Password must be at least 8 characters long!';
+        newPasswordError.textContent = 'Password must be at least 8 characters long';
         newPasswordError.style.display = 'block';
         return false;
     }
 
-    // Here you would typically add your password change logic
-    // For example, make an API call to update the password
-    alert('Password changed successfully!');
-    closePasswordModal();
+    // Check password strength (already handled in real-time, but ensure it meets minimum criteria)
+    const passwordStrength = calculatePasswordStrength(newPassword);
+    if (passwordStrength === 'Weak') {
+        newPasswordError.textContent = 'Password is too weak. Include numbers, special characters, and uppercase letters.';
+        newPasswordError.style.display = 'block';
+        return false;
+    }
+
+    // Validate confirm password
+    if (newPassword !== confirmPassword) {
+        confirmPasswordError.textContent = 'New passwords do not match';
+        confirmPasswordError.style.display = 'block';
+        return false;
+    }
+
+    // Submit the form via AJAX
+    const formData = new FormData();
+    formData.append('currentPassword', currentPassword);
+    formData.append('newPassword', newPassword);
+
+    fetch('../actions/change_password_action.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Password changed successfully!');
+            closePasswordModal();
+        } else {
+            if (data.error === 'incorrect_current_password') {
+                currentPasswordError.textContent = 'Current password is incorrect';
+                currentPasswordError.style.display = 'block';
+            } else {
+                newPasswordError.textContent = data.error || 'An error occurred. Please try again.';
+                newPasswordError.style.display = 'block';
+            }
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        newPasswordError.textContent = 'An error occurred. Please try again.';
+        newPasswordError.style.display = 'block';
+    });
+
     return false;
 }
 
-// Attach submit button listener
+// Real-time Password Strength Calculation
+function calculatePasswordStrength(password) {
+    let strength = 'Weak';
+    let score = 0;
+
+    if (password.length >= 8) score++;
+    if (/[A-Z]/.test(password)) score++;
+    if (/[0-9]/.test(password)) score++;
+    if (/[^A-Za-z0-9]/.test(password)) score++;
+
+    if (score <= 2) {
+        strength = 'Weak';
+    } else if (score === 3) {
+        strength = 'Medium';
+    } else if (score >= 4) {
+        strength = 'Strong';
+    }
+
+    return strength;
+}
+
+// Real-time Password Strength Feedback
+function updatePasswordStrength() {
+    const newPassword = document.getElementById('newPassword').value;
+    const passwordStrengthElement = document.getElementById('passwordStrength');
+    const strength = calculatePasswordStrength(newPassword);
+
+    passwordStrengthElement.textContent = `Password Strength: ${strength}`;
+    if (strength === 'Weak') {
+        passwordStrengthElement.style.color = 'red';
+    } else if (strength === 'Medium') {
+        passwordStrengthElement.style.color = 'orange';
+    } else if (strength === 'Strong') {
+        passwordStrengthElement.style.color = 'green';
+    }
+}
+
+// Attach event listeners
 document.addEventListener('DOMContentLoaded', function() {
+    // Submit button listener
     const submitBtn = document.getElementById('submitBtn');
     if (submitBtn) {
         submitBtn.addEventListener('click', validatePasswordForm);
@@ -87,7 +166,16 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         console.error('Submit button not found');
     }
-    
+
+    // Real-time password strength listener
+    const newPasswordInput = document.getElementById('newPassword');
+    if (newPasswordInput) {
+        newPasswordInput.addEventListener('input', updatePasswordStrength);
+        console.log('Password strength event listener attached');
+    } else {
+        console.error('New password input not found');
+    }
+
     // Debug: Log initial modal state
     console.log('Password modal script loaded. Modal display:', document.getElementById('passwordModal')?.style.display || 'not found');
 });

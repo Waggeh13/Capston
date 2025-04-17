@@ -22,6 +22,10 @@
     align-items: center;
 }
 </style>
+<?
+require_once('../settings/core.php');
+redirect_if_not_logged_in();
+?>
 
 <body>
     <div class="container">
@@ -170,5 +174,6 @@
     <script src="../js/calender.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.js"></script>
     <script src="../js/schedule.js"></script>
+    <script src="../js/dark_mode.js"></script>
 </body>
 </html>

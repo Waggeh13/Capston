@@ -5,6 +5,20 @@ session_start();
 // For header redirection
 ob_start();
 
+function redirect_if_not_logged_in()
+{
+    $user_id = $_SESSION['user_id'] ?? null;
+    if (!$user_id) {
+        header("Location: ../view/login.php");
+        exit();
+    }
+
+}
+
+
+
+
+
 function redirect_if_logged_in() {
     if (isset($_SESSION['user_id'])) {
         if (isset($_SESSION['user_role'])) {

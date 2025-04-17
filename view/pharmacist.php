@@ -9,6 +9,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 </head>
+<?php
+require_once('../settings/core.php');
+redirect_if_not_logged_in();
+?>
 <body>
     <!-- Password Reset Modal -->
     <div class="password-modal" id="passwordModal">
@@ -166,5 +170,6 @@
     <script src="../js/reset_password.js"></script>
     <script src="../js/pharmacist.js"></script>
     <script src="../js/real_time_date.js"></script>
+    <script src="../js/dark_mode.js"></script>
 </body>
 </html>

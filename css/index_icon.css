@@ -1,8 +1,13 @@
-.input-box i{
+.input-box i {
     position: absolute;
     right: 20px;
     top: 30%;
     transform: translateY(-50%);
     font-size: 20px;
     color: #888;
+}
+
+/* Dark Mode Styles */
+body.dark-mode .input-box i {
+    color: #ccc; /* Lighter color for visibility in dark mode */
 }

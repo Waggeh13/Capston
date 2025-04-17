@@ -289,3 +289,138 @@
         grid-column: span 1;
     }
 }
+
+/* Dark Mode Styles */
+body.dark-mode .telemedicine-container {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .consultation-header {
+    border-bottom: 1px solid #555;
+}
+
+body.dark-mode .consultation-header h1 {
+    color: #66b0ff;
+}
+
+body.dark-mode .consultation-header p {
+    color: #aaa;
+}
+
+body.dark-mode .upcoming-consultations h2 {
+    color: #66b0ff;
+}
+
+body.dark-mode .consultation-card {
+    background: #2c2c2c;
+    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .patient-avatar {
+    background: #1e2a44;
+    color: #66b0ff;
+}
+
+body.dark-mode .patient-info h3 {
+    color: #e0e0e0;
+}
+
+body.dark-mode .patient-info p {
+    color: #aaa;
+}
+
+body.dark-mode .start-consultation {
+    background: #007bff;
+}
+
+body.dark-mode .start-consultation:hover {
+    background: #ff3333;
+}
+
+body.dark-mode .btn-outline {
+    border: 1px solid #007bff;
+    color: #66b0ff;
+}
+
+body.dark-mode .btn-outline:hover {
+    background: #1e2a44;
+}
+
+body.dark-mode .btn:disabled {
+    background: #555;
+    color: #aaa;
+}
+
+body.dark-mode .video-container {
+    background: #111;
+}
+
+body.dark-mode .zoom-placeholder {
+    color: #e0e0e0;
+}
+
+body.dark-mode .zoom-placeholder i {
+    color: #66b0ff;
+}
+
+body.dark-mode .control-btn {
+    background: #444;
+}
+
+body.dark-mode .control-btn:hover {
+    background: #555;
+}
+
+body.dark-mode .end-call {
+    background: #ff6666;
+}
+
+body.dark-mode .end-call:hover {
+    background: #ff3333;
+}
+
+body.dark-mode .consultation-notes h3 {
+    color: #66b0ff;
+}
+
+body.dark-mode .consultation-notes textarea {
+    background: #444;
+    color: #e0e0e0;
+    border: 1px solid #555;
+}
+
+body.dark-mode .save-notes {
+    background: #4caf50;
+}
+
+body.dark-mode .save-notes:hover {
+    background: #388e3c;
+}
+
+body.dark-mode .schedule-consultation {
+    border-top: 1px solid #555;
+}
+
+body.dark-mode .schedule-consultation h2 {
+    color: #66b0ff;
+}
+
+body.dark-mode .form-group label {
+    color: #e0e0e0;
+}
+
+body.dark-mode .form-group select,
+body.dark-mode .form-group input,
+body.dark-mode .form-group textarea {
+    background: #444;
+    color: #e0e0e0;
+    border: 1px solid #555;
+}
+
+body.dark-mode .schedule-btn {
+    background: #007bff;
+}
+
+body.dark-mode .schedule-btn:hover {
+    background: #ff3333;
+}

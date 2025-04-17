@@ -18,9 +18,27 @@
     height: 60px;
     display: flex;
     align-items: center;
-}
+    }
+    .user {
+    display: inline-block;
+    white-space: nowrap;
+    margin-left: 10px;
+    }
+    .fas.fa-bell {
+    margin-left: 1180px;
+    }
+    .profile-text{
+    color: black;
+    }
 </style>
+<?php
+session_start();
+require_once('../classes/userName_class.php');
 
+// Get patient_id from session
+$user_id = $_SESSION['user_id'] ?? null;
+$userProfile = new userName_class();
+?>
 <body>
     <div class="container">
        
@@ -99,13 +117,11 @@
         <div class="main">
             <!-- Top Navigation Bar -->
             <div class="top-bar">
-                <div class="search">
-                    <input type="text" name="search" placeholder="Search here">
-                    <label for="search"><i class="fas fa-search"></i></label>
-                </div>
-                <i class="fas fa-bell"></i>
-                <div class="user">
-                    <span class="profile-text">Profile</span>
+                <div class="top-bar">
+                    <i class="fas fa-bell"></i>
+                    <div class="user">
+                        <span class="profile-text"><?php echo $userProfile->getUserName(); ?></span>
+                    </div>
                 </div>
             </div>
 

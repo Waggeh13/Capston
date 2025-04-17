@@ -5,52 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pharmacist Dashboard</title>
     <link rel="stylesheet" href="../css/pharmacist.css">
-    <link rel="stylesheet" href="../css/reset_password.css">
+    <link rel="stylesheet" href="../css/pharmacist_header.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
 </head>
-<body>
-    <!-- Password Reset Modal -->
-    <div class="password-modal" id="passwordModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2><i class="fas fa-key"></i> Change Password</h2>
-            </div>
-            <div class="modal-body">
-                <p style="margin-bottom: 20px;">For security reasons, please change your default password.</p>
-                
-                <div class="form-group">
-                    <label for="currentPassword">Current Password</label>
-                    <input type="password" id="currentPassword" name="currentPassword" placeholder="Enter your current password">
-                    <div class="error-message" id="currentPasswordError"></div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="newPassword">New Password</label>
-                    <input type="password" id="newPassword" name="newPassword" placeholder="Enter your new password">
-                    <div class="password-strength">Must be at least 8 characters with numbers and special characters</div>
-                    <div class="error-message" id="newPasswordError"></div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="confirmPassword">Confirm New Password</label>
-                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your new password">
-                    <div class="error-message" id="confirmPasswordError"></div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-modal btn-secondary" id="cancelBtn">Cancel</button>
-                <button class="btn-modal btn-primary" id="submitBtn">Update Password</button>
-            </div>
-        </div>
-    </div>
+<?php
+session_start();
+require_once('../classes/userName_class.php');
 
+// Get patient_id from session
+$user_id = $_SESSION['user_id'] ?? null;
+$userProfile = new userName_class();
+?>
+<body>
     <div class="dashboard">
         <div class="header">
-            <input type="text" class="search-bar" placeholder="Search patient name/ID...">
-            <div class="header-date">
-                <i class="fas fa-calendar-alt"></i> 
-                <span id="real-time-date"></span>
+            <div class="header-left">
+                <div class="username-section">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="username"><?php echo $userProfile->getUserName(); ?></span>
+                </div>
+            </div>
+            <div class="header-right">
+                <button class="settings-btn" id="settingsBtn" title="Settings">
+                    <i class="fas fa-cog"></i>
+                </button>
+                <div class="header-date">
+                    <i class="fas fa-calendar-alt"></i> 
+                    <span id="real-time-date"></span>
+                </div>
             </div>
         </div>
         
@@ -157,13 +139,12 @@
         </div>
         
         <div class="footer">
-            <button class="logout-btn" id="logoutBtn">
+            <a href="../actions/logoutactions.php" class="logout-btn" id="logoutBtn">
                 <i class="fas fa-sign-out-alt"></i> Logout
-            </button>
+            </a>
         </div>
     </div>
 
-    <script src="../js/reset_password.js"></script>
     <script src="../js/pharmacist.js"></script>
     <script src="../js/real_time_date.js"></script>
 </body>

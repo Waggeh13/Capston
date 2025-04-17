@@ -24,10 +24,13 @@
     .user {
     display: inline-block;
     white-space: nowrap;
-    margin-left: 10px; /* Reduced from 65px to 10px */
+    margin-left: 10px;
     }
     .fas.fa-bell {
         margin-left: 1180px;
+    }
+    .profile-text{
+    color: black;
     }
 </style>
 <?php

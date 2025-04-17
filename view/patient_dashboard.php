@@ -37,15 +37,23 @@ require_once('../classes/getPatientAppointments_class.php');
 require_once('../classes/getPatientPrescriptions_class.php');
 require_once('../classes/userName_class.php');
 require_once('../settings/core.php');
+
 redirect_if_not_logged_in();
+
+// Get the logged-in user's ID from the session
+$user_id = isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : null;
+
+if (!$user_id) {
+    die("Error: User not logged in or session expired.");
+}
 
 // Fetch patient appointments
 $db = new getPatientAppointments_class();
-$appointments = $patient_id ? $db->getPatientAppointments($patient_id, 2) : [];
+$appointments = $db->getPatientAppointments($user_id, 2);
 
 // Fetch patient prescriptions
-$db = new getPatientPrescriptions_class();
-$prescriptions = $patient_id ? $db->getPatientPrescriptions($patient_id, 2) : [];
+$db_prescriptions = new getPatientPrescriptions_class();
+$prescriptions = $db_prescriptions->getPatientPrescriptions($user_id, 2);
 
 $userProfile = new userName_class();
 
@@ -58,8 +66,6 @@ if (!is_array($appointments)) {
 if (!is_array($prescriptions)) {
     $prescriptions = [];
 }
-
-
 ?>
 <body>
 

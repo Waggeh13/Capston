@@ -34,7 +34,6 @@
     }
 </style>
 <?php
-session_start();
 require_once('../controllers/clinic_controller.php');
 require_once('../controllers/doc_schedule_controller.php');
 require_once('../classes/userName_class.php');

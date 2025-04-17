@@ -9,9 +9,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <?php
-<<<<<<< HEAD
 require_once('../settings/core.php');
 redirect_if_not_logged_in();
+$userProfile = new userName_class();
+?>
 ?>
 <body>
     <!-- Password Reset Modal -->
@@ -48,15 +49,6 @@ redirect_if_not_logged_in();
             </div>
         </div>
     </div>
-=======
-session_start();
-require_once('../classes/userName_class.php');
->>>>>>> 03f4374976c4d18a5ef5e277e8226eb59c9e625e
-
-// Get patient_id from session
-$user_id = $_SESSION['user_id'] ?? null;
-$userProfile = new userName_class();
-?>
 <body>
     <div class="dashboard">
         <div class="header">

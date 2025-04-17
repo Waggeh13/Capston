@@ -32,11 +32,9 @@
     }
 </style>
 <?php
-session_start();
+require_once('../settings/core.php');
 require_once('../classes/userName_class.php');
-
-// Get patient_id from session
-$user_id = $_SESSION['user_id'] ?? null;
+redirect_if_not_logged_in();
 $userProfile = new userName_class();
 ?>
 <body>
@@ -369,6 +367,7 @@ $userProfile = new userName_class();
             </div>
             
             <script src="../js/doc_lab.js"></script>
+            <script src="../js/dark_mode.js"></script>
         </div>
     </div>
 </body>

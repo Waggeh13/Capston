@@ -12,6 +12,8 @@
 </head>
 <?php
 require('../controllers/department_controller.php');
+require_once('../settings/core.php');
+redirect_if_not_logged_in();
 ?>
 <body>
     <div class="container">
@@ -143,5 +145,6 @@ require('../controllers/department_controller.php');
             </form>
         </div>
         <script src="../js/department_add_edit.js"></script>
+        <script src="../js/dark_mode.js"></script>
 </body>
 </html>

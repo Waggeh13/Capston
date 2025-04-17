@@ -30,3 +30,31 @@ thead {
 .btn:hover {
     background-color: red;
 }
+
+/* Dark Mode Styles */
+body.dark-mode .doctor-available {
+    background: #2c2c2c;
+}
+
+body.dark-mode thead {
+    background: #444;
+    color: #e0e0e0;
+}
+
+body.dark-mode .btn:hover {
+    background: #ff3333;
+}
+
+body.dark-mode .status-dropdown {
+    background: #444;
+    color: #e0e0e0;
+    border: 1px solid #555;
+}
+
+body.dark-mode .status-dropdown option[value="pending"] { color: #ffca28; }
+body.dark-mode .status-dropdown option[value="confirmed"] { color: #66b0ff; }
+body.dark-mode .status-dropdown option[value="in-progress"] { color: #1e88e5; }
+body.dark-mode .status-dropdown option[value="completed"] { color: #4caf50; }
+body.dark-mode .status-dropdown option[value="cancelled"] { color: #ff6666; }
+body.dark-mode .status-dropdown option[value="no-show"] { color: #aaa; }
+body.dark-mode .status-dropdown option[value="rescheduled"] { color: #ab47bc; }

@@ -397,3 +397,123 @@ td i {
         padding: 0 10px;
     }
 }
+
+/* Dark Mode Styles */
+body.dark-mode {
+    background: #1a1a1a;
+}
+
+body.dark-mode .sidebar {
+    background: #003d7a;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .sidebar ul li:hover {
+    background: #005bb5;
+}
+
+body.dark-mode .sidebar ul li:first-child {
+    border-bottom: 1px solid #aaa;
+}
+
+body.dark-mode .sidebar ul li a {
+    color: #e0e0e0;
+}
+
+body.dark-mode .sidebar ul li a i {
+    color: #e0e0e0;
+}
+
+body.dark-mode .main {
+    background: #1a1a1a;
+}
+
+body.dark-mode .top-bar {
+    background: #2c2c2c;
+    box-shadow: 0 4px 0 rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .search input {
+    background: #444;
+    color: #e0e0e0;
+}
+
+body.dark-mode .search i {
+    color: #aaa;
+}
+
+body.dark-mode .profile-text {
+    color: #66b0ff;
+}
+
+body.dark-mode .cards .card {
+    background: #003d7a;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
+}
+
+body.dark-mode .cards .card:hover {
+    background: #ff3333;
+}
+
+body.dark-mode .number {
+    color: #e0e0e0;
+}
+
+body.dark-mode .card-name {
+    color: #e0e0e0;
+}
+
+body.dark-mode .icon-box i {
+    color: #d1d1d1;
+}
+
+body.dark-mode .last-appointments {
+    background: #2c2c2c;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .doctor-available {
+    background: #2c2c2c;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .heading {
+    color: #e0e0e0;
+}
+
+body.dark-mode .btn {
+    background-color: #007bff;
+}
+
+body.dark-mode .btn:hover {
+    background: #ff3333;
+}
+
+body.dark-mode thead td {
+    color: #e0e0e0;
+}
+
+body.dark-mode table tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode tbody tr:hover {
+    background-color: #005bb5;
+    color: #e0e0e0;
+}
+
+body.dark-mode td {
+    color: #e0e0e0;
+}
+
+body.dark-mode .fa-eye {
+    background: #007bff;
+}
+
+body.dark-mode .fa-edit {
+    background: #005bb5;
+}
+
+body.dark-mode .fa-trash-alt {
+    background: #ff3333;
+}

@@ -1,6 +1,6 @@
 @import url('http://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -33,7 +33,7 @@ body {
     visibility: hidden;
 }
 
-.container.active .form-box.register{
+.container.active .form-box.register {
     visibility: visible;
 }
 
@@ -51,7 +51,7 @@ form {
     margin: 30px 0;
 }
 
-.input-box input{
+.input-box input {
     width: 100%;
     padding: 13px 50px 13px 20px;
     background: #eee;
@@ -68,7 +68,7 @@ form {
     font-weight: 400;
 }
 
-.input-box i{
+.input-box i {
     position: absolute;
     right: 20px;
     top: 50%;
@@ -77,7 +77,7 @@ form {
     color: #888;
 }
 
-.forgot-link{
+.forgot-link {
     margin: -15px 0 15px;
 }
 
@@ -105,7 +105,7 @@ form {
     height: 100%;
 }
 
-.toggle-box::before{
+.toggle-box::before {
     content: '';
     position: absolute;
     left: -250%;
@@ -117,7 +117,7 @@ form {
     transition: 1.8s ease-in-out;
 }
 
-.container.active .toggle-box::before{
+.container.active .toggle-box::before {
     left: 50%;
 }
 
@@ -165,4 +165,52 @@ form {
     background: transparent;
     border: 2px solid #fff;
     box-shadow: none;
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+    background: linear-gradient(90deg, #2c2c2c, #1e2a44); /* Dark gradient background */
+}
+
+body.dark-mode .container {
+    background: #333; /* Dark background for the container */
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.1); /* Lighter shadow for dark mode */
+}
+
+body.dark-mode .container h1 {
+    color: #e0e0e0; /* Lighter text color */
+}
+
+body.dark-mode .input-box input {
+    background: #444;
+    color: #e0e0e0;
+}
+
+body.dark-mode .input-box input::placeholder {
+    color: #aaa;
+}
+
+body.dark-mode .input-box i {
+    color: #ccc; /* Lighter color for visibility */
+}
+
+body.dark-mode .forgot-link a {
+    color: #66b0ff; /* Lighter blue for visibility */
+}
+
+body.dark-mode .btn {
+    background: #007bff; /* Lighter blue for visibility */
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); /* Lighter shadow for dark mode */
+}
+
+body.dark-mode .toggle-box::before {
+    background: #007bff; /* Lighter blue for visibility */
+}
+
+body.dark-mode .toggle-panel {
+    color: #d1d1d1; /* Lighter text color */
+}
+
+body.dark-mode .toggle-panel .btn {
+    border: 2px solid #d1d1d1; /* Lighter border for visibility */
 }

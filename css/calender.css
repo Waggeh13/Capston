@@ -26,7 +26,6 @@
     margin-left: 20px;
     padding: 10px; 
     max-width: 500px; 
-
 }
 
 .days {
@@ -88,7 +87,6 @@
     height: 374px; 
     margin-top: 26px;
     overflow-y: auto;
-
 }
 
 .appointment-header {
@@ -148,4 +146,71 @@ h2 {
 .reject {
     background: #FF5252;
     color: white;
+}
+
+/* Dark Mode Styles */
+body.dark-mode .data {
+    background-color: #1a1a1a; /* Dark background for the container */
+}
+
+body.dark-mode .calender {
+    background-color: #2c2c2c; /* Dark background for the calendar */
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1); /* Lighter shadow for dark mode */
+}
+
+body.dark-mode .days {
+    color: #d1d1d1; /* Lighter text color */
+}
+
+body.dark-mode .date {
+    color: #e0e0e0; /* Lighter text color */
+}
+
+body.dark-mode .date:hover,
+body.dark-mode .date.active {
+    background: #007bff; /* Slightly lighter blue for visibility */
+    color: white;
+}
+
+body.dark-mode .date.inactive {
+    color: #666; /* Darker inactive color */
+}
+
+body.dark-mode .date.inactive:hover {
+    color: #d1d1d1; /* Lighter hover color */
+}
+
+body.dark-mode .monthYear {
+    color: #e0e0e0; /* Lighter text color */
+}
+
+body.dark-mode .appointment-requests-card {
+    background: #2c2c2c; /* Dark background for the card */
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1); /* Lighter shadow for dark mode */
+}
+
+body.dark-mode .appointment-header {
+    background: #333; /* Dark background for the header */
+    color: #e0e0e0; /* Lighter text color */
+    border-bottom: 2px solid #555; /* Darker border */
+}
+
+body.dark-mode h2 {
+    color: #e0e0e0; /* Lighter text color */
+}
+
+body.dark-mode .request {
+    background: #444; /* Darker background for each request */
+}
+
+body.dark-mode .request-details p {
+    color: #d1d1d1; /* Lighter text color */
+}
+
+body.dark-mode .accept {
+    background: #388e3c; /* Darker green for accept button */
+}
+
+body.dark-mode .reject {
+    background: #d32f2f; /* Darker red for reject button */
 }

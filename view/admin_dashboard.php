@@ -14,6 +14,8 @@
 <?php
 require_once('../classes/getUpcomingAppointments_class.php');
 require_once('../classes/getAvailableDoctors_class.php');
+require_once('../settings/core.php');
+redirect_if_not_logged_in();
 
 // Fetch upcoming appointments
 $db = new getUpcomingAppointments_class();
@@ -244,14 +246,15 @@ if (!is_array($available_doctors)) {
                                         No available doctors found
                                     </td>
                                 </tr>
-                            <?php endif; ?>             
+                            <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
-    <script src="../js/add_edit.js"></script>  
-    <script src="../js/reset_password.js"></script>  
+    <script src="../js/add_edit.js"></script>
+    <script src="../js/reset_password.js"></script>
+    <script src="../js/dark_mode.js"></script>
 </body>
 </html>

@@ -12,6 +12,8 @@
 </head>
 <?php
 require('../controllers/patient_controller.php');
+require_once('../settings/core.php');
+redirect_if_not_logged_in();
 ?>
 
 <body>
@@ -204,5 +206,6 @@ require('../controllers/patient_controller.php');
         </div>
     
         <script src="../js/patient_add_edit.js"></script>
+        <script src="../js/dark_mode.js"></script>
     </body>
 </html>

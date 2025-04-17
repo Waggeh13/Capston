@@ -109,7 +109,6 @@
     background: red;
 }
 
-
 /* Tablet (768px and up) */
 @media (min-width: 768px) {
     .dashboard {
@@ -207,4 +206,53 @@
     .chatbot-btn:hover {
         background: red;
     }
+}
+
+/* Dark Mode Styles */
+body.dark-mode .dashboard {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .card {
+    background: #2c2c2c;
+    box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .card-title {
+    color: #e0e0e0;
+}
+
+body.dark-mode .btn {
+    background: #007bff;
+}
+
+body.dark-mode .btn:hover {
+    background: #ff3333;
+}
+
+body.dark-mode .appointment-item {
+    border-bottom: 1px solid #555;
+    color: #e0e0e0;
+}
+
+body.dark-mode .quick-actions {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .action-card {
+    background: #2c2c2c;
+    box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .action-card i {
+    color: #66b0ff;
+}
+
+body.dark-mode .chatbot-btn {
+    background: #007bff;
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.2);
+}
+
+body.dark-mode .chatbot-btn:hover {
+    background: #ff3333;
 }

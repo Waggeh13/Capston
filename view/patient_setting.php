@@ -10,35 +10,42 @@
     <link rel="stylesheet" href="../css/change_password.css">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/sidebarx.css">
-    <link rel="stylesheet" href="../css/change_password.css">
     <link rel="stylesheet" href="../css/reset_password.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>Settings</title>
 </head>
 <style>
     .sidebar ul li a {
-    width: 100%;
-    text-decoration: none;
-    color: #fff;
-    height: 70px;
-    display: flex;
-    align-items: center;
+        width: 100%;
+        text-decoration: none;
+        color: #fff;
+        height: 70px;
+        display: flex;
+        align-items: center;
     }
     .user {
-    display: inline-block;
-    white-space: nowrap;
-    margin-left: 10px; /* Reduced from 65px to 10px */
+        display: inline-block;
+        white-space: nowrap;
+        margin-left: 10px;
     }
     .fas.fa-bell {
         margin-left: 1180px;
     }
+    .password-strength {
+        margin-top: 5px;
+        font-size: 14px;
+        color: #666;
+    }
+    #passwordStrength {
+        margin-top: 5px;
+        font-size: 14px;
+        font-weight: bold;
+    }
 </style>
 <?php
-session_start();
 require_once('../classes/userName_class.php');
-
-// Get patient_id from session
-$patient_id = $_SESSION['user_id'] ?? null;
+require_once('../settings/core.php');
+redirect_if_not_logged_in();
 $userProfile = new userName_class();
 ?>
 <body>
@@ -99,7 +106,7 @@ $userProfile = new userName_class();
             <div class="top-bar">
                 <i class="fas fa-bell"></i>
                 <div class="user">
-                    <span class="profile-text"><?php echo $userProfile->getUserName(); ?></span>
+                    <span class="profile-text"><?php echo htmlspecialchars($userProfile->getUserName()); ?></span>
                 </div>
             </div>
             <div class="settings-container">
@@ -133,7 +140,6 @@ $userProfile = new userName_class();
                         </select>
                     </div>
                 </div>
-
                 <!-- Font Size Adjustment -->
                 <div class="settings-section">
                     <h2>Font Size</h2>
@@ -144,36 +150,41 @@ $userProfile = new userName_class();
                 </div>
             </div>
         </div>
-    <!-- Password Reset Modal -->
-    <div class="password-modal" id="passwordModal">
+        <!-- Password Reset Modal -->
+        <div class="password-modal" id="passwordModal">
             <div class="modal-content">
                 <div class="modal-header">
                     <h2><i class="fas fa-key"></i> Change Password</h2>
                 </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="currentPassword">Current Password</label>
-                        <input type="password" id="currentPassword" name="currentPassword" placeholder="Enter your current password">
-                        <div class="error-message" id="currentPasswordError"></div>
+                <form action="#" id="PasswordForm" class="form">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="currentPassword">Current Password</label>
+                            <input type="password" id="currentPassword" name="currentPassword" placeholder="Enter your current password">
+                            <div class="error-message" id="currentPasswordError"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="newPassword">New Password</label>
+                            <input type="password" id="newPassword" name="newPassword" placeholder="Enter your new password">
+                            <div class="password-strength">Must be at least 8 characters with numbers, uppercase, and special characters</div>
+                            <div id="passwordStrength"></div>
+                            <div class="error-message" id="newPasswordError"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirm New Password</label>
+                            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your new password">
+                            <div class="error-message" id="confirmPasswordError"></div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="newPassword">New Password</label>
-                        <input type="password" id="newPassword" name="newPassword" placeholder="Enter your new password">
-                        <div class="password-strength">Must be at least 8 characters with numbers and special characters</div>
-                        <div class="error-message" id="newPasswordError"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn-modal btn-secondary" id="cancelBtn" onclick="closePasswordModal()">Cancel</button>
+                        <button type="submit" class="btn-modal btn-primary" id="submitBtn">Update Password</button>
                     </div>
-                    <div class="form-group">
-                        <label for="confirmPassword">Confirm New Password</label>
-                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your new password">
-                        <div class="error-message" id="confirmPasswordError"></div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn-modal btn-secondary" id="cancelBtn" onclick="closePasswordModal()">Cancel</button>
-                    <button class="btn-modal btn-primary" id="submitBtn">Update Password</button>
-                </div>
+                </form>
             </div>
         </div>
-        <script src="../js/change_password.js"></script>
-    </body>
+    </div>
+    <script src="../js/change_password.js"></script>
+    <script src="../js/dark_mode.js"></script>
+</body>
 </html>

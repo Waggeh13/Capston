@@ -34,11 +34,10 @@
     }
 </style>
 <?php
-session_start();
-require_once('../classes/userName_class.php');
 
-// Get patient_id from session
-$user_id = $_SESSION['user_id'] ?? null;
+require_once('../settings/core.php');
+redirect_if_not_logged_in();
+require_once('../classes/userName_class.php');
 $userProfile = new userName_class();
 ?>
 <body>
@@ -180,5 +179,6 @@ $userProfile = new userName_class();
                 </div>
             </div>
         </div>
+    <script src="../js/dark_mode.js"></script>
     </body>
 </html>

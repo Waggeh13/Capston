@@ -233,3 +233,115 @@
     list-style-type: none;
     padding: 0;
 }
+
+/* Dark Mode Styles */
+body.dark-mode .schedule-container {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .schedule-title {
+    color: #e0e0e0;
+}
+
+body.dark-mode .calendar-section {
+    background: #2c2c2c;
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .monthYear {
+    color: #66b0ff;
+}
+
+body.dark-mode .nav-btn {
+    background: #1e2a44;
+    color: #66b0ff;
+}
+
+body.dark-mode .nav-btn:hover {
+    background: #007bff;
+    color: #fff;
+}
+
+body.dark-mode .day-header {
+    color: #aaa;
+}
+
+body.dark-mode .date-cell {
+    color: #e0e0e0;
+}
+
+body.dark-mode .date-cell:hover:not(.empty) {
+    background: #1e2a44;
+    border-color: #007bff;
+}
+
+body.dark-mode .date-cell.selected {
+    background: #007bff;
+}
+
+body.dark-mode .date-cell.today {
+    color: #66b0ff;
+}
+
+body.dark-mode .date-cell.today::after {
+    background: #66b0ff;
+}
+
+body.dark-mode .timeslots-section {
+    background: #2c2c2c;
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .timeslots-header h3 {
+    color: #66b0ff;
+}
+
+body.dark-mode .timeslots-header p {
+    color: #aaa;
+}
+
+body.dark-mode .time-slot {
+    background: #444;
+    border: 1px solid #555;
+    color: #e0e0e0;
+}
+
+body.dark-mode .time-slot:hover {
+    background: #1e2a44;
+    border-color: #007bff;
+}
+
+body.dark-mode .time-slot.selected {
+    background: #007bff;
+    border-color: #007bff;
+}
+
+body.dark-mode .save-btn {
+    background: #007bff;
+}
+
+body.dark-mode .save-btn:hover {
+    background: #005bb5;
+}
+
+body.dark-mode .date.today {
+    background-color: #1e2a44;
+    color: #66b0ff;
+}
+
+body.dark-mode .date.selected {
+    background-color: #007bff;
+}
+
+body.dark-mode .date.disabled {
+    background-color: #333;
+    color: #666;
+}
+
+body.dark-mode .time-slot.selected {
+    background-color: #4caf50;
+}
+
+body.dark-mode .time-slot:disabled {
+    background-color: #555;
+}

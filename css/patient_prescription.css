@@ -197,3 +197,94 @@
         gap: 15px;
     }
 }
+
+/* Dark Mode Styles */
+body.dark-mode .prescription-container {
+    background-color: #2c2c2c;
+    box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .prescription-header {
+    border-bottom: 2px solid #007bff;
+}
+
+body.dark-mode .prescription-header h2 {
+    color: #66b0ff;
+}
+
+body.dark-mode .meta-label {
+    color: #aaa;
+}
+
+body.dark-mode .meta-value {
+    color: #e0e0e0;
+}
+
+body.dark-mode .medication-card {
+    border: 1px solid #555;
+    background-color: #444;
+}
+
+body.dark-mode .medication-header h3 {
+    color: #66b0ff;
+}
+
+body.dark-mode .medication-status.active {
+    background-color: #2e7d32;
+    color: #e6f7ee;
+}
+
+body.dark-mode .medication-status.as-needed {
+    background-color: #664d03;
+    color: #fff4e6;
+}
+
+body.dark-mode .detail-label {
+    color: #aaa;
+}
+
+body.dark-mode .detail-value {
+    color: #e0e0e0;
+}
+
+body.dark-mode .dosage-time {
+    background-color: #1e2a44;
+    color: #66b0ff;
+}
+
+body.dark-mode .alert-section {
+    border-top: 1px dashed #555;
+}
+
+body.dark-mode .alert-toggle input[type="checkbox"] {
+    accent-color: #007bff;
+}
+
+body.dark-mode .next-dose {
+    background-color: #664d03;
+    color: #ffca28;
+}
+
+body.dark-mode .next-dose i {
+    color: #ffca28;
+}
+
+body.dark-mode .prescription-footer {
+    border-top: 1px solid #555;
+}
+
+body.dark-mode .print-btn {
+    background-color: #007bff;
+}
+
+body.dark-mode .print-btn:hover {
+    background-color: #005bb5;
+}
+
+body.dark-mode .request-refill-btn {
+    background-color: #4caf50;
+}
+
+body.dark-mode .request-refill-btn:hover {
+    background-color: #388e3c;
+}

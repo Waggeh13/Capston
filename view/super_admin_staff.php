@@ -13,6 +13,8 @@
 <?php
 require_once('../controllers/staff_controller.php');
 require_once('../controllers/department_controller.php');
+require_once('../settings/core.php');
+redirect_if_not_logged_in();
 ?>
 <body>
     <div class="container">
@@ -272,5 +274,6 @@ require_once('../controllers/department_controller.php');
         
     
     <script src="../js/staff_add_edit.js"></script>
+    <script src="../js/dark_mode.js"></script>
 </body>
 </html>

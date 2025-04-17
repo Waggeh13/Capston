@@ -117,5 +117,47 @@
     color: #ffff;
 }
 
+/* Dark Mode Styles */
+body.dark-mode .data {
+    background-color: #1a1a1a; /* Dark background for the container */
+}
 
+body.dark-mode .data > div {
+    background: #2c2c2c; /* Dark background for data cards */
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1); /* Lighter shadow for dark mode */
+}
 
+body.dark-mode .data .heading h2 {
+    color: #e0e0e0; /* Lighter text color */
+}
+
+body.dark-mode .data .todays-appointments tbody tr:hover {
+    background-color: #005bb5; /* Darker blue for hover effect */
+    color: #ffffff;
+}
+
+body.dark-mode .data .todays-appointments td {
+    color: #d1d1d1; /* Lighter text color */
+}
+
+body.dark-mode .appointments th {
+    color: #e0e0e0; /* Lighter text color */
+}
+
+body.dark-mode .appointments td {
+    color: #d1d1d1; /* Lighter text color */
+}
+
+body.dark-mode .calender {
+    background: #2c2c2c; /* Dark background for the calendar */
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1); /* Lighter shadow for dark mode */
+}
+
+body.dark-mode .header button {
+    background: #444; /* Dark background for buttons */
+}
+
+body.dark-mode .header button:hover {
+    background: #ff3333; /* Slightly lighter red for visibility */
+    color: #fff;
+}

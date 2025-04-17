@@ -20,14 +20,26 @@
     height: 60px;
     display: flex;
     align-items: center;
-}
+    }
+    .user {
+    display: inline-block;
+    white-space: nowrap;
+    margin-left: 10px;
+    }
+    .fas.fa-bell {
+    margin-left: 1180px;
+    }
+    .profile-text{
+    color: black;
+    }
 </style>
 <?php
 
 require_once('../settings/core.php');
 redirect_if_not_logged_in();
+require_once('../classes/userName_class.php');
+$userProfile = new userName_class();
 ?>
-
 <body>
     <div class="container">
         <div class="sidebar">
@@ -102,13 +114,9 @@ redirect_if_not_logged_in();
         </div>
         <div class="main">
             <div class="top-bar">
-                <div class="search">
-                    <input type="text" name="search" placeholder="Search appointments...">
-                    <label for="search"><i class="fas fa-search"></i></label>
-                </div>
                 <i class="fas fa-bell"></i>
                 <div class="user">
-                    <span class="profile-text">Profile</span>
+                    <span class="profile-text"><?php echo $userProfile->getUserName(); ?></span>
                 </div>
             </div>
             <div class="requests-container">

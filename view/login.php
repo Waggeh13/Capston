@@ -66,7 +66,7 @@ redirect_if_logged_in();
                     <a href="#" style="text-decoration: none;">Forget password?</a>
                 </div>
 
-                <button type="submit" class="btn">Login</button>
+                <button type="submit" name="submit" class="btn">Login</button>
             </form>
         </div>
 

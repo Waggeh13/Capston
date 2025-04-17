@@ -5,20 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lab Technician Dashboard</title>
     <link rel="stylesheet" href="../css/lab_tech.css">
+    <link rel="stylesheet" href="../css/pharmacist_header.css"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <?php
+<<<<<<< HEAD
 require_once('../settings/core.php');
 redirect_if_not_logged_in();
+=======
+session_start();
+require_once('../classes/userName_class.php');
+
+// Get patient_id from session
+$user_id = $_SESSION['user_id'] ?? null;
+$userProfile = new userName_class();
+>>>>>>> 03f4374976c4d18a5ef5e277e8226eb59c9e625e
 ?>
 <body>
     <div class="dashboard">
-        <div class="header">
-            <input type="text" class="search-bar" id="searchBar" placeholder="Search patient name/ID...">
-            <div><i class="fas fa-calendar-alt"></i> <span id="current-date"></span></div>
-            <button class="logout-btn" id="logoutBtn">
-                <i class="fas fa-sign-out-alt"></i> Logout
-            </button>
+    <div class="header">
+            <div class="header-left">
+                <div class="username-section">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="username"><?php echo $userProfile->getUserName(); ?></span>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-date">
+                    <i class="fas fa-calendar-alt"></i> 
+                    <span id="real-time-date"></span>
+                </div>
+                <button class="settings-btn" id="settingsBtn" title="Settings">
+                    <i class="fas fa-cog"></i>
+                </button>
+                <a href="../actions/logoutactions.php" class="logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
         </div>
         
         <h2>Pending Lab Requests</h2>
@@ -26,65 +49,7 @@ redirect_if_not_logged_in();
             <!-- Lab request cards will be populated dynamically -->
         </div>
     </div>
-    
-    <!-- Request View Modal -->
-    <div class="modal" id="requestModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Lab Request Form</h2>
-                <button class="close-btn" id="closeRequestModal">×</button>
-            </div>
-            <div class="lab-form">
-                <div class="section-title">BAFROW</div>
-                <div class="section-title">HAEMATOLOGY</div>
-                
-                <!-- Patient Demographics -->
-                <table>
-                    <tr>
-                        <th colspan="2">PATIENT INFORMATION</th>
-                    </tr>
-                    <tr>
-                        <td width="50%">
-                            <strong>NAME:</strong> <span id="patientName"></span><br>
-                            <strong>AGE:</strong> <span id="patientAge"></span><br>
-                            <strong>SEX:</strong> <span id="patientGender"></span>
-                        </td>
-                        <td>
-                            <strong>ID NUMBER:</strong> <span id="patientId"></span><br>
-                            <strong>DATE OF BIRTH:</strong> <span id="patientDOB"></span>
-                        </td>
-                    </tr>
-                </table>
-                
-                <table>
-                    <tr>
-                        <th colspan="2">ORDERING PHYSICIAN INFORMATION</th>
-                    </tr>
-                    <tr>
-                        <td width="50%">
-                            <strong>NAME:</strong> <span id="doctorName"></span><br>
-                            <strong>SIGNATURE:</strong> <span id="doctorSignature"></span>
-                        </td>
-                        <td>
-                            <strong>REQUEST DATE:</strong> <span id="requestDate"></span>
-                        </td>
-                    </tr>
-                </table>
-                
-                <div class="section-title">REQUEST:</div>
-                <div id="testCheckboxes" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px;">
-                    <!-- Test checkboxes will be populated dynamically -->
-                </div>
-                
-                <div class="form-actions">
-                    <button class="btn btn-secondary" id="closeRequestModalBtn">
-                        <i class="fas fa-times"></i> Close
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
+
     <!-- Results Entry Modal -->
     <div class="modal" id="resultsModal">
         <div class="modal-content">
@@ -105,7 +70,7 @@ redirect_if_not_logged_in();
                         </tr>
                     </thead>
                     <tbody id="dynamicTestResults">
-                        <!-- Test result fields will be populated dynamically -->
+            
                     </tbody>
                 </table>
                 
@@ -154,6 +119,10 @@ redirect_if_not_logged_in();
     </div>
 
     <script src="../js/lab_tech.js"></script>
+<<<<<<< HEAD
     <script src="../js/dark_mode.js"></script>
+=======
+    <script src="../js/real_time_date.js"></script>
+>>>>>>> 03f4374976c4d18a5ef5e277e8226eb59c9e625e
 </body>
 </html>

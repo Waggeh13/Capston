@@ -5,22 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cashier Dashboard</title>
     <link rel="stylesheet" href="../css/cashier.css">
+    <link rel="stylesheet" href="../css/pharmacist_header.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <?php
+<<<<<<< HEAD
 require_once('../settings/core.php');
 redirect_if_not_logged_in();
 ?>
+=======
+session_start();
+require_once('../classes/userName_class.php');
+>>>>>>> 03f4374976c4d18a5ef5e277e8226eb59c9e625e
 
+// Get patient_id from session
+$user_id = $_SESSION['user_id'] ?? null;
+$userProfile = new userName_class();
+?>
 <body>
     <div class="dashboard">
         <div class="header">
-            <input type="text" class="search-bar" placeholder="Search patient name/ID...">
-            <div class="header-actions">
-                <div><i class="fas fa-calendar-alt"></i> <span id="current-date">Tuesday, May 14</span></div>
-                <button class="logout-btn" id="logoutBtn">
-                <i class="fas fa-sign-out-alt"></i> Logout
-            </button>
+            <div class="header-left">
+                <div class="username-section">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="username"><?php echo $userProfile->getUserName(); ?></span>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-date">
+                    <i class="fas fa-calendar-alt"></i> 
+                    <span id="real-time-date"></span>
+                </div>
+                <button class="settings-btn" id="settingsBtn" title="Settings">
+                    <i class="fas fa-cog"></i>
+                </button>
+                <a href="../actions/logoutactions.php" class="logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
             </div>
         </div>
         
@@ -351,5 +372,6 @@ redirect_if_not_logged_in();
     </div>
     <script src="../js/dark_mode.js"></script>
     <script src="../js/cashier.js"></script>
+    <script src="../js/real_time_date.js"></script>
 </body>
 </html>

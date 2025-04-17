@@ -8,7 +8,7 @@ class userName_class extends db_connection {
 
         // Check if user is logged in
         if (!isset($_SESSION['user_id'])) {
-            header('Location: ../view/index.php');
+            header('Location: ../view/login.php');
             exit;
         }
 

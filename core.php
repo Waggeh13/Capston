@@ -5,26 +5,7 @@ session_start();
 // For header redirection
 ob_start();
 
-// Function to check for active session and redirect based on role
 function redirect_if_logged_in() {
-    if (isset($_SESSION['pid'])) {
-        if (isset($_SESSION['user_role'])) {
-            if ($_SESSION['user_role'] == 1) {
-                header("Location: ./view/viewproduct.php");
-                exit();
-            } else if ($_SESSION['user_role'] == 2) {
-                header("Location: ./view/userDash.php"); // User dashboard
-                exit();
-            } else if ($_SESSION['user_role'] == 3) {
-                header("Location: ./view/admindashboard.php"); 
-                exit();
-            }
-    
-        }
-    }
-}
-
-function redirect_when_logged_in() {
     if (isset($_SESSION['user_id'])) {
         if (isset($_SESSION['user_role'])) {
             if ($_SESSION['user_role'] == "SuperAdmin") {

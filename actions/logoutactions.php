@@ -10,6 +10,6 @@ session_destroy();
 
 
 // Redirect the user to the home page or login page
-header("Location: ../index.php");
+header("Location: ../login.php");
 exit();
 ?>

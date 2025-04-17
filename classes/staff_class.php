@@ -39,7 +39,7 @@ class staff_class extends db_connection {
         return $this->db_fetch_all($sql);
     }
 
-    // Update product
+    // Update staff
     public function updatestaff($staff_id, $first_name, $last_name, $gender, $position, $department_id, $contact, $email) {
         // Sanitize inputs to prevent SQL injection
         $staff_id = mysqli_real_escape_string($this->db_conn(), $staff_id);
@@ -82,7 +82,7 @@ class staff_class extends db_connection {
 
     public function staff_ID_exists($staff_id) {
         $staff_id= mysqli_real_escape_string($this->db_conn(), $staff_id);
-        $sql = "SELECT staff_id FROM staff_table WHERE staff_id = '$staff_id'";
+        $sql = "SELECT user_id FROM user_table WHERE user_id = '$staff_id'";
         return $this->db_fetch_all($sql);
     }
 }

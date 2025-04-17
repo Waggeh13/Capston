@@ -6,10 +6,7 @@ header('Content-Type: application/json');
 
 // Check if clinicID is set and not empty
 if (isset($_POST['clinic_id']) && !empty($_POST['clinic_id'])) {
-    $clinicID = $_POST['clinic_id']; // Fixed variable name
-    
-    // Turn off error display (or handle it properly in production)
-    ini_set('display_errors', 0);
+    $clinicID = $_POST['clinic_id'];
     
     try {
         $result = viewclinicsByIDController($clinicID);

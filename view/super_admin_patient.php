@@ -73,7 +73,7 @@ require('../controllers/patient_controller.php');
                     </a>
                 </li>
                 <li>
-                    <a href="index.php">
+                    <a href="../actions/logoutaction.php">
                         <i class="fas fa-right-from-bracket"></i>
                         <div class="title">Logout</div>
                     </a>
@@ -180,7 +180,7 @@ require('../controllers/patient_controller.php');
             <h3>Edit Patient</h3>
             <form id="editItem">
                 <!-- Patient Details -->
-                <input type="hidden" id="editPatientId" name="patient_id" placeholder="Patient ID" required>
+                <input type="hidden" id="editPatientId" name="patient_id" required>
                 <input type="text" id="editFirstName" name="first_name" placeholder="First Name" required>
                 <input type="text" id="editLastName" name="last_name" placeholder="Last Name" required>
                 <input type="date" id="editDob" name="DOB" placeholder="Date of Birth" required>

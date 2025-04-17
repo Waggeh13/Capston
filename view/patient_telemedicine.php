@@ -17,6 +17,59 @@
     <script src="https://source.zoom.us/3.12.0/lib/vendor/lodash.min.js"></script>
     <script src="https://source.zoom.us/zoom-meeting-3.12.0.min.js"></script>
     <script src="../js/telemedicine.js"></script>
+    <style>
+        /* Ensure consultation-area is a flex container with two equal columns */
+        .consultation-area {
+            display: none; /* Initially hidden */
+            flex-direction: row;
+            width: 100%;
+            gap: 20px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .video-container, .consultation-notes {
+            flex: 1; /* Each takes 50% of the width */
+            min-width: 0; /* Prevents overflow */
+        }
+
+        .video-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #zoomMeeting {
+            width: 100%;
+            height: 400px; /* Fixed height for the Zoom meeting */
+            background-color: #000; /* Fallback background */
+        }
+
+        .consultation-controls {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .consultation-notes {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .consultation-notes textarea {
+            width: 100%;
+            height: 300px;
+            resize: vertical;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .consultation-notes .save-notes {
+            margin-top: 10px;
+            align-self: flex-start;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -104,7 +157,7 @@
                 </div>
 
                 <!-- Consultation Area -->
-                <div class="consultation-area" id="consultationArea" style="display: none;">
+                <div class="consultation-area" id="consultationArea">
                     <div class="video-container">
                         <div id="zoomMeeting"></div>
                         <div class="consultation-controls">

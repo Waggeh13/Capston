@@ -43,7 +43,7 @@ class patient_class extends db_connection {
         return $this->db_fetch_all($sql);
     }
 
-    // Update product
+    // Update patient
     public function updatePatient($patient_id, $first_name, $last_name, $dob, $gender, $weight, $address, $contact, $nextOfKin, $nextOfKinContact, $nextOfKinGender, $nextOfKinRelationship) {
         $patient_id = mysqli_real_escape_string($this->db_conn(), $patient_id);
         $first_name = mysqli_real_escape_string($this->db_conn(), $first_name);
@@ -79,7 +79,7 @@ class patient_class extends db_connection {
 
     public function patient_ID_exists($patient_id) {
         $patient_id= mysqli_real_escape_string($this->db_conn(), $patient_id);
-        $sql = "SELECT patient_id FROM patient_table WHERE patient_id = '$patient_id'";
+        $sql = "SELECT user_id FROM user_table WHERE user_id = '$patient_id'";
         return $this->db_fetch_all($sql);
     }
 

@@ -11,13 +11,13 @@ function addstaffController($staff_id, $first_name, $last_name, $gender,$positio
     return $staff->addstaff($staff_id, $first_name, $last_name, $gender,$position, $department, $contact, $email);
 }
 
-// Function to delete product
+// Function to delete staff
 function deletestaffController($id) {
     $staff = new staff_class();
     return $staff->deletestaff($id);
 }
 
-// Function to view all products
+// Function to view all staffs
 function viewstaffsController() {
     $staffs = new staff_class();
     return $staffs->getstaffs();

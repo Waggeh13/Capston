@@ -6,10 +6,8 @@ header('Content-Type: application/json');
 
 // Check if departmentID is set and not empty
 if (isset($_POST['department_id']) && !empty($_POST['department_id'])) {
-    $departmentID = $_POST['department_id']; // Fixed variable name
+    $departmentID = $_POST['department_id'];
     
-    // Turn off error display (or handle it properly in production)
-    ini_set('display_errors', 0);
     
     try {
         $result = viewdepartmentsByIDController($departmentID);

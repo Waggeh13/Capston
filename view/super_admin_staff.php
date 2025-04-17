@@ -216,7 +216,7 @@ require_once('../controllers/department_controller.php');
                 <!-- Staff Details -->
                 <div class="form-group">
                     <label for="editStaffId">Staff ID:</label>
-                    <input type="text" id="editStaffId" name="staffId" placeholder="Enter staff ID" required>
+                    <input type="text" id="editStaffId" name="staffId" required>
                 </div>
 
                 <div class="form-group">
@@ -262,8 +262,6 @@ require_once('../controllers/department_controller.php');
                     <label for="editEmail">Email:</label>
                     <input type="email" id="editEmail" name="email" placeholder="Enter email address" required>
                 </div>
-
-                <input type="hidden" id="default-password" name="default-password">
 
                 <div class="form-buttons">
                     <button type="submit">Update Staff</button>

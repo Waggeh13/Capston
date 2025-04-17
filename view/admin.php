@@ -149,12 +149,7 @@ require_once('../controllers/admin_controller.php');
                     <label for="contact">Contact Number:</label>
                     <input type="tel" id="contact" name="contact" placeholder="Enter phone number" required>
                 </div>
-
-                <div class="form-group">
-                    <label for="password">Default Password:</label>
-                    <input type="text" id="password" name="password" 
-                        placeholder="Set default password" minlength="6" required>
-                </div>
+                <input type="hidden" id="default-password" name="default-password" value="Bafrrow@2025">
 
                 <div class="form-buttons">
                     <button type="submit">Add Admin</button>
@@ -167,7 +162,7 @@ require_once('../controllers/admin_controller.php');
         <div class="popup-form" id="editItemForm">
             <h3>Edit Clinic Admin</h3>
             <form id="editItem">
-                <input type="hidden" id="editAdminId" name="adminId">
+                <input type="hidden" id="editadminId" name="adminId">
 
                 <div class="form-group">
                     <label>Full Name:</label>
@@ -182,8 +177,6 @@ require_once('../controllers/admin_controller.php');
                     <input type="tel" id="editContact" name="contact" placeholder="Enter phone number" required>
                 </div>
 
-                <input type="hidden" id="editPassword" name="password">
-
                 <div class="form-buttons">
                     <button type="submit">Update Admin</button>
                     <button type="button" class="cancel" id="cancelEditItem">Cancel</button>
@@ -191,7 +184,7 @@ require_once('../controllers/admin_controller.php');
             </form>
         </div>
     </div>
-    <script src="../js/add_edit.js"></script> 
+    <script src="../js/admin_add_edit.js"></script> 
     
 </body>
 </html>

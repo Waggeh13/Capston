@@ -307,7 +307,116 @@ class patient_appointment_class extends db_connection {
         return false;
     }
 
-    // Other methods unchanged
+    // Modified get_appointments method to update past scheduled appointments to Cancelled
+    public function get_appointments($patient_id) {
+        $conn = $this->db_conn();
+        if ($conn === false) {
+            error_log("Database connection failed in get_appointments");
+            return [];
+        }
+
+        $patient_id = mysqli_real_escape_string($conn, $patient_id);
+        
+        $sql = "SELECT b.booking_id, b.timeslot_id, CONCAT(s.first_name, ' ', s.last_name) as doctor_name,
+                       a.appointment_date as date, t.time_slot as time, b.appointment_type, c.clinic_name, b.status
+                FROM booking_table b
+                JOIN appointment_timeslots t ON b.timeslot_id = t.timeslot_id
+                JOIN appointment_table a ON t.appointment_id = a.appointment_id
+                JOIN staff_table s ON a.staff_id = s.staff_id
+                JOIN clinic_table c ON b.clinic_id = c.clinic_id
+                WHERE b.patient_id = ?
+                ORDER BY a.appointment_date DESC, t.time_slot DESC";
+                
+        $stmt = mysqli_prepare($conn, $sql);
+        if ($stmt === false) {
+            error_log("Prepare failed in get_appointments: " . mysqli_error($conn));
+            mysqli_close($conn);
+            return [];
+        }
+
+        mysqli_stmt_bind_param($stmt, "s", $patient_id);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        
+        if ($result === false) {
+            error_log("Query failed in get_appointments: " . mysqli_error($conn));
+            mysqli_stmt_close($stmt);
+            mysqli_close($conn);
+            return [];
+        }
+
+        $appointments = [];
+        $currentDateTime = new DateTime(); // Current date and time
+
+        while ($row = mysqli_fetch_assoc($result)) {
+            // Combine date and time to create a full datetime for comparison
+            $appointmentDateTimeStr = $row['date'] . ' ' . $row['time'];
+            $appointmentDateTime = DateTime::createFromFormat('Y-m-d H:i:s', $appointmentDateTimeStr);
+
+            // Check if the appointment is Scheduled and the date is in the past
+            if ($row['status'] === 'Scheduled' && $appointmentDateTime < $currentDateTime) {
+                $booking_id = $row['booking_id'];
+                
+                // Update status to Cancelled in booking_table
+                $update_sql = "UPDATE booking_table SET status = 'Cancelled' WHERE booking_id = ?";
+                $update_stmt = mysqli_prepare($conn, $update_sql);
+                if ($update_stmt === false) {
+                    error_log("Prepare failed for updating status in get_appointments: " . mysqli_error($conn));
+                    continue; // Skip this appointment and continue with the next
+                }
+                mysqli_stmt_bind_param($update_stmt, "i", $booking_id);
+                if (!mysqli_stmt_execute($update_stmt)) {
+                    error_log("Failed to update status in booking_table: " . mysqli_error($conn));
+                } else {
+                    error_log("Updated appointment status to Cancelled: booking_id=$booking_id");
+                    $row['status'] = 'Cancelled'; // Update the status in the row to reflect the change
+                }
+                mysqli_stmt_close($update_stmt);
+
+                // If it's a virtual appointment, update telemedicine_table status as well
+                if (strtolower($row['appointment_type']) === 'virtual') {
+                    $tele_update_sql = "UPDATE telemedicine_table SET status = 'Cancelled' WHERE booking_id = ?";
+                    $tele_update_stmt = mysqli_prepare($conn, $tele_update_sql);
+                    if ($tele_update_stmt === false) {
+                        error_log("Prepare failed for updating telemedicine status: " . mysqli_error($conn));
+                        continue;
+                    }
+                    mysqli_stmt_bind_param($tele_update_stmt, "i", $booking_id);
+                    if (!mysqli_stmt_execute($tele_update_stmt)) {
+                        error_log("Failed to update status in telemedicine_table: " . mysqli_error($conn));
+                    } else {
+                        error_log("Updated telemedicine status to Cancelled: booking_id=$booking_id");
+                    }
+                    mysqli_stmt_close($tele_update_stmt);
+                }
+
+                // Update timeslot status to Available
+                $timeslot_id = $row['timeslot_id'];
+                $timeslot_update_sql = "UPDATE appointment_timeslots SET status = 'Available' WHERE timeslot_id = ?";
+                $timeslot_update_stmt = mysqli_prepare($conn, $timeslot_update_sql);
+                if ($timeslot_update_stmt === false) {
+                    error_log("Prepare failed for updating timeslot status: " . mysqli_error($conn));
+                    continue;
+                }
+                mysqli_stmt_bind_param($timeslot_update_stmt, "i", $timeslot_id);
+                if (!mysqli_stmt_execute($timeslot_update_stmt)) {
+                    error_log("Failed to update timeslot status: " . mysqli_error($conn));
+                } else {
+                    error_log("Updated timeslot status to Available: timeslot_id=$timeslot_id");
+                }
+                mysqli_stmt_close($timeslot_update_stmt);
+            }
+
+            $row['appointment_type'] = $row['appointment_type'] === 'In-Person' ? 'In-person' : 'Virtual';
+            $appointments[] = $row;
+        }
+        
+        mysqli_free_result($result);
+        mysqli_stmt_close($stmt);
+        mysqli_close($conn);
+        return $appointments;
+    }
+
     public function update_appointment($booking_id, $patient_id, $staff_id, $appointmentDate, $appointmentTime, $appointmentType, $clinic_id, $timeslot_id) {
         $conn = $this->db_conn();
         if ($conn === false) {
@@ -521,55 +630,6 @@ class patient_appointment_class extends db_connection {
         } finally {
             mysqli_close($conn);
         }
-    }
-
-    public function get_appointments($patient_id) {
-        $conn = $this->db_conn();
-        if ($conn === false) {
-            error_log("Database connection failed in get_appointments");
-            return [];
-        }
-
-        $patient_id = mysqli_real_escape_string($conn, $patient_id);
-        
-        $sql = "SELECT b.booking_id, b.timeslot_id, CONCAT(s.first_name, ' ', s.last_name) as doctor_name,
-                       a.appointment_date as date, t.time_slot as time, b.appointment_type, c.clinic_name, b.status
-                FROM booking_table b
-                JOIN appointment_timeslots t ON b.timeslot_id = t.timeslot_id
-                JOIN appointment_table a ON t.appointment_id = a.appointment_id
-                JOIN staff_table s ON a.staff_id = s.staff_id
-                JOIN clinic_table c ON b.clinic_id = c.clinic_id
-                WHERE b.patient_id = ?
-                ORDER BY a.appointment_date DESC, t.time_slot DESC";
-                
-        $stmt = mysqli_prepare($conn, $sql);
-        if ($stmt === false) {
-            error_log("Prepare failed in get_appointments: " . mysqli_error($conn));
-            mysqli_close($conn);
-            return [];
-        }
-
-        mysqli_stmt_bind_param($stmt, "s", $patient_id);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
-        
-        if ($result === false) {
-            error_log("Query failed in get_appointments: " . mysqli_error($conn));
-            mysqli_stmt_close($stmt);
-            mysqli_close($conn);
-            return [];
-        }
-
-        $appointments = [];
-        while ($row = mysqli_fetch_assoc($result)) {
-            $row['appointment_type'] = $row['appointment_type'] === 'In-Person' ? 'In-person' : 'Virtual';
-            $appointments[] = $row;
-        }
-        
-        mysqli_free_result($result);
-        mysqli_stmt_close($stmt);
-        mysqli_close($conn);
-        return $appointments;
     }
 
     public function get_appointment($booking_id) {

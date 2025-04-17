@@ -116,35 +116,8 @@
                                 <th>Status</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr class="result-item" data-id="1">
-                                <td>PAT001</td>
-                                <td>John Doe</td>
-                                <td>Full Blood Count & DIFF</td>
-                                <td>2023-10-15</td>
-                                <td><span class="status-badge status-completed">Completed</span></td>
-                            </tr>
-                            <tr class="result-item" data-id="2">
-                                <td>PAT002</td>
-                                <td>Jane Smith</td>
-                                <td>Haemoglobin, Blood Group</td>
-                                <td>2023-10-16</td>
-                                <td><span class="status-badge status-completed">Completed</span></td>
-                            </tr>
-                            <tr class="result-item" data-id="3">
-                                <td>PAT003</td>
-                                <td>Michael Johnson</td>
-                                <td>Sickle Test, Hb genotype</td>
-                                <td>2023-10-17</td>
-                                <td><span class="status-badge status-pending">Pending</span></td>
-                            </tr>
-                            <tr class="result-item" data-id="4">
-                                <td>PAT004</td>
-                                <td>Sarah Williams</td>
-                                <td>PT, aPTT, INR</td>
-                                <td>2023-10-18</td>
-                                <td><span class="status-badge status-completed">Completed</span></td>
-                            </tr>
+                        <tbody id="labRequestsTableBody">
+                            <!-- Lab requests will be populated dynamically -->
                         </tbody>
                     </table>
                 </div>
@@ -239,26 +212,47 @@
                             <div class="input-row">
                                 <div class="input-box">
                                     <label>Patient ID</label>
-                                    <p>PAT001</p>
+                                    <p id="resultPatientId"></p>
                                 </div>
                                 <div class="input-box">
                                     <label>Patient Name</label>
-                                    <p>John Doe</p>
+                                    <p id="resultPatientName"></p>
                                 </div>
                             </div>
                             <div class="input-row">
                                 <div class="input-box">
                                     <label>Age</label>
-                                    <p>35</p>
+                                    <p id="resultPatientAge"></p>
                                 </div>
                                 <div class="input-box">
                                     <label>Sex</label>
-                                    <p>Male</p>
+                                    <p id="resultPatientGender"></p>
                                 </div>
                             </div>
-                            <div class="input-box">
-                                <label>Suspected Diagnosis</label>
-                                <p>Anemia</p>
+                        </div>
+                        
+                        <!-- Doctor Info -->
+                        <div class="form-section">
+                            <h3>ORDERING PHYSICIAN INFORMATION</h3>
+                            <div class="input-row">
+                                <div class="input-box">
+                                    <label>Doctor Name</label>
+                                    <p id="resultDoctorName"></p>
+                                </div>
+                                <div class="input-box">
+                                    <label>Signature</label>
+                                    <p id="resultDoctorSignature"></p>
+                                </div>
+                            </div>
+                            <div class="input-row">
+                                <div class="input-box">
+                                    <label>Extension</label>
+                                    <p id="resultDoctorExtension"></p>
+                                </div>
+                                <div class="input-box">
+                                    <label>Request Date</label>
+                                    <p id="resultRequestDate"></p>
+                                </div>
                             </div>
                         </div>
                         
@@ -266,166 +260,50 @@
                         <div class="form-section">
                             <h3>TEST RESULTS</h3>
                             <table>
-                                <tr>
+                                <thead>
                                     <th>EXAMINATION</th>
                                     <th>RESULT</th>
-                                    <th>REFERENCE RANGE</th>
+                                    <th></th>
                                     <th>EXAMINATION</th>
                                     <th>RESULT</th>
-                                    <th>REFERENCE RANGE</th>
-                                </tr>
-                                <tr>
-                                    <td>Haemoglobin</td>
-                                    <td>14.2</td>
-                                    <td>Men 13 – 18 g/dl</td>
-                                    <td>Thick Blood Film</td>
-                                    <td>Negative</td>
-                                    <td>N/A</td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td>Women 12.5 – 16.5 g/dl</td>
-                                    <td>Blood Group</td>
-                                    <td>O+</td>
-                                    <td>N/A</td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td>Babies 13.5 – 19.5 g/dl</td>
-                                    <td>Retics</td>
-                                    <td>2.8%</td>
-                                    <td>2-3.5%</td>
-                                </tr>
-                                <tr>
-                                    <td>WBC Total</td>
-                                    <td>7.5 X 10^9/L</td>
-                                    <td>4 – 10 x 10^9/L</td>
-                                    <td>ESR</td>
-                                    <td>5mm/hr</td>
-                                    <td>1-7mm/hr</td>
-                                </tr>
-                                <tr>
-                                    <td>DIFF COUNT:</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>Sickle Test</td>
-                                    <td>Negative</td>
-                                    <td>N/A</td>
-                                </tr>
-                                <tr>
-                                    <td>Neutrophils</td>
-                                    <td>65.0%</td>
-                                    <td>50.0 – 70.0%</td>
-                                    <td>HB Genotype</td>
-                                    <td>AA</td>
-                                    <td>N/A</td>
-                                </tr>
-                                <tr>
-                                    <td>Lymphocytes</td>
-                                    <td>30.0%</td>
-                                    <td>20.0 – 40.0%</td>
-                                    <td>PT</td>
-                                    <td>12 secs</td>
-                                    <td>11-13.5 secs</td>
-                                </tr>
-                                <tr>
-                                    <td>Monocytes</td>
-                                    <td>4.0%</td>
-                                    <td>3.0 – 14.0%</td>
-                                    <td>INR</td>
-                                    <td>1.0</td>
-                                    <td>0.9-1.2 ratio</td>
-                                </tr>
-                                <tr>
-                                    <td>Eosinophils</td>
-                                    <td>1.0%</td>
-                                    <td>Nil</td>
-                                    <td>aPTT</td>
-                                    <td>30 secs</td>
-                                    <td>25-35 secs</td>
-                                </tr>
-                                <tr>
-                                    <td>Basophils</td>
-                                    <td>0.0%</td>
-                                    <td>Nil</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>Normoblasts</td>
-                                    <td>0 /100WBCs</td>
-                                    <td>Nil</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>RBC</td>
-                                    <td>4.80 x 10^12/L</td>
-                                    <td>3.50 – 5.50 x 10^12/L</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>PCV / HCT</td>
-                                    <td>45.0%</td>
-                                    <td>37.0 – 54.0%</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>MCV</td>
-                                    <td>88.0fl</td>
-                                    <td>80.0 – 100fl</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>MCH</td>
-                                    <td>30.0pg</td>
-                                    <td>27.0 – 34.0pg</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>MCHC</td>
-                                    <td>34.0g/dl</td>
-                                    <td>32.0 – 36.0g/dl</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>Platelets</td>
-                                    <td>220 x 10^9/L</td>
-                                    <td>100 – 300 x 10^9/L</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>MPV</td>
-                                    <td>9.5fl</td>
-                                    <td>6.5 – 12.0fl</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>PCT</td>
-                                    <td>0.209%</td>
-                                    <td>0.108 – 0.282%</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Haemoglobin</td>
+                                        <td><p id="resultHaemoglobin"></p></td>
+                                        <td></td>
+                                        <td>Sickle test</td>
+                                        <td><p id="resultSickleTest"></p></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Full Blood Count & DIFF</td>
+                                        <td><p id="resultFullBloodCount"></p></td>
+                                        <td></td>
+                                        <td>Hb genotype</td>
+                                        <td><p id="resultHbGenotype"></p></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Blood Film</td>
+                                        <td><p id="resultBloodFilm"></p></td>
+                                        <td></td>
+                                        <td>PT</td>
+                                        <td><p id="resultPT"></p></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Blood group</td>
+                                        <td><p id="resultBloodGroup"></p></td>
+                                        <td></td>
+                                        <td>aPTT</td>
+                                        <td><p id="resultAPTT"></p></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Retics</td>
+                                        <td><p id="resultRetics"></p></td>
+                                        <td></td>
+                                        <td>INR</td>
+                                        <td><p id="resultINR"></p></td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
                         
@@ -435,29 +313,29 @@
                             <div class="input-row">
                                 <div class="input-box">
                                     <label>Specimen Received By</label>
-                                    <p>Lab Technician Name</p>
+                                    <p id="resultSpecimenReceivedBy"></p>
                                 </div>
                                 <div class="input-box">
                                     <label>Date Received</label>
-                                    <p>2023-10-16</p>
+                                    <p id="resultSpecimenDate"></p>
                                 </div>
                                 <div class="input-box">
                                     <label>Time Received</label>
-                                    <p>10:30 AM</p>
+                                    <p id="resultSpecimenTime"></p>
                                 </div>
                                 <div class="input-box">
                                     <label>Sample Accepted</label>
-                                    <p>YES</p>
+                                    <p id="resultSampleAccepted"></p>
                                 </div>
                             </div>
                             <div class="input-row">
                                 <div class="input-box">
                                     <label>Lab Tech Signature & Date</label>
-                                    <p>Signature / 2023-10-16</p>
+                                    <p id="resultLabTechSignature"></p>
                                 </div>
                                 <div class="input-box">
                                     <label>Supervisor Signature & Date</label>
-                                    <p>Signature / 2023-10-16</p>
+                                    <p id="resultSupervisorSignature"></p>
                                 </div>
                             </div>
                         </div>

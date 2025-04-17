@@ -14,46 +14,42 @@ addItemBtn.addEventListener('click', () => {
     overlay.classList.add('active');
 });
 
-// Show Edit Item Form and fetch staff data
+// Show Edit Item Form and fetch admin data
 editItemBtn.forEach(btn => {
     btn.addEventListener('click', async () => {
-        const staffId = btn.getAttribute('data-staff-id');
+        const adminId = btn.getAttribute('data-admin-id');
         
         try {
-            // Fetch staff data
-            const response = await fetch('../actions/view_staff.php', {
+            // Fetch admin data
+            const response = await fetch('../actions/view_admin.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: `staff_id=${staffId}`
+                body: `admin_id=${adminId}`
             });
             
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
             
-            let staffData = await response.json();
+            let adminData = await response.json();
             
             // Since the response is an array, get the first item
-            const staff = staffData[0];
+            const admin = adminData[0];
             
             // Populate form fields
-            document.getElementById('editStaffId').value = staff.staff_id;
-            document.getElementById('editFirstName').value = staff.first_name;
-            document.getElementById('editLastName').value = staff.last_name;
-            document.getElementById('editGender').value = staff.Gender;
-            document.getElementById('editPosition').value = staff.position;
-            document.getElementById('editDepartment').value = staff.department_id;
-            document.getElementById('editContact').value = staff.phone;
-            document.getElementById('editEmail').value = staff.email;
+            document.getElementById('editadminId').value = admin.admin_id;
+            document.getElementById('editFirstName').value = admin.first_name;
+            document.getElementById('editLastName').value = admin.last_name;
+            document.getElementById('editContact').value = admin.contact;
             
             // Show the form
             editItemForm.classList.add('active');
             overlay.classList.add('active');
             
         } catch (error) {
-            alert('Error loading staff data. Please try again.');
+            alert('Error loading admin data. Please try again.');
         }
     });
 });
@@ -83,7 +79,7 @@ document.getElementById('addItem').addEventListener('submit', (e) => {
     var form = document.getElementById("addItem");
     var formData = new FormData(form);
 
-    fetch("../actions/add_staff.php", {
+    fetch("../actions/add_admin.php", {
         method: "POST",
         body: formData,
     })
@@ -105,7 +101,7 @@ document.getElementById('addItem').addEventListener('submit', (e) => {
         }
     })
     .catch((error) => {
-        alert(error);
+        alert('An unexpected error occurred. Please try again.');
     });
 });
 
@@ -117,7 +113,7 @@ document.getElementById('editItem').addEventListener('submit', (e) => {
     var formData = new FormData(form);
 
     // Send the data to the server using fetch
-    fetch("../actions/update_staff.php", {
+    fetch("../actions/update_admin.php", {
         method: "POST",
         body: formData,
     })
@@ -132,7 +128,7 @@ document.getElementById('editItem').addEventListener('submit', (e) => {
     .then((data) => {
         if (data.success) {
             // Redirect on success
-            location.href = '../view/staff.php';
+            location.href = '../view/admin.php';
         } else {
                 // Log error and reload page on server-side failure
                 alert("Registration error:", data.message);
@@ -142,7 +138,7 @@ document.getElementById('editItem').addEventListener('submit', (e) => {
         }
     });
 
-    alert('Staff updated successfully!');
+    alert('Admin updated successfully!');
     editItemForm.classList.remove('active');
     overlay.classList.remove('active');
 });
@@ -150,17 +146,17 @@ document.getElementById('editItem').addEventListener('submit', (e) => {
 // Handle Delete Item
 document.addEventListener('click', async (e) => {
     if (e.target.classList.contains('deleteItemBtn')) {
-        const staffId = e.target.getAttribute('data-staff-id');
+        const adminId = e.target.getAttribute('data-admin-id');
         
         // Confirm before deleting
-        if (confirm('Are you sure you want to delete this staff record?')) {
+        if (confirm('Are you sure you want to delete this admin record?')) {
             try {
-                const response = await fetch('../actions/delete_staff.php', {
+                const response = await fetch('../actions/delete_admin.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                    body: `Staff_id=${staffId}`
+                    body: `admin_id=${adminId}`
                 });
                 
                 if (!response.ok) {
@@ -176,7 +172,7 @@ document.addEventListener('click', async (e) => {
                     alert(data.message);
                 }
             } catch (error) {
-                alert('Error deleting staff record. Please try again.');
+                alert('Error deleting admin record. Please try again.');
             }
         }
     }

@@ -13,13 +13,13 @@ function addclinicController($clinic_id, $clinicName,$department_id ) {
     return $clinic->addclinic($clinic_id, $clinicName, $department_id);
 }
 
-// Function to delete product
+// Function to delete clinic
 function deleteclinicController($id) {
     $clinic = new clinic_class();
     return $clinic->deleteclinic($id);
 }
 
-// Function to view all products
+// Function to view all clinics
 function viewclinicsController() {
     $clinics = new clinic_class();
     return $clinics->getclinics();

@@ -33,7 +33,7 @@ class department_class extends db_connection {
         return $this->db_fetch_all($sql);
     }
 
-    // Update product
+    // Update clinic
     public function updatedepartment($department_id, $departmentName) {
         // Sanitize inputs to prevent SQL injection
         $department_id = mysqli_real_escape_string($this->db_conn(), $department_id);

@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             </div>
                             <div>
                                 <h3>${apt.doctor_name}</h3>
-                                <p>ID: ${apt.booking_id} | ${dateTime}</p>
+                                <p>ID: ${apt.booking_id} | ${dateTime} | Status: ${apt.status}</p>
                             </div>
                         </div>
                         <div class="consultation-actions">
@@ -123,8 +123,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             currentBookingId = bookingId;
-            consultationArea.style.display = 'block';
+            consultationArea.style.display = 'flex'; // Show as flexbox
             consultationList.style.display = 'none';
+            const zoomError = zoomMeeting.querySelector('.zoom-error');
+            if (zoomError) zoomError.style.display = 'none'; // Hide error message
             await initZoomMeeting(data.meeting);
         } catch (error) {
             console.error('Start consultation error:', error);
@@ -146,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function() {
             ZoomMtg.prepareWebSDK();
 
             const meetingConfig = {
-                sdkKey: meeting.sdk_key, // Use sdkKey only
+                sdkKey: meeting.sdk_key,
                 meetingNumber: meeting.meeting_id,
                 password: meeting.password,
                 userName: 'Patient',
@@ -156,15 +158,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 role: 0
             };
 
-            console.log('Meeting Config:', meetingConfig); // Debug meeting config
+            console.log('Meeting Config:', meetingConfig);
 
             await ZoomMtg.init({
                 leaveUrl: meetingConfig.leaveUrl,
+                isSupportAV: true,
+                disableInvite: true, // Disable invite link to prevent popups
+                meetingInfo: ['topic', 'host'], // Show minimal meeting info
+                videoDrag: false, // Disable dragging of video
+                videoHeader: false, // Disable video header
+                disablePreview: true, // Disable preview screen
                 success: async () => {
                     try {
                         console.log('ZoomMtg.init success, attempting to join meeting...');
                         await ZoomMtg.join({
-                            sdkKey: meetingConfig.sdkKey, // Use sdkKey explicitly
+                            sdkKey: meetingConfig.sdkKey,
                             signature: meetingConfig.signature,
                             meetingNumber: meetingConfig.meetingNumber,
                             passWord: meetingConfig.password,
@@ -175,24 +183,40 @@ document.addEventListener('DOMContentLoaded', function() {
                                 client = ZoomMtg;
                                 isMeetingActive = true;
                                 setupMeetingControls();
+
+                                // Ensure Zoom renders within the zoomMeeting div
+                                const zoomContainer = document.getElementById('zoomMeeting');
+                                if (zoomContainer) {
+                                    zoomContainer.style.display = 'block';
+                                } else {
+                                    throw new Error('Zoom meeting container not found after joining');
+                                }
                             },
                             error: (error) => {
                                 console.error('ZoomMtg.join error:', error);
+                                const zoomError = zoomMeeting.querySelector('.zoom-error');
+                                if (zoomError) zoomError.style.display = 'block';
                                 throw new Error('Failed to join meeting: ' + (error.message || JSON.stringify(error)));
                             }
                         });
                     } catch (joinError) {
                         console.error('Error during ZoomMtg.join:', joinError);
+                        const zoomError = zoomMeeting.querySelector('.zoom-error');
+                        if (zoomError) zoomError.style.display = 'block';
                         throw joinError;
                     }
                 },
                 error: (error) => {
                     console.error('ZoomMtg.init error:', error);
+                    const zoomError = zoomMeeting.querySelector('.zoom-error');
+                    if (zoomError) zoomError.style.display = 'block';
                     throw new Error('Failed to initialize meeting: ' + (error.message || JSON.stringify(error)));
                 }
             });
         } catch (error) {
             console.error('Zoom initialization error:', error);
+            const zoomError = zoomMeeting.querySelector('.zoom-error');
+            if (zoomError) zoomError.style.display = 'block';
             alert(error.message || 'Error initializing Zoom meeting');
             cleanupMeeting();
         }
@@ -274,7 +298,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const response = await fetch('../actions/telemedicine_action.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: `action=save_notes&booking_id=${encodeURIComponent(currentBookingId)}¬es=${encodeURIComponent(notes)}`
+                body: `action=save_notes&booking_id=${encodeURIComponent(currentBookingId)}&notes=${encodeURIComponent(notes)}`
             });
             const data = await response.json();
             if (data.success) {
@@ -333,7 +357,11 @@ document.addEventListener('DOMContentLoaded', function() {
         muteBtn.innerHTML = '<i class="fas fa-microphone"></i>';
         videoBtn.innerHTML = '<i class="fas fa-video"></i>';
         screenShareBtn.innerHTML = '<i class="fas fa-desktop"></i>';
-        zoomMeeting.innerHTML = '';
-        loadAppointments();
+        zoomMeeting.innerHTML = `
+            <div class="zoom-error" style="display: none;">
+                Failed to load Zoom meeting. Please try again.
+            </div>
+        `;
+        loadAppointments(); // Refresh the appointment list to show updated status
     }
 });

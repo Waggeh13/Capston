@@ -1,20 +1,20 @@
 <?php
-require("../controllers/patient_controller.php");
+require("../controllers/admin_controller.php");
 
 // Set header first to ensure proper content type
 header('Content-Type: application/json');
 
-// Check if patient_id is set and not empty
-if (isset($_POST['patient_id']) && !empty($_POST['patient_id'])) {
-    $patient_id = $_POST['patient_id'];
-
+// Check if admin_id is set and not empty
+if (isset($_POST['admin_id']) && !empty($_POST['admin_id'])) {
+    $admin_id = $_POST['admin_id'];
+    
     try {
-        $result = viewPatientsByIDController($patient_id);
+        $result = viewadminsByIDController($admin_id);
         
         if ($result) {
             echo json_encode($result);
         } else {
-            echo json_encode(['error' => 'Could not retrieve patient details.']);
+            echo json_encode(['error' => 'Could not retrieve admin details.']);
         }
     } catch (Exception $e) {
         echo json_encode(['error' => 'Server error: ' . $e->getMessage()]);

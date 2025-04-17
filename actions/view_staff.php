@@ -6,10 +6,8 @@ header('Content-Type: application/json');
 
 // Check if staff_id is set and not empty
 if (isset($_POST['staff_id']) && !empty($_POST['staff_id'])) {
-    $staff_id = $_POST['staff_id']; // Fixed variable name
+    $staff_id = $_POST['staff_id'];
     
-    // Turn off error display (or handle it properly in production)
-    ini_set('display_errors', 0);
     
     try {
         $result = viewstaffsByIDController($staff_id);

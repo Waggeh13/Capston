@@ -34,7 +34,7 @@ class clinic_class extends db_connection {
         return $this->db_fetch_all($sql);
     }
 
-    // Update product
+    // Update clinic
     public function updateclinic($clinic_id, $clinicName, $department_id) {
         // Sanitize inputs to prevent SQL injection
         $clinic_id = mysqli_real_escape_string($this->db_conn(), $clinic_id);

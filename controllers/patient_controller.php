@@ -13,13 +13,13 @@ function addPatientController($patient_id, $first_name, $last_name, $dob, $gende
     return $patient->addPatient($patient_id, $first_name, $last_name, $dob, $gender, $weight, $address, $contact, $nextOfKin, $nextOfKinContact, $nextOfKinGender, $nextOfKinRelationship);
 }
 
-// Function to delete product
+// Function to delete patient
 function deletePatientController($id) {
     $patient = new patient_class();
     return $patient->deletePatient($id);
 }
 
-// Function to view all products
+// Function to view all patients
 function viewPatientsController() {
     $patients = new patient_class();
     return $patients->getPatients();

@@ -12,7 +12,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $appointment = getappointmentController($booking_id);
         
         if ($appointment) {
-            // Normalize appointment_type for frontend
             $appointment['appointment_type'] = strtolower($appointment['appointment_type']) === 'in-person' ? 'inPerson' : 'virtual';
             $response["success"] = true;
             $response["appointment"] = $appointment;

@@ -41,14 +41,20 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
           if (response.error) {
             document.getElementById("idError").textContent = response.message;
           } else {
-            if (response.user_role == "Doctor") {
+            if (response.user_role == "SuperAdmin") {
+              window.location.href = '../view/super_admin_dashboard.php';
+            }
+            else if (response.user_role == "Admin") {
+              window.location.href = '../view/admin_dashboard.php';
+            }
+            else if (response.user_role == "Doctor") {
               window.location.href = '../view/doctor_dashboard.php';
             } else if (response.user_role == "Lab Technician") {
-              window.location.href = '../view/userDash.php';
+              window.location.href = '../view/lab_technician.php';
             } else if (response.user_role == "Pharmacist") {
               window.location.href = '../view/pharmacist.php';
             } else if (response.user_role == "Cashier") {
-              window.location.href = '../view/doctor_dashboard.php';
+              window.location.href = '../view/cashier.php';
             }
             else if (response.user_role == "Patient") {
               window.location.href = '../view/patient_dashboard.php';

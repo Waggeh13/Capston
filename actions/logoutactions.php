@@ -9,12 +9,6 @@ session_unset();
 session_destroy();
 
 
-echo "
-<script>
-    sessionStorage.removeItem('cid');
-</script>
-";
-
 // Redirect the user to the home page or login page
 header("Location: ../index.php");
 exit();

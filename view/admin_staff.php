@@ -215,8 +215,7 @@ require_once('../controllers/department_controller.php');
             <form id="editItem">
                 <!-- Staff Details -->
                 <div class="form-group">
-                    <label for="editStaffId">Staff ID:</label>
-                    <input type="text" id="editStaffId" name="staffId" placeholder="Enter staff ID" required>
+                    <input type="hidden" id="editStaffId" name="staffId" required>
                 </div>
 
                 <div class="form-group">

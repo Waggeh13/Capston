@@ -6,18 +6,18 @@ function sanitize_input($input) {
 }
 
 // Function to add new admin
-function addadminController($admin_id, $first_name, $last_name, $contact) {
+function addadminController($admin_id, $first_name, $last_name, $contact, $position) {
     $admin= new admin_class();
-    return $admin->addadmin($admin_id, $first_name, $last_name,  $contact);
+    return $admin->addadmin($admin_id, $first_name, $last_name,  $contact, $position);
 }
 
-// Function to delete product
+// Function to delete admin
 function deleteadminController($id) {
     $admin = new admin_class();
     return $admin->deleteadmin($id);
 }
 
-// Function to view all products
+// Function to view all admins
 function viewadminsController() {
     $admins = new admin_class();
     return $admins->getadmins();
@@ -40,9 +40,9 @@ function addUserController($adminId, $password, $userRole)
         return $admin->addUser($adminId, $password, $userRole);
     }
 
-function updateadminController($admin_id, $first_name, $last_name, $gender, $position, $department_id, $contact,$email) {
+function updateadminController($admin_id, $first_name, $last_name, $position, $contact) {
     $admin= new admin_class();
-    return $admin->updateadmin($admin_id, $first_name, $last_name, $gender, $position, $department_id, $contact,$email);
+    return $admin->updateadmin($admin_id, $first_name, $last_name, $position,  $contact);
 }
 
 ?>

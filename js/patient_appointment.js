@@ -56,6 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             }
         } catch (error) {
+            console.error('Error populating dates:', error);
         }
     }
 
@@ -82,6 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
                 }
             } catch (error) {
+                console.error('Error populating times:', error);
             }
         } else {
             timeSelect.innerHTML = '<option value="">Select a time</option>';
@@ -95,14 +97,20 @@ document.addEventListener('DOMContentLoaded', function() {
             const data = await response.json();
             appointmentsBody.innerHTML = '';
             if (data.success && Array.isArray(data.appointments) && data.appointments.length > 0) {
+                const currentDateTime = new Date(); // For logging purposes
                 data.appointments.forEach(apt => {
                     // Normalize data
                     const dateTime = apt.date && apt.time ? `${new Date(apt.date).toLocaleDateString()} - ${apt.time.slice(0, 5)}` : 'N/A';
+                    const appointmentDateTime = new Date(`${apt.date} ${apt.time}`);
                     const clinicName = apt.clinic_name || 'Unknown';
                     const doctorName = apt.doctor_name || 'Unknown';
                     const appointmentType = apt.appointment_type === 'in-person' ? 'In-person' : apt.appointment_type || 'Unknown';
                     const status = apt.status || 'Pending';
                     const bookingId = apt.booking_id || '';
+
+                    // Log status for debugging
+                    console.log(`Appointment ID: ${bookingId}, Date: ${dateTime}, Status: ${status}, Is Past: ${appointmentDateTime < currentDateTime}`);
+
                     const statusClass = {
                         'Scheduled': 'badge-confirmed',
                         'Completed': 'badge-completed',
@@ -143,12 +151,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 `;
             }
         } catch (error) {
+            console.error('Error loading appointments:', error);
             appointmentsBody.innerHTML = `
                 <tr>
                     <td colspan="6" style="text-align: center; padding: 20px;">
-                    Error loading appointments
-                </td>
-                </tr
+                        Error loading appointments
+                    </td>
+                </tr>
             `;
         }
     }
@@ -210,6 +219,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert('Error fetching appointment details: ' + (data.message || 'Unknown error'));
             }
         } catch (error) {
+            console.error('Error fetching appointment details:', error);
             alert('Error fetching appointment details');
         }
     }
@@ -259,6 +269,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert(data.message || 'Failed to book appointment: Unknown error');
             }
         } catch (error) {
+            console.error('Error booking appointment:', error);
             alert(`Error booking appointment: ${error.message}`);
         }
     });
@@ -283,6 +294,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert(data.message || 'Failed to update appointment');
             }
         } catch (error) {
+            console.error('Error updating appointment:', error);
             alert('Error updating appointment');
         }
     });
@@ -304,6 +316,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert(data.message || 'Failed to cancel appointment');
             }
         } catch (error) {
+            console.error('Error cancelling appointment:', error);
             alert('Error cancelling appointment');
         }
     }

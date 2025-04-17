@@ -10,191 +10,99 @@
 <body>
     <div class="dashboard">
         <div class="header">
-            <input type="text" class="search-bar" placeholder="Search patient name/ID...">
-            <div><i class="fas fa-calendar-alt"></i> <span id="current-date">Tuesday, May 14</span></div>
-            <button class="logout-btn" onclick="window.location.href='index.php';">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </button>
+            <input type="text" class="search-bar" id="searchBar" placeholder="Search patient name/ID...">
+            <div><i class="fas fa-calendar-alt"></i> <span id="current-date"></span></div>
+            <button class="logout-btn" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
         </div>
         
         <h2>Pending Lab Requests</h2>
-        <div class="request-cards">
-            <!-- Request Card 1 -->
-            <div class="request-card">
-                <div class="patient-info">
-                    <div class="patient-photo">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <div>
-                        <strong>John Doe</strong><br>
-                        Dr. Smith
-                    </div>
-                </div>
-                <div class="request-actions">
-                    <button class="btn btn-secondary" onclick="openRequestModal(1)">
-                        <i class="fas fa-eye"></i> View Request
-                    </button>
-                    <button class="btn btn-primary" onclick="openResultsModal(1)">
-                        <i class="fas fa-flask"></i> Enter Results
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Request Card 2 -->
-            <div class="request-card">
-                <div class="patient-info">
-                    <div class="patient-photo">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <div>
-                        <strong>Mary Smith</strong><br>
-                        Dr. Johnson
-                    </div>
-                </div>
-                <div class="request-actions">
-                    <button class="btn btn-secondary" onclick="openRequestModal(2)">
-                        <i class="fas fa-eye"></i> View Request
-                    </button>
-                    <button class="btn btn-primary" onclick="openResultsModal(2)">
-                        <i class="fas fa-flask"></i> Enter Results
-                    </button>
-                </div>
-            </div>
+        <div class="request-cards" id="requestCards">
+            <!-- Lab request cards will be populated dynamically -->
         </div>
     </div>
     
-   <!-- Request View Modal -->
-<div class="modal" id="requestModal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2>Lab Request Form</h2>
-            <button class="close-btn" onclick="closeModal()">&times;</button>
-        </div>
-        <div class="lab-form">
-            <div class="section-title">BAFROW</div>
-            <div class="section-title">HAEMATOLOGY</div>
-            
-            <!-- Added Patient Demographics -->
-            <table>
-                <tr>
-                    <th colspan="2">PATIENT INFORMATION</th>
-                </tr>
-                <tr>
-                    <td width="50%">
-                        <strong>NAME:</strong> John Doe<br>
-                        <strong>AGE:</strong> 35 years<br>
-                        <strong>SEX:</strong> Male
-                    </td>
-                    <td>
-                        <strong>ID NUMBER:</strong> PT-1024<br>
-                        <strong>DATE OF BIRTH:</strong> 15/05/1988
-                    </td>
-                </tr>
-            </table>
-            
-            <table>
-                <tr>
-                    <th colspan="2">ORDERING PHYSICIAN INFORMATION</th>
-                </tr>
-                <tr>
-                    <td width="50%">
-                        <strong>NAME:</strong> Dr. Smith<br>
-                        <strong>SIGNATURE:</strong> <i class="fas fa-signature"></i>
-                    </td>
-                    <td>
-                        <strong>REQUEST DATE:</strong> 15/11/2023
-                    </td>
-                </tr>
-            </table>
-            
-            <div class="section-title">REQUEST:</div>
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px;">
-                <div class="checkbox-item">
-                    <input type="checkbox" id="haemoglobin" checked disabled> <label for="haemoglobin">Haemoglobin</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="fbc" checked disabled> <label for="fbc">Full Blood Count & DIFF</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="blood-film" disabled> <label for="blood-film">Blood Film</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="blood-group" disabled> <label for="blood-group">Blood group</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="retics" disabled> <label for="retics">Retics</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="stickle" disabled> <label for="stickle">Stickle test</label>
-                </div>
+    <!-- Request View Modal -->
+    <div class="modal" id="requestModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Lab Request Form</h2>
+                <button class="close-btn" id="closeRequestModal">×</button>
             </div>
-            
-            <div class="form-actions">
-                <button class="btn btn-secondary" onclick="closeModal()">
-                    <i class="fas fa-times"></i> Close
-                </button>
+            <div class="lab-form">
+                <div class="section-title">BAFROW</div>
+                <div class="section-title">HAEMATOLOGY</div>
+                
+                <!-- Patient Demographics -->
+                <table>
+                    <tr>
+                        <th colspan="2">PATIENT INFORMATION</th>
+                    </tr>
+                    <tr>
+                        <td width="50%">
+                            <strong>NAME:</strong> <span id="patientName"></span><br>
+                            <strong>AGE:</strong> <span id="patientAge"></span><br>
+                            <strong>SEX:</strong> <span id="patientGender"></span>
+                        </td>
+                        <td>
+                            <strong>ID NUMBER:</strong> <span id="patientId"></span><br>
+                            <strong>DATE OF BIRTH:</strong> <span id="patientDOB"></span>
+                        </td>
+                    </tr>
+                </table>
+                
+                <table>
+                    <tr>
+                        <th colspan="2">ORDERING PHYSICIAN INFORMATION</th>
+                    </tr>
+                    <tr>
+                        <td width="50%">
+                            <strong>NAME:</strong> <span id="doctorName"></span><br>
+                            <strong>SIGNATURE:</strong> <span id="doctorSignature"></span>
+                        </td>
+                        <td>
+                            <strong>REQUEST DATE:</strong> <span id="requestDate"></span>
+                        </td>
+                    </tr>
+                </table>
+                
+                <div class="section-title">REQUEST:</div>
+                <div id="testCheckboxes" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px;">
+                    <!-- Test checkboxes will be populated dynamically -->
+                </div>
+                
+                <div class="form-actions">
+                    <button class="btn btn-secondary" id="closeRequestModalBtn">
+                        <i class="fas fa-times"></i> Close
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-</div>
     
     <!-- Results Entry Modal -->
     <div class="modal" id="resultsModal">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Lab Results Form</h2>
-                <button class="close-btn" onclick="closeModal()">&times;</button>
+                <button class="close-btn" id="closeResultsModal">×</button>
             </div>
-            <div class="lab-form">
+            <form id="resultsForm" class="lab-form">
+                <input type="hidden" id="labId" name="lab_id">
                 <div class="section-title">BAFROW</div>
                 <div class="section-title">HAEMATOLOGY</div>
                 
                 <table>
-                    <tr>
-                        <th>EXAMINATION</th>
-                        <th>RESULT</th>
-                        <th>REFERANCE RANGE</th>
-                    </tr>
-                    <tr>
-                        <td>Haemoglobin</td>
-                        <td><input type="text"></td>
-                        <td>Men 13 – 18 g/dl<br>Women 12.5 – 16.5 g/dl<br>Babies 13.5 – 19.5 g/dl</td>
-                    </tr>
-                    <tr>
-                        <td>WBC Total</td>
-                        <td><input type="text"> X 10^9/L</td>
-                        <td>4 – 10 x 10^9/L</td>
-                    </tr>
-                    <tr>
-                        <td>DIFF COUNT: Neutrophils</td>
-                        <td><input type="text">%</td>
-                        <td>50.0 – 70.0%</td>
-                    </tr>
-                    <tr>
-                        <td>Lymphocytes</td>
-                        <td><input type="text">%</td>
-                        <td>20.0 – 40.0%</td>
-                    </tr>
-                    <tr>
-                        <td>Monocytes</td>
-                        <td><input type="text">%</td>
-                        <td>3.0 – 14.0%</td>
-                    </tr>
-                    <tr>
-                        <td>RBC</td>
-                        <td><input type="text"></td>
-                        <td>3.50 – 5.50 x 10^12/L</td>
-                    </tr>
-                    <tr>
-                        <td>Platelets</td>
-                        <td><input type="text"></td>
-                        <td>100 – 300 x 10^9/L</td>
-                    </tr>
-                    <tr>
-                        <td>ESR</td>
-                        <td><input type="text"> mm/hr</td>
-                        <td>1-7mm/hr</td>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th>EXAMINATION</th>
+                            <th>RESULT</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dynamicTestResults">
+                        <!-- Test result fields will be populated dynamically -->
+                    </tbody>
                 </table>
                 
                 <div class="section-title">FOR LABORATORY USE ONLY</div>
@@ -206,13 +114,13 @@
                         <th>SAMPLE ACCEPTED YES/NO</th>
                     </tr>
                     <tr>
-                        <td><input type="text"></td>
-                        <td><input type="date"></td>
-                        <td><input type="time"></td>
+                        <td><input type="text" name="specimen_received_by"></td>
+                        <td><input type="date" name="specimen_date"></td>
+                        <td><input type="time" name="specimen_time"></td>
                         <td>
-                            <select>
-                                <option value="yes">YES</option>
-                                <option value="no">NO</option>
+                            <select name="sample_accepted">
+                                <option value="YES">YES</option>
+                                <option value="NO">NO</option>
                             </select>
                         </td>
                     </tr>
@@ -224,20 +132,20 @@
                         <th>SUPERVISOR SIGN & DATE</th>
                     </tr>
                     <tr>
-                        <td><input type="text" placeholder="Signature"> <input type="date"></td>
-                        <td><input type="text" placeholder="Signature"> <input type="date"></td>
+                        <td><input type="text" name="lab_tech_signature" placeholder="Signature"> <input type="date" name="lab_tech_date"></td>
+                        <td><input type="text" name="supervisor_signature" placeholder="Signature"> <input type="date" name="supervisor_date"></td>
                     </tr>
                 </table>
                 
                 <div class="form-actions">
-                    <button class="btn btn-secondary" onclick="closeModal()">
+                    <button type="button" class="btn btn-secondary" id="cancelResultsModalBtn">
                         <i class="fas fa-times"></i> Cancel
                     </button>
-                    <button class="btn btn-primary" onclick="submitResults()">
+                    <button type="submit" class="btn btn-primary">
                         <i class="fas fa-paper-plane"></i> Send to Doctor
                     </button>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 

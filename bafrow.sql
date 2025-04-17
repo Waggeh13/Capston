@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 15, 2025 at 07:36 PM
+-- Generation Time: Apr 17, 2025 at 02:46 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -39,8 +39,9 @@ CREATE TABLE `appointment_table` (
 
 INSERT INTO `appointment_table` (`appointment_id`, `staff_id`, `appointment_date`) VALUES
 (1, '623744348888', '2025-04-16'),
-(2, '623744348888', '2025-04-15'),
-(3, '623744348888', '2025-04-17');
+(2, '623744348888', '2025-04-18'),
+(3, '623744348888', '2025-04-17'),
+(4, '238983009', '2025-04-17');
 
 -- --------------------------------------------------------
 
@@ -63,15 +64,18 @@ INSERT INTO `appointment_timeslots` (`timeslot_id`, `appointment_id`, `time_slot
 (1, 1, '07:00:00', 'Available'),
 (2, 1, '09:00:00', 'Booked'),
 (3, 1, '12:00:00', 'Available'),
-(4, 1, '15:00:00', 'Booked'),
+(4, 1, '15:00:00', 'Available'),
 (5, 2, '07:00:00', 'Available'),
-(6, 2, '08:00:00', 'Booked'),
+(6, 2, '08:00:00', 'Available'),
 (7, 2, '09:00:00', 'Booked'),
 (8, 2, '10:00:00', 'Available'),
 (9, 3, '07:00:00', 'Available'),
-(10, 3, '12:00:00', 'Available'),
+(10, 3, '12:00:00', 'Booked'),
 (11, 3, '13:00:00', 'Available'),
-(12, 3, '14:00:00', 'Available');
+(12, 3, '14:00:00', 'Booked'),
+(13, 4, '15:00:00', 'Available'),
+(14, 4, '16:00:00', 'Available'),
+(15, 4, '17:00:00', 'Booked');
 
 -- --------------------------------------------------------
 
@@ -95,8 +99,12 @@ CREATE TABLE `booking_table` (
 INSERT INTO `booking_table` (`booking_id`, `patient_id`, `timeslot_id`, `appointment_type`, `clinic_id`, `status`) VALUES
 (6, '88888888', 7, 'Virtual', 9345678, 'Completed'),
 (7, '88888888', 2, 'In-Person', 935953, 'Scheduled'),
-(16, '12345678', 6, 'In-Person', 9345678, 'Scheduled'),
-(23, '12345678', 4, 'Virtual', 9345678, 'Scheduled');
+(16, '12345678', 10, 'Virtual', 9345678, 'Scheduled'),
+(23, '12345678', 4, 'Virtual', 9345678, 'Cancelled'),
+(34, '12345678', 3, 'Virtual', 9345678, 'Cancelled'),
+(36, '12345678', 1, 'Virtual', 9345678, 'Cancelled'),
+(37, '12345678', 12, 'Virtual', 9345678, 'Scheduled'),
+(38, '12345678', 15, 'Virtual', 9345678, 'Scheduled');
 
 -- --------------------------------------------------------
 
@@ -174,20 +182,29 @@ CREATE TABLE `lab_test_table` (
   `lab_id` int(11) NOT NULL,
   `test_type_id` int(11) NOT NULL,
   `result` text DEFAULT NULL,
-  `result_status` enum('Pending','Completed','Abnormal') DEFAULT 'Pending'
+  `result_status` enum('Pending','Completed','Abnormal') DEFAULT 'Pending',
+  `specimen_received_by` varchar(100) DEFAULT NULL,
+  `specimen_date` date DEFAULT NULL,
+  `specimen_time` time DEFAULT NULL,
+  `sample_accepted` enum('YES','NO') DEFAULT NULL,
+  `lab_tech_id` varchar(50) DEFAULT NULL,
+  `lab_tech_signature` varchar(100) DEFAULT NULL,
+  `lab_tech_date` date DEFAULT NULL,
+  `supervisor_signature` varchar(100) DEFAULT NULL,
+  `supervisor_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `lab_test_table`
 --
 
-INSERT INTO `lab_test_table` (`lab_test_id`, `lab_id`, `test_type_id`, `result`, `result_status`) VALUES
-(26, 8, 6, NULL, 'Pending'),
-(27, 8, 8, NULL, 'Pending'),
-(28, 8, 9, NULL, 'Pending'),
-(29, 9, 1, NULL, 'Pending'),
-(30, 9, 2, NULL, 'Pending'),
-(31, 9, 3, NULL, 'Pending');
+INSERT INTO `lab_test_table` (`lab_test_id`, `lab_id`, `test_type_id`, `result`, `result_status`, `specimen_received_by`, `specimen_date`, `specimen_time`, `sample_accepted`, `lab_tech_id`, `lab_tech_signature`, `lab_tech_date`, `supervisor_signature`, `supervisor_date`) VALUES
+(26, 8, 6, '12434', 'Completed', 'hmmm', '2025-04-17', '02:23:00', 'NO', '238983009', 'hmmm', '2025-04-19', 'yess', '2025-05-02'),
+(27, 8, 8, '12245', 'Completed', 'hmmm', '2025-04-17', '02:23:00', 'NO', '238983009', 'hmmm', '2025-04-19', 'yess', '2025-05-02'),
+(28, 8, 9, '1234', 'Completed', 'hmmm', '2025-04-17', '02:23:00', 'NO', '238983009', 'hmmm', '2025-04-19', 'yess', '2025-05-02'),
+(29, 9, 1, '134234', 'Completed', 'Kwame', '2025-04-04', '22:43:00', 'YES', '62374434', 'hmmm', '2025-04-18', 'yess', '2025-04-17'),
+(30, 9, 2, '234453', 'Completed', 'Kwame', '2025-04-04', '22:43:00', 'YES', '62374434', 'hmmm', '2025-04-18', 'yess', '2025-04-17'),
+(31, 9, 3, '2344535', 'Completed', 'Kwame', '2025-04-04', '22:43:00', 'YES', '62374434', 'hmmm', '2025-04-18', 'yess', '2025-04-17');
 
 -- --------------------------------------------------------
 
@@ -216,7 +233,7 @@ CREATE TABLE `patient_table` (
 
 INSERT INTO `patient_table` (`patient_id`, `first_name`, `last_name`, `DOB`, `Gender`, `weight`, `address`, `contact`, `nextofkinname`, `nextofkincontact`, `nextofkingender`, `nextofkinrelationship`) VALUES
 ('12345678', 'Fat', 'dairy', '2003-05-05', 'Male', 34.00, 'hgkjd', '0551718945', 'kwaku', '0551718945', 'Male', 'brother'),
-('88888888', 'Fatou', 'Waggeh', '2025-04-03', 'Male', 89.00, 'hgkjd', '0551718945', 'kwaku', '0551718945', 'Male', 'brother'),
+('88888888', 'Fatou', 'Waggeh', '2020-04-03', 'Male', 89.00, 'hgkjd', '0551718945', 'kwaku', '0551718945', 'Male', 'brother'),
 ('967589', 'Kwame', 'emerole', '2025-04-03', 'Male', 50.00, 'Bort 36', '0551718945', 'kwaku', '0551718945', 'Female', 'brother');
 
 -- --------------------------------------------------------
@@ -299,10 +316,10 @@ CREATE TABLE `staff_table` (
 --
 
 INSERT INTO `staff_table` (`staff_id`, `first_name`, `last_name`, `Gender`, `department_id`, `phone`, `email`, `position`) VALUES
-('238983009', 'Fatou', 'Waggeh', 'Female', 756545, '0551718945', 'ktprodu@ashesi.edu.gh', 'Staff'),
-('62374', 'Kwame', 'Waggeh', 'Female', NULL, '0551718945', 'mntawiah@gmail.com', 'Staff'),
+('238983009', 'Fatou', 'Waggeh', 'Female', 756545, '0551718945', 'ktprodu@ashesi.edu.gh', 'Doctor'),
 ('62374434', 'Kwame', 'emerole', 'Female', 756545, '0551718945', 'mntawiah@gmail.com', 'Staff'),
-('623744348888', 'Kay', 'emerole', 'Male', 88567, '0551718945', 'ktproductions124@ashesi.edu.gh', 'Doctor');
+('623744348888', 'Kay', 'emerole', 'Male', 88567, '0551718945', 'ktproductions124@ashesi.edu.gh', 'Doctor'),
+('623746795', 'Kwame', 'Waggeh', 'Female', NULL, '0551718945', 'mntawiah@gmail.com', 'Lab Technician');
 
 -- --------------------------------------------------------
 
@@ -321,15 +338,20 @@ CREATE TABLE `telemedicine_table` (
   `topic` varchar(255) DEFAULT NULL,
   `start_time` datetime NOT NULL,
   `duration` int(11) NOT NULL,
-  `status` enum('Scheduled','Completed','Cancelled') DEFAULT 'Scheduled'
+  `status` enum('Scheduled','Completed','Cancelled') DEFAULT 'Scheduled',
+  `notes` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `telemedicine_table`
 --
 
-INSERT INTO `telemedicine_table` (`telemedicine_id`, `booking_id`, `patient_id`, `staff_id`, `meeting_id`, `join_url`, `password`, `topic`, `start_time`, `duration`, `status`) VALUES
-(5, 23, '12345678', '623744348888', '81670602143', 'https://us05web.zoom.us/j/81670602143?pwd=nEccWOr44TGmSUGwt9jFOD7puXQJMy.1', 'd580hibv', 'Virtual Consultation with Patient 12345678', '2025-04-16 15:00:00', 30, 'Scheduled');
+INSERT INTO `telemedicine_table` (`telemedicine_id`, `booking_id`, `patient_id`, `staff_id`, `meeting_id`, `join_url`, `password`, `topic`, `start_time`, `duration`, `status`, `notes`) VALUES
+(5, 23, '12345678', '623744348888', '81670602143', 'https://us05web.zoom.us/j/81670602143?pwd=nEccWOr44TGmSUGwt9jFOD7puXQJMy.1', 'd580hibv', 'Virtual Consultation with Patient 12345678', '2025-04-15 15:00:00', 30, 'Cancelled', NULL),
+(6, 34, '12345678', '623744348888', '84067002072', 'https://us05web.zoom.us/j/84067002072?pwd=UiADaCixwtMbHNxnAQDT0sQkSmSPP6.1', '0uk5yw1j', 'Virtual Consultation with Patient 12345678', '2025-04-16 12:00:00', 30, 'Cancelled', NULL),
+(7, 36, '12345678', '623744348888', '89197974570', 'https://us05web.zoom.us/j/89197974570?pwd=Nt2YZ8Aa2aRt4x4OSLvEbJkYF9JKEY.1', 'auwsyji2', 'Virtual Consultation with Patient 12345678', '2025-04-16 07:00:00', 30, 'Cancelled', NULL),
+(8, 37, '12345678', '623744348888', '85897844423', 'https://us05web.zoom.us/j/85897844423?pwd=8ZdoevPHwoASYw9no5vQc703a6Ikgt.1', 'b9qkusjf', 'Virtual Consultation with Patient 12345678', '2025-04-17 14:00:00', 30, 'Scheduled', NULL),
+(9, 38, '12345678', '238983009', '89615331050', 'https://us05web.zoom.us/j/89615331050?pwd=PTZ8ERmPHENNuk8mfVakgkqNiGbrhj.1', '96g4axl0', 'Virtual Consultation with Patient 12345678', '2025-04-17 17:00:00', 30, 'Scheduled', NULL);
 
 -- --------------------------------------------------------
 
@@ -378,8 +400,8 @@ CREATE TABLE `token_table` (
 --
 
 INSERT INTO `token_table` (`token_id`, `access_token`, `refresh_token`, `expires_at`, `created_at`) VALUES
-(4, 'eyJzdiI6IjAwMDAwMiIsImFsZyI6IkhTNTEyIiwidiI6IjIuMCIsImtpZCI6IjNlNmE5ZmFmLWM3YzMtNDhjZi05MGYyLWVjNjA1N2YxNmU4MSJ9.eyJhdWQiOiJodHRwczovL29hdXRoLnpvb20udXMiLCJ1aWQiOiJKcFd1S25WQVRYQzYwMC13Y2pTZjVRIiwidmVyIjoxMCwiYXVpZCI6IjE4NDY1YjU0YzhmODNkZDFlZWUyMDhiMTc1M2E2NTQ1OTc2MzAxY2NmOTU1OTRiMTZhYjg3Y2JiMWViNDYzMzAiLCJuYmYiOjE3NDQ2OTEwNzgsImNvZGUiOiJ3OWJPc1RhMXpKZm1id2lCQ3piUmh1NEptNnVFazk1dWciLCJpc3MiOiJ6bTpjaWQ6Sld4Tkpfc2lUczZXS1RCWlo5SUZ3IiwiZ25vIjowLCJleHAiOjE3NDQ2OTQ2NzgsInR5cGUiOjAsImlhdCI6MTc0NDY5MTA3OCwiYWlkIjoiOEtGelo4NFBUVGVOZm5GUjRsMG42USJ9.hHGaPQV6h2U-ya84m_arJEcZ7BvoWqAXt1QrOjuF3ESiAQtOJNyXs3TL-kilbuCkY7k7i-3ljFYiIdB4XcR8Ew', 'eyJzdiI6IjAwMDAwMiIsImFsZyI6IkhTNTEyIiwidiI6IjIuMCIsImtpZCI6ImJhMGQ5ZTcyLTA0YmEtNDliNi1iMWFjLTljZmVmNDdjZGIyNCJ9.eyJhdWQiOiJodHRwczovL29hdXRoLnpvb20udXMiLCJ1aWQiOiJKcFd1S25WQVRYQzYwMC13Y2pTZjVRIiwidmVyIjoxMCwiYXVpZCI6IjE4NDY1YjU0YzhmODNkZDFlZWUyMDhiMTc1M2E2NTQ1OTc2MzAxY2NmOTU1OTRiMTZhYjg3Y2JiMWViNDYzMzAiLCJuYmYiOjE3NDQ2OTEwNzgsImNvZGUiOiJ3OWJPc1RhMXpKZm1id2lCQ3piUmh1NEptNnVFazk1dWciLCJpc3MiOiJ6bTpjaWQ6Sld4Tkpfc2lUczZXS1RCWlo5SUZ3IiwiZ25vIjowLCJleHAiOjE3NTI0NjcwNzgsInR5cGUiOjEsImlhdCI6MTc0NDY5MTA3OCwiYWlkIjoiOEtGelo4NFBUVGVOZm5GUjRsMG42USJ9.G6GIKwAFuWLil6pFfGHC7AWSWo8oBHmNv7HzS0Hwwxd2-ToyCXBiC7iwZHOg-9KSHTsjoR8Pfo_9uWJK3pHqOQ', '2025-04-15 07:24:35', '2025-04-15 04:24:36'),
-(5, 'eyJzdiI6IjAwMDAwMiIsImFsZyI6IkhTNTEyIiwidiI6IjIuMCIsImtpZCI6IjA0NmRlY2QyLWE3OWYtNDlhMS1iNWU1LTU0MmM4NTczZDgyMCJ9.eyJhdWQiOiJodHRwczovL29hdXRoLnpvb20udXMiLCJ1aWQiOiJKcFd1S25WQVRYQzYwMC13Y2pTZjVRIiwidmVyIjoxMCwiYXVpZCI6IjE4NDY1YjU0YzhmODNkZDFlZWUyMDhiMTc1M2E2NTQ1OTc2MzAxY2NmOTU1OTRiMTZhYjg3Y2JiMWViNDYzMzAiLCJuYmYiOjE3NDQ3Mzc1ODYsImNvZGUiOiJ3OWJPc1RhMXpKZm1id2lCQ3piUmh1NEptNnVFazk1dWciLCJpc3MiOiJ6bTpjaWQ6Sld4Tkpfc2lUczZXS1RCWlo5SUZ3IiwiZ25vIjowLCJleHAiOjE3NDQ3NDExODYsInR5cGUiOjAsImlhdCI6MTc0NDczNzU4NiwiYWlkIjoiOEtGelo4NFBUVGVOZm5GUjRsMG42USJ9.vm8nwKTq2a1GLvkB1alqFAAIbnFbxiD1-wDEeTVv1b859ZuqvRl81U7X0GMXhAZ0nliT3gFtDQqpRa_XqGACUQ', 'eyJzdiI6IjAwMDAwMiIsImFsZyI6IkhTNTEyIiwidiI6IjIuMCIsImtpZCI6ImViNjExZTQwLThkMmEtNDllNi04Njg0LTkxMTljYmI3ZDBlYSJ9.eyJhdWQiOiJodHRwczovL29hdXRoLnpvb20udXMiLCJ1aWQiOiJKcFd1S25WQVRYQzYwMC13Y2pTZjVRIiwidmVyIjoxMCwiYXVpZCI6IjE4NDY1YjU0YzhmODNkZDFlZWUyMDhiMTc1M2E2NTQ1OTc2MzAxY2NmOTU1OTRiMTZhYjg3Y2JiMWViNDYzMzAiLCJuYmYiOjE3NDQ3Mzc1ODYsImNvZGUiOiJ3OWJPc1RhMXpKZm1id2lCQ3piUmh1NEptNnVFazk1dWciLCJpc3MiOiJ6bTpjaWQ6Sld4Tkpfc2lUczZXS1RCWlo5SUZ3IiwiZ25vIjowLCJleHAiOjE3NTI1MTM1ODYsInR5cGUiOjEsImlhdCI6MTc0NDczNzU4NiwiYWlkIjoiOEtGelo4NFBUVGVOZm5GUjRsMG42USJ9.uGfdVjtTmLADOhAiMKUs28W487gx63wNucBzaPOp-wZHMqSZMzCccJZ1efrgsJPqFvqApl7fKZg_HLvfa337oA', '2025-04-15 20:19:45', '2025-04-15 17:19:46');
+(8, 'eyJzdiI6IjAwMDAwMiIsImFsZyI6IkhTNTEyIiwidiI6IjIuMCIsImtpZCI6ImUxMDk4OTM2LTAwNTYtNDdjOC05NDE1LTc1NDY2ODRiY2Y4NCJ9.eyJhdWQiOiJodHRwczovL29hdXRoLnpvb20udXMiLCJ1aWQiOiJKcFd1S25WQVRYQzYwMC13Y2pTZjVRIiwidmVyIjoxMCwiYXVpZCI6IjE4NDY1YjU0YzhmODNkZDFlZWUyMDhiMTc1M2E2NTQ1OTc2MzAxY2NmOTU1OTRiMTZhYjg3Y2JiMWViNDYzMzAiLCJuYmYiOjE3NDQ3NTU1NjAsImNvZGUiOiI1dk5nQTQ3OG1nMFdrV3FsZHgxVHJTMGxnT0xydTlVSkEiLCJpc3MiOiJ6bTpjaWQ6Sld4Tkpfc2lUczZXS1RCWlo5SUZ3IiwiZ25vIjowLCJleHAiOjE3NDQ3NTkxNjAsInR5cGUiOjAsImlhdCI6MTc0NDc1NTU2MCwiYWlkIjoiOEtGelo4NFBUVGVOZm5GUjRsMG42USJ9.Bxg7DLC4fORKDU3-6qU0hbk_X_ELit0tKGlU-Ph3vXRo-t-9T8HoFI7lHW3XgT-4PdO5-6eZfcEBIuHp9Pf_UA', 'eyJzdiI6IjAwMDAwMiIsImFsZyI6IkhTNTEyIiwidiI6IjIuMCIsImtpZCI6IjRhYjBmNTBiLTI4MWEtNDBhZS1iN2JiLTYxMzViNTY3ODk4ZSJ9.eyJhdWQiOiJodHRwczovL29hdXRoLnpvb20udXMiLCJ1aWQiOiJKcFd1S25WQVRYQzYwMC13Y2pTZjVRIiwidmVyIjoxMCwiYXVpZCI6IjE4NDY1YjU0YzhmODNkZDFlZWUyMDhiMTc1M2E2NTQ1OTc2MzAxY2NmOTU1OTRiMTZhYjg3Y2JiMWViNDYzMzAiLCJuYmYiOjE3NDQ3NTU1NjAsImNvZGUiOiI1dk5nQTQ3OG1nMFdrV3FsZHgxVHJTMGxnT0xydTlVSkEiLCJpc3MiOiJ6bTpjaWQ6Sld4Tkpfc2lUczZXS1RCWlo5SUZ3IiwiZ25vIjowLCJleHAiOjE3NTI1MzE1NjAsInR5cGUiOjEsImlhdCI6MTc0NDc1NTU2MCwiYWlkIjoiOEtGelo4NFBUVGVOZm5GUjRsMG42USJ9.bxo613Wj5Bd56f9yf6niMhUVeidsUTD8NIUjrPHxpPgB-ntLQ_G1RInBQHLSiVZKn0zd-UhIo5dbMHS6qRrvwA', '2025-04-16 01:19:20', '2025-04-15 22:19:21'),
+(9, 'eyJzdiI6IjAwMDAwMiIsImFsZyI6IkhTNTEyIiwidiI6IjIuMCIsImtpZCI6IjQyNzBhNzExLWIzZjYtNGUxZS1hNmYzLTA4NTc5YTM1NjFjZiJ9.eyJhdWQiOiJodHRwczovL29hdXRoLnpvb20udXMiLCJ1aWQiOiJKcFd1S25WQVRYQzYwMC13Y2pTZjVRIiwidmVyIjoxMCwiYXVpZCI6IjE4NDY1YjU0YzhmODNkZDFlZWUyMDhiMTc1M2E2NTQ1OTc2MzAxY2NmOTU1OTRiMTZhYjg3Y2JiMWViNDYzMzAiLCJuYmYiOjE3NDQ4NDk3NjQsImNvZGUiOiI1dk5nQTQ3OG1nMFdrV3FsZHgxVHJTMGxnT0xydTlVSkEiLCJpc3MiOiJ6bTpjaWQ6Sld4Tkpfc2lUczZXS1RCWlo5SUZ3IiwiZ25vIjowLCJleHAiOjE3NDQ4NTMzNjQsInR5cGUiOjAsImlhdCI6MTc0NDg0OTc2NCwiYWlkIjoiOEtGelo4NFBUVGVOZm5GUjRsMG42USJ9.BPvNPeme9lVcrEjtoTTCEGhMYoq4DCs0mXdwLBJrIx85nwDUS3XL4FYLe5S7GgQBsekqQZqVPOMfWoc4mJ7qrg', 'eyJzdiI6IjAwMDAwMiIsImFsZyI6IkhTNTEyIiwidiI6IjIuMCIsImtpZCI6IjQ5ZmQwYmRkLWM4ZTAtNDUwZC1hMzMxLTI2MDhiYjZjNWUzOCJ9.eyJhdWQiOiJodHRwczovL29hdXRoLnpvb20udXMiLCJ1aWQiOiJKcFd1S25WQVRYQzYwMC13Y2pTZjVRIiwidmVyIjoxMCwiYXVpZCI6IjE4NDY1YjU0YzhmODNkZDFlZWUyMDhiMTc1M2E2NTQ1OTc2MzAxY2NmOTU1OTRiMTZhYjg3Y2JiMWViNDYzMzAiLCJuYmYiOjE3NDQ4NDk3NjQsImNvZGUiOiI1dk5nQTQ3OG1nMFdrV3FsZHgxVHJTMGxnT0xydTlVSkEiLCJpc3MiOiJ6bTpjaWQ6Sld4Tkpfc2lUczZXS1RCWlo5SUZ3IiwiZ25vIjowLCJleHAiOjE3NTI2MjU3NjQsInR5cGUiOjEsImlhdCI6MTc0NDg0OTc2NCwiYWlkIjoiOEtGelo4NFBUVGVOZm5GUjRsMG42USJ9.ujaAD-5KTJarrrA3Sx1FbbOAu1RsSheDR4hmszuq4celuLEGHIrT-TMyL5VyNtMRSAoajbrWc47xo9H6zXWVWg', '2025-04-17 03:29:23', '2025-04-17 00:29:24');
 
 -- --------------------------------------------------------
 
@@ -399,10 +421,10 @@ CREATE TABLE `user_table` (
 
 INSERT INTO `user_table` (`user_id`, `password`, `role`) VALUES
 ('12345678', '$2y$10$lddjxVm7VReYtJgsVS6GSeDYtzES.qOAiSOACuH3AH.nn9lcmS2/.', 'Patient'),
-('238983009', '$2y$10$o6EDE7J18uvRUKTrh3kzReFGi1eW0UFZCC7c7XTm5xQZFDpaGdBQ6', 'staff'),
-('62374', '$2y$10$dmwwQvujqkrSyb46BLgXAOi9FHRxPbozXFkcUV8F9glnysfhwPyL2', 'staff'),
-('62374434', '$2y$10$tH3AMK4whtrQ.Y7h7/RuYO1yYeSXIwSNjoWfcbcrUcqNhei1aKcRy', 'staff'),
+('238983009', '$2y$10$o6EDE7J18uvRUKTrh3kzReFGi1eW0UFZCC7c7XTm5xQZFDpaGdBQ6', 'Doctor'),
+('62374434', '$2y$10$tH3AMK4whtrQ.Y7h7/RuYO1yYeSXIwSNjoWfcbcrUcqNhei1aKcRy', 'Lab Technician'),
 ('623744348888', '$2y$10$OHXlwKATE/RdaGXcZ7O2qORpQq34b99Cf1vI8K4Iaqt8acvSbjlpC', 'Doctor'),
+('623746795', '$2y$10$dmwwQvujqkrSyb46BLgXAOi9FHRxPbozXFkcUV8F9glnysfhwPyL2', 'staff'),
 ('88888888', '$2y$10$3oqfAKngFH/6i3eyGoEtv.kMNGb4BDpSrei2pdaVatBzI.ajj3LFi', 'Patient'),
 ('967589', '$2y$10$GUxoAMk6H38nY53ycKjP4.91uqueHBUP4WUBxe4BJOqLk2jJCBxRm', 'Patient');
 
@@ -460,7 +482,8 @@ ALTER TABLE `lab_table`
 ALTER TABLE `lab_test_table`
   ADD PRIMARY KEY (`lab_test_id`),
   ADD KEY `lab_id` (`lab_id`),
-  ADD KEY `test_type_id` (`test_type_id`);
+  ADD KEY `test_type_id` (`test_type_id`),
+  ADD KEY `lab_tech_id` (`lab_tech_id`);
 
 --
 -- Indexes for table `patient_table`
@@ -537,19 +560,19 @@ ALTER TABLE `user_table`
 -- AUTO_INCREMENT for table `appointment_table`
 --
 ALTER TABLE `appointment_table`
-  MODIFY `appointment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `appointment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `appointment_timeslots`
 --
 ALTER TABLE `appointment_timeslots`
-  MODIFY `timeslot_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `timeslot_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `booking_table`
 --
 ALTER TABLE `booking_table`
-  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `clinic_table`
@@ -597,7 +620,7 @@ ALTER TABLE `receipt_table`
 -- AUTO_INCREMENT for table `telemedicine_table`
 --
 ALTER TABLE `telemedicine_table`
-  MODIFY `telemedicine_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `telemedicine_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `test_type_table`
@@ -609,7 +632,7 @@ ALTER TABLE `test_type_table`
 -- AUTO_INCREMENT for table `token_table`
 --
 ALTER TABLE `token_table`
-  MODIFY `token_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `token_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables
@@ -653,7 +676,8 @@ ALTER TABLE `lab_table`
 --
 ALTER TABLE `lab_test_table`
   ADD CONSTRAINT `lab_test_table_ibfk_1` FOREIGN KEY (`lab_id`) REFERENCES `lab_table` (`lab_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `lab_test_table_ibfk_2` FOREIGN KEY (`test_type_id`) REFERENCES `test_type_table` (`test_type_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `lab_test_table_ibfk_2` FOREIGN KEY (`test_type_id`) REFERENCES `test_type_table` (`test_type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `lab_test_table_ibfk_3` FOREIGN KEY (`lab_tech_id`) REFERENCES `staff_table` (`staff_id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `patient_table`

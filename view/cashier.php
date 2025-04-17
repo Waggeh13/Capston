@@ -8,6 +8,15 @@
     <link rel="stylesheet" href="../css/pharmacist_header.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
+<style>
+    .settings-btn{
+        text-decoration: none;
+    }
+    .logout-btn{
+        text-decoration: none;
+    }
+</style>
+
 <?php
 session_start();
 require_once('../classes/userName_class.php');
@@ -30,9 +39,9 @@ $userProfile = new userName_class();
                     <i class="fas fa-calendar-alt"></i> 
                     <span id="real-time-date"></span>
                 </div>
-                <button class="settings-btn" id="settingsBtn" title="Settings">
+                <a href="../view/cashier_setting.php" class="settings-btn" id="settingsBtn" title="Settings">
                     <i class="fas fa-cog"></i>
-                </button>
+                </a>
                 <a href="../actions/logoutactions.php" class="logout-btn" id="logoutBtn">
                     <i class="fas fa-sign-out-alt"></i> Logout
                 </a>
@@ -367,5 +376,6 @@ $userProfile = new userName_class();
 
     <script src="../js/cashier.js"></script>
     <script src="../js/real_time_date.js"></script>
+    <script src="../js/change_password.js"></script>
 </body>
 </html>

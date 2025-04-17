@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../css/sidebar.css">
     <link rel="stylesheet" href="../css/sidebarx.css">
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/patient_request_modal.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>Patient Dashboard</title>
 </head>
@@ -143,6 +144,11 @@ if (!is_array($prescriptions)) {
                     <h3>View Prescriptions</h3>
                     <p>Your medication list</p>
                 </div>
+                <div class="action-card" onclick="openRequestModal()">
+                    <i class="fas fa-file-medical"></i>
+                    <h3>Request Medical Report</h3>
+                    <p>Request a summary report</p>
+                </div>
                 <div class="action-card" onclick="location.href='patient_chatbot.php'">
                     <i class="fas fa-robot"></i>
                     <h3>Health Assistant</h3>
@@ -214,6 +220,37 @@ if (!is_array($prescriptions)) {
         </div>
     </div>
 
+    <!-- Medical Report Request Modal -->
+    <div class="modal" id="requestModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-file-medical"></i> Request Medical Report</h2>
+                <button class="close-btn" onclick="closeRequestModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="requestForm" action="../actions/submit_report_request.php" method="POST">
+                    <div class="form-group">
+                        <label for="doctorId">Select Doctor to Request From</label>
+                        <select id="doctorId" name="doctorId" required>
+                            <option value="">Select a doctor</option>
+                        </select>
+                        <div class="error-message" id="doctorIdError"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="hospitalName">Hospital to Receive Report</label>
+                        <input type="text" id="hospitalName" name="hospitalName" placeholder="Enter hospital name (e.g., Serrekunda General Hospital)" required>
+                        <div class="error-message" id="hospitalNameError"></div>
+                    </div>
+                    <input type="hidden" name="patientId" value="<?php echo $patient_id; ?>">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeRequestModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="submitRequestForm()">Send Request</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         function openChatbot() {
             // Implement chatbot functionality here
@@ -223,5 +260,6 @@ if (!is_array($prescriptions)) {
 
     </script>
     <script src="../js/toggle.js"></script>
+    <script src="../js/patient_request_modal.js"></script>
 </body>
 </html>

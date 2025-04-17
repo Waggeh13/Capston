@@ -30,9 +30,9 @@ $userProfile = new userName_class();
                     <i class="fas fa-calendar-alt"></i> 
                     <span id="real-time-date"></span>
                 </div>
-                <button class="settings-btn" id="settingsBtn" title="Settings">
+                <a href="../view/lab_tech_setting.php" class="settings-btn" id="settingsBtn" title="Settings">
                     <i class="fas fa-cog"></i>
-                </button>
+                </a>
                 <a href="../actions/logoutactions.php" class="logout-btn" id="logoutBtn">
                     <i class="fas fa-sign-out-alt"></i> Logout
                 </a>

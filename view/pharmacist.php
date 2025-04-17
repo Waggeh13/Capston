@@ -26,9 +26,9 @@ $userProfile = new userName_class();
                 </div>
             </div>
             <div class="header-right">
-                <button class="settings-btn" id="settingsBtn" title="Settings">
+                <a href="../view/pharmacist_setting.php" class="settings-btn" id="settingsBtn" title="Settings">
                     <i class="fas fa-cog"></i>
-                </button>
+                </a>
                 <div class="header-date">
                     <i class="fas fa-calendar-alt"></i> 
                     <span id="real-time-date"></span>

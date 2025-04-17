@@ -223,6 +223,5 @@ if (!is_array($prescriptions)) {
 
     </script>
     <script src="../js/toggle.js"></script>
-    <script src="../js/change_password.js"></script>
 </body>
 </html>

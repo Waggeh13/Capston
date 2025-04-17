@@ -71,7 +71,7 @@ if (!$patient_id) {
                     </a>
                 </li>
                 <li>
-                    <a href="index.php">
+                    <a href="../actions/logoutactions.php">
                         <i class="fas fa-right-from-bracket"></i>
                         <div class="title">Logout</div>
                     </a>

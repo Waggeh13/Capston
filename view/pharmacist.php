@@ -157,7 +157,7 @@
         </div>
         
         <div class="footer">
-            <button class="btn btn-secondary" onclick="window.location.href='index.php';">
+            <button class="logout-btn" id="logoutBtn">
                 <i class="fas fa-sign-out-alt"></i> Logout
             </button>
         </div>

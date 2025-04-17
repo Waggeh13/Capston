@@ -94,3 +94,9 @@ document.querySelectorAll('.payment-card').forEach(card => {
         card.querySelector('.payment-total span:last-child').textContent = 'GMD ' + total.toFixed(2);
     }
 });
+
+document.getElementById('logoutBtn').addEventListener('click', function(e) {
+    if (confirm('Are you sure you want to logout?')) {
+        window.location.href = '../actions/logoutactions.php';
+    }
+});

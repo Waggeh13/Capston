@@ -225,8 +225,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Event listeners for static buttons
-    document.getElementById('logoutBtn').addEventListener('click', function() {
-        window.location.href = 'index.php';
+    document.getElementById('logoutBtn').addEventListener('click', function(e) {
+        if (confirm('Are you sure you want to logout?')) {
+            window.location.href = '../actions/logoutactions.php';
+        }
     });
 
     document.getElementById('closeRequestModal').addEventListener('click', closeModal);

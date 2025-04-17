@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../css/sidebarx.css">
     <link rel="stylesheet" href="../css/message.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <title>Lab Test</title>
+    <title>Messages</title>
 </head>
 <style>
     .sidebar ul li a {
@@ -97,7 +97,7 @@ $userProfile = new userName_class();
                     </a>
                 </li>
                 <li>
-                    <a href="index.php">
+                    <a href="../actions/logoutactions.php">
                         <i class="fas fa-right-from-bracket"></i>
                         <div class="title">Logout</div>
                     </a>

@@ -124,9 +124,9 @@ if (!is_array($available_doctors)) {
                     </a>
                 </li>
                 <li>
-                    <a href="super_admin_setting.php">
-                        <i class="fas fa-cog"></i>
-                        <div class="title">Settings</div>
+                    <a href="../actions/logoutactions.php">
+                        <i class="fas fa-right-from-bracket"></i>
+                        <div class="title">Logout</div>
                     </a>
                 </li>
                 <li>

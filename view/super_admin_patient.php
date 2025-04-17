@@ -73,7 +73,7 @@ require('../controllers/patient_controller.php');
                     </a>
                 </li>
                 <li>
-                    <a href="../actions/logoutaction.php">
+                    <a href="../actions/logoutactions.php">
                         <i class="fas fa-right-from-bracket"></i>
                         <div class="title">Logout</div>
                     </a>

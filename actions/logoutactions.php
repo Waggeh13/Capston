@@ -1,15 +1,9 @@
 <?php
-// Start the session
 session_start();
-
-// Unset all session variables
-session_unset();
-
-// Destroy the session
+$_SESSION = array(); // Clear session variables
 session_destroy();
+session_regenerate_id(true); // Prevent session fixation attacks
 
-
-// Redirect the user to the home page or login page
-header("Location: ../login.php");
+header("Location: ../view/login.php");
 exit();
 ?>

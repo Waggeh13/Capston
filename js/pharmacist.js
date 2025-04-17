@@ -63,3 +63,9 @@ document.getElementById('dispenseForm').addEventListener('submit', function(e) {
     // In real implementation: Submit to server and reset form
     toggleMode();
 });
+
+document.getElementById('logoutBtn').addEventListener('click', function(e) {
+    if (confirm('Are you sure you want to logout?')) {
+        window.location.href = '../actions/logoutactions.php';
+    }
+});

@@ -14,9 +14,9 @@
             <input type="text" class="search-bar" placeholder="Search patient name/ID...">
             <div class="header-actions">
                 <div><i class="fas fa-calendar-alt"></i> <span id="current-date">Tuesday, May 14</span></div>
-                <button class="logout-btn" onclick="window.location.href='logout.php'">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </button>
+                <button class="logout-btn" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
             </div>
         </div>
         

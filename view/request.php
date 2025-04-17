@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="../css/sidebar.css">
     <link rel="stylesheet" href="../css/request.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <title>Doctor Appointments</title>
+    <title>Requests</title>
 </head>
 <style>
     .sidebar ul li a {
@@ -88,7 +88,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="index.php">
+                    <a href="../actions/logoutactions.php">
                         <i class="fas fa-right-from-bracket"></i>
                         <div class="title">Logout</div>
                     </a>

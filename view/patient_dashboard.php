@@ -110,7 +110,7 @@ if (!is_array($prescriptions)) {
                     </a>
                 </li>
                 <li>
-                    <a href="index.php">
+                    <a href="../actions/logoutactions.php">
                         <i class="fas fa-right-from-bracket"></i>
                         <div class="title">Logout</div>
                     </a>
@@ -223,6 +223,5 @@ if (!is_array($prescriptions)) {
 
     </script>
     <script src="../js/toggle.js"></script>
-    <script src="../js/change_password.js"></script>
 </body>
 </html>

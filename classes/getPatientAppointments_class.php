@@ -14,7 +14,7 @@ class getPatientAppointments_class extends db_connection {
                   INNER JOIN appointment_table a ON t.appointment_id = a.appointment_id
                   INNER JOIN staff_table s ON a.staff_id = s.staff_id
                   INNER JOIN department_table d ON s.department_id = d.department_id
-                  WHERE b.patient_id = 
+                  WHERE b.patient_id = ?
                   AND b.status = 'Scheduled'
                   AND a.appointment_date >= CURDATE()
                   ORDER BY a.appointment_date ASC, t.time_slot ASC
@@ -31,6 +31,7 @@ class getPatientAppointments_class extends db_connection {
                 throw new Exception("Prepare failed: " . $conn->error);
             }
 
+            // Assuming patient_id is an integer, use "ii" for both parameters
             $stmt->bind_param("ii", $patient_id, $limit);
             if (!$stmt->execute()) {
                 throw new Exception("Execute failed: " . $stmt->error);

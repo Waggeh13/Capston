@@ -4,13 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/lab_request.css">
-    <link rel="stylesheet" href="../css/message.css">
     <link rel="stylesheet" href="../css/sidebar.css">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/sidebarx.css">
+    <link rel="stylesheet" href="../css/message.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>Lab Test</title>
 </head>
+<style>
+    .sidebar ul li a {
+    width: 100%;
+    text-decoration: none;
+    color: #fff;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    }
+    .user {
+    display: inline-block;
+    white-space: nowrap;
+    margin-left: 10px;
+    }
+    .fas.fa-bell {
+        margin-left: 1180px;
+    }   
+    .message-container {
+        display: flex;
+        height: calc(97vh - 60px); 
+        margin-top: 80px; 
+        background-color: #f5f5f5;
+    }
+    .chat-input button {
+        background-color: #0054A6;
+    }
+    .message.sent .message-content {
+    background-color: #0054A6;
+    color: white;
+    }
+</style>
+<?php
+session_start();
+require_once('../classes/userName_class.php');  
+
+// Get patient_id from session
+$patient_id = $_SESSION['user_id'] ?? null;
+$userProfile = new userName_class();
+?>
 <body>
     <div class="container">
         <div class="sidebar">
@@ -66,6 +105,12 @@
             </ul>
             </div>
             <div class="main">
+                <div class="top-bar">
+                    <i class="fas fa-bell"></i>
+                    <div class="user">
+                        <span class="profile-text"><?php echo $userProfile->getUserName(); ?></span>
+                    </div>
+                </div>
     
             <div class="message-container">
                     <!-- Chat List (Left Side) -->

@@ -8,27 +8,59 @@
     <link rel="stylesheet" href="../css/calender.css">
     <link rel="stylesheet" href="../css/patient_dashboard.css">
     <link rel="stylesheet" href="../css/sidebar.css">
-    <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/sidebarx.css">
-    <link rel="stylesheet" href="../css/reset_password.css">
+    <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>Patient Dashboard</title>
 </head>
+<style>
+    .user {
+    display: inline-block;
+    white-space: nowrap;
+    margin-left: 10px; /* Reduced from 65px to 10px */
+    }
+    .fas.fa-bell {
+        margin-left: 1180px;
+    }
+    .sidebar ul li a {
+    width: 100%;
+    text-decoration: none;
+    color: #fff;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    }
+</style>
 <?php
 session_start();
 require_once('../classes/getPatientAppointments_class.php');
+require_once('../classes/getPatientPrescriptions_class.php');
+require_once('../classes/userName_class.php');
 
 // Get patient_id from session (assumed)
-$patient_id = $_SESSION['patient_id'] ?? null;
+$patient_id = $_SESSION['user_id'] ?? null;
 
 // Fetch patient appointments
 $db = new getPatientAppointments_class();
-$appointments = $patient_id ? $db->getPatientAppointments($patient_id, 5) : [];
+$appointments = $patient_id ? $db->getPatientAppointments($patient_id, 2) : [];
+
+// Fetch patient prescriptions
+$db = new getPatientPrescriptions_class();
+$prescriptions = $patient_id ? $db->getPatientPrescriptions($patient_id, 2) : [];
+
+$userProfile = new userName_class();
 
 // Ensure appointments is an array
 if (!is_array($appointments)) {
     $appointments = [];
 }
+
+// Ensure prescriptions is an array
+if (!is_array($prescriptions)) {
+    $prescriptions = [];
+}
+
+
 ?>
 <body>
 
@@ -88,16 +120,9 @@ if (!is_array($appointments)) {
 
         <div class="main">
             <div class="top-bar">
-                <div class="menu-toggle">
-                    <i class="fas fa-bars"></i>
-                </div>
-                <div class="search">
-                    <input type="text" name="search" placeholder="search here">
-                    <label for="search"><i class="fas fa-search"></i></label>
-                </div>
                 <i class="fas fa-bell"></i>
                 <div class="user">
-                    <span class="profile-text">Profile</span>
+                    <span class="profile-text"><?php echo $userProfile->getUserName(); ?></span>
                 </div>
             </div>
 
@@ -118,7 +143,7 @@ if (!is_array($appointments)) {
                     <h3>View Prescriptions</h3>
                     <p>Your medication list</p>
                 </div>
-                <div class="action-card" onclick="openChatbot()">
+                <div class="action-card" onclick="location.href='patient_chatbot.php'">
                     <i class="fas fa-robot"></i>
                     <h3>Health Assistant</h3>
                     <p>Chat with our AI</p>
@@ -159,28 +184,32 @@ if (!is_array($appointments)) {
             <!-- Recent Prescriptions -->
             <div class="card">
                 <div class="card-header">
-                    <h2 class="card-title">Recent Prescriptions</h2>
+                    <h2 class="card-title">Current Prescriptions</h2>
                     <button class="btn" onclick="location.href='patient_prescriptions.php'">View All</button>
                 </div>
                 <ul class="appointment-list">
-                    <li class="appointment-item">
-                        <div>
-                            <strong>Amoxicillin 500mg</strong>
-                            <p>Dr. John Smith - Take twice daily for 7 days</p>
-                        </div>
-                    </li>
-                    <li class="appointment-item">
-                        <div>
-                            <strong>Lisinopril 10mg</strong>
-                            <p>Dr. Sarah Johnson - Take once daily</p>
-                        </div>
-                    </li>
+                    <?php if (!empty($prescriptions)): ?>
+                        <?php foreach ($prescriptions as $prescription): ?>
+                            <li class="appointment-item">
+                                <div>
+                                    <strong><?php echo htmlspecialchars($prescription['medication'] . ' ' . $prescription['dosage']); ?></strong>
+                                    <p><?php echo htmlspecialchars($prescription['doctor_name'] . ' - ' . $prescription['instructions']); ?></p>
+                                </div>
+                            </li>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <li class="appointment-item">
+                            <div>
+                                <p>No current prescriptions</p>
+                            </div>
+                        </li>
+                    <?php endif; ?>
                 </ul>
             </div>
         </div>
 
         <!-- Chatbot Button -->
-        <div class="chatbot-btn" onclick="openChatbot()">
+        <div class="chatbot-btn" class="action-card" onclick="location.href='patient_chatbot.php'">
             <i class="fas fa-robot"></i>
         </div>
     </div>
@@ -194,6 +223,6 @@ if (!is_array($appointments)) {
 
     </script>
     <script src="../js/toggle.js"></script>
-    <script src="../js/reset_password.js"></script>
+    <script src="../js/change_password.js"></script>
 </body>
 </html>

@@ -193,15 +193,7 @@ require_once('../controllers/doc_schedule_controller.php');
                     <!-- Times will be populated dynamically -->
                 </select>
 
-                <label>Appointment Type:</label>
-                <div class="radio-group">
-                    <label>
-                        <input type="radio" name="appointmentType" value="inPerson" required> In Person
-                    </label>
-                    <label>
-                        <input type="radio" name="appointmentType" value="virtual" required> Virtual Consultation
-                    </label>
-                </div>
+                <input type="hidden" name="appointmentType" value="inPerson">
 
                 <label for="editclinic">Clinic Name:</label>
                 <select id="editclinic" name="clinic_id" required>

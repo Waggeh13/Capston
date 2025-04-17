@@ -10,9 +10,37 @@
     <link rel="stylesheet" href="../css/change_password.css">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/sidebarx.css">
+    <link rel="stylesheet" href="../css/change_password.css">
+    <link rel="stylesheet" href="../css/reset_password.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>Lab Test</title>
 </head>
+<style>
+    .sidebar ul li a {
+    width: 100%;
+    text-decoration: none;
+    color: #fff;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    }
+    .user {
+    display: inline-block;
+    white-space: nowrap;
+    margin-left: 10px; /* Reduced from 65px to 10px */
+    }
+    .fas.fa-bell {
+        margin-left: 1180px;
+    }
+</style>
+<?php
+session_start();
+require_once('../classes/userName_class.php');
+
+// Get patient_id from session
+$patient_id = $_SESSION['user_id'] ?? null;
+$userProfile = new userName_class();
+?>
 <body>
     <div class="container">
         <div class="sidebar">
@@ -69,13 +97,9 @@
         </div>
         <div class="main">
             <div class="top-bar">
-                <div class="search">
-                    <input type="text" name="search" placeholder="search here">
-                    <label for="search"><i class="fas fa-search"></i></label>
-                </div>
                 <i class="fas fa-bell"></i>
                 <div class="user">
-                    <span class="profile-text">Profile</span>
+                    <span class="profile-text"><?php echo $userProfile->getUserName(); ?></span>
                 </div>
             </div>
             <div class="settings-container">
@@ -120,24 +144,34 @@
                 </div>
             </div>
         </div>
-        <!-- Password Change Modal -->
-        <div id="passwordModal" class="modal">
+    <!-- Password Reset Modal -->
+    <div class="password-modal" id="passwordModal">
             <div class="modal-content">
-                <span class="close" onclick="closePasswordModal()">&times;</span>
-                <h2>Change Password</h2>
-                <form class="password-form" onsubmit="return validatePasswordForm(event)">
-                    <label for="current-password">Current Password</label>
-                    <input type="password" id="current-password" required>
-
-                    <label for="new-password">New Password</label>
-                    <input type="password" id="new-password" required>
-
-                    <label for="confirm-password">Confirm New Password</label>
-                    <input type="password" id="confirm-password" required>
-
-                    <button type="submit">Change Password</button>
-                    <button type="button" onclick="closePasswordModal()">Cancel</button>
-                </form>
+                <div class="modal-header">
+                    <h2><i class="fas fa-key"></i> Change Password</h2>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="currentPassword">Current Password</label>
+                        <input type="password" id="currentPassword" name="currentPassword" placeholder="Enter your current password">
+                        <div class="error-message" id="currentPasswordError"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword">New Password</label>
+                        <input type="password" id="newPassword" name="newPassword" placeholder="Enter your new password">
+                        <div class="password-strength">Must be at least 8 characters with numbers and special characters</div>
+                        <div class="error-message" id="newPasswordError"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm New Password</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your new password">
+                        <div class="error-message" id="confirmPasswordError"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-modal btn-secondary" id="cancelBtn" onclick="closePasswordModal()">Cancel</button>
+                    <button class="btn-modal btn-primary" id="submitBtn">Update Password</button>
+                </div>
             </div>
         </div>
         <script src="../js/change_password.js"></script>

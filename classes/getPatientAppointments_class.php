@@ -31,6 +31,7 @@ class getPatientAppointments_class extends db_connection {
                 throw new Exception("Prepare failed: " . $conn->error);
             }
 
+            // Assuming patient_id is an integer, use "ii" for both parameters
             $stmt->bind_param("ii", $patient_id, $limit);
             if (!$stmt->execute()) {
                 throw new Exception("Execute failed: " . $stmt->error);

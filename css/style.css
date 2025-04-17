@@ -76,7 +76,7 @@ body{
 .top-bar {
     position: fixed;
     height: 70px;
-    width: calc(100% - 300px);
+    width: calc(100% - 250px);
     background: #fff;
     display: grid;
     grid-template-columns: 10fr 0.4fr 1fr;
@@ -122,6 +122,7 @@ body{
     cursor: pointer;
     position: relative;
     top: 10px; 
+    color: #0054A6;
 }
 
 .cards {

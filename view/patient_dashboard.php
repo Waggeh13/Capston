@@ -38,7 +38,7 @@ require_once('../classes/getPatientPrescriptions_class.php');
 require_once('../classes/userName_class.php');
 require_once('../settings/core.php');
 
-redirect_if_not_logged_in();
+redirect_patient_if_not_logged_in();
 
 // Get the logged-in user's ID from the session
 $user_id = isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : null;

@@ -35,9 +35,7 @@
 </style>
 <?
 require_once('../settings/core.php');
-require_once('../classes/userName_class.php');
-redirect_if_not_logged_in();
-$userProfile = new userName_class();
+redirect_doctor_if_not_logged_in();
 ?>
 <body>
     <div class="container">
@@ -117,7 +115,7 @@ $userProfile = new userName_class();
             <div class="top-bar">
                 <i class="fas fa-bell"></i>
                 <div class="user">
-                    <span class="profile-text"><?php echo $userProfile->getUserName(); ?></span>
+                    <span class="profile-text">Profile</span>
                 </div>
             </div>
     

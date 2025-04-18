@@ -18,11 +18,10 @@
 }
 </style>
 <?php
-session_start();
 require_once('../classes/userName_class.php');
 
-// Get user_id from session
-$user_id = $_SESSION['user_id'] ?? null;
+require_once('../settings/core.php');
+redirect_cashier_if_not_logged_in();
 $userProfile = new userName_class();
 ?>
 <body>

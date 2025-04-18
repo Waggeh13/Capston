@@ -13,7 +13,7 @@
 <?php
 require('../controllers/patient_controller.php');
 require_once('../settings/core.php');
-redirect_if_not_logged_in();
+redirect_admin_if_not_logged_in();
 ?>
 
 <body>

@@ -9,17 +9,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <?php
-<<<<<<< HEAD
 require_once('../settings/core.php');
-redirect_if_not_logged_in();
-=======
-session_start();
+redirect_lab_technician_if_not_logged_in();
 require_once('../classes/userName_class.php');
-
-// Get patient_id from session
-$user_id = $_SESSION['user_id'] ?? null;
 $userProfile = new userName_class();
->>>>>>> 03f4374976c4d18a5ef5e277e8226eb59c9e625e
 ?>
 <body>
     <div class="dashboard">
@@ -35,9 +28,9 @@ $userProfile = new userName_class();
                     <i class="fas fa-calendar-alt"></i> 
                     <span id="real-time-date"></span>
                 </div>
-                <a href="../view/lab_tech_setting.php" class="settings-btn" id="settingsBtn" title="Settings">
+                <button class="settings-btn" id="settingsBtn" title="Settings">
                     <i class="fas fa-cog"></i>
-                </a>
+                </button>
                 <a href="../actions/logoutactions.php" class="logout-btn" id="logoutBtn">
                     <i class="fas fa-sign-out-alt"></i> Logout
                 </a>
@@ -119,10 +112,7 @@ $userProfile = new userName_class();
     </div>
 
     <script src="../js/lab_tech.js"></script>
-<<<<<<< HEAD
     <script src="../js/dark_mode.js"></script>
-=======
     <script src="../js/real_time_date.js"></script>
->>>>>>> 03f4374976c4d18a5ef5e277e8226eb59c9e625e
 </body>
 </html>

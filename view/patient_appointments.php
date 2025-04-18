@@ -39,7 +39,7 @@ require_once('../controllers/doc_schedule_controller.php');
 require_once('../classes/userName_class.php');
 
 require_once('../settings/core.php');
-redirect_if_not_logged_in();
+redirect_patient_if_not_logged_in();
 
 $userProfile = new userName_class();
 ?>

@@ -27,7 +27,7 @@
 </style>
 <?php
 require_once('../settings/core.php');
-redirect_if_not_logged_in();
+redirect_superadmin_if_not_logged_in();
 ?>
 <body>
     <div class="container">

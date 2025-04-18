@@ -20,7 +20,7 @@
 <?php
 require_once('../settings/core.php');
 require_once('../classes/userName_class.php');
-redirect_if_not_logged_in();
+redirect_cashier_if_not_logged_in();
 
 $userProfile = new userName_class();
 ?>

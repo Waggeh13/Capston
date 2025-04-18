@@ -21,7 +21,6 @@
     height: 60px;
     display: flex;
     align-items: center;
-<<<<<<< HEAD
 }
 .password-strength {
         margin-top: 5px;
@@ -32,13 +31,6 @@
         margin-top: 5px;
         font-size: 14px;
         font-weight: bold;
-    }
-</style>
-<?php
-require_once('../settings/core.php');
-redirect_if_not_logged_in();
-?>
-=======
     }
     .user {
     display: inline-block;
@@ -53,15 +45,14 @@ redirect_if_not_logged_in();
     }
 </style>
 <?php
-session_start();
+require_once('../settings/core.php');
+redirect_doctor_if_not_logged_in();
+
 require_once('../classes/userName_class.php');
 
-// Get patient_id from session
-$user_id = $_SESSION['user_id'] ?? null;
 $userProfile = new userName_class();
 ?>
 
->>>>>>> 03f4374976c4d18a5ef5e277e8226eb59c9e625e
 <body>
     <div class="container">
         <div class="sidebar">

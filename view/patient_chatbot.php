@@ -12,10 +12,9 @@
     <title>Health Assistant Chatbot</title>
 </head>
 <?php
-session_start();
 require_once('../classes/userName_class.php');
 require_once('../settings/core.php');
-redirect_if_not_logged_in();
+redirect_patient_if_not_logged_in();
 
 $userProfile = new userName_class();
 

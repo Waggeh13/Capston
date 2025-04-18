@@ -15,7 +15,7 @@
 require_once('../classes/getUpcomingAppointments_class.php');
 require_once('../classes/getAvailableDoctors_class.php');
 require_once('../settings/core.php');
-redirect_if_not_logged_in();
+redirect_admin_if_not_logged_in();
 
 // Fetch upcoming appointments
 $db = new getUpcomingAppointments_class();

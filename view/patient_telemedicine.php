@@ -69,10 +69,7 @@
             margin-top: 10px;
             align-self: flex-start;
         }
-    </style>
-</head>
-<style>
-    .sidebar ul li a {
+        .sidebar ul li a {
     width: 100%;
     text-decoration: none;
     color: #fff;
@@ -88,11 +85,12 @@
     .fas.fa-bell {
         margin-left: 1180px;
     }
-</style>
+    </style>
+</head>
 <?php
 require_once('../classes/userName_class.php');
 require_once('../settings/core.php');
-redirect_if_not_logged_in();
+redirect_patient_if_not_logged_in();
 $userProfile = new userName_class();
 ?>
 <body>

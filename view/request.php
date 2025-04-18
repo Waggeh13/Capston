@@ -36,7 +36,7 @@
 <?php
 
 require_once('../settings/core.php');
-redirect_if_not_logged_in();
+redirect_doctor_if_not_logged_in();
 require_once('../classes/userName_class.php');
 $userProfile = new userName_class();
 ?>

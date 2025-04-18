@@ -10,7 +10,7 @@
 </head>
 <?php
 require_once('../settings/core.php');
-redirect_if_not_logged_in();
+redirect_pharmacist_if_not_logged_in();
 $userProfile = new userName_class();
 ?>
 ?>

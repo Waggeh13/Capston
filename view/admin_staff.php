@@ -14,7 +14,7 @@
 require_once('../controllers/staff_controller.php');
 require_once('../controllers/department_controller.php');
 require_once('../settings/core.php');
-redirect_if_not_logged_in();
+redirect_admin_if_not_logged_in();
 ?>
 <body>
     <div class="container">

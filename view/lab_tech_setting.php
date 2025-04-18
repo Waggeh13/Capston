@@ -18,11 +18,10 @@
 }
 </style>
 <?php
-session_start();
+require_once('../settings/core.php');
+redirect_lab_technician_if_not_logged_in();
 require_once('../classes/userName_class.php');
 
-// Get user_id from session
-$user_id = $_SESSION['user_id'] ?? null;
 $userProfile = new userName_class();
 ?>
 <body>

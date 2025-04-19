@@ -7,50 +7,10 @@
     <link rel="stylesheet" href="../css/lab_request.css">
     <link rel="stylesheet" href="../css/message.css">
     <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/enhanced_messaging.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>Messages</title>
 </head>
-<style>
-    .sidebar ul li a {
-    width: 100%;
-    text-decoration: none;
-    color: #fff;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    }
-    .chat-input button {
-        background-color: #0054A6;
-    }
-    .message.sent .message-content {
-    background-color: #0054A6;
-    color: white;
-    }
-    .user {
-    display: inline-block;
-    white-space: nowrap;
-    margin-left: 10px;
-    }
-    .fas.fa-bell {
-    margin-left: 1180px;
-    }
-    .profile-text{
-    color: black;
-    }
-    .message-container {
-        display: flex;
-        height: calc(97vh - 60px); 
-        margin-top: 80px; 
-        background-color: #f5f5f5;
-    }
-    .chat-input button {
-        background-color: #0054A6;
-    }
-    .message.sent .message-content {
-    background-color: #0054A6;
-    color: white;
-    }
-</style>
 <?php
 require_once('../settings/core.php');
 require_once('../classes/userName_class.php');
@@ -141,42 +101,44 @@ $userProfile = new userName_class();
                     <!-- Chat List (Left Side) -->
                     <div class="chat-list">
                         <div class="chat-list-header">Chats</div>
-                        <div class="chat-item">
-                            <div class="chat-item-info">
-                                <div class="chat-item-name">Fatou Touray</div>
-                                <div class="chat-item-last-message">Hello, how are you?</div>
-                            </div>
+                        <div class="search-bar">
+                            <input type="text" id="patientSearch" placeholder="Search for a patient...">
+                            <div id="searchResults" style="display: none;"></div>
                         </div>
-                        <div class="chat-item">
-                            <div class="chat-item-info">
-                                <div class="chat-item-name">Lamin Jallow</div>
-                                <div class="chat-item-last-message">Can we reschedule?</div>
+                        <?php foreach ($chats as $chat): ?>
+                            <div class="chat-item" onclick="window.location.href='doc_message.php?patient_id=<?php echo $chat['patient_id']; ?>'">
+                                <div class="chat-item-info">
+                                    <div class="chat-item-name"><?php echo htmlspecialchars($chat['patient_name']); ?></div>
+                                    <div class="chat-item-last-message"><?php echo htmlspecialchars($chat['last_message'] ?: 'No messages yet'); ?></div>
+                                </div>
+                                <span class="message-count"><?php echo $chat['message_count']; ?></span>
                             </div>
-                        </div>
-                        <div class="chat-item">
-                            <div class="chat-item-info">
-                                <div class="chat-item-name">Ousman Sowe</div>
-                                <div class="chat-item-last-message">Thank you!</div>
-                            </div>
-                        </div>
+                        <?php endforeach; ?>
                     </div>
+                    <!-- Chat Window (Right Side) -->
                     <div class="chat-window">
-                        <div class="chat-header">Alieu Faye</div>
+                        <div class="chat-header"><?php echo htmlspecialchars($selected_patient_name); ?></div>
                         <div class="chat-messages">
-                            <div class="message received">
-                                <div class="message-content">Hello, how are you?</div>
-                            </div>
-                            <div class="message sent">
-                                <div class="message-content">I'm good, thank you!</div>
-                            </div>
-                            <div class="message received">
-                                <div class="message-content">Can we reschedule the appointment?</div>
-                            </div>
+                            <?php foreach ($messages as $message): ?>
+                                <div class="message <?php echo $message['sender_id'] == $doctor_id ? 'sent' : 'received'; ?>">
+                                    <div class="message-content">
+                                        <?php echo htmlspecialchars($message['message']); ?>
+                                        <div class="message-timestamp"><?php echo date('M j, H:i', strtotime($message['sent_at'])); ?></div>
+                                        <?php if ($message['sender_id'] == $doctor_id): ?>
+                                            <div class="message-status">
+                                                <i class="fas <?php echo $message['read_at'] ? 'fa-check-double' : 'fa-check'; ?>"></i>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
                         </div>
-                        <div class="chat-input">
-                            <input type="text" placeholder="Type a message...">
-                            <button>Send</button>
-                        </div>
+                        <?php if ($selected_patient_id): ?>
+                            <div class="chat-input">
+                                <input type="text" id="messageInput" placeholder="Type a message...">
+                                <button onclick="sendMessage(<?php echo $doctor_id; ?>, <?php echo $selected_patient_id; ?>)">Send</button>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>

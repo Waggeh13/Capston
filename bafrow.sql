@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 17, 2025 at 09:00 PM
+-- Generation Time: Apr 19, 2025 at 07:10 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -204,6 +204,21 @@ CREATE TABLE `lab_test_table` (
   `lab_tech_date` date DEFAULT NULL,
   `supervisor_signature` varchar(100) DEFAULT NULL,
   `supervisor_date` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `messages_table`
+--
+
+CREATE TABLE `messages_table` (
+  `id` int(11) NOT NULL,
+  `sender_id` varchar(50) NOT NULL,
+  `receiver_id` varchar(50) NOT NULL,
+  `message` text NOT NULL,
+  `sent_at` datetime NOT NULL,
+  `read_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -504,6 +519,14 @@ ALTER TABLE `lab_test_table`
   ADD KEY `lab_tech_id` (`lab_tech_id`);
 
 --
+-- Indexes for table `messages_table`
+--
+ALTER TABLE `messages_table`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_sender` (`sender_id`),
+  ADD KEY `idx_receiver` (`receiver_id`);
+
+--
 -- Indexes for table `patient_table`
 --
 ALTER TABLE `patient_table`
@@ -623,6 +646,12 @@ ALTER TABLE `lab_test_table`
   MODIFY `lab_test_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
+-- AUTO_INCREMENT for table `messages_table`
+--
+ALTER TABLE `messages_table`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `prescription_medication_table`
 --
 ALTER TABLE `prescription_medication_table`
@@ -708,6 +737,13 @@ ALTER TABLE `lab_test_table`
   ADD CONSTRAINT `lab_test_table_ibfk_1` FOREIGN KEY (`lab_id`) REFERENCES `lab_table` (`lab_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `lab_test_table_ibfk_2` FOREIGN KEY (`test_type_id`) REFERENCES `test_type_table` (`test_type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `lab_test_table_ibfk_3` FOREIGN KEY (`lab_tech_id`) REFERENCES `staff_table` (`staff_id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Constraints for table `messages_table`
+--
+ALTER TABLE `messages_table`
+  ADD CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`sender_id`) REFERENCES `user_table` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `messages_ibfk_2` FOREIGN KEY (`receiver_id`) REFERENCES `user_table` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `patient_table`

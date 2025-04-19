@@ -83,7 +83,7 @@ $userProfile = new userName_class();
                     </a>
                 </li>
                 <li>
-                    <a href="patient_messages.php">
+                    <a href="patient_message.php">
                         <i class="fas fa-envelope"></i>
                         <div class="title">Messages</div>
                     </a>

@@ -9,13 +9,13 @@
     <link rel="stylesheet" href="../css/sidebar.css">
     <link rel="stylesheet" href="../css/enhanced_message.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <title>Messages</title>
+    <title>Patient Messages</title>
     <style>
         .sidebar ul li a {
         width: 100%;
         text-decoration: none;
         color: #fff;
-        height: 60px;
+        height: 70px;
         display: flex;
         align-items: center;
         }
@@ -63,106 +63,88 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-redirect_doctor_if_not_logged_in();
+redirect_patient_if_not_logged_in();
 
-// Set doctor_id and user_role
-$doctor_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
+$patient_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
 $user_role = isset($_SESSION['user_role']) ? $_SESSION['user_role'] : null;
 
-// Log session variables
-error_log("doc_message.php user_id: " . ($doctor_id ?? 'not set'));
-error_log("doc_message.php user_role: " . ($user_role ?? 'not set'));
+error_log("patient_message.php user_id: " . ($patient_id ?? 'not set'));
+error_log("patient_message.php user_role: " . ($user_role ?? 'not set'));
+
+if (empty($user_role) || strcasecmp($user_role, 'Patient') !== 0) {
+    error_log("patient_message.php: Invalid or missing user_role, redirecting to login");
+    header("Location: ../view/patient_login.php");
+    exit;
+}
 
 $userProfile = new userName_class();
 
-// Initialize message class
 $db = new Message_class();
 if (!$db->db_conn()) {
-    error_log("doc_message.php: Database connection failed");
+    error_log("patient_message.php: Database connection failed");
     die("Error: Unable to connect to the database.");
 }
 
-// Get chats
-$chats = $db->getChats($doctor_id, $user_role) ?? [];
+$chats = $db->getChats($patient_id, $user_role) ?? [];
 
-// Get selected patient ID (sanitize input)
-$selected_patient_id = isset($_GET['patient_id']) ? filter_var($_GET['patient_id']) : null;
+$selected_doctor_id = isset($_GET['doctor_id']) ? filter_var($_GET['doctor_id']) : null;
 
-// Get messages and patient name
-$messages = $selected_patient_id ? $db->getMessages($doctor_id, $selected_patient_id) : [];
-$selected_patient_name = $selected_patient_id ? $db->getContactName($selected_patient_id) : 'Select a patient';
+$messages = $selected_doctor_id ? $db->getMessages($patient_id, $selected_doctor_id) : [];
+$selected_doctor_name = $selected_doctor_id ? $db->getContactName($selected_doctor_id) : 'Select a doctor';
 ?>
 
 <div class="container">
     <div class="sidebar">
-        <ul>
+    <ul>
             <li>
-                <a href="#">
-                    <i class="fas fa-clinic-medical"></i>
-                    <div class="title">BafrowCare</div>
-                </a>
-            </li>
-            <li>
-                <a href="doctor_dashboard.php">
-                    <i class="fas fa-th-large"></i>
-                    <div class="title">Dashboard</div>
-                </a>
-            </li>
-            <li>
-                <a href="doc_appointment.php">
-                    <i class="fas fa-stethoscope"></i>
-                    <div class="title">Appointments</div>
-                </a>
-            </li>
-            <li>
-                <a href="doc_schedule.php">
-                    <i class="fas fa-calendar-alt"></i>
-                    <div class="title">Schedule</div>
-                </a>
-            </li>
-            <li>
-                <a href="doc_lab.php">
-                    <i class="fas fa-vial"></i>
-                    <div class="title">Lab Test</div>
-                </a>
-            </li>
-            <li>
-                <a href="doc_prescription.php">
-                    <i class="fas fa-prescription-bottle-alt"></i>
-                    <div class="title">Prescription</div>
-                </a>
-            </li>
-            <li>
-                <a href="doc_telemedicine.php">
-                    <i class="fas fa-video"></i>
-                    <div class="title">Virtual Consultation</div>
-                </a>
-            </li>
-            <li>
-                <a href="doc_message.php">
-                    <i class="fas fa-envelope"></i>
-                    <div class="title">Messages</div>
-                </a>
-            </li>
-            <li>
-                <a href="request.php">
-                    <i class="fas fa-file-medical"></i>
-                    <div class="title">Report Request</div>
-                </a>
-            </li>
-            <li>
-                <a href="doc_setting.php">
-                    <i class="fas fa-cog"></i>
-                    <div class="title">Settings</div>
-                </a>
-            </li>
-            <li>
-                <a href="../actions/logoutactions.php">
-                    <i class="fas fa-right-from-bracket"></i>
-                    <div class="title">Logout</div>
-                </a>
-            </li>
-        </ul>
+                    <a href="#">
+                        <i class="fas fa-clinic-medical"></i>
+                        <div class="title">BafrowCare</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="patient_dashboard.php">
+                        <i class="fas fa-th-large"></i>
+                        <div class="title">Dashboard</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="patient_appointments.php">
+                        <i class="fas fa-calendar-check"></i>
+                        <div class="title">Appointments</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="patient_prescriptions.php">
+                        <i class="fas fa-prescription-bottle-alt"></i>
+                        <div class="title">Prescriptions</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="patient_telemedicine.php">
+                        <i class="fas fa-video"></i>
+                        <div class="title">Virtual consultation</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="patient_message.php">
+                        <i class="fas fa-envelope"></i>
+                        <div class="title">Messages</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="patient_setting.php">
+                        <i class="fas fa-cog"></i>
+                        <div class="title">Settings</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="../actions/logoutactions.php">
+                        <i class="fas fa-right-from-bracket"></i>
+                        <div class="title">Logout</div>
+                    </a>
+                </li>
+            </ul>
     </div>
     <div class="main">
         <div class="top-bar">
@@ -176,11 +158,11 @@ $selected_patient_name = $selected_patient_id ? $db->getContactName($selected_pa
             <div class="chat-list">
                 <div class="chat-list-header">Chats</div>
                 <div class="search-bar">
-                    <input type="text" id="patientSearch" placeholder="Search for a patient...">
+                    <input type="text" id="patientSearch" placeholder="Search for a doctor...">
                     <div id="searchResults" class="search-results" style="display: none;"></div>
                 </div>
                 <?php foreach ($chats as $chat): ?>
-                    <div class="chat-item" onclick="window.location.href='doc_message.php?patient_id=<?php echo htmlspecialchars($chat['contact_id']); ?>'">
+                    <div class="chat-item" onclick="window.location.href='patient_message.php?doctor_id=<?php echo htmlspecialchars($chat['contact_id']); ?>'">
                         <div class="chat-item-info">
                             <div class="chat-item-name"><?php echo htmlspecialchars($chat['contact_name']); ?></div>
                             <div class="chat-item-last-message"><?php echo htmlspecialchars($chat['last_message'] ?: 'No messages yet'); ?></div>
@@ -191,14 +173,14 @@ $selected_patient_name = $selected_patient_id ? $db->getContactName($selected_pa
             </div>
             <!-- Chat Window (Right Side) -->
             <div class="chat-window">
-                <div class="chat-header"><?php echo htmlspecialchars($selected_patient_name); ?></div>
+                <div class="chat-header"><?php echo htmlspecialchars($selected_doctor_name); ?></div>
                 <div class="chat-messages">
                     <?php foreach ($messages as $message): ?>
-                        <div class="message <?php echo $message['sender_id'] == $doctor_id ? 'sent' : 'received'; ?>">
+                        <div class="message <?php echo $message['sender_id'] == $patient_id ? 'sent' : 'received'; ?>">
                             <div class="message-content">
                                 <?php echo htmlspecialchars($message['message']); ?>
                                 <div class="message-timestamp"><?php echo date('M j, H:i', strtotime($message['sent_at'])); ?></div>
-                                <?php if ($message['sender_id'] == $doctor_id): ?>
+                                <?php if ($message['sender_id'] == $patient_id): ?>
                                     <div class="message-status">
                                         <i class="fas <?php echo $message['read_at'] ? 'fa-check-double' : 'fa-check'; ?>"></i>
                                     </div>
@@ -207,10 +189,10 @@ $selected_patient_name = $selected_patient_id ? $db->getContactName($selected_pa
                         </div>
                     <?php endforeach; ?>
                 </div>
-                <?php if ($selected_patient_id): ?>
+                <?php if ($selected_doctor_id): ?>
                     <div class="chat-input">
                         <input type="text" id="messageInput" placeholder="Type a message...">
-                        <button onclick="sendMessage('<?php echo htmlspecialchars($doctor_id); ?>', '<?php echo htmlspecialchars($selected_patient_id); ?>')">Send</button>
+                        <button onclick="sendMessage('<?php echo htmlspecialchars($patient_id); ?>', '<?php echo htmlspecialchars($selected_doctor_id); ?>')">Send</button>
                     </div>
                 <?php endif; ?>
             </div>
@@ -219,5 +201,6 @@ $selected_patient_name = $selected_patient_id ? $db->getContactName($selected_pa
 </div>
 <script src="../js/dark_mode.js"></script>
 <script src="../js/messages.js"></script>
+<script src="../js/patient_doctor_search.js"></script>
 </body>
 </html>

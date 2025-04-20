@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 19, 2025 at 07:10 PM
+-- Generation Time: Apr 20, 2025 at 03:08 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -248,7 +248,7 @@ CREATE TABLE `patient_table` (
 
 INSERT INTO `patient_table` (`patient_id`, `first_name`, `last_name`, `DOB`, `Gender`, `weight`, `address`, `contact`, `nextofkinname`, `nextofkincontact`, `nextofkingender`, `nextofkinrelationship`) VALUES
 ('12345678', 'Fat', 'dairy', '2003-05-05', 'Male', 34.00, 'hgkjd', '0551718945', 'kwaku', '0551718945', 'Male', 'brother'),
-('967589', 'Kwame', 'emerole', '2025-04-03', 'Male', 50.00, 'Bort 36', '0551718945', 'kwaku', '0551718945', 'Female', 'brother');
+('13456789', 'Kwame', 'emerole', '2025-04-03', 'Male', 50.00, 'Bort 36', '0551718945', 'kwaku', '0551718945', 'Female', 'brother');
 
 -- --------------------------------------------------------
 
@@ -275,6 +275,32 @@ INSERT INTO `prescription_medication_table` (`medication_id`, `prescription_id`,
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `prescription_notifications`
+--
+
+CREATE TABLE `prescription_notifications` (
+  `notification_id` int(11) NOT NULL,
+  `medication_id` int(11) NOT NULL,
+  `patient_id` varchar(50) NOT NULL,
+  `enabled` enum('Yes','No') DEFAULT 'No',
+  `notification_time` time NOT NULL,
+  `interval_hours` int(11) DEFAULT NULL,
+  `last_sent` datetime DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `prescription_notifications`
+--
+
+INSERT INTO `prescription_notifications` (`notification_id`, `medication_id`, `patient_id`, `enabled`, `notification_time`, `interval_hours`, `last_sent`, `created_at`) VALUES
+(1, 8, '13456789', 'Yes', '00:00:00', NULL, NULL, '2025-04-19 20:23:18'),
+(9, 8, '13456789', 'Yes', '00:34:00', NULL, NULL, '2025-04-19 20:34:02'),
+(10, 8, '13456789', 'Yes', '00:38:00', NULL, NULL, '2025-04-19 20:36:20');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `prescription_table`
 --
 
@@ -291,7 +317,7 @@ CREATE TABLE `prescription_table` (
 --
 
 INSERT INTO `prescription_table` (`prescription_id`, `patient_id`, `staff_id`, `medication_date`, `status`) VALUES
-(5, '967589', '238983009', '2025-04-04', 'Pending');
+(5, '13456789', '238983009', '2025-04-04', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -448,11 +474,11 @@ CREATE TABLE `user_table` (
 
 INSERT INTO `user_table` (`user_id`, `password`, `role`) VALUES
 ('12345678', '$2y$10$lddjxVm7VReYtJgsVS6GSeDYtzES.qOAiSOACuH3AH.nn9lcmS2/.', 'Patient'),
+('13456789', '$2y$10$lddjxVm7VReYtJgsVS6GSeDYtzES.qOAiSOACuH3AH.nn9lcmS2/.', 'Patient'),
 ('238983009', '$2y$10$o6EDE7J18uvRUKTrh3kzReFGi1eW0UFZCC7c7XTm5xQZFDpaGdBQ6', 'Doctor'),
 ('62374434', '$2y$10$tH3AMK4whtrQ.Y7h7/RuYO1yYeSXIwSNjoWfcbcrUcqNhei1aKcRy', 'Lab Technician'),
 ('623744348888', '$2y$10$OHXlwKATE/RdaGXcZ7O2qORpQq34b99Cf1vI8K4Iaqt8acvSbjlpC', 'Doctor'),
 ('623746795', '$2y$10$dmwwQvujqkrSyb46BLgXAOi9FHRxPbozXFkcUV8F9glnysfhwPyL2', 'staff'),
-('967589', '$2y$10$GUxoAMk6H38nY53ycKjP4.91uqueHBUP4WUBxe4BJOqLk2jJCBxRm', 'Patient'),
 ('986758495', '$2y$10$kJ5bImKIe2xF7vgfOzYj0OfT97RIGwifq0qFXAJeFplHRSkw6qQiu', 'Admin');
 
 --
@@ -539,6 +565,14 @@ ALTER TABLE `patient_table`
 ALTER TABLE `prescription_medication_table`
   ADD PRIMARY KEY (`medication_id`),
   ADD KEY `prescription_id` (`prescription_id`);
+
+--
+-- Indexes for table `prescription_notifications`
+--
+ALTER TABLE `prescription_notifications`
+  ADD PRIMARY KEY (`notification_id`),
+  ADD KEY `medication_id` (`medication_id`),
+  ADD KEY `patient_id` (`patient_id`);
 
 --
 -- Indexes for table `prescription_table`
@@ -658,6 +692,12 @@ ALTER TABLE `prescription_medication_table`
   MODIFY `medication_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
+-- AUTO_INCREMENT for table `prescription_notifications`
+--
+ALTER TABLE `prescription_notifications`
+  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
 -- AUTO_INCREMENT for table `prescription_table`
 --
 ALTER TABLE `prescription_table`
@@ -756,6 +796,13 @@ ALTER TABLE `patient_table`
 --
 ALTER TABLE `prescription_medication_table`
   ADD CONSTRAINT `prescription_medication_table_ibfk_1` FOREIGN KEY (`prescription_id`) REFERENCES `prescription_table` (`prescription_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `prescription_notifications`
+--
+ALTER TABLE `prescription_notifications`
+  ADD CONSTRAINT `prescription_notifications_ibfk_1` FOREIGN KEY (`medication_id`) REFERENCES `prescription_medication_table` (`medication_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `prescription_notifications_ibfk_2` FOREIGN KEY (`patient_id`) REFERENCES `patient_table` (`patient_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `prescription_table`

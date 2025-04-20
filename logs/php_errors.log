@@ -1,0 +1,2 @@
+[20-Apr-2025 03:26:47 Europe/Berlin] Transaction failed in save_notification_time: SQL Error:  | Query: INSERT INTO prescription_notifications (medication_id, patient_id, enabled, notification_time)
+                        VALUES ('8', '13456789', 'Yes', '01:27:00', NULL)

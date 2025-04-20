@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 20, 2025 at 05:23 AM
+-- Generation Time: Apr 20, 2025 at 04:06 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -60,7 +60,7 @@ CREATE TABLE `appointment_table` (
 
 INSERT INTO `appointment_table` (`appointment_id`, `staff_id`, `appointment_date`) VALUES
 (1, '623744348888', '2025-04-16'),
-(2, '623744348888', '2025-04-18'),
+(2, '623744348888', '2025-04-21'),
 (3, '623744348888', '2025-04-17'),
 (4, '238983009', '2025-04-17');
 
@@ -87,9 +87,9 @@ INSERT INTO `appointment_timeslots` (`timeslot_id`, `appointment_id`, `time_slot
 (3, 1, '12:00:00', 'Available'),
 (4, 1, '15:00:00', 'Available'),
 (5, 2, '07:00:00', 'Available'),
-(6, 2, '08:00:00', 'Available'),
+(6, 2, '08:00:00', 'Booked'),
 (7, 2, '09:00:00', 'Booked'),
-(8, 2, '10:00:00', 'Booked'),
+(8, 2, '10:00:00', 'Available'),
 (9, 3, '07:00:00', 'Available'),
 (10, 3, '12:00:00', 'Available'),
 (11, 3, '13:00:00', 'Available'),
@@ -124,7 +124,7 @@ INSERT INTO `booking_table` (`booking_id`, `patient_id`, `timeslot_id`, `appoint
 (36, '12345678', 1, 'Virtual', 9345678, 'Cancelled'),
 (37, '12345678', 12, 'Virtual', 9345678, 'Cancelled'),
 (38, '12345678', 15, 'Virtual', 9345678, 'Cancelled'),
-(39, '12345678', 8, 'Virtual', 9345678, 'Scheduled');
+(39, '12345678', 6, 'In-Person', 9345678, 'Scheduled');
 
 -- --------------------------------------------------------
 
@@ -179,6 +179,7 @@ CREATE TABLE `dispensed_medication_table` (
   `prescription_id` int(11) NOT NULL,
   `patient_id` varchar(50) NOT NULL,
   `quantity_dispensed` varchar(100) NOT NULL,
+  `status` enum('Pending','Paid') NOT NULL DEFAULT 'Pending',
   `dispensed_date` datetime DEFAULT current_timestamp(),
   `pharmacist_id` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -187,9 +188,9 @@ CREATE TABLE `dispensed_medication_table` (
 -- Dumping data for table `dispensed_medication_table`
 --
 
-INSERT INTO `dispensed_medication_table` (`dispensed_id`, `medication_id`, `prescription_id`, `patient_id`, `quantity_dispensed`, `dispensed_date`, `pharmacist_id`) VALUES
-(1, 8, 5, '13456789', '30', '2025-04-19 23:17:35', '623746795'),
-(2, 9, 5, '13456789', '50', '2025-04-19 23:17:35', '623746795');
+INSERT INTO `dispensed_medication_table` (`dispensed_id`, `medication_id`, `prescription_id`, `patient_id`, `quantity_dispensed`, `status`, `dispensed_date`, `pharmacist_id`) VALUES
+(1, 8, 5, '13456789', '30', 'Paid', '2025-04-19 23:17:35', '623746795'),
+(2, 9, 5, '13456789', '50', 'Paid', '2025-04-19 23:17:35', '623746795');
 
 -- --------------------------------------------------------
 
@@ -244,6 +245,14 @@ CREATE TABLE `messages_table` (
   `sent_at` datetime NOT NULL,
   `read_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `messages_table`
+--
+
+INSERT INTO `messages_table` (`id`, `sender_id`, `receiver_id`, `message`, `sent_at`, `read_at`) VALUES
+(1, '12345678', '623744348888', 'Hello sir', '2025-04-20 13:11:59', '2025-04-20 13:12:11'),
+(2, '623744348888', '12345678', 'Nice to meet you. how can i help you', '2025-04-20 13:12:21', '2025-04-20 13:12:25');
 
 -- --------------------------------------------------------
 
@@ -355,8 +364,16 @@ CREATE TABLE `receipt_table` (
   `lab_id` int(11) DEFAULT NULL,
   `prescription_id` int(11) DEFAULT NULL,
   `total` decimal(10,2) DEFAULT NULL,
-  `status` enum('Paid','Unpaid') DEFAULT NULL
+  `status` enum('Paid','Unpaid') DEFAULT NULL,
+  `cashier_id` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `receipt_table`
+--
+
+INSERT INTO `receipt_table` (`receipt_id`, `patient_id`, `lab_id`, `prescription_id`, `total`, `status`, `cashier_id`) VALUES
+(1, '13456789', NULL, 5, 7500.00, 'Paid', '45678956');
 
 -- --------------------------------------------------------
 
@@ -725,7 +742,7 @@ ALTER TABLE `lab_test_table`
 -- AUTO_INCREMENT for table `messages_table`
 --
 ALTER TABLE `messages_table`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `prescription_medication_table`
@@ -749,7 +766,7 @@ ALTER TABLE `prescription_table`
 -- AUTO_INCREMENT for table `receipt_table`
 --
 ALTER TABLE `receipt_table`
-  MODIFY `receipt_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `receipt_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `telemedicine_table`

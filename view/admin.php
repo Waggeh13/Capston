@@ -14,7 +14,29 @@
 require_once('../controllers/admin_controller.php');
 require_once('../settings/core.php');
 redirect_admin_if_not_logged_in();
+
 ?>
+<style>
+    .sidebar ul li a {
+    width: 100%;
+    text-decoration: none;
+    color: #fff;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    }
+    .user {
+    display: inline-block;
+    white-space: nowrap;
+    margin-left: 10px;
+    }
+    .fas.fa-bell {
+        margin-left: 1180px;
+    }
+    .profile-text{
+    color: black;
+    }
+</style>
 <body>
     <div class="container">
         <div class="sidebar">

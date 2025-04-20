@@ -16,6 +16,19 @@ require_once('../controllers/doc_schedule_controller.php');
 require_once('../settings/core.php');
 redirect_superadmin_if_not_logged_in();
 ?>
+<style>
+    .user {
+    display: inline-block;
+    white-space: nowrap;
+    margin-left: 10px;
+    }
+    .fas.fa-bell {
+        margin-left: 1180px;
+    }
+    .profile-text{
+    color: black;
+    }
+</style>
 <body>
     <div class="container">
         <div class="sidebar">

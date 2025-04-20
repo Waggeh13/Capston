@@ -15,8 +15,10 @@
 require_once('../classes/getUpcomingAppointments_class.php');
 require_once('../classes/getAvailableDoctors_class.php');
 require_once('../settings/core.php');
+require_once('../classes/userName_class.php');
 redirect_admin_if_not_logged_in();
 
+$userProfile = new userName_class();
 // Fetch upcoming appointments
 $db = new getUpcomingAppointments_class();
 $appointments = $db->getUpcomingAppointments(5);
@@ -38,43 +40,31 @@ if (!is_array($available_doctors)) {
     $available_doctors = [];
 }
 ?>
+<style>
+    .sidebar ul li a {
+    width: 100%;
+    text-decoration: none;
+    color: #fff;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    }
+    .user {
+    display: inline-block;
+    white-space: nowrap;
+    margin-left: 10px;
+    margin-top: 22px;
+    }
+    .fas.fa-bell {
+        margin-left: 1180px;
+    }
+    .profile-text{
+    color: black;
+    font-size: 20px;
+    }
+</style>
 
 <body>
-
-    <!-- Password Reset Modal -->
-    <div class="password-modal" id="passwordModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2><i class="fas fa-key"></i> Change Password</h2>
-            </div>
-            <div class="modal-body">
-                <p style="margin-bottom: 20px;">For security reasons, please change your default password.</p>
-                
-                <div class="form-group">
-                    <label for="currentPassword">Current Password</label>
-                    <input type="password" id="currentPassword" name="currentPassword" placeholder="Enter your current password">
-                    <div class="error-message" id="currentPasswordError"></div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="newPassword">New Password</label>
-                    <input type="password" id="newPassword" name="newPassword" placeholder="Enter your new password">
-                    <div class="password-strength">Must be at least 8 characters with numbers and special characters</div>
-                    <div class="error-message" id="newPasswordError"></div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="confirmPassword">Confirm New Password</label>
-                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your new password">
-                    <div class="error-message" id="confirmPasswordError"></div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-modal btn-secondary" id="cancelBtn">Cancel</button>
-                <button class="btn-modal btn-primary" id="submitBtn">Update Password</button>
-            </div>
-        </div>
-    </div>
 
     <div class="container">
         <div class="sidebar">
@@ -137,13 +127,9 @@ if (!is_array($available_doctors)) {
         </div>
         <div class="main">
             <div class="top-bar">
-                <div class="search">
-                    <input type="text" name="search" placeholder="search here">
-                    <label for="search"><i class="fas fa-search"></i></label>
-                </div>
                 <i class="fas fa-bell"></i>
                 <div class="user">
-                    <span class="profile-text">Profile</span>
+                    <span id="username"><?php echo $userProfile->getUserName(); ?></span>
                 </div>
             </div>
             <div class="cards">

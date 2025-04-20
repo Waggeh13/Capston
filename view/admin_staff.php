@@ -13,14 +13,40 @@
 <?php
 require_once('../controllers/staff_controller.php');
 require_once('../controllers/department_controller.php');
+require_once('../classes/userName_class.php');
 require_once('../settings/core.php');
 redirect_admin_if_not_logged_in();
+
+$userProfile = new userName_class();
 ?>
+<style>
+    .sidebar ul li a {
+    width: 100%;
+    text-decoration: none;
+    color: #fff;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    }
+    .user {
+    display: inline-block;
+    white-space: nowrap;
+    margin-left: 10px;
+    margin-top: 22px;
+    }
+    .fas.fa-bell {
+        margin-left: 1180px;
+    }
+    .profile-text{
+    color: black;
+    font-size: 20px;
+    }
+</style>
 <body>
     <div class="container">
         <div class="sidebar">
             <ul>
-            <li>
+                <li>
                     <a href="#">
                         <i class="fas fa-clinic-medical"></i>
                         <div class="title">BafrowCare</div>
@@ -78,13 +104,9 @@ redirect_admin_if_not_logged_in();
         </div>
         <div class="main">
             <div class="top-bar">
-                <div class="search">
-                    <input type="text" name="search" placeholder="search here">
-                    <label for="search"><i class="fas fa-search"></i></label>
-                </div>
                 <i class="fas fa-bell"></i>
                 <div class="user">
-                    <span class="profile-text">Profile</span>
+                    <span id="username"><?php echo $userProfile->getUserName(); ?></span>
                 </div>
             </div>
             <div class="doctor-available">

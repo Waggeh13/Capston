@@ -26,56 +26,163 @@ class userName_class extends db_connection {
                         FROM staff_table 
                         WHERE staff_id = ?";
 
+        // Query to fetch name from admin_table
+        $admin_query = "SELECT CONCAT(first_name, ' ', last_name) AS full_name 
+                        FROM admin 
+                        WHERE admin_id = ?";
+
+        // Query to fetch role from user_table
+        $role_query = "SELECT role FROM user_table WHERE user_id = ?";
+
         try {
             $conn = $this->db_conn();
             if (!$conn) {
                 throw new Exception("Database connection failed");
             }
 
-            // First, try fetching from patient_table
-            $stmt = $conn->prepare($patient_query);
+            // Get user role to prioritize query
+            $stmt = $conn->prepare($role_query);
             if (!$stmt) {
-                throw new Exception("Prepare failed (patient): " . $conn->error);
+                throw new Exception("Prepare failed (role): " . $conn->error);
             }
 
-            // Bind user_id as an integer
-            $stmt->bind_param("i", $user_id);
+            $stmt->bind_param("s", $user_id);
             if (!$stmt->execute()) {
-                throw new Exception("Execute failed (patient): " . $stmt->error);
+                throw new Exception("Execute failed (role): " . $stmt->error);
             }
 
             $result = $stmt->get_result();
-            $data = $result->fetch_assoc();
+            $role_data = $result->fetch_assoc();
+            $role = $role_data['role'] ?? null;
+            $stmt->close();
 
-            if ($data && isset($data['full_name'])) {
-                // Name found in patient_table
-                $this->userName = $data['full_name'];
-            } else {
-                // If not found in patient_table, try staff_table
+            // Initialize userName
+            $this->userName = 'Unknown User';
+
+            // Query based on role
+            if (strcasecmp($role, 'Patient') === 0) {
+                // Try patient_table
+                $stmt = $conn->prepare($patient_query);
+                if (!$stmt) {
+                    throw new Exception("Prepare failed (patient): " . $conn->error);
+                }
+
+                $stmt->bind_param("s", $user_id);
+                if (!$stmt->execute()) {
+                    throw new Exception("Execute failed (patient): " . $stmt->error);
+                }
+
+                $result = $stmt->get_result();
+                $data = $result->fetch_assoc();
+                if ($data && isset($data['full_name'])) {
+                    $this->userName = $data['full_name'];
+                }
+                $stmt->close();
+            } elseif (strcasecmp($role, 'Doctor') === 0) {
+                // Try staff_table
                 $stmt = $conn->prepare($staff_query);
                 if (!$stmt) {
                     throw new Exception("Prepare failed (staff): " . $conn->error);
                 }
 
-                // Bind user_id as an integer
-                $stmt->bind_param("i", $user_id);
+                $stmt->bind_param("s", $user_id);
                 if (!$stmt->execute()) {
                     throw new Exception("Execute failed (staff): " . $stmt->error);
                 }
 
                 $result = $stmt->get_result();
                 $data = $result->fetch_assoc();
+                if ($data && isset($data['full_name'])) {
+                    $this->userName = $data['full_name'];
+                }
+                $stmt->close();
+            } elseif (strcasecmp($role, 'Admin') === 0) {
+                // Try admin_table
+                $stmt = $conn->prepare($admin_query);
+                if (!$stmt) {
+                    throw new Exception("Prepare failed (admin): " . $conn->error);
+                }
 
-                // Set userName or default to 'Unknown User'
-                $this->userName = $data && isset($data['full_name']) ? $data['full_name'] : 'Unknown User';
+                $stmt->bind_param("s", $user_id);
+                if (!$stmt->execute()) {
+                    throw new Exception("Execute failed (admin): " . $stmt->error);
+                }
+
+                $result = $stmt->get_result();
+                $data = $result->fetch_assoc();
+                if ($data && isset($data['full_name'])) {
+                    $this->userName = $data['full_name'];
+                }
+                $stmt->close();
+            } else {
+                // No valid role, try all tables
+                // Try patient_table
+                $stmt = $conn->prepare($patient_query);
+                if (!$stmt) {
+                    throw new Exception("Prepare failed (patient): " . $conn->error);
+                }
+
+                $stmt->bind_param("s", $user_id);
+                if (!$stmt->execute()) {
+                    throw new Exception("Execute failed (patient): " . $stmt->error);
+                }
+
+                $result = $stmt->get_result();
+                $data = $result->fetch_assoc();
+                if ($data && isset($data['full_name'])) {
+                    $this->userName = $data['full_name'];
+                    $stmt->close();
+                } else {
+                    $stmt->close();
+                    // Try staff_table
+                    $stmt = $conn->prepare($staff_query);
+                    if (!$stmt) {
+                        throw new Exception("Prepare failed (staff): " . $conn->error);
+                    }
+
+                    $stmt->bind_param("s", $user_id);
+                    if (!$stmt->execute()) {
+                        throw new Exception("Execute failed (staff): " . $stmt->error);
+                    }
+
+                    $result = $stmt->get_result();
+                    $data = $result->fetch_assoc();
+                    if ($data && isset($data['full_name'])) {
+                        $this->userName = $data['full_name'];
+                        $stmt->close();
+                    } else {
+                        $stmt->close();
+                        // Try admin_table
+                        $stmt = $conn->prepare($admin_query);
+                        if (!$stmt) {
+                            throw new Exception("Prepare failed (admin): " . $conn->error);
+                        }
+
+                        $stmt->bind_param("s", $user_id);
+                        if (!$stmt->execute()) {
+                            throw new Exception("Execute failed (admin): " . $stmt->error);
+                        }
+
+                        $result = $stmt->get_result();
+                        $data = $result->fetch_assoc();
+                        if ($data && isset($data['full_name'])) {
+                            $this->userName = $data['full_name'];
+                        }
+                        $stmt->close();
+                    }
+                }
             }
 
             // Debug output
-            error_log("Fetched user name for user_id $user_id: " . $this->userName);
+            error_log("Fetched user name for user_id $user_id (role: " . ($role ?? 'unknown') . "): " . $this->userName);
 
         } catch (Exception $e) {
             error_log("User profile fetch error: " . $e->getMessage());
             $this->userName = 'Unknown User';
+        } finally {
+            if (isset($conn) && $conn) {
+                $conn->close();
+            }
         }
     }
 

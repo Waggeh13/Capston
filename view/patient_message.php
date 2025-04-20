@@ -51,6 +51,15 @@
         border-right: 1px solid #ddd;
         overflow-y: auto;
         }
+        #messages {
+            max-height: 400px;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>

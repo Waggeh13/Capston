@@ -62,7 +62,6 @@ function loadLabRequests() {
             }
         })
         .catch(error => {
-            console.error('Error loading lab requests:', error);
             document.getElementById('labRequestsTableBody').innerHTML = '<tr><td colspan="5">Error loading lab requests.</td></tr>';
         });
 }
@@ -171,7 +170,6 @@ function openResultsModal(labId) {
         }
     })
     .catch(error => {
-        console.error('Error fetching lab result:', error);
         alert('Error fetching lab result');
     });
 }

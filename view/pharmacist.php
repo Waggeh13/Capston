@@ -10,45 +10,12 @@
 </head>
 <?php
 require_once('../settings/core.php');
+require_once('../classes/userName_class.php');
+require_once('../controllers/pharmacist_controller.php');
 redirect_pharmacist_if_not_logged_in();
 $userProfile = new userName_class();
+$prescriptions = viewPendingPrescriptionsController(); // Fetch pending prescriptions
 ?>
-?>
-<body>
-    <!-- Password Reset Modal -->
-    <div class="password-modal" id="passwordModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2><i class="fas fa-key"></i> Change Password</h2>
-            </div>
-            <div class="modal-body">
-                <p style="margin-bottom: 20px;">For security reasons, please change your default password.</p>
-                
-                <div class="form-group">
-                    <label for="currentPassword">Current Password</label>
-                    <input type="password" id="currentPassword" name="currentPassword" placeholder="Enter your current password">
-                    <div class="error-message" id="currentPasswordError"></div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="newPassword">New Password</label>
-                    <input type="password" id="newPassword" name="newPassword" placeholder="Enter your new password">
-                    <div class="password-strength">Must be at least 8 characters with numbers and special characters</div>
-                    <div class="error-message" id="newPasswordError"></div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="confirmPassword">Confirm New Password</label>
-                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your new password">
-                    <div class="error-message" id="confirmPasswordError"></div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-modal btn-secondary" id="cancelBtn">Cancel</button>
-                <button class="btn-modal btn-primary" id="submitBtn">Update Password</button>
-            </div>
-        </div>
-    </div>
 <body>
     <div class="dashboard">
         <div class="header">
@@ -73,71 +40,47 @@ $userProfile = new userName_class();
         <div class="view-mode" id="viewMode">
             <h2><i class="fas fa-prescription-bottle-alt"></i> Prescriptions to Fill</h2>
             
-            <!-- First Prescription Card -->
-            <div class="prescription-card">
-                <div class="patient-info">
-                    <div class="patient-photo">
-                        <i class="fas fa-user"></i>
+            <?php
+            if (!empty($prescriptions)) {
+                foreach ($prescriptions as $prescription) {
+                    $patient = $prescription['patient'];
+                    $medications = $prescription['medications'];
+                    $staff = $prescription['staff'];
+                    ?>
+                    <!-- Prescription Card -->
+                    <div class="prescription-card">
+                        <div class="patient-info">
+                            <div class="patient-photo">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div>
+                                <strong><?php echo htmlspecialchars($patient['first_name'] . ' ' . $patient['last_name']); ?></strong><br>
+                                ID: <?php echo htmlspecialchars($patient['patient_id']); ?> | <?php echo htmlspecialchars($staff['first_name'] . ' ' . $staff['last_name']); ?>
+                            </div>
+                        </div>
+                        <div class="medication-list">
+                            <?php foreach ($medications as $med) { ?>
+                                <div class="med-item">
+                                    <div class="medication-name"><?php echo htmlspecialchars($med['medication'] . ' ' . $med['dosage']); ?></div>
+                                    <div class="instructions"><?php echo htmlspecialchars($med['instructions']); ?></div>
+                                </div>
+                            <?php } ?>
+                        </div>
+                        <div class="action-btns">
+                            <button class="btn btn-secondary" onclick="cancelPrescription('<?php echo $prescription['prescription_id']; ?>')">
+                                <i class="fas fa-arrow-left"></i> Cancel
+                            </button>
+                            <button class="btn btn-primary" onclick="startDispensing('<?php echo $prescription['prescription_id']; ?>', '<?php echo $patient['patient_id']; ?>')">
+                                <i class="fas fa-pills"></i> Fill Prescription
+                            </button>
+                        </div>
                     </div>
-                    <div>
-                        <strong>John Doe</strong><br>
-                        ID: PT-1024 | Dr. Smith
-                    </div>
-                </div>
-                <div class="medication-list">
-                    <div class="med-item">
-                        <div class="medication-name">Amoxicillin 500mg</div>
-                        <div class="instructions">Take 1 tablet every 8 hours for 7 days</div>
-                    </div>
-                    <div class="med-item">
-                        <div class="medication-name">Ibuprofen 200mg</div>
-                        <div class="instructions">Take as needed for pain (max 3/day)</div>
-                    </div>
-                </div>
-                <div class="action-btns">
-                    <button class="btn btn-secondary" onclick="toggleMode()">
-                        <i class="fas fa-arrow-left"></i> Cancel
-                    </button>
-                    <button class="btn btn-primary" onclick="startDispensing('JD')">
-                        <i class="fas fa-pills"></i> Fill Prescription
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Second Prescription Card -->
-            <div class="prescription-card">
-                <div class="patient-info">
-                    <div class="patient-photo">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <div>
-                        <strong>Mary Smith</strong><br>
-                        ID: PT-2048 | Dr. Johnson
-                    </div>
-                </div>
-                <div class="medication-list">
-                    <div class="med-item">
-                        <div class="medication-name">Lisinopril 10mg</div>
-                        <div class="instructions">Take 1 tablet daily in the morning</div>
-                    </div>
-                    <div class="med-item">
-                        <div class="medication-name">Metformin 500mg</div>
-                        <div class="instructions">Take 1 tablet twice daily with meals</div>
-                    </div>
-                    <div class="med-item">
-                        <div class="medication-name">Atorvastatin 20mg</div>
-                        <div class="instructions">Take 1 tablet at bedtime</div>
-                    </div>
-                </div>
-                <div class="action-btns">
-                    <button class="btn btn-secondary" onclick="toggleMode()">
-                        <i class="fas fa-arrow-left"></i> Cancel
-                    </button>
-                    <button class="btn btn-primary" onclick="startDispensing('MS')">
-                        <i class="fas fa-pills"></i> Fill Prescription
-                    </button>
-                </div>
-            </div>
+                    <?php
+                }
+            } else {
+                echo '<p>No pending prescriptions to display.</p>';
+            }
+            ?>
         </div>
         
         <!-- Dispensing Form Mode -->
@@ -178,7 +121,7 @@ $userProfile = new userName_class();
         </div>
     </div>
 
-    <script src="../js/pharmacist.js"></script>
+    <script src="../js/pharmacist.js?v=<?php echo time(); ?>"></script>
     <script src="../js/real_time_date.js"></script>
     <script src="../js/dark_mode.js"></script>
 </body>

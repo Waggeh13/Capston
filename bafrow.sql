@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 20, 2025 at 03:08 AM
+-- Generation Time: Apr 20, 2025 at 05:23 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -170,6 +170,30 @@ INSERT INTO `department_table` (`department_id`, `department_name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `dispensed_medication_table`
+--
+
+CREATE TABLE `dispensed_medication_table` (
+  `dispensed_id` int(11) NOT NULL,
+  `medication_id` int(11) NOT NULL,
+  `prescription_id` int(11) NOT NULL,
+  `patient_id` varchar(50) NOT NULL,
+  `quantity_dispensed` varchar(100) NOT NULL,
+  `dispensed_date` datetime DEFAULT current_timestamp(),
+  `pharmacist_id` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `dispensed_medication_table`
+--
+
+INSERT INTO `dispensed_medication_table` (`dispensed_id`, `medication_id`, `prescription_id`, `patient_id`, `quantity_dispensed`, `dispensed_date`, `pharmacist_id`) VALUES
+(1, 8, 5, '13456789', '30', '2025-04-19 23:17:35', '623746795'),
+(2, 9, 5, '13456789', '50', '2025-04-19 23:17:35', '623746795');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `lab_table`
 --
 
@@ -286,7 +310,7 @@ CREATE TABLE `prescription_notifications` (
   `notification_time` time NOT NULL,
   `interval_hours` int(11) DEFAULT NULL,
   `last_sent` datetime DEFAULT NULL,
-  `created_at` datetime DEFAULT current_timestamp()
+  `created_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -294,9 +318,9 @@ CREATE TABLE `prescription_notifications` (
 --
 
 INSERT INTO `prescription_notifications` (`notification_id`, `medication_id`, `patient_id`, `enabled`, `notification_time`, `interval_hours`, `last_sent`, `created_at`) VALUES
-(1, 8, '13456789', 'Yes', '00:00:00', NULL, NULL, '2025-04-19 20:23:18'),
-(9, 8, '13456789', 'Yes', '00:34:00', NULL, NULL, '2025-04-19 20:34:02'),
-(10, 8, '13456789', 'Yes', '00:38:00', NULL, NULL, '2025-04-19 20:36:20');
+(36, 8, '13456789', 'Yes', '02:26:00', NULL, NULL, '2025-04-20 02:25:11'),
+(37, 9, '13456789', 'Yes', '00:00:00', NULL, NULL, NULL),
+(38, 9, '13456789', 'Yes', '02:27:00', NULL, NULL, '2025-04-20 02:25:24');
 
 -- --------------------------------------------------------
 
@@ -309,7 +333,7 @@ CREATE TABLE `prescription_table` (
   `patient_id` varchar(50) DEFAULT NULL,
   `staff_id` varchar(50) DEFAULT NULL,
   `medication_date` date NOT NULL,
-  `status` enum('Pending','Dispensed','Cancelled') DEFAULT NULL
+  `status` enum('Pending','Dispensed','Cancelled') DEFAULT 'Pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -317,7 +341,7 @@ CREATE TABLE `prescription_table` (
 --
 
 INSERT INTO `prescription_table` (`prescription_id`, `patient_id`, `staff_id`, `medication_date`, `status`) VALUES
-(5, '13456789', '238983009', '2025-04-04', 'Pending');
+(5, '13456789', '238983009', '2025-04-04', 'Dispensed');
 
 -- --------------------------------------------------------
 
@@ -357,6 +381,7 @@ CREATE TABLE `staff_table` (
 
 INSERT INTO `staff_table` (`staff_id`, `first_name`, `last_name`, `Gender`, `department_id`, `phone`, `email`, `position`) VALUES
 ('238983009', 'Fatou', 'Waggeh', 'Female', 756545, '0551718945', 'ktprodu@ashesi.edu.gh', 'Doctor'),
+('45678956', 'Morgan', 'emerole', 'Male', 756545, '0551718945', 'ktprodu@ashesi.edu.gh', 'Cashier'),
 ('62374434', 'Kwame', 'emerole', 'Female', 756545, '0551718945', 'mntawiah@gmail.com', 'Staff'),
 ('623744348888', 'Kay', 'emerole', 'Male', 88567, '0551718945', 'ktproductions124@ashesi.edu.gh', 'Doctor'),
 ('623746795', 'Kwame', 'Waggeh', 'Female', NULL, '0551718945', 'mntawiah@gmail.com', 'Lab Technician');
@@ -476,9 +501,10 @@ INSERT INTO `user_table` (`user_id`, `password`, `role`) VALUES
 ('12345678', '$2y$10$lddjxVm7VReYtJgsVS6GSeDYtzES.qOAiSOACuH3AH.nn9lcmS2/.', 'Patient'),
 ('13456789', '$2y$10$lddjxVm7VReYtJgsVS6GSeDYtzES.qOAiSOACuH3AH.nn9lcmS2/.', 'Patient'),
 ('238983009', '$2y$10$o6EDE7J18uvRUKTrh3kzReFGi1eW0UFZCC7c7XTm5xQZFDpaGdBQ6', 'Doctor'),
+('45678956', '$2y$10$bAuI/QQklqgBk5bfaNn4zekFn8/P3Q626TuazNIcq50XxMF2FA3v6', 'Cashier'),
 ('62374434', '$2y$10$tH3AMK4whtrQ.Y7h7/RuYO1yYeSXIwSNjoWfcbcrUcqNhei1aKcRy', 'Lab Technician'),
 ('623744348888', '$2y$10$OHXlwKATE/RdaGXcZ7O2qORpQq34b99Cf1vI8K4Iaqt8acvSbjlpC', 'Doctor'),
-('623746795', '$2y$10$dmwwQvujqkrSyb46BLgXAOi9FHRxPbozXFkcUV8F9glnysfhwPyL2', 'staff'),
+('623746795', '$2y$10$dmwwQvujqkrSyb46BLgXAOi9FHRxPbozXFkcUV8F9glnysfhwPyL2', 'Pharmacist'),
 ('986758495', '$2y$10$kJ5bImKIe2xF7vgfOzYj0OfT97RIGwifq0qFXAJeFplHRSkw6qQiu', 'Admin');
 
 --
@@ -526,6 +552,16 @@ ALTER TABLE `clinic_table`
 --
 ALTER TABLE `department_table`
   ADD PRIMARY KEY (`department_id`);
+
+--
+-- Indexes for table `dispensed_medication_table`
+--
+ALTER TABLE `dispensed_medication_table`
+  ADD PRIMARY KEY (`dispensed_id`),
+  ADD KEY `medication_id` (`medication_id`),
+  ADD KEY `prescription_id` (`prescription_id`),
+  ADD KEY `patient_id` (`patient_id`),
+  ADD KEY `pharmacist_id` (`pharmacist_id`);
 
 --
 -- Indexes for table `lab_table`
@@ -668,6 +704,12 @@ ALTER TABLE `department_table`
   MODIFY `department_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=756546;
 
 --
+-- AUTO_INCREMENT for table `dispensed_medication_table`
+--
+ALTER TABLE `dispensed_medication_table`
+  MODIFY `dispensed_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `lab_table`
 --
 ALTER TABLE `lab_table`
@@ -695,7 +737,7 @@ ALTER TABLE `prescription_medication_table`
 -- AUTO_INCREMENT for table `prescription_notifications`
 --
 ALTER TABLE `prescription_notifications`
-  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `prescription_table`
@@ -762,6 +804,15 @@ ALTER TABLE `booking_table`
 --
 ALTER TABLE `clinic_table`
   ADD CONSTRAINT `clinic_table_ibfk_1` FOREIGN KEY (`department_id`) REFERENCES `department_table` (`department_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `dispensed_medication_table`
+--
+ALTER TABLE `dispensed_medication_table`
+  ADD CONSTRAINT `dispensed_medication_table_ibfk_1` FOREIGN KEY (`medication_id`) REFERENCES `prescription_medication_table` (`medication_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `dispensed_medication_table_ibfk_2` FOREIGN KEY (`prescription_id`) REFERENCES `prescription_table` (`prescription_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `dispensed_medication_table_ibfk_3` FOREIGN KEY (`patient_id`) REFERENCES `patient_table` (`patient_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `dispensed_medication_table_ibfk_4` FOREIGN KEY (`pharmacist_id`) REFERENCES `staff_table` (`staff_id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `lab_table`

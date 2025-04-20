@@ -2,9 +2,8 @@ function openPasswordModal() {
     const modal = document.getElementById('passwordModal');
     if (modal) {
         modal.style.display = 'block';
-        console.log('Modal opened via openPasswordModal()');
     } else {
-        console.error('Modal element not found');
+        alert('Modal element not found');
     }
 }
 
@@ -19,9 +18,8 @@ function closePasswordModal() {
         document.getElementById('confirmPasswordError').style.display = 'none';
         document.getElementById('passwordStrength').textContent = '';
         document.getElementById('passwordStrength').style.color = '';
-        console.log('Modal closed');
     } else {
-        console.error('Modal element not found');
+        alert('Modal element not found');
     }
 }
 
@@ -30,7 +28,6 @@ window.onclick = function(event) {
     const modal = document.getElementById('passwordModal');
     if (event.target === modal) {
         closePasswordModal();
-        console.log('Modal closed by clicking outside');
     }
 }
 
@@ -111,7 +108,6 @@ function validatePasswordForm(event) {
         }
     })
     .catch(error => {
-        console.error('Error:', error);
         newPasswordError.textContent = 'An error occurred. Please try again.';
         newPasswordError.style.display = 'block';
     });
@@ -162,20 +158,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const submitBtn = document.getElementById('submitBtn');
     if (submitBtn) {
         submitBtn.addEventListener('click', validatePasswordForm);
-        console.log('Submit button event listener attached');
     } else {
-        console.error('Submit button not found');
+        alert('Submit button not found');
     }
 
     // Real-time password strength listener
     const newPasswordInput = document.getElementById('newPassword');
     if (newPasswordInput) {
         newPasswordInput.addEventListener('input', updatePasswordStrength);
-        console.log('Password strength event listener attached');
     } else {
-        console.error('New password input not found');
+        alert('New password input not found');
     }
-
-    // Debug: Log initial modal state
-    console.log('Password modal script loaded. Modal display:', document.getElementById('passwordModal')?.style.display || 'not found');
 });

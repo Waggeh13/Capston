@@ -42,7 +42,6 @@ async function sendMessage() {
         messages.scrollTop = messages.scrollHeight;
 
     } catch (error) {
-        console.error('Error:', error.message);
         const errorMessage = document.createElement('div');
         errorMessage.className = 'message received';
         errorMessage.innerHTML = `<div class="message-content">Sorry, something went wrong. Please try again later.</div>`;

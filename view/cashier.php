@@ -9,10 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <style>
-    .settings-btn{
-        text-decoration: none;
-    }
-    .logout-btn{
+    .settings-btn, .logout-btn {
         text-decoration: none;
     }
 </style>
@@ -20,10 +17,14 @@
 <?php
 require_once('../settings/core.php');
 require_once('../classes/userName_class.php');
+require_once('../controllers/cashier_controller.php');
 redirect_cashier_if_not_logged_in();
 
 $userProfile = new userName_class();
+$pending_payments = viewPendingPaymentsController();
+$recent_payments = viewRecentPaymentsController();
 ?>
+
 <body>
     <div class="dashboard">
         <div class="header">
@@ -49,177 +50,164 @@ $userProfile = new userName_class();
         
         <h2>Pending Payments</h2>
         <div class="payment-cards">
-            <!-- Payment Card 1 -->
-            <div class="payment-card">
-                <div class="patient-info">
-                    <div class="patient-photo">
-                        <i class="fas fa-user"></i>
+            <?php
+            if (!empty($pending_payments)) {
+                $grouped_payments = [];
+                foreach ($pending_payments as $payment) {
+                    $key = $payment['patient']['patient_id'] . '_' . $payment['prescription_id'];
+                    if (!isset($grouped_payments[$key])) {
+                        $grouped_payments[$key] = [
+                            'patient' => $payment['patient'],
+                            'prescription_id' => $payment['prescription_id'],
+                            'medications' => [],
+                            'consultations' => $payment['consultations'],
+                            'lab_tests' => $payment['lab_tests'],
+                            'dispensed_ids' => []
+                        ];
+                    }
+                    $grouped_payments[$key]['medications'][] = $payment['medication'];
+                    $grouped_payments[$key]['dispensed_ids'][] = $payment['dispensed_id'];
+                }
+
+                foreach ($grouped_payments as $key => $payment) {
+                    $patient = $payment['patient'];
+                    $initials = strtoupper(substr($patient['first_name'], 0, 1) . substr($patient['last_name'], 0, 1));
+                    ?>
+                    <div class="payment-card" data-dispensed-ids='<?php echo json_encode($payment['dispensed_ids']); ?>' 
+                         data-patient-id="<?php echo htmlspecialchars($patient['patient_id']); ?>" 
+                         data-prescription-id="<?php echo htmlspecialchars($payment['prescription_id']); ?>">
+                        <div class="patient-info">
+                            <div class="patient-photo"><?php echo $initials; ?></div>
+                            <div>
+                                <strong><?php echo htmlspecialchars($patient['first_name'] . ' ' . $patient['last_name']); ?></strong><br>
+                                <span class="status-badge status-pending">Pending Payment</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Consultation Details -->
+                        <div class="service-section">
+                            <div class="service-title">
+                                <span><i class="fas fa-stethoscope"></i> Consultation</span>
+                            </div>
+                            <?php
+                            if (!empty($payment['consultations'])) {
+                                foreach ($payment['consultations'] as $consult) {
+                                    ?>
+                                    <div class="service-item">
+                                        <span>Consultation with Dr. <?php echo htmlspecialchars($consult['doctor_last_name']); ?></span>
+                                        <input type="number" class="price-input" value="500.00" min="0" step="0.01" data-type="consultation" data-id="<?php echo $consult['booking_id']; ?>">
+                                    </div>
+                                    <?php
+                                }
+                            } else {
+                                ?>
+                                <div class="service-item">
+                                    <span>No consultation recorded</span>
+                                    <input type="number" class="price-input" value="0.00" min="0" step="0.01" data-type="consultation" data-id="0" disabled>
+                                </div>
+                                <?php
+                            }
+                            ?>
+                        </div>
+                        
+                        <!-- Prescriptions -->
+                        <div class="service-section">
+                            <div class="service-title">
+                                <span><i class="fas fa-prescription-bottle-alt"></i> Prescriptions</span>
+                            </div>
+                            <?php
+                            foreach ($payment['medications'] as $med) {
+                                ?>
+                                <div class="service-item">
+                                    <span><?php echo htmlspecialchars($med['medication'] . ' ' . $med['dosage'] . ' (' . $med['quantity_dispensed'] . ')'); ?></span>
+                                    <input type="number" class="price-input" value="0.00" min="0" step="0.01" data-type="medication">
+                                </div>
+                                <?php
+                            }
+                            ?>
+                        </div>
+                        
+                        <!-- Lab Tests -->
+                        <div class="service-section">
+                            <div class="service-title">
+                                <span><i class="fas fa-flask"></i> Lab Tests</span>
+                            </div>
+                            <?php
+                            if (!empty($payment['lab_tests'])) {
+                                foreach ($payment['lab_tests'] as $test) {
+                                    ?>
+                                    <div class="service-item">
+                                        <span><?php echo htmlspecialchars($test['test_name']); ?></span>
+                                        <input type="number" class="price-input" value="0.00" min="0" step="0.01" data-type="lab_test" data-id="<?php echo $test['lab_test_id']; ?>">
+                                    </div>
+                                    <?php
+                                }
+                            } else {
+                                ?>
+                                <div class="service-item">
+                                    <span>No lab tests recorded</span>
+                                    <input type="number" class="price-input" value="0.00" min="0" step="0.01" data-type="lab_test" data-id="0" disabled>
+                                </div>
+                                <?php
+                            }
+                            ?>
+                        </div>
+                        
+                        <div class="payment-total">
+                            <span>Total:</span>
+                            <span class="total-amount">GMD 0.00</span>
+                        </div>
+                        
+                        <div class="payment-actions">
+                            <button class="btn btn-secondary" onclick="viewDetails('<?php echo $patient['patient_id']; ?>', '<?php echo $payment['prescription_id']; ?>')">
+                                <i class="fas fa-eye"></i> View Details
+                            </button>
+                            <button class="btn btn-primary" onclick="processPayment(this)">
+                                <i class="fas fa-money-bill-wave"></i> Process Payment
+                            </button>
+                        </div>
                     </div>
-                    <div>
-                        <strong>John Doe</strong><br>
-                        <span class="status-badge status-pending">Pending Payment</span>
-                    </div>
-                </div>
-                
-                <!-- Consultation Details -->
-                <div class="service-section">
-                    <div class="service-title">
-                        <span><i class="fas fa-stethoscope"></i> Consultation</span>
-                    </div>
-                    <div class="service-item">
-                        <span>Consultation with Dr. Smith</span>
-                        <input type="number" class="price-input" value="500.00" min="0" step="0.01">
-                    </div>
-                </div>
-                
-                <!-- Prescriptions -->
-                <div class="service-section">
-                    <div class="service-title">
-                        <span><i class="fas fa-prescription-bottle-alt"></i> Prescriptions</span>
-                    </div>
-                    <div class="service-item">
-                        <span>Amoxicillin 500mg (30 tablets)</span>
-                        <input type="number" class="price-input" value="350.00" min="0" step="0.01">
-                    </div>
-                    <div class="service-item">
-                        <span>Ibuprofen 200mg (20 tablets)</span>
-                        <input type="number" class="price-input" value="150.00" min="0" step="0.01">
-                    </div>
-                    <div class="service-item">
-                        <span>Paracetamol 500mg (30 tablets)</span>
-                        <input type="number" class="price-input" value="250.00" min="0" step="0.01">
-                    </div>
-                </div>
-                
-                <!-- Lab Tests -->
-                <div class="service-section">
-                    <div class="service-title">
-                        <span><i class="fas fa-flask"></i> Lab Tests</span>
-                    </div>
-                    <div class="service-item">
-                        <span>Complete Blood Count (CBC)</span>
-                        <input type="number" class="price-input" value="800.00" min="0" step="0.01">
-                    </div>
-                    <div class="service-item">
-                        <span>Malaria Test</span>
-                        <input type="number" class="price-input" value="400.00" min="0" step="0.01">
-                    </div>
-                </div>
-                
-                <div class="payment-total">
-                    <span>Total:</span>
-                    <span id="totalAmount">GMD 2450.00</span>
-                </div>
-                
-                <div class="payment-actions">
-                    <button class="btn btn-secondary" onclick="viewDetails(1)">
-                        <i class="fas fa-eye"></i> View Details
-                    </button>
-                    <button class="btn btn-primary" onclick="processPayment(1)">
-                        <i class="fas fa-money-bill-wave"></i> Process Payment
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Payment Card 2 -->
-            <div class="payment-card">
-                <div class="patient-info">
-                    <div class="patient-photo">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <div>
-                        <strong>Mary Smith</strong><br>
-                        <span class="status-badge status-pending">Pending Payment</span>
-                    </div>
-                </div>
-                
-                <!-- Consultation Details -->
-                <div class="service-section">
-                    <div class="service-title">
-                        <span><i class="fas fa-stethoscope"></i> Consultation</span>
-                    </div>
-                    <div class="service-item">
-                        <span>Consultation with Dr. Johnson</span>
-                        <input type="number" class="price-input" value="500.00" min="0" step="0.01">
-                    </div>
-                </div>
-                
-                <!-- Lab Tests -->
-                <div class="service-section">
-                    <div class="service-title">
-                        <span><i class="fas fa-flask"></i> Lab Tests</span>
-                    </div>
-                    <div class="service-item">
-                        <span>Urinalysis</span>
-                        <input type="number" class="price-input" value="600.00" min="0" step="0.01">
-                    </div>
-                    <div class="service-item">
-                        <span>Pregnancy Test</span>
-                        <input type="number" class="price-input" value="250.00" min="0" step="0.01">
-                    </div>
-                </div>
-                
-                <div class="payment-total">
-                    <span>Total:</span>
-                    <span id="totalAmount">GMD 1350.00</span>
-                </div>
-                
-                <div class="payment-actions">
-                    <button class="btn btn-secondary" onclick="viewDetails(2)">
-                        <i class="fas fa-eye"></i> View Details
-                    </button>
-                    <button class="btn btn-primary" onclick="processPayment(2)">
-                        <i class="fas fa-money-bill-wave"></i> Process Payment
-                    </button>
-                </div>
-            </div>
+                    <?php
+                }
+            } else {
+                echo '<p>No pending payments to display.</p>';
+            }
+            ?>
         </div>
         
         <h2>Recent Payments</h2>
         <div class="payment-cards">
-            <!-- Completed Payment Card -->
-            <div class="payment-card">
-                <div class="patient-info">
-                    <div class="patient-photo">
-                        <i class="fas fa-user"></i>
+            <?php
+            if (!empty($recent_payments)) {
+                foreach ($recent_payments as $payment) {
+                    $initials = strtoupper(substr($payment['patient_first_name'], 0, 1) . substr($payment['patient_last_name'], 0, 1));
+                    ?>
+                    <div class="payment-card">
+                        <div class="patient-info">
+                            <div class="patient-photo"><?php echo $initials; ?></div>
+                            <div>
+                                <strong><?php echo htmlspecialchars($payment['patient_first_name'] . ' ' . $payment['patient_last_name']); ?></strong><br>
+                                <span class="status-badge status-paid">Paid</span>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-total">
+                            <span>Total Paid:</span>
+                            <span>GMD <?php echo number_format($payment['total'], 2); ?></span>
+                        </div>
+                        
+                        <div class="payment-actions">
+                            <button class="btn btn-secondary" onclick="viewReceipt('<?php echo $payment['receipt_id']; ?>')">
+                                <i class="fas fa-receipt"></i> View Receipt
+                            </button>
+                        </div>
                     </div>
-                    <div>
-                        <strong>Thomas Brown</strong><br>
-                        <span class="status-badge status-paid">Paid - 15/11/2023</span>
-                    </div>
-                </div>
-                
-                <div class="service-section">
-                    <div class="service-title">
-                        <span><i class="fas fa-stethoscope"></i> Consultation</span>
-                    </div>
-                    <div class="service-item">
-                        <span>Consultation with Dr. Williams</span>
-                        <span>GMD 500.00</span>
-                    </div>
-                </div>
-                
-                <div class="service-section">
-                    <div class="service-title">
-                        <span><i class="fas fa-prescription-bottle-alt"></i> Prescriptions</span>
-                    </div>
-                    <div class="service-item">
-                        <span>Lisinopril 10mg (30 tablets)</span>
-                        <span>GMD 1200.00</span>
-                    </div>
-                </div>
-                
-                <div class="payment-total">
-                    <span>Total Paid:</span>
-                    <span>GMD 1700.00</span>
-                </div>
-                
-                <div class="payment-actions">
-                    <button class="btn btn-secondary" onclick="viewDetails(3)">
-                        <i class="fas fa-receipt"></i> View Receipt
-                    </button>
-                </div>
-            </div>
+                    <?php
+                }
+            } else {
+                echo '<p>No recent payments to display.</p>';
+            }
+            ?>
         </div>
     </div>
     
@@ -228,78 +216,23 @@ $userProfile = new userName_class();
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Service Details</h2>
-                <button class="close-btn" onclick="closeModal()">&times;</button>
+                <button class="close-btn" onclick="closeModal()">×</button>
             </div>
             
-            <div class="patient-info" style="margin-bottom: 20px;">
-                <div class="patient-photo" id="detailPatientPhoto">JD</div>
-                <div>
-                    <strong id="detailPatientName">John Doe</strong><br>
-                    <span id="detailPatientInfo">ID: PT-1024 | 15/11/2023</span>
-                </div>
+            <div class="patient-info" style="margin-bottom: 20px;" id="detailPatientInfo">
+                <!-- Filled by JavaScript -->
             </div>
             
-            <!-- Consultation Details -->
-            <div style="margin-bottom: 25px;">
-                <h3 style="color: #0054A6; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 5px;">
-                    <i class="fas fa-stethoscope"></i> Consultation Details
-                </h3>
-                <div style="background-color: #f5f9ff; padding: 15px; border-radius: 6px;">
-                    <p><strong>Doctor:</strong> Dr. Smith</p>
-                    <p><strong>Date:</strong> 15/11/2023</p>
-                    <p><strong>Diagnosis:</strong> Upper respiratory infection</p>
-                    <p><strong>Notes:</strong> Patient presented with fever and cough for 3 days</p>
-                </div>
+            <div id="consultationDetails" style="margin-bottom: 25px;">
+                <!-- Filled by JavaScript -->
             </div>
             
-            <!-- Prescriptions -->
-            <div style="margin-bottom: 25px;">
-                <h3 style="color: #0054A6; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 5px;">
-                    <i class="fas fa-prescription-bottle-alt"></i> Prescriptions
-                </h3>
-                <div class="prescription-item">
-                    <div>
-                        <strong>Amoxicillin 500mg</strong><br>
-                        <span>Take 1 tablet every 8 hours for 7 days</span>
-                    </div>
-                    <div>
-                        <strong>GMD 350.00</strong>
-                    </div>
-                </div>
-                <div class="prescription-item">
-                    <div>
-                        <strong>Ibuprofen 200mg</strong><br>
-                        <span>Take as needed for pain (max 3/day)</span>
-                    </div>
-                    <div>
-                        <strong>GMD 150.00</strong>
-                    </div>
-                </div>
+            <div id="prescriptionDetails" style="margin-bottom: 25px;">
+                <!-- Filled by JavaScript -->
             </div>
             
-            <!-- Lab Tests -->
-            <div style="margin-bottom: 25px;">
-                <h3 style="color: #0054A6; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 5px;">
-                    <i class="fas fa-flask"></i> Lab Tests
-                </h3>
-                <div class="test-item">
-                    <div>
-                        <strong>Complete Blood Count (CBC)</strong><br>
-                        <span>Results: WBC 6.5, RBC 4.8, HGB 14.2</span>
-                    </div>
-                    <div>
-                        <strong>GMD 800.00</strong>
-                    </div>
-                </div>
-                <div class="test-item">
-                    <div>
-                        <strong>Malaria Test</strong><br>
-                        <span>Results: Negative</span>
-                    </div>
-                    <div>
-                        <strong>GMD 400.00</strong>
-                    </div>
-                </div>
+            <div id="labTestDetails" style="margin-bottom: 25px;">
+                <!-- Filled by JavaScript -->
             </div>
             
             <div style="display: flex; justify-content: flex-end;">
@@ -322,14 +255,14 @@ $userProfile = new userName_class();
                 
                 <div class="receipt-header">
                     <h3>PAYMENT RECEIPT</h3>
-                    <p>Receipt #: <span id="receiptNumber">RC-2023-001</span></p>
-                    <p>Date: <span id="receiptDate">15/11/2023 10:30 AM</span></p>
+                    <p>Receipt #: <span id="receiptNumber"></span></p>
+                    <p>Date: <span id="receiptDate"></span></p>
                 </div>
                 
                 <div class="receipt-details">
-                    <p><strong>Patient:</strong> <span id="receiptPatient">Thomas Brown</span></p>
-                    <p><strong>Patient ID:</strong> <span id="receiptPatientId">PT-3096</span></p>
-                    <p><strong>Cashier:</strong> <span id="receiptCashier">Fatou Jallow</span></p>
+                    <p><strong>Patient:</strong> <span id="receiptPatient"></span></p>
+                    <p><strong>Patient ID:</strong> <span id="receiptPatientId"></span></p>
+                    <p><strong>Cashier:</strong> <span id="receiptCashier"></span></p>
                 </div>
                 
                 <table class="receipt-items">
@@ -340,19 +273,12 @@ $userProfile = new userName_class();
                         </tr>
                     </thead>
                     <tbody id="receiptItems">
-                        <tr>
-                            <td>Consultation with Dr. Williams</td>
-                            <td>500.00</td>
-                        </tr>
-                        <tr>
-                            <td>Lisinopril 10mg (30 tablets)</td>
-                            <td>1200.00</td>
-                        </tr>
+                        <!-- Filled by JavaScript -->
                     </tbody>
                 </table>
                 
                 <div class="receipt-total">
-                    <p>Total: <span id="receiptTotal">1700.00</span> GMD</p>
+                    <p>Total: <span id="receiptTotal"></span> GMD</p>
                     <p>Payment Method: <span id="receiptMethod">Cash</span></p>
                 </div>
                 
@@ -372,9 +298,9 @@ $userProfile = new userName_class();
             </div>
         </div>
     </div>
+    
     <script src="../js/dark_mode.js"></script>
-    <script src="../js/cashier.js"></script>
+    <script src="../js/cashier.js?v=<?php echo time(); ?>"></script>
     <script src="../js/real_time_date.js"></script>
-    <script src="../js/change_password.js"></script>
 </body>
 </html>

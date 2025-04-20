@@ -1,67 +1,140 @@
-// Prescription data
-const prescriptions = {
-    'JD': {
-        name: 'John Doe',
-        id: 'PT-1024',
-        doctor: 'Dr. Smith',
-        initials: 'JD',
-        medications: [
-            { name: 'Amoxicillin 500mg', instructions: 'Take 1 tablet every 8 hours for 7 days' },
-            { name: 'Ibuprofen 200mg', instructions: 'Take as needed for pain (max 3/day)' }
-        ]
-    },
-    'MS': {
-        name: 'Mary Smith',
-        id: 'PT-2048',
-        doctor: 'Dr. Johnson',
-        initials: 'MS',
-        medications: [
-            { name: 'Lisinopril 10mg', instructions: 'Take 1 tablet daily in the morning' },
-            { name: 'Metformin 500mg', instructions: 'Take 1 tablet twice daily with meals' },
-            { name: 'Atorvastatin 20mg', instructions: 'Take 1 tablet at bedtime' }
-        ]
-    }
-};
-
 function toggleMode() {
     document.getElementById('viewMode').classList.toggle('hidden');
     document.getElementById('dispenseMode').classList.toggle('hidden');
 }
 
-function startDispensing(patientId) {
-    const patient = prescriptions[patientId];
-    
-    // Update patient info in dispense mode
-    const patientInfoDiv = document.getElementById('dispensePatientInfo');
-    patientInfoDiv.innerHTML = `
-        <div class="patient-photo">${patient.initials}</div>
-        <div>
-            <strong>${patient.name}</strong><br>
-            ID: ${patient.id} | ${patient.doctor}
-        </div>
-    `;
-    
-    // Update medications table
-    const tbody = document.querySelector('#dispenseTable tbody');
-    tbody.innerHTML = '';
-    
-    patient.medications.forEach(med => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${med.name}</td>
-            <td><input type="text" name="dispensedQty" placeholder="e.g., 1 bottle, 30 tablets" required></td>
+function startDispensing(prescriptionId, patientId) {
+    // Fetch prescription details via AJAX
+    fetch('../actions/get_prescription_by_id.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ prescription_id: prescriptionId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert('Error: ' + data.error);
+            return;
+        }
+
+        // Verify data structure
+        if (!data.patient || !data.patient.first_name || !data.patient.last_name || !data.medications) {
+            alert('Error: Invalid prescription data received.');
+            return;
+        }
+
+        const prescription = data;
+        const patient = prescription.patient;
+        const medications = prescription.medications;
+
+        // Generate initials from first_name and last_name
+        const initials = (patient.first_name[0] || '') + (patient.last_name[0] || '');
+
+        // Update patient info in dispense mode
+        const patientInfoDiv = document.getElementById('dispensePatientInfo');
+        patientInfoDiv.innerHTML = `
+            <div class="patient-photo">${initials}</div>
+            <div>
+                <strong>${patient.first_name} ${patient.last_name}</strong><br>
+                ID: ${patient.patient_id} | ${prescription.staff.first_name} ${prescription.staff.last_name}
+            </div>
         `;
-        tbody.appendChild(row);
+
+        // Update medications table
+        const tbody = document.querySelector('#dispenseTable tbody');
+        tbody.innerHTML = '';
+
+        medications.forEach(med => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${med.medication} ${med.dosage}</td>
+                <td><input type="text" name="dispensedQty" data-medication-id="${med.medication_id}" placeholder="e.g., 30 tablets" required></td>
+            `;
+            tbody.appendChild(row);
+        });
+
+        // Store prescription and patient IDs in the form for submission
+        document.getElementById('dispenseForm').dataset.prescriptionId = prescriptionId;
+        document.getElementById('dispenseForm').dataset.patientId = patientId;
+
+        toggleMode();
+    })
+    .catch(error => {
+        console.error('Error fetching prescription:', error);
+        alert('Failed to load prescription details.');
     });
-    
-    toggleMode();
+}
+
+function cancelPrescription(prescriptionId) {
+    if (!confirm('Are you sure you want to cancel this prescription? This action cannot be undone.')) {
+        return;
+    }
+
+    // Send AJAX request to delete the prescription
+    fetch('../actions/delete_prescription.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ prescription_id: prescriptionId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Prescription cancelled successfully.');
+            window.location.reload(); // Refresh to update prescription list
+        } else {
+            alert('Error: ' + data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Error cancelling prescription:', error);
+        alert('Failed to cancel prescription.');
+    });
 }
 
 document.getElementById('dispenseForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    alert('Dispensing record sent to cashier!');
-    // In real implementation: Submit to server and reset form
-    toggleMode();
+
+    const prescriptionId = this.dataset.prescriptionId;
+    const patientId = this.dataset.patientId;
+    const dispensedQuantities = [];
+
+    // Collect dispensed quantities
+    document.querySelectorAll('#dispenseTable tbody input[name="dispensedQty"]').forEach(input => {
+        dispensedQuantities.push({
+            medication_id: input.dataset.medicationId,
+            quantity: input.value
+        });
+    });
+
+    // Send data to server
+    fetch('../actions/dispense_medication.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            prescription_id: prescriptionId,
+            patient_id: patientId,
+            medications: dispensedQuantities
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Dispensing record sent to cashier!');
+            window.location.reload(); // Refresh to update prescription list
+        } else {
+            alert('Error: ' + data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Error submitting dispensed medications:', error);
+        alert('Failed to submit dispensing record.');
+    });
 });
 
 document.getElementById('logoutBtn').addEventListener('click', function(e) {

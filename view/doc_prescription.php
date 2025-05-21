@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../images/bafrow_logo.png" type="image/png">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/sidebar.css">
     <link rel="stylesheet" href="../css/prescription.css">
@@ -19,13 +22,13 @@
     align-items: center;
     }
     .user {
-    display: inline-block;
-    white-space: nowrap;
-    margin-left: 10px;
-    }
-    .fas.fa-bell {
-    margin-left: 1180px;
-    }
+            display: inline-block;
+            white-space: nowrap;
+            margin-left: 10px;
+            position: absolute;
+            right: 150px;
+            overflow: visible;
+        }
     .profile-text{
     color: black;
     }
@@ -110,7 +113,6 @@ $userProfile = new userName_class();
         </div>
         <div class="main">
             <div class="top-bar">
-                <i class="fas fa-bell"></i>
                 <div class="user">
                     <span class="profile-text"><?php echo $userProfile->getUserName(); ?></span>
                 </div>
@@ -128,9 +130,7 @@ $userProfile = new userName_class();
                     <label>Date of Prescription</label>
                     <input type="date" name="date" placeholder="Enter prescription date" required>
                 </div>
-                <!-- Medication Container - will hold all medication entries -->
                 <div id="medicationsContainer">
-                    <!-- First medication entry (default) -->
                     <div class="medication-entry">
                         <div class="input-row">
                             <div class="input-box">
@@ -149,7 +149,6 @@ $userProfile = new userName_class();
                     </div>
                 </div>
                 
-                <!-- Button to add more medications -->
                 <button type="button" id="addMedicationBtn" class="add-btn">
                     <i class="fas fa-plus"></i> Add Another Medication
                 </button>

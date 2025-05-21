@@ -8,10 +8,8 @@ redirect_patient_if_not_logged_in();
 $userProfile = new userName_class();
 $patient_id = $_SESSION['user_id'];
 
-// Fetch prescriptions for the patient
 $prescriptions = get_patient_prescriptions_ctr($patient_id);
 
-// Get client timezone from session or default to server timezone
 $client_timezone = isset($_SESSION['client_timezone']) ? $_SESSION['client_timezone'] : 'UTC';
 date_default_timezone_set($client_timezone);
 ?>
@@ -20,19 +18,20 @@ date_default_timezone_set($client_timezone);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../images/bafrow_logo.png" type="image/png">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/sidebar.css">
     <link rel="stylesheet" href="../css/patient_prescription.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>Prescription</title>
     <script>
-        // Register service worker
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('../sw.js')
                 .then(reg => console.log('Service Worker registered'))
                 .catch(err => console.error('Service Worker registration failed:', err));
         }
-        // Send client timezone to server
         document.addEventListener('DOMContentLoaded', () => {
             const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
             fetch('../actions/set_timezone.php', {
@@ -55,9 +54,9 @@ date_default_timezone_set($client_timezone);
             display: inline-block;
             white-space: nowrap;
             margin-left: 10px;
-        }
-        .fas.fa-bell {
-            margin-left: 1180px;
+            position: absolute;
+            right: 150px;
+            overflow: visible;
         }
         .medication-card {
             cursor: pointer;
@@ -180,7 +179,6 @@ date_default_timezone_set($client_timezone);
         </div>
         <div class="main">
             <div class="top-bar">
-                <i class="fas fa-bell"></i>
                 <div class="user">
                     <span class="profile-text"><?php echo $userProfile->getUserName(); ?></span>
                 </div>
@@ -215,7 +213,6 @@ date_default_timezone_set($client_timezone);
                                     if ($setting['interval_hours'] !== null) {
                                         $interval = $setting['interval_hours'] . ' hours';
                                     } elseif ($setting['notification_time'] !== '00:00:00') {
-                                        // Store all times without filtering
                                         $notification_times[] = $setting['notification_time'];
                                     }
                                 }
@@ -239,7 +236,6 @@ date_default_timezone_set($client_timezone);
                                                 echo 'Every ' . htmlspecialchars($interval);
                                             } elseif ($notification_times) {
                                                 foreach ($notification_times as $time) {
-                                                    // Convert to 12-hour format with AM/PM
                                                     $date = new DateTime($time);
                                                     $formatted_time = $date->format('h:i A');
                                                     echo '<span class="dosage-time">' . htmlspecialchars($formatted_time) . '</span>';
@@ -275,7 +271,6 @@ date_default_timezone_set($client_timezone);
                                             if ($interval) {
                                                 echo htmlspecialchars($interval);
                                             } else {
-                                                // Find the next upcoming time
                                                 $now = new DateTime();
                                                 $next_time = null;
                                                 foreach ($notification_times as $time) {

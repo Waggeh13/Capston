@@ -31,7 +31,6 @@ thead {
     background-color: red;
 }
 
-/* Dark Mode Styles */
 body.dark-mode .doctor-available {
     background: #2c2c2c;
 }

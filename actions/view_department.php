@@ -1,10 +1,8 @@
 <?php
 require("../controllers/department_controller.php");
 
-// Set header first to ensure proper content type
 header('Content-Type: application/json');
 
-// Check if departmentID is set and not empty
 if (isset($_POST['department_id']) && !empty($_POST['department_id'])) {
     $departmentID = $_POST['department_id'];
     

@@ -6,20 +6,15 @@ if (!function_exists('sanitize_input')) {
         return htmlspecialchars(stripslashes(trim($input)));
     }
 }
-
-// Function to view all pending payments
 function viewPendingPaymentsController() {
     $cashier = new Cashier_class();
     return $cashier->getPendingPayments();
 }
-
-// Function to process payment
 function processPaymentController($dispensed_ids, $patient_id, $prescription_id, $total, $cashier_id) {
     $cashier = new Cashier_class();
     return $cashier->processPayment($dispensed_ids, $patient_id, $prescription_id, $total, $cashier_id);
 }
 
-// Function to view recent payments
 function viewRecentPaymentsController() {
     $cashier = new Cashier_class();
     return $cashier->getRecentPayments();

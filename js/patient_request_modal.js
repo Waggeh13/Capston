@@ -1,42 +1,95 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Open modal
-    window.openRequestModal = function() {
-        document.getElementById('requestModal').classList.add('active');
-    };
+    const requestModal = document.getElementById('requestModal');
+    const requestForm = document.getElementById('requestForm');
+    const requestMedicalReportBtn = document.getElementById('requestMedicalReportBtn');
+    const requestCancelBtn = document.getElementById('requestCancelBtn');
+    const requestCancelBtnSecondary = document.getElementById('requestCancelBtnSecondary');
+    const requestSubmitBtn = document.getElementById('requestSubmitBtn');
+    const doctorIdSelect = document.getElementById('doctorId');
+    const hospitalNameInput = document.getElementById('hospitalName');
+    const doctorIdError = document.getElementById('doctorIdError');
+    const hospitalNameError = document.getElementById('hospitalNameError');
 
-    // Close modal
-    window.closeRequestModal = function() {
-        document.getElementById('requestModal').classList.remove('active');
-        // Clear form
-        document.getElementById('requestForm').reset();
-        document.getElementById('hospitalNameError').textContent = '';
-        document.getElementById('doctorIdError').textContent = '';
-    };
+    if (!requestModal || !requestForm || !requestMedicalReportBtn || !requestCancelBtn || 
+        !requestCancelBtnSecondary || !requestSubmitBtn || !doctorIdSelect || 
+        !hospitalNameInput || !doctorIdError || !hospitalNameError) {
+        console.error('One or more required elements are missing.');
+        return;
+    }
 
-    // Submit form
-    window.submitRequestForm = function() {
-        const form = document.getElementById('requestForm');
-        const hospitalName = document.getElementById('hospitalName').value.trim();
-        const doctorId = document.getElementById('doctorId').value;
+    requestMedicalReportBtn.addEventListener('click', openRequestModal);
+    requestCancelBtn.addEventListener('click', closeRequestModal);
+    requestCancelBtnSecondary.addEventListener('click', closeRequestModal);
+    requestSubmitBtn.addEventListener('click', handleFormSubmission);
 
-        // Reset error messages
-        document.getElementById('hospitalNameError').textContent = '';
-        document.getElementById('doctorIdError').textContent = '';
+    function openRequestModal() {
+        requestForm.reset();
+        doctorIdError.textContent = '';
+        hospitalNameError.textContent = '';
+        requestModal.style.display = 'block';
+    }
 
-        let valid = true;
+    function closeRequestModal() {
+        requestModal.style.display = 'none';
+        requestForm.reset();
+        doctorIdError.textContent = '';
+        hospitalNameError.textContent = '';
+    }
 
-        // Validation
-        if (!hospitalName) {
-            document.getElementById('hospitalNameError').textContent = 'Hospital name is required';
-            valid = false;
+    function validateForm() {
+        let isValid = true;
+        doctorIdError.textContent = '';
+        hospitalNameError.textContent = '';
+
+        if (!doctorIdSelect.value) {
+            doctorIdError.textContent = 'Please select a doctor.';
+            isValid = false;
         }
-        if (!doctorId) {
-            document.getElementById('doctorIdError').textContent = 'Please select a doctor';
-            valid = false;
+
+        if (!hospitalNameInput.value.trim()) {
+            hospitalNameError.textContent = 'Please enter a hospital name.';
+            isValid = false;
+        } else if (hospitalNameInput.value.trim().length < 3) {
+            hospitalNameError.textContent = 'Hospital name must be at least 3 characters long.';
+            isValid = false;
         }
 
-        if (valid) {
-            form.submit(); // Submit the form to the server
+        return isValid;
+    }
+
+    async function handleFormSubmission(e) {
+        e.preventDefault();
+        if (!validateForm()) {
+            return;
         }
-    };
+
+        const formData = new FormData(requestForm);
+        try {
+            const response = await fetch('../actions/request_action.php', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            if (data.success) {
+                alert(data.message);
+                closeRequestModal();
+            } else {
+                alert(data.message || 'Failed to submit request: Unknown error');
+            }
+        } catch (error) {
+            console.error('Error submitting request:', error);
+            alert(`Error submitting request: ${error.message}`);
+        }
+    }
+
+    window.addEventListener('click', function(event) {
+        if (event.target === requestModal) {
+            closeRequestModal();
+        }
+    });
 });

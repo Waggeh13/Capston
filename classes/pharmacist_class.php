@@ -3,7 +3,6 @@ require_once("../settings/db_class.php");
 
 class Prescription_class extends db_connection {
 
-    // Get all pending prescriptions with patient, staff, and medication details
     public function getPendingPrescriptions() {
         $sql = "
             SELECT 
@@ -45,7 +44,6 @@ class Prescription_class extends db_connection {
         return $result;
     }
 
-    // Get prescription by ID with patient, staff, and medication details
     public function getPrescriptionById($prescription_id) {
         $prescription_id = mysqli_real_escape_string($this->db_conn(), $prescription_id);
         $sql = "
@@ -88,7 +86,6 @@ class Prescription_class extends db_connection {
         ];
     }
 
-    // Helper function to get medications for a prescription
     private function getPrescriptionMedications($prescription_id) {
         $prescription_id = mysqli_real_escape_string($this->db_conn(), $prescription_id);
         $sql = "
@@ -103,17 +100,14 @@ class Prescription_class extends db_connection {
         return $this->db_fetch_all($sql);
     }
 
-    // Dispense medications and update prescription status
     public function dispenseMedication($prescription_id, $patient_id, $medications, $pharmacist_id) {
         $prescription_id = mysqli_real_escape_string($this->db_conn(), $prescription_id);
         $patient_id = mysqli_real_escape_string($this->db_conn(), $patient_id);
         $pharmacist_id = mysqli_real_escape_string($this->db_conn(), $pharmacist_id);
 
-        // Start transaction
         $this->db_query("START TRANSACTION");
 
         try {
-            // Insert dispensed medications
             foreach ($medications as $med) {
                 $medication_id = mysqli_real_escape_string($this->db_conn(), $med['medication_id']);
                 $quantity = mysqli_real_escape_string($this->db_conn(), $med['quantity']);
@@ -141,7 +135,6 @@ class Prescription_class extends db_connection {
                 }
             }
 
-            // Update prescription status to Dispensed
             $sql = "
                 UPDATE prescription_table
                 SET status = 'Dispensed'
@@ -151,17 +144,14 @@ class Prescription_class extends db_connection {
                 throw new Exception("Failed to update prescription status.");
             }
 
-            // Commit transaction
             $this->db_query("COMMIT");
             return true;
         } catch (Exception $e) {
-            // Rollback transaction on error
             $this->db_query("ROLLBACK");
             throw $e;
         }
     }
 
-    // Delete a prescription
     public function deletePrescription($prescription_id) {
         $prescription_id = mysqli_real_escape_string($this->db_conn(), $prescription_id);
         $sql = "DELETE FROM prescription_table WHERE prescription_id = '$prescription_id'";

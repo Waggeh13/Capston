@@ -4,6 +4,7 @@ include("../controllers/staff_controller.php");
 $response = array("success" => false, "message" => "");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $original_staff_id = sanitize_input($_POST['originalstaffId']);
     $staffId = sanitize_input($_POST['staffId']);
     $firstName = sanitize_input($_POST['firstName']);
     $lastName = sanitize_input($_POST['lastName']);
@@ -13,10 +14,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $contact = sanitize_input($_POST['contact']);
     $email = sanitize_input($_POST['email']);
 
-    $result = updatestaffController($staffId, $firstName, $lastName, $gender, $position, $department_id, $contact,$email);
+    if($original_staff_id== $staffId)
+    {
+        $result= updatestaffController($staffId, $firstName, $lastName, $gender, $position, $department_id, $contact,$email);
+    }else 
+    {
+        $idchange = update_id($original_staff_id, $staffId);
+        if($idchange)
+        {
+            $result= updatestaffController($staffId, $firstName, $lastName, $gender, $position, $department_id, $contact,$email);
+        }
+    }
+
     if ($result) {
         $response["success"] = true;
-        $response["message"] = "staff updated successfully.";
+        $response["message"] = "Staff updated successfully.";
     } else {
         $response["success"] = false;
         $response["message"] = "Error: Unable to update staff. Please try again.";

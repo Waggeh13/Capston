@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../images/bafrow_logo.png" type="image/png">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/sidebar.css">
     <link rel="stylesheet" href="../css/doc_appointment.css">
@@ -13,17 +16,17 @@
 <style>
     .status-dropdown {
     padding: 10px 15px;
-    border: 1px solid #ccc; /* Grey border */
-    border-radius: 8px; /* Rounded edges */
+    border: 1px solid #ccc;
+    border-radius: 8px;
     background-color: white;
     font-size: 16px;
     color: #333;
     cursor: pointer;
     outline: none;
     transition: all 0.3s ease;
-    appearance: none; /* Removes default system styling */
-    -webkit-appearance: none; /* For Safari */
-    -moz-appearance: none; /* For Firefox */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
     background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
     background-repeat: no-repeat;
     background-position: right 10px center;
@@ -39,13 +42,13 @@
     align-items: center;
     }
     .user {
-    display: inline-block;
-    white-space: nowrap;
-    margin-left: 10px;
-    }
-    .fas.fa-bell {
-    margin-left: 1180px;
-    }
+            display: inline-block;
+            white-space: nowrap;
+            margin-left: 10px;
+            position: absolute;
+            right: 150px;
+            overflow: visible;
+        }
     .profile-text{
     color: black;
     }
@@ -131,7 +134,6 @@ $userProfile = new userName_class();
         </div>
         <div class="main">
             <div class="top-bar">
-                <i class="fas fa-bell"></i>
                 <div class="user">
                     <span class="profile-text"><?php echo $userProfile->getUserName(); ?></span>
                 </div>
@@ -160,7 +162,6 @@ $userProfile = new userName_class();
                             </tr>
                         </thead>
                         <tbody id="appointmentsBody">
-                            <!-- Dynamic data will be loaded here -->
                         </tbody>
                     </table>
                 </div>

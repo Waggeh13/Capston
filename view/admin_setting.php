@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../images/bafrow_logo.png" type="image/png">
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/lab_request.css">
-    <link rel="stylesheet" href="../css/lab_container.css">
     <link rel="stylesheet" href="../css/sidebar.css">
     <link rel="stylesheet" href="../css/setting.css">
     <link rel="stylesheet" href="../css/change_password.css">
@@ -33,14 +34,13 @@
     align-items: center;
     }
     .user {
-    display: inline-block;
-    white-space: nowrap;
-    margin-left: 10px;
-    margin-top: 22px;
-    }
-    .fas.fa-bell {
-        margin-left: 1180px;
-    }
+            display: inline-block;
+            white-space: nowrap;
+            margin-left: 10px;
+            position: absolute;
+            right: 150px;
+            overflow: visible;
+        }
     .profile-text{
     color: black;
     font-size: 20px;
@@ -115,14 +115,12 @@ $userProfile = new userName_class();
         </div>
         <div class="main">
             <div class="top-bar">
-                <i class="fas fa-bell"></i>
                 <div class="user">
                     <span id="username"><?php echo $userProfile->getUserName(); ?></span>
                 </div>
             </div>
             <div class="settings-container">
                 <h1>Settings</h1>
-                <!-- Light/Dark Mode Toggle -->
                 <div class="settings-section">
                     <h2>Appearance</h2>
                     <div class="settings-option">
@@ -132,14 +130,12 @@ $userProfile = new userName_class();
                         </div>
                     </div>
                 </div>
-                <!-- Change password -->
                 <div class="settings-section">
                     <h2>Password</h2>
                     <div class="settings-option">
                         <button class="change-password-btn" onclick="openPasswordModal()">Change Password</button>
                     </div>
                 </div>
-                <!-- Language Selection -->
                 <div class="settings-section">
                     <h2>Language</h2>
                     <div class="settings-option">
@@ -152,7 +148,6 @@ $userProfile = new userName_class();
                     </div>
                 </div>
 
-                <!-- Font Size Adjustment -->
                 <div class="settings-section">
                     <h2>Font Size</h2>
                     <div class="settings-option">
@@ -162,7 +157,6 @@ $userProfile = new userName_class();
                 </div>
             </div>
         </div>
-        <!-- Password Reset Modal -->
         <div class="password-modal" id="passwordModal">
             <div class="modal-content">
                 <div class="modal-header">

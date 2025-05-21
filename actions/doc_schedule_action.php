@@ -3,7 +3,6 @@ include("../controllers/doc_schedule_controller.php");
 
 session_start();
 
-// Set header for JSON response
 header('Content-Type: application/json');
 
 $response = array("success" => false, "message" => "");
@@ -19,7 +18,6 @@ try {
         $action = isset($_POST['action']) ? $_POST['action'] : '';
         
         if ($action === 'save') {
-            // Handle save action
             $appointment_date = isset($_POST['date']) ? sanitize_input($_POST['date']) : null;
             $time_slots = isset($_POST['times']) ? json_decode($_POST['times'], true) : [];
             
@@ -43,7 +41,6 @@ try {
             throw new Exception("Invalid action.");
         }
     } elseif ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['action']) && $_GET['action'] === 'get') {
-        // Handle get action
         $date = isset($_GET['date']) ? sanitize_input($_GET['date']) : null;
         
         if (!$date) {

@@ -2,9 +2,8 @@
 require("../controllers/patient_controller.php");
 
 if (isset($_POST['patient_id']) && !empty($_POST['patient_id'])) {
-    $patient_id = intval($_POST['patient_id']);
+    $patient_id = $_POST['patient_id'];
     
-    // Call the delete function from the controller
     $result = deletePatientController($patient_id);
 
     if ($result) {

@@ -61,7 +61,6 @@ class DoctorLabClass extends db_connection {
         $lab_id = mysqli_real_escape_string($conn, $lab_id);
         $doctor_id = mysqli_real_escape_string($conn, $doctor_id);
 
-        // Fetch lab request details
         $sql = "SELECT l.lab_id, l.patient_id, l.staff_id, l.request_date, l.signature, l.extension,
                        CONCAT(p.first_name, ' ', p.last_name) as patient_name,
                        p.DOB, p.Gender,
@@ -97,7 +96,6 @@ class DoctorLabClass extends db_connection {
             return false;
         }
 
-        // Fetch associated tests and results
         $sql_tests = "SELECT ltt.lab_test_id, ltt.test_type_id, tt.test_name, ltt.result,
                              ltt.specimen_received_by, ltt.specimen_date, ltt.specimen_time,
                              ltt.sample_accepted, ltt.lab_tech_signature, ltt.lab_tech_date,

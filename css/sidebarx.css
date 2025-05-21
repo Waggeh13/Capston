@@ -7,7 +7,6 @@
     align-items: center;
 }
 
-/* Mobile Toggle Styles */
 .menu-toggle {
     display: none;
     cursor: pointer;
@@ -20,7 +19,6 @@
     z-index: 3;
 }
 
-/* Dark Mode Styles */
 body.dark-mode .sidebar ul li a {
     color: #e0e0e0;
 }

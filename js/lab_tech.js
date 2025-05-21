@@ -1,12 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Update current date
     function updateCurrentDate() {
         const now = new Date();
         const options = { weekday: 'long', month: 'long', day: 'numeric' };
-        document.getElementById('current-date').textContent = now.toLocaleDateString('en-US', options);
+        const dateElement = document.getElementById('real-time-date');
+        if (dateElement) {
+            dateElement.textContent = now.toLocaleDateString('en-US', options);
+        }
     }
 
-    // Modal functions
     function openRequestModal(labId) {
         fetch('../actions/get_lab_request_by_id.php', {
             method: 'POST',
@@ -17,12 +18,10 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             if (data.success) {
                 const request = data.request;
-                // Populate patient information
                 document.getElementById('patientName').textContent = request.patient_name || 'N/A';
                 document.getElementById('patientId').textContent = request.patient_id || 'N/A';
                 document.getElementById('patientDOB').textContent = request.DOB ? new Date(request.DOB).toLocaleDateString() : 'N/A';
                 
-                // Calculate age
                 const dob = new Date(request.DOB);
                 const ageDiff = Date.now() - dob.getTime();
                 const ageDate = new Date(ageDiff);
@@ -31,12 +30,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 document.getElementById('patientGender').textContent = request.Gender || 'N/A';
 
-                // Populate doctor information
                 document.getElementById('doctorName').textContent = request.doctor_name || 'N/A';
                 document.getElementById('doctorSignature').textContent = request.signature || 'N/A';
                 document.getElementById('requestDate').textContent = request.request_date ? new Date(request.request_date).toLocaleDateString() : 'N/A';
 
-                // Populate test checkboxes with the updated list of 10 tests
                 const testCheckboxes = document.getElementById('testCheckboxes');
                 testCheckboxes.innerHTML = '';
                 const allTests = [
@@ -53,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 ];
 
                 allTests.forEach(test => {
-                    const isChecked = request.tests.some(t => t.test_name === test.name);
+                    const isChecked = request.tests && request.tests.some(t => t.test_name === test.name);
                     const div = document.createElement('div');
                     div.className = 'checkbox-item';
                     div.innerHTML = `
@@ -69,7 +66,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         })
         .catch(error => {
-            console.error('Error fetching lab request:', error);
             alert('Error fetching lab request');
         });
     }
@@ -77,7 +73,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function openResultsModal(labId) {
         document.getElementById('labId').value = labId;
 
-        // Fetch the lab request to get the requested tests
         fetch('../actions/get_lab_request_by_id.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -90,7 +85,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 const dynamicTestResults = document.getElementById('dynamicTestResults');
                 dynamicTestResults.innerHTML = '';
 
-                // Only include tests that were requested
                 if (request.tests && request.tests.length > 0) {
                     request.tests.forEach(test => {
                         const testTypeId = test.test_type_id;
@@ -112,17 +106,17 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         })
         .catch(error => {
-            console.error('Error fetching lab request for results modal:', error);
             alert('Error fetching lab request');
         });
     }
 
     function closeModal() {
-        document.getElementById('requestModal').style.display = 'none';
-        document.getElementById('resultsModal').style.display = 'none';
+        const requestModal = document.getElementById('requestModal');
+        const resultsModal = document.getElementById('resultsModal');
+        if (requestModal) requestModal.style.display = 'none';
+        if (resultsModal) resultsModal.style.display = 'none';
     }
 
-    // Load lab requests
     function loadLabRequests() {
         fetch('../actions/get_lab_requests.php')
         .then(response => response.json())
@@ -131,56 +125,58 @@ document.addEventListener('DOMContentLoaded', function() {
             requestCards.innerHTML = '';
             if (data.success && data.requests && data.requests.length > 0) {
                 data.requests.forEach(request => {
-                    const card = document.createElement('div');
-                    card.className = 'request-card';
-                    card.setAttribute('data-lab-id', request.lab_id);
-                    card.innerHTML = `
-                        <div class="patient-info">
-                            <div class="patient-photo">
-                                <i class="fas fa-user"></i>
+                    try {
+                        const card = document.createElement('div');
+                        card.className = 'request-card';
+                        card.setAttribute('data-lab-id', request.lab_id);
+                        card.innerHTML = `
+                            <div class="patient-info">
+                                <div class="patient-photo">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div>
+                                    <strong>${request.patient_name || 'Unknown'}</strong><br>
+                                    ${request.doctor_name || 'Unknown'}<br>
+                                    <small>${request.request_date ? new Date(request.request_date).toLocaleDateString() : 'N/A'}</small>
+                                </div>
                             </div>
-                            <div>
-                                <strong>${request.patient_name || 'Unknown'}</strong><br>
-                                ${request.doctor_name || 'Unknown'}<br>
-                                <small>${request.request_date ? new Date(request.request_date).toLocaleDateString() : 'N/A'}</small>
+                            <div class="request-actions">
+                                <button class="btn btn-secondary view-request-btn">
+                                    <i class="fas fa-eye"></i> View Request
+                                </button>
+                                <button class="btn btn-primary enter-results-btn">
+                                    <i class="fas fa-flask"></i> Enter Results
+                                </button>
                             </div>
-                        </div>
-                        <div class="request-actions">
-                            <button class="btn btn-secondary view-request-btn">
-                                <i class="fas fa-eye"></i> View Request
-                            </button>
-                            <button class="btn btn-primary enter-results-btn">
-                                <i class="fas fa-flask"></i> Enter Results
-                            </button>
-                        </div>
-                    `;
-                    requestCards.appendChild(card);
+                        `;
+                        requestCards.appendChild(card);
+                    } catch (err) {}
                 });
             } else {
                 requestCards.innerHTML = '<p>No pending lab requests found.</p>';
             }
         })
         .catch(error => {
-            console.error('Error loading lab requests:', error);
             document.getElementById('requestCards').innerHTML = '<p>Error loading lab requests.</p>';
         });
     }
 
-    // Search lab requests
     function searchRequests() {
-        const searchTerm = document.getElementById('searchBar').value.toLowerCase();
-        const cards = document.querySelectorAll('.request-card');
-        cards.forEach(card => {
-            const patientName = card.querySelector('.patient-info div strong').textContent.toLowerCase();
-            if (patientName.includes(searchTerm)) {
-                card.style.display = 'flex';
-            } else {
-                card.style.display = 'none';
-            }
-        });
+        const searchBar = document.getElementById('searchBar');
+        if (searchBar) {
+            const searchTerm = searchBar.value.toLowerCase();
+            const cards = document.querySelectorAll('.request-card');
+            cards.forEach(card => {
+                const patientName = card.querySelector('.patient-info div strong').textContent.toLowerCase();
+                if (patientName.includes(searchTerm)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
     }
 
-    // Handle form submission
     const resultsForm = document.getElementById('resultsForm');
     if (resultsForm) {
         resultsForm.addEventListener('submit', function(e) {
@@ -195,48 +191,65 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (data.success) {
                     alert(data.message);
                     closeModal();
-                    loadLabRequests(); // Reload requests to reflect changes
+                    loadLabRequests();
                 } else {
                     alert('Error submitting results: ' + (data.message || 'Unknown error'));
                 }
             })
             .catch(error => {
-                console.error('Error submitting results:', error);
                 alert('Error submitting results');
             });
         });
     }
 
-    // Event delegation for dynamically generated buttons
-    document.getElementById('requestCards').addEventListener('click', function(e) {
-        const target = e.target.closest('button');
-        if (!target) return;
+    const requestCards = document.getElementById('requestCards');
+    if (requestCards) {
+        requestCards.addEventListener('click', function(e) {
+            const target = e.target.closest('button');
+            if (!target) return;
 
-        const card = target.closest('.request-card');
-        const labId = card ? card.getAttribute('data-lab-id') : null;
+            const card = target.closest('.request-card');
+            const labId = card ? card.getAttribute('data-lab-id') : null;
 
-        if (!labId) return;
+            if (!labId) return;
 
-        if (target.classList.contains('view-request-btn')) {
-            openRequestModal(labId);
-        } else if (target.classList.contains('enter-results-btn')) {
-            openResultsModal(labId);
-        }
-    });
+            if (target.classList.contains('view-request-btn')) {
+                openRequestModal(labId);
+            } else if (target.classList.contains('enter-results-btn')) {
+                openResultsModal(labId);
+            }
+        });
+    }
 
-    // Event listeners for static buttons
-    document.getElementById('logoutBtn').addEventListener('click', function(e) {
-        if (confirm('Are you sure you want to logout?')) {
-            window.location.href = '../actions/logoutactions.php';
-        }
-    });
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function(e) {
+            if (confirm('Are you sure you want to logout?')) {
+                window.location.href = '../actions/logoutactions.php';
+            }
+        });
+    }
 
-    document.getElementById('closeRequestModal').addEventListener('click', closeModal);
-    document.getElementById('closeRequestModalBtn').addEventListener('click', closeModal);
-    document.getElementById('closeResultsModal').addEventListener('click', closeModal);
-    document.getElementById('cancelResultsModalBtn').addEventListener('click', closeModal);
+    const closeRequestModal = document.getElementById('closeRequestModal');
+    if (closeRequestModal) {
+        closeRequestModal.addEventListener('click', closeModal);
+    }
 
-    // Close modals when clicking outside
+    const closeRequestModalBtn = document.getElementById('closeRequestModalBtn');
+    if (closeRequestModalBtn) {
+        closeRequestModalBtn.addEventListener('click', closeModal);
+    }
+
+    const closeResultsModal = document.getElementById('closeResultsModal');
+    if (closeResultsModal) {
+        closeResultsModal.addEventListener('click', closeModal);
+    }
+
+    const cancelResultsModalBtn = document.getElementById('cancelResultsModalBtn');
+    if (cancelResultsModalBtn) {
+        cancelResultsModalBtn.addEventListener('click', closeModal);
+    }
+
     window.addEventListener('click', function(event) {
         if (event.target === document.getElementById('requestModal')) {
             closeModal();
@@ -246,10 +259,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Attach search event listener
-    document.getElementById('searchBar').addEventListener('keyup', searchRequests);
+    const searchBar = document.getElementById('searchBar');
+    if (searchBar) {
+        searchBar.addEventListener('keyup', searchRequests);
+    }
 
-    // Initialize
     updateCurrentDate();
     loadLabRequests();
 });

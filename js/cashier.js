@@ -7,7 +7,9 @@ function updateCurrentDate() {
 function calculateTotal(card) {
     let total = 0;
     card.querySelectorAll('.price-input:not([disabled])').forEach(input => {
-        total += parseFloat(input.value) || 0;
+        const price = parseFloat(input.value) || 0;
+        const quantity = input.dataset.type === 'medication' ? parseInt(input.dataset.quantity) || 1 : 1;
+        total += price * quantity;
     });
     card.querySelector('.total-amount').textContent = 'GMD ' + total.toFixed(2);
     return total;
@@ -29,7 +31,6 @@ function viewDetails(patientId, prescriptionId) {
                 return;
             }
 
-            // Group medications by patient_id and prescription_id
             const groupedPayments = {};
             data.forEach(payment => {
                 const key = `${payment.patient.patient_id}_${payment.prescription_id}`;
@@ -62,7 +63,6 @@ function viewDetails(patientId, prescriptionId) {
                 </div>
             `;
 
-            // Consultation Details
             let consultationHtml = `
                 <h3 style="color: #0054A6; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 5px;">
                     <i class="fas fa-stethoscope"></i> Consultation Details
@@ -84,7 +84,6 @@ function viewDetails(patientId, prescriptionId) {
             }
             document.getElementById('consultationDetails').innerHTML = consultationHtml;
 
-            // Prescription Details
             let prescriptionHtml = `
                 <h3 style="color: #0054A6; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 5px;">
                     <i class="fas fa-prescription-bottle-alt"></i> Prescriptions
@@ -107,7 +106,6 @@ function viewDetails(patientId, prescriptionId) {
             }
             document.getElementById('prescriptionDetails').innerHTML = prescriptionHtml;
 
-            // Lab Test Details
             let labTestHtml = `
                 <h3 style="color: #0054A6; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 5px;">
                     <i class="fas fa-flask"></i> Lab Tests
@@ -133,6 +131,7 @@ function viewDetails(patientId, prescriptionId) {
             document.getElementById('detailsModal').style.display = 'flex';
         })
         .catch(error => {
+            console.error('Error fetching payment details:', error);
             alert('Failed to load payment details.');
         });
 }
@@ -158,7 +157,6 @@ function viewReceipt(receiptId) {
             document.getElementById('receiptDate').textContent = new Date().toLocaleString('en-GB');
             
             let itemsHtml = '';
-            // Medications
             if (data.medications && data.medications.length > 0) {
                 data.medications.forEach(med => {
                     itemsHtml += `
@@ -169,7 +167,6 @@ function viewReceipt(receiptId) {
                     `;
                 });
             }
-            // Consultations
             if (data.consultations && data.consultations.length > 0) {
                 data.consultations.forEach(consult => {
                     itemsHtml += `
@@ -180,7 +177,6 @@ function viewReceipt(receiptId) {
                     `;
                 });
             }
-            // Lab Tests
             if (data.lab_tests && data.lab_tests.length > 0) {
                 data.lab_tests.forEach(test => {
                     itemsHtml += `
@@ -200,6 +196,7 @@ function viewReceipt(receiptId) {
             document.getElementById('receiptModal').style.display = 'flex';
         })
         .catch(error => {
+            console.error('Error fetching receipt details:', error);
             alert('Failed to load receipt details.');
         });
 }
@@ -242,6 +239,7 @@ function processPayment(button) {
         }
     })
     .catch(error => {
+        console.error('Error processing payment:', error);
         alert('Failed to process payment.');
     });
 }
@@ -254,7 +252,6 @@ function closeReceipt() {
     document.getElementById('receiptModal').style.display = 'none';
 }
 
-// Initialize
 updateCurrentDate();
 document.querySelectorAll('.payment-card').forEach(card => {
     calculateTotal(card);
@@ -266,7 +263,6 @@ document.getElementById('logoutBtn').addEventListener('click', function(e) {
     }
 });
 
-// Attach event listeners to View Receipt buttons
 document.querySelectorAll('[id^="view-receipt-"]').forEach(button => {
     const receiptId = button.id.replace('view-receipt-', '');
     button.addEventListener('click', () => viewReceipt(receiptId));

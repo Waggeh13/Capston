@@ -7,10 +7,9 @@ class DoctorDashboard_class extends db_connection {
 
     public function __construct($doctor_id) {
         $this->doctor_id = $doctor_id;
-        $this->current_date = date('Y-m-d'); // Reverted to dynamic date
+        $this->current_date = date('Y-m-d');
     }
 
-    // Card: Today's Appointments
     public function getTodayAppointmentsCount() {
         $sql = "
             SELECT COUNT(*) AS count
@@ -35,8 +34,6 @@ class DoctorDashboard_class extends db_connection {
         mysqli_close($conn);
         return $count;
     }
-
-    // Card: Patients Seen
     public function getPatientsSeenCount() {
         $sql = "
             SELECT COUNT(*) AS count
@@ -62,7 +59,6 @@ class DoctorDashboard_class extends db_connection {
         return $count;
     }
 
-    // Card: Virtual Consultations
     public function getVirtualConsultationsCount() {
         $sql = "
             SELECT COUNT(*) AS count
@@ -89,7 +85,6 @@ class DoctorDashboard_class extends db_connection {
         return $count;
     }
 
-    // Today's Appointments Table
     public function getTodayAppointments() {
         $sql = "
             SELECT 
@@ -122,7 +117,7 @@ class DoctorDashboard_class extends db_connection {
         $appointments = [];
         while ($row = mysqli_fetch_assoc($result)) {
             $row['age'] = $this->calculateAge($row['DOB']);
-            $row['time_slot'] = date('h:i A', strtotime($row['time_slot'])); // Format to '01:00 PM'
+            $row['time_slot'] = date('h:i A', strtotime($row['time_slot']));
             $appointments[] = $row;
         }
         error_log("getTodayAppointments: staff_id={$this->doctor_id}, date={$this->current_date}, rows=" . count($appointments));
@@ -131,7 +126,6 @@ class DoctorDashboard_class extends db_connection {
         return $appointments;
     }
 
-    // Next Patient
     public function getNextPatient() {
         $sql = "
             SELECT 
@@ -166,15 +160,13 @@ class DoctorDashboard_class extends db_connection {
         if ($patient) {
             $patient['age'] = $this->calculateAge($patient['DOB']);
             $patient['dob_formatted'] = date('d F Y', strtotime($patient['DOB']));
-            $patient['time_slot'] = date('h:i A', strtotime($patient['time_slot'])); // Format to '01:00 PM'
+            $patient['time_slot'] = date('h:i A', strtotime($patient['time_slot']));
         }
         error_log("getNextPatient: staff_id={$this->doctor_id}, date={$this->current_date}, patient=" . ($patient ? $patient['patient_id'] : 'none'));
         mysqli_stmt_close($stmt);
         mysqli_close($conn);
         return $patient;
     }
-
-    // Helper: Calculate age
     private function calculateAge($dob) {
         $birthDate = new DateTime($dob);
         $today = new DateTime();

@@ -35,7 +35,6 @@ class getAvailableDoctors_class extends db_connection {
             $result = $stmt->get_result();
             $data = $result->fetch_all(MYSQLI_ASSOC);
             
-            // Debug output
             error_log("Fetched available doctors: " . print_r($data, true));
             
             return is_array($data) ? $data : [];

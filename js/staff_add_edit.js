@@ -1,4 +1,3 @@
-// JavaScript for handling pop-up forms (generalized)
 const addItemBtn = document.getElementById('addItemBtn');
 const addItemForm = document.getElementById('addItemForm');
 const editItemForm = document.getElementById('editItemForm');
@@ -8,19 +7,16 @@ const cancelEditItem = document.getElementById('cancelEditItem');
 const editItemBtn = document.querySelectorAll('.editItemBtn');
 const deleteItemBtn = document.querySelector('.deleteItemBtn');
 
-// Show Add Item Form
 addItemBtn.addEventListener('click', () => {
     addItemForm.classList.add('active');
     overlay.classList.add('active');
 });
 
-// Show Edit Item Form and fetch staff data
 editItemBtn.forEach(btn => {
     btn.addEventListener('click', async () => {
         const staffId = btn.getAttribute('data-staff-id');
         
         try {
-            // Fetch staff data
             const response = await fetch('../actions/view_staff.php', {
                 method: 'POST',
                 headers: {
@@ -35,10 +31,9 @@ editItemBtn.forEach(btn => {
             
             let staffData = await response.json();
             
-            // Since the response is an array, get the first item
             const staff = staffData[0];
             
-            // Populate form fields
+            document.getElementById('originalstaffId').value = staff.staff_id;
             document.getElementById('editStaffId').value = staff.staff_id;
             document.getElementById('editFirstName').value = staff.first_name;
             document.getElementById('editLastName').value = staff.last_name;
@@ -48,7 +43,6 @@ editItemBtn.forEach(btn => {
             document.getElementById('editContact').value = staff.phone;
             document.getElementById('editEmail').value = staff.email;
             
-            // Show the form
             editItemForm.classList.add('active');
             overlay.classList.add('active');
             
@@ -59,7 +53,6 @@ editItemBtn.forEach(btn => {
 });
 
 
-// Close Forms
 cancelAddItem.addEventListener('click', () => {
     addItemForm.classList.remove('active');
     overlay.classList.remove('active');
@@ -76,7 +69,6 @@ overlay.addEventListener('click', () => {
     overlay.classList.remove('active');
 });
 
-// Handle Add Item Form Submission
 document.getElementById('addItem').addEventListener('submit', (e) => {
     e.preventDefault();
 
@@ -109,14 +101,12 @@ document.getElementById('addItem').addEventListener('submit', (e) => {
     });
 });
 
-// Handle Edit Item Form Submission
 document.getElementById('editItem').addEventListener('submit', (e) => {
     e.preventDefault();
 
     var form = document.getElementById("editItem");
     var formData = new FormData(form);
 
-    // Send the data to the server using fetch
     fetch("../actions/update_staff.php", {
         method: "POST",
         body: formData,
@@ -131,10 +121,8 @@ document.getElementById('editItem').addEventListener('submit', (e) => {
     })
     .then((data) => {
         if (data.success) {
-            // Redirect on success
-            location.href = '../view/staff.php';
+            location.reload();
         } else {
-                // Log error and reload page on server-side failure
                 alert("Registration error:", data.message);
                 setTimeout(() => {
                     location.reload();
@@ -147,12 +135,10 @@ document.getElementById('editItem').addEventListener('submit', (e) => {
     overlay.classList.remove('active');
 });
 
-// Handle Delete Item
 document.addEventListener('click', async (e) => {
     if (e.target.classList.contains('deleteItemBtn')) {
         const staffId = e.target.getAttribute('data-staff-id');
-        
-        // Confirm before deleting
+
         if (confirm('Are you sure you want to delete this staff record?')) {
             try {
                 const response = await fetch('../actions/delete_staff.php', {
@@ -160,7 +146,7 @@ document.addEventListener('click', async (e) => {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                    body: `Staff_id=${staffId}`
+                    body: `staff_id=${staffId}`
                 });
                 
                 if (!response.ok) {

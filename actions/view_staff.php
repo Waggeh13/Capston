@@ -1,10 +1,8 @@
 <?php
 require("../controllers/staff_controller.php");
 
-// Set header first to ensure proper content type
 header('Content-Type: application/json');
 
-// Check if staff_id is set and not empty
 if (isset($_POST['staff_id']) && !empty($_POST['staff_id'])) {
     $staff_id = $_POST['staff_id'];
     

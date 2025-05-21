@@ -2,7 +2,6 @@
 require_once("../settings/db_class.php");
 
 class schedule_class extends db_connection {
-    // Add doctor's schedule
     public function add_doctor_schedule($staff_id, $appointment_date, $time_slots) {
         $conn = $this->db_conn();
         
@@ -11,17 +10,14 @@ class schedule_class extends db_connection {
         }
 
         try {
-            // Start transaction
             mysqli_begin_transaction($conn);
 
-            // First, delete any existing schedule for this date
             $delete_sql = "DELETE FROM appointment_table
                         WHERE staff_id = ? AND appointment_date = ?";
             $stmt = mysqli_prepare($conn, $delete_sql);
             mysqli_stmt_bind_param($stmt, "is", $staff_id, $appointment_date);
             mysqli_stmt_execute($stmt);
             
-            // Insert new appointment
             $appointment_sql = "INSERT INTO appointment_table (staff_id, appointment_date) 
                             VALUES (?, ?)";
             $stmt = mysqli_prepare($conn, $appointment_sql);
@@ -33,7 +29,6 @@ class schedule_class extends db_connection {
             
             $appointment_id = mysqli_insert_id($conn);
 
-            // Insert time slots
             foreach ($time_slots as $time) {
                 $timeslot_sql = "INSERT INTO appointment_timeslots (appointment_id, time_slot) 
                                VALUES (?, ?)";
@@ -59,7 +54,6 @@ class schedule_class extends db_connection {
         }
     }
 
-    // Get doctor's schedule for a specific date
     public function get_doctor_schedule_for_date($staff_id, $date) {
         $conn = $this->db_conn();
         
@@ -83,7 +77,6 @@ class schedule_class extends db_connection {
         return $time_slots;
     }
 
-    // Get all doctor's schedules
     public function get_doctor_schedule($staff_id) {
         $conn = $this->db_conn();
         
@@ -109,7 +102,6 @@ class schedule_class extends db_connection {
         return $rows;
     }
 
-    // Get all doctors with schedules
     public function get_doctors_with_schedules() {
         $conn = $this->db_conn();
         
@@ -129,7 +121,6 @@ class schedule_class extends db_connection {
         return $doctors;
     }
 
-    // Get available dates for a doctor
     public function get_doctor_available_dates($staff_id) {
         $conn = $this->db_conn();
         

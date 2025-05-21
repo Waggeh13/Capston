@@ -4,7 +4,6 @@ require("../controllers/clinic_controller.php");
 if (isset($_POST['clinic_id']) && !empty($_POST['clinic_id'])) {
     $clinic_id = intval($_POST['clinic_id']);
     
-    // Call the delete function from the controller
     $result = deleteclinicController($clinic_id);
 
     if ($result) {

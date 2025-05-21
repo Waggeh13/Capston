@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../images/bafrow_logo.png" type="image/png">
     <title>Settings - BafrowCare</title>
     <link rel="stylesheet" href="../css/pharmacist_header.css">
     <link rel="stylesheet" href="../css/setting.css">
@@ -49,7 +52,6 @@ $userProfile = new userName_class();
 
         <div class="settings-container">
             <h1>Settings</h1>
-            <!-- Light/Dark Mode Toggle -->
             <div class="settings-section">
                 <h2>Appearance</h2>
                 <div class="settings-option">
@@ -59,14 +61,12 @@ $userProfile = new userName_class();
                     </div>
                 </div>
             </div>
-            <!-- Change Password -->
             <div class="settings-section">
                 <h2>Password</h2>
                 <div class="settings-option">
                     <button class="change-password-btn" onclick="openPasswordModal()">Change Password</button>
                 </div>
             </div>
-            <!-- Language Selection -->
             <div class="settings-section">
                 <h2>Language</h2>
                 <div class="settings-option">
@@ -78,7 +78,6 @@ $userProfile = new userName_class();
                     </select>
                 </div>
             </div>
-            <!-- Font Size Adjustment -->
             <div class="settings-section">
                 <h2>Font Size</h2>
                 <div class="settings-option">
@@ -88,7 +87,6 @@ $userProfile = new userName_class();
             </div>
         </div>
 
-        <!-- Password Reset Modal -->
     <div class="password-modal" id="passwordModal">
         <div class="modal-content">
             <div class="modal-header">

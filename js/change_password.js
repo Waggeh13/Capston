@@ -11,7 +11,6 @@ function closePasswordModal() {
     const modal = document.getElementById('passwordModal');
     if (modal) {
         modal.style.display = 'none';
-        // Reset the form and error messages
         document.getElementById('PasswordForm').reset();
         document.getElementById('currentPasswordError').style.display = 'none';
         document.getElementById('newPasswordError').style.display = 'none';
@@ -23,7 +22,6 @@ function closePasswordModal() {
     }
 }
 
-// Close modal when clicking outside
 window.onclick = function(event) {
     const modal = document.getElementById('passwordModal');
     if (event.target === modal) {
@@ -31,7 +29,6 @@ window.onclick = function(event) {
     }
 }
 
-// Form Validation and Submission
 function validatePasswordForm(event) {
     event.preventDefault();
 
@@ -43,19 +40,16 @@ function validatePasswordForm(event) {
     const newPasswordError = document.getElementById('newPasswordError');
     const confirmPasswordError = document.getElementById('confirmPasswordError');
 
-    // Reset error messages
     currentPasswordError.style.display = 'none';
     newPasswordError.style.display = 'none';
     confirmPasswordError.style.display = 'none';
 
-    // Validate current password
     if (currentPassword.trim() === '') {
         currentPasswordError.textContent = 'Current password is required';
         currentPasswordError.style.display = 'block';
         return false;
     }
 
-    // Validate new password
     if (newPassword.trim() === '') {
         newPasswordError.textContent = 'New password is required';
         newPasswordError.style.display = 'block';
@@ -68,7 +62,6 @@ function validatePasswordForm(event) {
         return false;
     }
 
-    // Check password strength (already handled in real-time, but ensure it meets minimum criteria)
     const passwordStrength = calculatePasswordStrength(newPassword);
     if (passwordStrength === 'Weak') {
         newPasswordError.textContent = 'Password is too weak. Include numbers, special characters, and uppercase letters.';
@@ -76,14 +69,12 @@ function validatePasswordForm(event) {
         return false;
     }
 
-    // Validate confirm password
     if (newPassword !== confirmPassword) {
         confirmPasswordError.textContent = 'New passwords do not match';
         confirmPasswordError.style.display = 'block';
         return false;
     }
 
-    // Submit the form via AJAX
     const formData = new FormData();
     formData.append('currentPassword', currentPassword);
     formData.append('newPassword', newPassword);
@@ -115,7 +106,6 @@ function validatePasswordForm(event) {
     return false;
 }
 
-// Real-time Password Strength Calculation
 function calculatePasswordStrength(password) {
     let strength = 'Weak';
     let score = 0;
@@ -136,7 +126,6 @@ function calculatePasswordStrength(password) {
     return strength;
 }
 
-// Real-time Password Strength Feedback
 function updatePasswordStrength() {
     const newPassword = document.getElementById('newPassword').value;
     const passwordStrengthElement = document.getElementById('passwordStrength');
@@ -152,9 +141,7 @@ function updatePasswordStrength() {
     }
 }
 
-// Attach event listeners
 document.addEventListener('DOMContentLoaded', function() {
-    // Submit button listener
     const submitBtn = document.getElementById('submitBtn');
     if (submitBtn) {
         submitBtn.addEventListener('click', validatePasswordForm);
@@ -162,7 +149,6 @@ document.addEventListener('DOMContentLoaded', function() {
         alert('Submit button not found');
     }
 
-    // Real-time password strength listener
     const newPasswordInput = document.getElementById('newPassword');
     if (newPasswordInput) {
         newPasswordInput.addEventListener('input', updatePasswordStrength);

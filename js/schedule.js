@@ -48,8 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 this.classList.add('selected');
                 timeSlots.forEach(slot => slot.disabled = false);
                 timeSlots.forEach(slot => slot.classList.remove('selected'));
-                
-                // Load existing schedule for selected date
+
                 loadExistingSchedule(selectedDate);
             });
         });
@@ -65,14 +64,12 @@ document.addEventListener('DOMContentLoaded', function () {
     function loadExistingSchedule(date) {
         const formattedDate = date.toISOString().split('T')[0];
         
-        fetch('actions/doc_schedule_action.php?action=get&date=' + formattedDate)
+        fetch('../actions/doc_schedule_action.php?action=get&date=' + formattedDate)
             .then(response => response.json())
             .then(data => {
                 if (data.success && data.schedule) {
-                    // Clear all selected time slots
                     timeSlots.forEach(slot => slot.classList.remove('selected'));
                     
-                    // Mark the existing time slots as selected
                     data.schedule.forEach(time => {
                         const timeSlot = document.querySelector(`.time-slot[data-time="${time}"]`);
                         if (timeSlot) {
@@ -123,16 +120,13 @@ document.addEventListener('DOMContentLoaded', function () {
         const selectedTimes = Array.from(document.querySelectorAll('.time-slot.selected'))
             .map(slot => slot.getAttribute('data-time'));
 
-        // Format date for database (YYYY-MM-DD)
         const formattedDate = selectedDate.toISOString().split('T')[0];
         
-        // Create FormData object to send data
         const formData = new FormData();
         formData.append('action', 'save');
         formData.append('date', formattedDate);
         formData.append('times', JSON.stringify(selectedTimes));
 
-        // Send to backend
         fetch('../actions/doc_schedule_action.php', {
             method: 'POST',
             body: formData

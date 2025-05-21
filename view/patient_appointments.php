@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../images/bafrow_logo.png" type="image/png">
     <title>Patient Appointments</title>
     <link rel="stylesheet" href="../css/data.css">
     <link rel="stylesheet" href="../css/sidebar.css">
@@ -22,13 +25,13 @@
     align-items: center;
     }
     .user {
-    display: inline-block;
-    white-space: nowrap;
-    margin-left: 10px;
-    }
-    .fas.fa-bell {
-        margin-left: 1180px;
-    }
+            display: inline-block;
+            white-space: nowrap;
+            margin-left: 10px;
+            position: absolute;
+            right: 150px;
+            overflow: visible;
+        }
     .profile-text{
     color: black;
     }
@@ -45,7 +48,6 @@ $userProfile = new userName_class();
 ?>
 <body>
     <div class="container">
-        <!-- Sidebar Navigation -->
         <div class="sidebar">
             <ul>
                 <li>
@@ -99,18 +101,14 @@ $userProfile = new userName_class();
             </ul>
         </div>
 
-        <!-- Main Content Area -->
         <div class="main">
             <div class="top-bar">
-                <i class="fas fa-bell"></i>
                 <div class="user">
                     <span class="profile-text"><?php echo $userProfile->getUserName(); ?></span>
                 </div>
             </div>
             
-            <!-- Main Content -->
             <div class="main-content">
-                <!-- Appointments Card -->
                 <div class="card">
                     <div class="card-header">
                         <h2 class="card-title">My Appointments</h2>
@@ -132,7 +130,6 @@ $userProfile = new userName_class();
                                 </tr>
                             </thead>
                             <tbody id="appointmentsBody">
-                                <!-- Dynamic data will be loaded here -->
                             </tbody>
                         </table>
                     </div>
@@ -141,7 +138,6 @@ $userProfile = new userName_class();
         </div>
     </div>
     
-    <!-- Add Appointment Modal -->
     <div id="addAppointmentModal" class="modal">
         <div class="modal-content">
             <h2>Add Appointment</h2>
@@ -164,14 +160,12 @@ $userProfile = new userName_class();
                     <label for="addAppointmentDate">Appointment Date</label>
                     <select id="addAppointmentDate" name="appointmentDate" required>
                         <option value="">Select a date</option>
-                        <!-- Populated dynamically -->
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="addAppointmentTime">Appointment Time</label>
                     <select id="addAppointmentTime" name="appointmentTime" required>
                         <option value="">Select a time</option>
-                        <!-- Populated dynamically -->
                     </select>
                 </div>
                 <div class="form-group">
@@ -204,7 +198,6 @@ $userProfile = new userName_class();
         </div>
     </div>
     
-    <!-- Edit Appointment Modal -->
     <div id="editAppointmentModal" class="modal">
         <div class="modal-content">
             <h2>Edit Appointment</h2>
@@ -228,14 +221,12 @@ $userProfile = new userName_class();
                     <label for="editAppointmentDate">Appointment Date</label>
                     <select id="editAppointmentDate" name="appointmentDate" required>
                         <option value="">Select a date</option>
-                        <!-- Populated dynamically -->
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="editAppointmentTime">Appointment Time</label>
                     <select id="editAppointmentTime" name="appointmentTime" required>
                         <option value="">Select a time</option>
-                        <!-- Populated dynamically -->
                     </select>
                 </div>
                 <div class="form-group">
@@ -268,7 +259,6 @@ $userProfile = new userName_class();
         </div>
     </div>
     
-    <!-- Confirmation Modal -->
     <div id="confirmModal" class="modal">
         <div class="modal-content" style="max-width: 400px;">
             <h3>Confirm Cancellation</h3>

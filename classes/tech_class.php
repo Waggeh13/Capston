@@ -2,7 +2,7 @@
 require_once("../settings/db_class.php");
 
 class LabClass extends db_connection {
-    // Fetch all pending lab requests
+
     public function getPendingLabRequests() {
         $conn = $this->db_conn();
         if ($conn === false) {
@@ -38,7 +38,6 @@ class LabClass extends db_connection {
         return $requests;
     }
 
-    // Fetch a specific lab request by lab_id
     public function getLabRequestById($lab_id) {
         $conn = $this->db_conn();
         if ($conn === false) {
@@ -48,7 +47,6 @@ class LabClass extends db_connection {
 
         $lab_id = mysqli_real_escape_string($conn, $lab_id);
 
-        // Fetch lab request details
         $sql = "SELECT lt.lab_id, lt.patient_id, lt.staff_id, lt.request_date, lt.signature,
                        CONCAT(p.first_name, ' ', p.last_name) as patient_name,
                        p.DOB, p.Gender,
@@ -84,7 +82,6 @@ class LabClass extends db_connection {
             return false;
         }
 
-        // Fetch associated tests
         $sql_tests = "SELECT ltt.lab_test_id, ltt.test_type_id, tt.test_name
                       FROM lab_test_table ltt
                       JOIN test_type_table tt ON ltt.test_type_id = tt.test_type_id
@@ -119,7 +116,6 @@ class LabClass extends db_connection {
         return $request;
     }
 
-    // Submit lab results
     public function submitLabResults($lab_id, $lab_tech_id, $results, $specimen_received_by, $specimen_date, $specimen_time, $sample_accepted, $lab_tech_signature, $lab_tech_date, $supervisor_signature, $supervisor_date) {
         $conn = $this->db_conn();
         if ($conn === false) {
@@ -130,7 +126,6 @@ class LabClass extends db_connection {
         try {
             mysqli_begin_transaction($conn);
 
-            // Validate lab_tech_id exists in staff_table
             if ($lab_tech_id) {
                 $sql_check = "SELECT staff_id FROM staff_table WHERE staff_id = ?";
                 $stmt_check = mysqli_prepare($conn, $sql_check);
@@ -146,7 +141,6 @@ class LabClass extends db_connection {
                 mysqli_stmt_close($stmt_check);
             }
 
-            // Fetch all lab tests for the given lab_id
             $sql = "SELECT lab_test_id, test_type_id FROM lab_test_table WHERE lab_id = ?";
             $stmt = mysqli_prepare($conn, $sql);
             if ($stmt === false) {
@@ -166,7 +160,6 @@ class LabClass extends db_connection {
             }
             mysqli_stmt_close($stmt);
 
-            // Update each test result
             $update_sql = "UPDATE lab_test_table 
                           SET result = ?, result_status = 'Completed',
                               specimen_received_by = ?, specimen_date = ?, specimen_time = ?, 

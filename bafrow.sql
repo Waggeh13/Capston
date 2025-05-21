@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 20, 2025 at 04:06 PM
+-- Generation Time: Apr 21, 2025 at 12:11 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -515,8 +515,8 @@ CREATE TABLE `user_table` (
 --
 
 INSERT INTO `user_table` (`user_id`, `password`, `role`) VALUES
-('12345678', '$2y$10$lddjxVm7VReYtJgsVS6GSeDYtzES.qOAiSOACuH3AH.nn9lcmS2/.', 'Patient'),
-('13456789', '$2y$10$lddjxVm7VReYtJgsVS6GSeDYtzES.qOAiSOACuH3AH.nn9lcmS2/.', 'Patient'),
+('12345678', '$2y$10$qluyAZNMTux0yNwVJ0nocuSjiI2AsmxzHUl.GMp4MFstFxLks2ayS', 'Patient'),
+('13456789', '$2y$10$03H5u/lPVcSDE8bUFDFPZ.iZecrZkGE2YUH4.J61EKDTzGvejMdqq', 'Patient'),
 ('238983009', '$2y$10$o6EDE7J18uvRUKTrh3kzReFGi1eW0UFZCC7c7XTm5xQZFDpaGdBQ6', 'Doctor'),
 ('45678956', '$2y$10$bAuI/QQklqgBk5bfaNn4zekFn8/P3Q626TuazNIcq50XxMF2FA3v6', 'Cashier'),
 ('62374434', '$2y$10$tH3AMK4whtrQ.Y7h7/RuYO1yYeSXIwSNjoWfcbcrUcqNhei1aKcRy', 'Lab Technician'),

@@ -7,7 +7,6 @@
     color: #888;
 }
 
-/* Dark Mode Styles */
 body.dark-mode .input-box i {
-    color: #ccc; /* Lighter color for visibility in dark mode */
+    color: #ccc;
 }

@@ -1,13 +1,10 @@
 <?php
 require("../controllers/pharmacist_controller.php");
 
-// Set header to ensure proper content type
 header('Content-Type: application/json');
 
-// Get JSON input from the request body
 $input = json_decode(file_get_contents('php://input'), true);
 
-// Check if prescription_id is set and not empty
 if (isset($input['prescription_id']) && !empty($input['prescription_id'])) {
     $prescriptionId = $input['prescription_id'];
     

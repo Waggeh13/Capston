@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../images/bafrow_logo.png" type="image/png">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/style_adminDoctor.css">
     <link rel="stylesheet" href="../css/sidebar.css">
@@ -28,14 +31,13 @@ $userProfile = new userName_class();
     align-items: center;
     }
     .user {
-    display: inline-block;
-    white-space: nowrap;
-    margin-left: 10px;
-    margin-top: 22px;
-    }
-    .fas.fa-bell {
-        margin-left: 1180px;
-    }
+            display: inline-block;
+            white-space: nowrap;
+            margin-left: 10px;
+            position: absolute;
+            right: 150px;
+            overflow: visible;
+        }
     .profile-text{
     color: black;
     font-size: 20px;
@@ -103,7 +105,6 @@ $userProfile = new userName_class();
         </div>
         <div class="main">
             <div class="top-bar">
-                <i class="fas fa-bell"></i>
                 <div class="user">
                     <span id="username"><?php echo $userProfile->getUserName(); ?></span>
                 </div>
@@ -141,12 +142,10 @@ $userProfile = new userName_class();
                 </table>
             </div>
         </div>
-        <!-- Add Department Pop-up Form -->
         <div class="overlay" id="overlay"></div>
         <div class="popup-form" id="addItemForm">
             <h3>Add Department</h3>
             <form id="addItem">
-                <!-- Department Details -->
                 <input type="text" id="departmentId" name="departmentId" placeholder="Department ID" required>
                 <input type="text" id="departmentName" name="departmentName" placeholder="Department Name" required>
 
@@ -155,11 +154,9 @@ $userProfile = new userName_class();
             </form>
         </div>
 
-        <!-- Edit Department Pop-up Form -->
         <div class="popup-form" id="editItemForm">
             <h3>Edit Department</h3>
             <form id="editItem">
-                <!-- Department Details -->
                 <input type="hidden" id="editDepartmentId" name="editdepartmentId">
                 <input type="text" id="editDepartmentName" name="editdepartmentName" placeholder="Department Name" required>
                 <button type="submit">Update</button>

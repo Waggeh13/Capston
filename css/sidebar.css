@@ -49,7 +49,6 @@
     font-size: 20px;
 }
 
-/* Responsive Styles */
 @media(max-width: 1200px){
     .cards {
         grid-template-columns: repeat(3, 1fr);
@@ -188,7 +187,6 @@
     }
 }
 
-/* Dark Mode Styles */
 body.dark-mode .sidebar {
     background: #003d7a;
     box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);

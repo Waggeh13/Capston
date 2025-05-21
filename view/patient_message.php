@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../images/bafrow_logo.png" type="image/png">
     <link rel="stylesheet" href="../css/lab_request.css">
     <link rel="stylesheet" href="../css/message.css">
     <link rel="stylesheet" href="../css/sidebar.css">
@@ -36,12 +39,12 @@
             display: none;
         }
         .user {
-        display: inline-block;
-        white-space: nowrap;
-        margin-left: 10px;
-        }
-        .fas.fa-bell {
-        margin-left: 1180px;
+            display: inline-block;
+            white-space: nowrap;
+            margin-left: 10px;
+            position: absolute;
+            right: 150px;
+            overflow: visible;
         }
         .profile-text{
         color: black;
@@ -157,13 +160,11 @@ $selected_doctor_name = $selected_doctor_id ? $db->getContactName($selected_doct
     </div>
     <div class="main">
         <div class="top-bar">
-            <i class="fas fa-bell"></i>
             <div class="user">
                 <span class="profile-text"><?php echo htmlspecialchars($userProfile->getUserName()); ?></span>
             </div>
         </div>
         <div class="message-container">
-            <!-- Chat List (Left Side) -->
             <div class="chat-list">
                 <div class="chat-list-header">Chats</div>
                 <div class="search-bar">
@@ -180,7 +181,6 @@ $selected_doctor_name = $selected_doctor_id ? $db->getContactName($selected_doct
                     </div>
                 <?php endforeach; ?>
             </div>
-            <!-- Chat Window (Right Side) -->
             <div class="chat-window">
                 <div class="chat-header"><?php echo htmlspecialchars($selected_doctor_name); ?></div>
                 <div class="chat-messages">

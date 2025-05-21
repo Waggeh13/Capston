@@ -49,7 +49,6 @@ class prescription_notification_class extends db_connection {
             return false;
         }
 
-        // Set created_at in client's timezone
         $original_timezone = date_default_timezone_get();
         date_default_timezone_set($client_timezone);
         $created_at = date('Y-m-d H:i:s');

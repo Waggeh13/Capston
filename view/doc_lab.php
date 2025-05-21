@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../images/bafrow_logo.png" type="image/png">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/sidebar.css">
     <link rel="stylesheet" href="../css/lab.css">
@@ -20,13 +23,13 @@
     align-items: center;
     }
     .user {
-    display: inline-block;
-    white-space: nowrap;
-    margin-left: 10px;
-    }
-    .fas.fa-bell {
-    margin-left: 1180px;
-    }
+            display: inline-block;
+            white-space: nowrap;
+            margin-left: 10px;
+            position: absolute;
+            right: 150px;
+            overflow: visible;
+        }
     .profile-text{
     color: black;
     }
@@ -117,7 +120,6 @@ $userProfile = new userName_class();
                 </div>
             </div>
             
-            <!-- Lab Content Section -->
             <div class="lab-content">
                 <div class="lab-results-header">
                     <div class="header-content">
@@ -140,20 +142,17 @@ $userProfile = new userName_class();
                             </tr>
                         </thead>
                         <tbody id="labRequestsTableBody">
-                            <!-- Lab requests will be populated dynamically -->
                         </tbody>
                     </table>
                 </div>
             </div>
     
-            <!-- Lab Request Modal -->
             <div id="labModal" class="modal">
                 <div class="modal-content">
                     <span class="close">×</span>
                     <h2>BAFROW HEMATOLOGY REQUEST FORM</h2>
 
                     <form action="#" id="labRequestForm" class="form">
-                        <!-- Section 1: PATIENT INFORMATION -->
                         <div class="form-section">
                             <h3>PATIENT INFORMATION</h3>
                             <div class="input-row">
@@ -176,7 +175,6 @@ $userProfile = new userName_class();
                             </div>
                         </div>
 
-                        <!-- Section 2: ORDERING PHYSICIAN INFORMATION -->
                         <div class="form-section">
                             <h3>ORDERING PHYSICIAN INFORMATION</h3>
                             <div class="input-row">
@@ -195,7 +193,6 @@ $userProfile = new userName_class();
                             </div>
                         </div>
 
-                        <!-- TEST REQUESTS -->
                         <div class="form-section">
                             <h3>TEST REQUESTS</h3>
                             <div class="checkbox-group">
@@ -222,14 +219,12 @@ $userProfile = new userName_class();
                 </div>
             </div>
 
-            <!-- Results Modal -->
             <div id="resultsModal" class="modal">
                 <div class="modal-content">
                     <span class="close">×</span>
                     <h2>BAFROW HEMATOLOGY RESULTS</h2>
                     
                     <div class="results-form">
-                        <!-- Patient Info -->
                         <div class="form-section">
                             <h3>PATIENT INFORMATION</h3>
                             <div class="input-row">
@@ -254,7 +249,6 @@ $userProfile = new userName_class();
                             </div>
                         </div>
                         
-                        <!-- Doctor Info -->
                         <div class="form-section">
                             <h3>ORDERING PHYSICIAN INFORMATION</h3>
                             <div class="input-row">
@@ -279,7 +273,6 @@ $userProfile = new userName_class();
                             </div>
                         </div>
                         
-                        <!-- Test Results -->
                         <div class="form-section">
                             <h3>TEST RESULTS</h3>
                             <table>
@@ -330,7 +323,6 @@ $userProfile = new userName_class();
                             </table>
                         </div>
                         
-                        <!-- Laboratory Use Section -->
                         <div class="form-section">
                             <h3>FOR LABORATORY USE ONLY</h3>
                             <div class="input-row">

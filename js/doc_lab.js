@@ -1,15 +1,12 @@
-// Modal functionality
 const labModal = document.getElementById("labModal");
 const resultsModal = document.getElementById("resultsModal");
 const newRequestBtn = document.getElementById("newRequestBtn");
 const closeButtons = document.querySelectorAll(".close");
 
-// Open lab request modal
 newRequestBtn.onclick = function() {
     labModal.style.display = "block";
 }
 
-// Close modals
 closeButtons.forEach(button => {
     button.onclick = function() {
         labModal.style.display = "none";
@@ -17,7 +14,6 @@ closeButtons.forEach(button => {
     }
 });
 
-// Close modals when clicking outside
 window.onclick = function(event) {
     if (event.target == labModal) {
         labModal.style.display = "none";
@@ -27,7 +23,6 @@ window.onclick = function(event) {
     }
 }
 
-// Load lab requests for the logged-in doctor
 function loadLabRequests() {
     fetch('../actions/get_doctor_lab_requests.php')
         .then(response => response.json())
@@ -49,7 +44,6 @@ function loadLabRequests() {
                     tableBody.appendChild(row);
                 });
 
-                // Attach click event listeners to the new rows
                 const resultItems = document.querySelectorAll(".result-item");
                 resultItems.forEach(item => {
                     item.addEventListener("click", function() {
@@ -66,7 +60,6 @@ function loadLabRequests() {
         });
 }
 
-// Open results modal and fetch result details
 function openResultsModal(labId) {
     fetch('../actions/get_doctor_lab_result_by_id.php', {
         method: 'POST',
@@ -78,25 +71,21 @@ function openResultsModal(labId) {
         if (data.success) {
             const result = data.result;
 
-            // Populate patient information
             document.getElementById('resultPatientId').textContent = result.patient_id || 'N/A';
             document.getElementById('resultPatientName').textContent = result.patient_name || 'N/A';
             document.getElementById('resultPatientGender').textContent = result.Gender || 'N/A';
 
-            // Calculate age
             const dob = new Date(result.DOB);
             const ageDiff = Date.now() - dob.getTime();
             const ageDate = new Date(ageDiff);
             const age = Math.abs(ageDate.getUTCFullYear() - 1970);
             document.getElementById('resultPatientAge').textContent = age ? `${age} years` : 'N/A';
 
-            // Populate doctor information
             document.getElementById('resultDoctorName').textContent = result.doctor_name || 'N/A';
             document.getElementById('resultDoctorSignature').textContent = result.signature || 'N/A';
             document.getElementById('resultDoctorExtension').textContent = result.extension || 'N/A';
             document.getElementById('resultRequestDate').textContent = result.request_date ? new Date(result.request_date).toLocaleDateString() : 'N/A';
 
-            // Reset all test result fields to blank
             const testFields = [
                 'resultHaemoglobin', 'resultFullBloodCount', 'resultBloodFilm', 'resultBloodGroup', 'resultRetics',
                 'resultSickleTest', 'resultHbGenotype', 'resultPT', 'resultAPTT', 'resultINR'
@@ -105,7 +94,6 @@ function openResultsModal(labId) {
                 document.getElementById(field).textContent = '';
             });
 
-            // Populate test results that exist
             if (result.tests && result.tests.length > 0) {
                 result.tests.forEach(test => {
                     switch (test.test_name) {
@@ -142,7 +130,6 @@ function openResultsModal(labId) {
                     }
                 });
 
-                // Populate laboratory use section (using the first test's data, assuming consistency)
                 const firstTest = result.tests[0];
                 document.getElementById('resultSpecimenReceivedBy').textContent = firstTest.specimen_received_by || 'N/A';
                 document.getElementById('resultSpecimenDate').textContent = firstTest.specimen_date ? new Date(firstTest.specimen_date).toLocaleDateString() : 'N/A';
@@ -155,7 +142,6 @@ function openResultsModal(labId) {
                     ? `${firstTest.supervisor_signature} / ${new Date(firstTest.supervisor_date).toLocaleDateString()}` 
                     : 'N/A';
             } else {
-                // If no test results, leave all fields blank
                 document.getElementById('resultSpecimenReceivedBy').textContent = 'N/A';
                 document.getElementById('resultSpecimenDate').textContent = 'N/A';
                 document.getElementById('resultSpecimenTime').textContent = 'N/A';
@@ -174,19 +160,15 @@ function openResultsModal(labId) {
     });
 }
 
-// Handle lab request form submission (unchanged)
 document.getElementById('labRequestForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
-    // Prevent multiple submissions
     const submitButton = this.querySelector('button[type="submit"]');
-    if (submitButton.disabled) return; // Exit if already submitting
+    if (submitButton.disabled) return;
     submitButton.disabled = true;
 
-    // Get form data
     const formData = new FormData();
 
-    // Manually append all fields except testRequest to avoid duplication
     formData.append('firstName', document.getElementById('firstName').value);
     formData.append('lastName', document.getElementById('lastName').value);
     formData.append('diagnosis', document.getElementById('diagnosis').value);
@@ -195,17 +177,14 @@ document.getElementById('labRequestForm').addEventListener('submit', function(e)
     formData.append('extension', document.getElementById('extension').value);
     formData.append('requestDate', document.getElementById('requestDate').value);
 
-    // Get test requests (only once, deduplicated)
     const testRequests = [...new Set(
         Array.from(document.querySelectorAll('input[name="testRequest[]"]:checked')).map(el => el.value)
-    )]; // Use Set to ensure uniqueness
+    )];
 
-    // Append test requests to form data
     testRequests.forEach(test => {
         formData.append('testRequest[]', test);
     });
 
-    // Send AJAX request
     fetch('../actions/lab_form_action.php', {
         method: 'POST',
         body: formData
@@ -224,7 +203,7 @@ document.getElementById('labRequestForm').addEventListener('submit', function(e)
             alert('Lab request submitted successfully!');
             labModal.style.display = "none";
             this.reset();
-            loadLabRequests(); // Reload the table after submitting a new request
+            loadLabRequests();
         } else {
             alert('Error: ' + data.message);
         }
@@ -237,7 +216,6 @@ document.getElementById('labRequestForm').addEventListener('submit', function(e)
     });
 });
 
-// Initialize by loading lab requests
 document.addEventListener('DOMContentLoaded', function() {
     loadLabRequests();
 });

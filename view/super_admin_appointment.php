@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../images/bafrow_logo.png" type="image/png">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/style_adminDoctor.css">
     <link rel="stylesheet" href="../css/sidebar.css">
@@ -17,6 +20,25 @@ require_once('../settings/core.php');
 redirect_superadmin_if_not_logged_in();
 ?>
 <style>
+    .user {
+            display: inline-block;
+            white-space: nowrap;
+            margin-left: 10px;
+            position: absolute;
+            right: 150px;
+            overflow: visible;
+        }
+    .profile-text{
+    color: black;
+    }
+    .sidebar ul li a {
+    width: 100%;
+    text-decoration: none;
+    color: #fff;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    }
     .user {
     display: inline-block;
     white-space: nowrap;
@@ -97,13 +119,8 @@ redirect_superadmin_if_not_logged_in();
         </div>
         <div class="main">
             <div class="top-bar">
-                <div class="search">
-                    <input type="text" name="search" placeholder="search here">
-                    <label for="search"><i class="fas fa-search"></i></label>
-                </div>
-                <i class="fas fa-bell"></i>
                 <div class="user">
-                    <span class="profile-text">Profile</span>
+                    <span class="profile-text">Fatou Waggeh</span>
                 </div>
             </div>
             <div class="doctor-available">
@@ -123,12 +140,10 @@ redirect_superadmin_if_not_logged_in();
                         <td>Action</td>
                     </thead>
                     <tbody>
-                        <!-- Dynamic data will be loaded here -->
                     </tbody>
                 </table>
             </div>
         </div>
-        <!-- Add Appointment Pop-up Form -->
         <div class="overlay" id="overlay"></div>
         <div class="popup-form" id="addItemForm">
             <h3>Add Appointment</h3>
@@ -152,13 +167,11 @@ redirect_superadmin_if_not_logged_in();
                 <label for="appointmentDate">Appointment Date:</label>
                 <select id="appointmentDate" name="appointmentDate" required>
                     <option value="">Select a date</option>
-                    <!-- Dates will be populated dynamically -->
                 </select>
 
                 <label for="appointmentTime">Appointment Time:</label>
                 <select id="appointmentTime" name="appointmentTime" required>
                     <option value="">Select a time</option>
-                    <!-- Times will be populated dynamically -->
                 </select>
 
                 <input type="hidden" name="appointmentType" value="inPerson">
@@ -181,7 +194,6 @@ redirect_superadmin_if_not_logged_in();
             </form>
         </div>
 
-        <!-- Edit Appointment Pop-up Form -->
         <div class="popup-form" id="editItemForm">
             <h3>Edit Appointment</h3>
             <form id="editItem">
@@ -205,13 +217,11 @@ redirect_superadmin_if_not_logged_in();
                 <label for="editappointmentDate">Appointment Date:</label>
                 <select id="editappointmentDate" name="appointmentDate" required>
                     <option value="">Select a date</option>
-                    <!-- Dates will be populated dynamically -->
                 </select>
 
                 <label for="editappointmentTime">Appointment Time:</label>
                 <select id="editappointmentTime" name="appointmentTime" required>
                     <option value="">Select a time</option>
-                    <!-- Times will be populated dynamically -->
                 </select>
 
                 <input type="hidden" name="appointmentType" value="inPerson">

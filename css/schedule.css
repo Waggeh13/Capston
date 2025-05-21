@@ -1,4 +1,3 @@
-/* Main Structure */
 .schedule-container {
     max-width: 1000px;
     margin: 80px auto 0;
@@ -17,7 +16,6 @@
     font-weight: 600;
 }
 
-/* Calendar Section */
 .calendar-section {
     background: white;
     border-radius: 12px;
@@ -117,7 +115,6 @@
     visibility: hidden;
 }
 
-/* Time Slots Section */
 .timeslots-section {
     background: white;
     border-radius: 12px;
@@ -186,7 +183,6 @@
     background: #003d7a;
 }
 
-/* Responsive Adjustments */
 @media (max-width: 900px) {
     .schedule-container {
         grid-template-columns: 1fr;
@@ -200,23 +196,23 @@
 }
 
 .date.today {
-    background-color: #e0f7fa; /* Light cyan for today */
+    background-color: #e0f7fa;
     font-weight: bold;
 }
 
 .date.selected {
-    background-color: #007bff; /* Blue for selected */
+    background-color: #007bff;
     color: white;
 }
 
 .date.disabled {
-    background-color: #f0f0f0; /* Gray for past dates */
+    background-color: #f0f0f0;
     color: #999;
-    pointer-events: none; /* Disable clicking */
+    pointer-events: none;
 }
 
 .time-slot.selected {
-    background-color: #28a745; /* Green for selected times */
+    background-color: #28a745;
     color: white;
 }
 
@@ -234,7 +230,6 @@
     padding: 0;
 }
 
-/* Dark Mode Styles */
 body.dark-mode .schedule-container {
     background-color: #1a1a1a;
 }

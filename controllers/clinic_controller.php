@@ -7,26 +7,22 @@ if (!function_exists('sanitize_input')) {
     }
 }
 
-// Function to add new clinic
 function addclinicController($clinic_id, $clinicName,$department_id ) {
     $clinic= new clinic_class();
     return $clinic->addclinic($clinic_id, $clinicName, $department_id);
 }
 
-// Function to delete clinic
 function deleteclinicController($id) {
     $clinic = new clinic_class();
     return $clinic->deleteclinic($id);
 }
 
-// Function to view all clinics
 function viewclinicsController() {
     $clinics = new clinic_class();
     return $clinics->getclinics();
 }
 
 
-// Function to view clinics by ID
 function viewclinicsByIDController($clinic_id) {
     $clinic = new clinic_class();
     return $clinic->getclinicsbyID($clinic_id);

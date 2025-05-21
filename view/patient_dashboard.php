@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../images/bafrow_logo.png" type="image/png">
     <link rel="stylesheet" href="../css/btn_style.css">
     <link rel="stylesheet" href="../css/data.css">
     <link rel="stylesheet" href="../css/calender.css">
@@ -16,59 +19,54 @@
 </head>
 <style>
     .user {
-    display: inline-block;
-    white-space: nowrap;
-    margin-left: 10px; 
-    }
-    .fas.fa-bell {
-        margin-left: 1180px;
-    }
+            display: inline-block;
+            white-space: nowrap;
+            margin-left: 10px;
+            position: absolute;
+            right: 150px;
+            overflow: visible;
+        }
     .sidebar ul li a {
-    width: 100%;
-    text-decoration: none;
-    color: #fff;
-    height: 70px;
-    display: flex;
-    align-items: center;
+        width: 100%;
+        text-decoration: none;
+        color: #fff;
+        height: 70px;
+        display: flex;
+        align-items: center;
     }
 </style>
 <?php
 require_once('../classes/getPatientAppointments_class.php');
 require_once('../classes/getPatientPrescriptions_class.php');
 require_once('../classes/userName_class.php');
+require_once('../controllers/request_controller.php');
 require_once('../settings/core.php');
 
 redirect_patient_if_not_logged_in();
 
-// Get the logged-in user's ID from the session
 $user_id = isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : null;
 
 if (!$user_id) {
     die("Error: User not logged in or session expired.");
 }
 
-// Fetch patient appointments
 $db = new getPatientAppointments_class();
 $appointments = $db->getPatientAppointments($user_id, 2);
 
-// Fetch patient prescriptions
 $db_prescriptions = new getPatientPrescriptions_class();
 $prescriptions = $db_prescriptions->getPatientPrescriptions($user_id, 2);
 
 $userProfile = new userName_class();
 
-// Ensure appointments is an array
 if (!is_array($appointments)) {
     $appointments = [];
 }
 
-// Ensure prescriptions is an array
 if (!is_array($prescriptions)) {
     $prescriptions = [];
 }
 ?>
 <body>
-
     <div class="container">
         <div class="sidebar">
             <ul>
@@ -125,7 +123,6 @@ if (!is_array($prescriptions)) {
 
         <div class="main">
             <div class="top-bar">
-                <i class="fas fa-bell"></i>
                 <div class="user">
                     <span class="profile-text"><?php echo $userProfile->getUserName(); ?></span>
                 </div>
@@ -148,7 +145,7 @@ if (!is_array($prescriptions)) {
                     <h3>View Prescriptions</h3>
                     <p>Your medication list</p>
                 </div>
-                <div class="action-card" onclick="openRequestModal()">
+                <div class="action-card" id="requestMedicalReportBtn">
                     <i class="fas fa-file-medical"></i>
                     <h3>Request Medical Report</h3>
                     <p>Request a summary report</p>
@@ -168,26 +165,26 @@ if (!is_array($prescriptions)) {
                 </div>
                 <ul class="appointment-list">
                     <?php if (!empty($appointments)): ?>
-                            <?php foreach ($appointments as $apt): ?>
-                                <li class="appointment-item">
-                                    <div>
-                                        <strong><?= htmlspecialchars($apt['doctor_name'] ?? 'N/A') ?></strong>
-                                        <p>
-                                            <?= htmlspecialchars($apt['department_name'] ?? 'N/A') ?> - 
-                                            <?= !empty($apt['appointment_date']) && !empty($apt['time_slot']) 
-                                                ? date('F j, Y', strtotime($apt['appointment_date'])) . ' at ' . date('g:i A', strtotime($apt['time_slot']))
-                                                : 'N/A' ?>
-                                        </p>
-                                    </div>
-                                </li>
-                            <?php endforeach; ?>
-                        <?php else: ?>
+                        <?php foreach ($appointments as $apt): ?>
                             <li class="appointment-item">
                                 <div>
-                                    <p>No upcoming appointments found</p>
+                                    <strong><?= htmlspecialchars($apt['doctor_name'] ?? 'N/A') ?></strong>
+                                    <p>
+                                        <?= htmlspecialchars($apt['department_name'] ?? 'N/A') ?> - 
+                                        <?= !empty($apt['appointment_date']) && !empty($apt['time_slot']) 
+                                            ? date('F j, Y', strtotime($apt['appointment_date'])) . ' at ' . date('g:i A', strtotime($apt['time_slot']))
+                                            : 'N/A' ?>
+                                    </p>
                                 </div>
                             </li>
-                        <?php endif; ?>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <li class="appointment-item">
+                            <div>
+                                <p>No upcoming appointments found</p>
+                            </div>
+                        </li>
+                    <?php endif; ?>
                 </ul>
             </div>
 
@@ -229,14 +226,22 @@ if (!is_array($prescriptions)) {
         <div class="modal-content">
             <div class="modal-header">
                 <h2><i class="fas fa-file-medical"></i> Request Medical Report</h2>
-                <button class="close-btn" onclick="closeRequestModal()">×</button>
+                <button class="close-btn" id="requestCancelBtn">×</button>
             </div>
             <div class="modal-body">
-                <form id="requestForm" action="../actions/submit_report_request.php" method="POST">
+                <form id="requestForm">
                     <div class="form-group">
                         <label for="doctorId">Select Doctor to Request From</label>
                         <select id="doctorId" name="doctorId" required>
                             <option value="">Select a doctor</option>
+                            <?php
+                            $doctors = get_doctors_ctr();
+                            if (!empty($doctors)) {
+                                foreach ($doctors as $doctor) {
+                                    echo "<option value='{$doctor['staff_id']}'>{$doctor['first_name']} {$doctor['last_name']}</option>";
+                                }
+                            }
+                            ?>
                         </select>
                         <div class="error-message" id="doctorIdError"></div>
                     </div>
@@ -245,24 +250,15 @@ if (!is_array($prescriptions)) {
                         <input type="text" id="hospitalName" name="hospitalName" placeholder="Enter hospital name (e.g., Serrekunda General Hospital)" required>
                         <div class="error-message" id="hospitalNameError"></div>
                     </div>
-                    <input type="hidden" name="patientId" value="<?php echo $patient_id; ?>">
                 </form>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeRequestModal()">Cancel</button>
-                <button class="btn btn-primary" onclick="submitRequestForm()">Send Request</button>
+                <button class="btn btn-secondary" id="requestCancelBtnSecondary">Cancel</button>
+                <button class="btn btn-primary" id="requestSubmitBtn">Send Request</button>
             </div>
         </div>
     </div>
 
-    <script>
-        function openChatbot() {
-            // Implement chatbot functionality here
-            alert("Health Assistant chatbot will open here");
-            // This could open a modal or redirect to a chat interface
-        }
-
-    </script>
     <script src="../js/toggle.js"></script>
     <script src="../js/patient_request_modal.js"></script>
     <script src="../js/dark_mode.js"></script>

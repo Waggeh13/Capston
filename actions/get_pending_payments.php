@@ -1,7 +1,6 @@
 <?php
 require("../controllers/cashier_controller.php");
 
-// Set header to ensure proper content type
 header('Content-Type: application/json');
 
 try {

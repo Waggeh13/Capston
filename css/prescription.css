@@ -1,4 +1,3 @@
-/* Prescription Form Styles */
 .lab-container {
     background-color: white;
     border-radius: 8px;
@@ -58,7 +57,6 @@
     flex: 1;
 }
 
-/* Medication Entry Styles */
 .medication-entry {
     border: 1px solid #e0e0e0;
     border-radius: 6px;
@@ -67,7 +65,6 @@
     margin-bottom: 20px;
 }
 
-/* Button Styles */
 .add-btn {
     background-color: #0054A6;
     color: white;
@@ -105,8 +102,8 @@
     padding: 15px;
     background-color: #f9f9f9;
     margin-bottom: 20px;
-    position: relative; /* Needed for button positioning */
-    padding-bottom: 40px; /* Space for the button */
+    position: relative;
+    padding-bottom: 40px;
 }
 
 .remove-btn {
@@ -135,7 +132,6 @@
     font-size: 12px;
 }
 
-/* Adjust spacing for better layout */
 .medication-details {
     margin-bottom: 10px;
 }
@@ -146,7 +142,6 @@
     }
 }
 
-/* Responsive Styles */
 @media (max-width: 768px) {
     .lab-container {
         padding: 15px;
@@ -177,7 +172,6 @@
     }
 }
 
-/* Dark Mode Styles */
 body.dark-mode .lab-container {
     background-color: #2c2c2c;
     box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);

@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../images/bafrow_logo.png" type="image/png">
     <title>Doctor Schedule</title>
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/data.css">
     <link rel="stylesheet" href="../css/sidebar.css">
     <link rel="stylesheet" href="../css/calender.css">
     <link rel="stylesheet" href="../css/schedule.css">
@@ -22,20 +24,22 @@
     align-items: center;
     }
     .user {
-    display: inline-block;
-    white-space: nowrap;
-    margin-left: 10px;
-    }
-    .fas.fa-bell {
-    margin-left: 1180px;
-    }
+            display: inline-block;
+            white-space: nowrap;
+            margin-left: 10px;
+            position: absolute;
+            right: 150px;
+            overflow: visible;
+        }
     .profile-text{
     color: black;
     }
 </style>
-<?
+<?php
 require_once('../settings/core.php');
+require_once('../classes/userName_class.php');
 redirect_doctor_if_not_logged_in();
+$userProfile = new userName_class();
 ?>
 <body>
     <div class="container">
@@ -110,12 +114,10 @@ redirect_doctor_if_not_logged_in();
             </ul>
         </div>
 
-        <!-- Main Content Area -->
         <div class="main">
-            <div class="top-bar">
-                <i class="fas fa-bell"></i>
+        <div class="top-bar">
                 <div class="user">
-                    <span class="profile-text">Profile</span>
+                    <span class="profile-text"><?php echo $userProfile->getUserName(); ?></span>
                 </div>
             </div>
     
@@ -142,14 +144,12 @@ redirect_doctor_if_not_logged_in();
                     <div class="dates" id="dates"></div>
                 </div>
                 
-                <!-- Time Slots Section -->
                 <div class="timeslots-section">
                     <div class="timeslots-header">
                         <h3>Available Time Slots</h3>
                         <p>Select your available times for <span id="selected-date">Please select a date</span></p>
                     </div>
                     
-                    <!-- Time Slot Buttons -->
                     <div class="time-options">
                         <button class="time-slot" data-time="07:00">07:00 AM</button>
                         <button class="time-slot" data-time="08:00">08:00 AM</button>
@@ -166,7 +166,6 @@ redirect_doctor_if_not_logged_in();
                     </div>
                     <button id="save-schedule" class="save-btn">Save Schedule</button>
 
-                    <!-- Display Selected Schedule -->
                     <div class="selected-schedule" id="selected-schedule">
                         <h4>Scheduled Times:</h4>
                         <ul id="schedule-list"></ul>

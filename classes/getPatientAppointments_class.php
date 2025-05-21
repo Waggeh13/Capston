@@ -31,7 +31,6 @@ class getPatientAppointments_class extends db_connection {
                 throw new Exception("Prepare failed: " . $conn->error);
             }
 
-            // Assuming patient_id is an integer, use "ii" for both parameters
             $stmt->bind_param("ii", $patient_id, $limit);
             if (!$stmt->execute()) {
                 throw new Exception("Execute failed: " . $stmt->error);
@@ -40,7 +39,6 @@ class getPatientAppointments_class extends db_connection {
             $result = $stmt->get_result();
             $data = $result->fetch_all(MYSQLI_ASSOC);
             
-            // Debug output
             error_log("Fetched patient appointments for patient_id $patient_id: " . print_r($data, true));
             
             return is_array($data) ? $data : [];

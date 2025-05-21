@@ -5,26 +5,22 @@ function sanitize_input($input) {
     return htmlspecialchars(stripslashes(trim($input)));
 }
 
-// Function to add new staff
 function addstaffController($staff_id, $first_name, $last_name, $gender,$position, $department, $contact, $email) {
     $staff= new staff_class();
     return $staff->addstaff($staff_id, $first_name, $last_name, $gender,$position, $department, $contact, $email);
 }
 
-// Function to delete staff
 function deletestaffController($id) {
     $staff = new staff_class();
     return $staff->deletestaff($id);
 }
 
-// Function to view all staffs
 function viewstaffsController() {
     $staffs = new staff_class();
     return $staffs->getstaffs();
 }
 
 
-// Function to view staffs by ID
 function viewstaffsByIDController($staff_id) {
     $staff = new staff_class();
     return $staff->getstaffsbyID($staff_id);
@@ -45,4 +41,9 @@ function updatestaffController($staff_id, $first_name, $last_name, $gender, $pos
     return $staff->updatestaff($staff_id, $first_name, $last_name, $gender, $position, $department_id, $contact,$email);
 }
 
+function update_id($original_staff_id, $staffId)
+{
+    $staff = new staff_class();
+    return $staff-> update_ID($original_staff_id, $staffId);
+}
 ?>

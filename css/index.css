@@ -167,18 +167,17 @@ form {
     box-shadow: none;
 }
 
-/* Dark Mode Styles */
 body.dark-mode {
-    background: linear-gradient(90deg, #2c2c2c, #1e2a44); /* Dark gradient background */
+    background: linear-gradient(90deg, #2c2c2c, #1e2a44);
 }
 
 body.dark-mode .container {
-    background: #333; /* Dark background for the container */
-    box-shadow: 0 0 30px rgba(255, 255, 255, 0.1); /* Lighter shadow for dark mode */
+    background: #333;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
 }
 
 body.dark-mode .container h1 {
-    color: #e0e0e0; /* Lighter text color */
+    color: #e0e0e0;
 }
 
 body.dark-mode .input-box input {
@@ -191,26 +190,26 @@ body.dark-mode .input-box input::placeholder {
 }
 
 body.dark-mode .input-box i {
-    color: #ccc; /* Lighter color for visibility */
+    color: #ccc;
 }
 
 body.dark-mode .forgot-link a {
-    color: #66b0ff; /* Lighter blue for visibility */
+    color: #66b0ff;
 }
 
 body.dark-mode .btn {
-    background: #007bff; /* Lighter blue for visibility */
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); /* Lighter shadow for dark mode */
+    background: #007bff;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
 }
 
 body.dark-mode .toggle-box::before {
-    background: #007bff; /* Lighter blue for visibility */
+    background: #007bff;
 }
 
 body.dark-mode .toggle-panel {
-    color: #d1d1d1; /* Lighter text color */
+    color: #d1d1d1;
 }
 
 body.dark-mode .toggle-panel .btn {
-    border: 2px solid #d1d1d1; /* Lighter border for visibility */
+    border: 2px solid #d1d1d1;
 }

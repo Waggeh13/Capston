@@ -146,7 +146,7 @@ class Cashier_class extends db_connection {
             return true;
         } catch (Exception $e) {
             $this->db_query("ROLLBACK");
-            error_log('Process payment error: ' . $e->getMessage()); // Debug
+            error_log('Process payment error: ' . $e->getMessage());
             throw $e;
         }
     }
@@ -195,7 +195,6 @@ class Cashier_class extends db_connection {
             return null;
         }
 
-        // Get medications
         $sql = "
             SELECT 
                 pmt.medication,

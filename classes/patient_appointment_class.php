@@ -4,7 +4,7 @@ require_once("../settings/db_class.php");
 class patient_appointment_class extends db_connection {
     private $zoom_client_id = 'JWxNJ_siTs6WKTBZZ9IFw';
     private $zoom_client_secret = 'DNxXbSOv70Md8i5ohHgazs6ooxDuuGTW';
-    private $zoom_redirect_uri = 'https://96b3-154-161-170-39.ngrok-free.app/capston/utils/zoom-callback.php';
+    private $zoom_redirect_uri = 'http://178.128.172.82/utils/zoom-callback.php';
 
     public function book_appointment($patient_id, $staff_id, $appointmentDate, $appointmentTime, $appointmentType, $clinic_id, $timeslot_id) {
         $conn = $this->db_conn();
@@ -16,7 +16,6 @@ class patient_appointment_class extends db_connection {
         try {
             mysqli_begin_transaction($conn);
     
-            // Insert into booking_table
             $appointmentTypeDB = $appointmentType === 'inPerson' ? 'In-Person' : 'Virtual';
             $sql = "INSERT INTO booking_table (patient_id, timeslot_id, appointment_type, clinic_id, status) 
                     VALUES (?, ?, ?, ?, 'Scheduled')";
@@ -35,7 +34,6 @@ class patient_appointment_class extends db_connection {
             error_log("Booking inserted: booking_id=$booking_id");
             mysqli_stmt_close($stmt);
     
-            // Update timeslot status
             $update_sql = "UPDATE appointment_timeslots SET status = 'Booked' WHERE timeslot_id = ?";
             $update_stmt = mysqli_prepare($conn, $update_sql);
             if ($update_stmt === false) {
@@ -50,9 +48,7 @@ class patient_appointment_class extends db_connection {
             error_log("Timeslot updated: timeslot_id=$timeslot_id");
             mysqli_stmt_close($update_stmt);
     
-            // Handle Zoom meeting for virtual appointments
             if ($appointmentType === 'virtual') {
-                // Fetch appointment date and time for Zoom meeting
                 $time_sql = "SELECT t.time_slot, a.appointment_date 
                              FROM appointment_timeslots t 
                              JOIN appointment_table a ON t.appointment_id = a.appointment_id 
@@ -88,7 +84,6 @@ class patient_appointment_class extends db_connection {
                 }
                 error_log("Zoom meeting created: meeting_id={$meeting_details['id']}");
     
-                // Insert Zoom meeting details into telemedicine_table
                 $tele_sql = "INSERT INTO telemedicine_table (booking_id, patient_id, staff_id, meeting_id, join_url, password, topic, start_time, duration, status) 
                              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'Scheduled')";
                 $tele_stmt = mysqli_prepare($conn, $tele_sql);
@@ -96,7 +91,7 @@ class patient_appointment_class extends db_connection {
                     throw new Exception("Failed to prepare telemedicine insert: " . mysqli_error($conn));
                 }
                 $topic = "Virtual Consultation with Patient $patient_id";
-                $duration = 30; // Default duration in minutes
+                $duration = 30;
                 mysqli_stmt_bind_param($tele_stmt, "isssssssi", 
                     $booking_id, 
                     $patient_id, 
@@ -153,7 +148,6 @@ class patient_appointment_class extends db_connection {
     }
 
     private function getValidZoomToken($conn) {
-        // Check for existing token
         $sql = "SELECT token_id, access_token, refresh_token, expires_at 
                 FROM token_table 
                 WHERE expires_at > NOW() 
@@ -166,7 +160,6 @@ class patient_appointment_class extends db_connection {
             return $token;
         }
 
-        // Try refreshing token
         $sql = "SELECT token_id, refresh_token 
                 FROM token_table 
                 ORDER BY created_at DESC 
@@ -259,7 +252,7 @@ class patient_appointment_class extends db_connection {
         $url = 'https://api.zoom.us/v2/users/me/meetings';
         $data = [
             'topic' => "Virtual Consultation with Patient $patient_id",
-            'type' => 2, // Scheduled meeting
+            'type' => 2,
             'start_time' => $start_time,
             'duration' => 30,
             'timezone' => 'UTC',
@@ -307,7 +300,6 @@ class patient_appointment_class extends db_connection {
         return false;
     }
 
-    // Modified get_appointments method to update past scheduled appointments to Cancelled
     public function get_appointments($patient_id) {
         $conn = $this->db_conn();
         if ($conn === false) {
@@ -346,34 +338,30 @@ class patient_appointment_class extends db_connection {
         }
 
         $appointments = [];
-        $currentDateTime = new DateTime(); // Current date and time
+        $currentDateTime = new DateTime();
 
         while ($row = mysqli_fetch_assoc($result)) {
-            // Combine date and time to create a full datetime for comparison
             $appointmentDateTimeStr = $row['date'] . ' ' . $row['time'];
             $appointmentDateTime = DateTime::createFromFormat('Y-m-d H:i:s', $appointmentDateTimeStr);
 
-            // Check if the appointment is Scheduled and the date is in the past
             if ($row['status'] === 'Scheduled' && $appointmentDateTime < $currentDateTime) {
                 $booking_id = $row['booking_id'];
                 
-                // Update status to Cancelled in booking_table
                 $update_sql = "UPDATE booking_table SET status = 'Cancelled' WHERE booking_id = ?";
                 $update_stmt = mysqli_prepare($conn, $update_sql);
                 if ($update_stmt === false) {
                     error_log("Prepare failed for updating status in get_appointments: " . mysqli_error($conn));
-                    continue; // Skip this appointment and continue with the next
+                    continue;
                 }
                 mysqli_stmt_bind_param($update_stmt, "i", $booking_id);
                 if (!mysqli_stmt_execute($update_stmt)) {
                     error_log("Failed to update status in booking_table: " . mysqli_error($conn));
                 } else {
                     error_log("Updated appointment status to Cancelled: booking_id=$booking_id");
-                    $row['status'] = 'Cancelled'; // Update the status in the row to reflect the change
+                    $row['status'] = 'Cancelled';
                 }
                 mysqli_stmt_close($update_stmt);
 
-                // If it's a virtual appointment, update telemedicine_table status as well
                 if (strtolower($row['appointment_type']) === 'virtual') {
                     $tele_update_sql = "UPDATE telemedicine_table SET status = 'Cancelled' WHERE booking_id = ?";
                     $tele_update_stmt = mysqli_prepare($conn, $tele_update_sql);
@@ -390,7 +378,6 @@ class patient_appointment_class extends db_connection {
                     mysqli_stmt_close($tele_update_stmt);
                 }
 
-                // Update timeslot status to Available
                 $timeslot_id = $row['timeslot_id'];
                 $timeslot_update_sql = "UPDATE appointment_timeslots SET status = 'Available' WHERE timeslot_id = ?";
                 $timeslot_update_stmt = mysqli_prepare($conn, $timeslot_update_sql);

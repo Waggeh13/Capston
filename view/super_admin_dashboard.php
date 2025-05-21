@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../images/bafrow_logo.png" type="image/png">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/btn_style.css">
     <link rel="stylesheet" href="../css/sidebar.css">
@@ -11,13 +14,34 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>Admin Dashboard</title>
 </head>
+<style>
+    .sidebar ul li a {
+    width: 100%;
+    text-decoration: none;
+    color: #fff;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    }
+    .user {
+            display: inline-block;
+            white-space: nowrap;
+            margin-left: 10px;
+            position: absolute;
+            right: 150px;
+            overflow: visible;
+        }
+    .profile-text{
+    color: black;
+    }
+</style>
 <?php
 require_once('../classes/getUpcomingAppointments_class.php');
 require_once('../classes/getAvailableDoctors_class.php');
 require_once('../settings/core.php');
 redirect_superadmin_if_not_logged_in();
 
-// Fetch upcoming appointments
+
 $db = new getUpcomingAppointments_class();
 $appointments = $db->getUpcomingAppointments(5);
 $appointment_count = $db->countScheduledAppointments();
@@ -25,11 +49,11 @@ $patient_count = $db->countPatients();
 $staff_count = $db->countStaff();
 $department_count = $db->countDepartments();
 
-// Fetch available doctors
+
 $doctors_db = new getAvailableDoctors_class();
 $available_doctors = $doctors_db->getAvailableDoctors(5);
 
-// Ensure $appointments is an array
+
 if (!is_array($appointments)) {
     $appointments = [];
 }
@@ -92,13 +116,13 @@ if (!is_array($available_doctors)) {
                     </a>
                 </li>
                 <li>
-                    <a href="../actions/logoutactions.php">
-                        <i class="fas fa-right-from-bracket"></i>
-                        <div class="title">Logout</div>
+                    <a href="super_admin_setting.php">
+                        <i class="fas fa-cog"></i>
+                        <div class="title">Settings</div>
                     </a>
                 </li>
                 <li>
-                    <a href="index.php">
+                    <a href="../actions/logoutactions.php">
                         <i class="fas fa-right-from-bracket"></i>
                         <div class="title">Logout</div>
                     </a>
@@ -107,13 +131,8 @@ if (!is_array($available_doctors)) {
         </div>
         <div class="main">
             <div class="top-bar">
-                <div class="search">
-                    <input type="text" name="search" placeholder="search here">
-                    <label for="search"><i class="fas fa-search"></i></label>
-                </div>
-                <i class="fas fa-bell"></i>
                 <div class="user">
-                    <span class="profile-text">Profile</span>
+                    <span class="profile-text">Fatou Waggeh</span>
                 </div>
             </div>
             <div class="cards">
@@ -223,8 +242,6 @@ if (!is_array($available_doctors)) {
             </div>
         </div>
     </div>
-    <script src="../js/add_edit.js"></script>
-    <script src="../js/reset_password.js"></script>
     <script src="../js/dark_mode.js"></script>
 </body>
 </html>

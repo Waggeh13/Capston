@@ -1,7 +1,7 @@
 .user {
     display: inline-block;
     white-space: nowrap;
-    margin-left: 10px; /* Reduced from 65px to 10px */
+    margin-left: 10px;
 }
 .fas.fa-bell {
     margin-left: 1180px;
@@ -72,27 +72,26 @@
     background-color: red;
 }
 
-/* Dark Mode Styles */
 body.dark-mode .sidebar ul li a {
-    color: #d1d1d1; /* Lighter text color */
+    color: #d1d1d1;
 }
 
 body.dark-mode .chatbot-container {
-    background-color: #1a1a1a; /* Dark background for the container */
+    background-color: #1a1a1a;
 }
 
 body.dark-mode .chatbot-window {
-    background-color: #2c2c2c; /* Dark background for the chat window */
-    border: 1px solid #555; /* Darker border */
+    background-color: #2c2c2c;
+    border: 1px solid #555;
 }
 
 body.dark-mode .message.sent {
-    background-color: #007bff; /* Lighter blue for visibility */
+    background-color: #007bff;
 }
 
 body.dark-mode .message.received {
-    background-color: #444; /* Darker background for received messages */
-    color: #e0e0e0; /* Lighter text color */
+    background-color: #444;
+    color: #e0e0e0;
 }
 
 body.dark-mode .chatbot-input input {

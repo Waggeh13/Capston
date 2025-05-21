@@ -1,14 +1,12 @@
 document.addEventListener('DOMContentLoaded', function() {
-    let notificationIntervals = new Map(); // Store interval timers
+    let notificationIntervals = new Map();
 
-    // Request notification permission
     async function requestNotificationPermission() {
         if (Notification.permission === 'granted') return true;
         const permission = await Notification.requestPermission();
         return permission === 'granted';
     }
 
-    // Show a notification via service worker
     function showNotification(title, options) {
         navigator.serviceWorker.ready.then(registration => {
             registration.showNotification(title, options);
@@ -16,7 +14,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Handle checkbox changes
     const reminderCheckboxes = document.querySelectorAll('.alert-toggle input');
     reminderCheckboxes.forEach(checkbox => {
         checkbox.addEventListener('change', async function() {
@@ -69,7 +66,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Handle medication card clicks
     const medicationCards = document.querySelectorAll('.medication-card');
     medicationCards.forEach(card => {
         card.addEventListener('click', function(e) {
@@ -82,7 +78,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Modal handling
     function showNotificationModal(medicationId, patientId) {
         let modal = document.getElementById('notification-modal');
         if (!modal) {
@@ -121,15 +116,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
         modal.style.display = 'block';
 
-        // Set min attribute for time inputs
         const now = new Date();
-        const minTime = now.toTimeString().slice(0, 5); // HH:MM
+        const minTime = now.toTimeString().slice(0, 5);
         const timeInputs = modal.querySelector('#time-inputs');
         timeInputs.querySelectorAll('input[type="time"]').forEach(input => {
             input.setAttribute('min', minTime);
         });
 
-        // Toggle inputs based on radio selection
         const typeRadios = modal.querySelectorAll('input[name="type"]');
         const intervalInput = modal.querySelector('#interval-input');
         typeRadios.forEach(radio => {
@@ -141,7 +134,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
 
-        // Load existing times or interval
         fetch('../actions/prescription_notification_actions.php', {
             method: 'POST',
             headers: {
@@ -179,13 +171,12 @@ document.addEventListener('DOMContentLoaded', function() {
             alert(`Failed to load notification settings: ${error.message}`);
         });
 
-        // Close modal
+
         modal.querySelector('.close').onclick = () => modal.style.display = 'none';
         window.onclick = event => {
             if (event.target == modal) modal.style.display = 'none';
         };
 
-        // Add another time input
         modal.querySelector('#add-time').onclick = () => {
             const newInput = document.createElement('input');
             newInput.type = 'time';
@@ -195,7 +186,6 @@ document.addEventListener('DOMContentLoaded', function() {
             timeInputs.appendChild(newInput);
         };
 
-        // Handle form submission
         modal.querySelector('#notification-form').onsubmit = function(e) {
             e.preventDefault();
             const type = this.querySelector('input[name="type"]:checked').value;
@@ -245,7 +235,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         };
 
-        // Handle delete time
         modal.querySelector('#existing-times').addEventListener('click', function(e) {
             if (e.target.classList.contains('delete-time')) {
                 const notificationId = e.target.dataset.notificationId;
@@ -279,7 +268,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Schedule notifications
     function scheduleNotifications(medicationId, patientId) {
         fetch('../actions/prescription_notification_actions.php', {
             method: 'POST',
@@ -291,7 +279,6 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             if (data.success && data.settings) {
-                // Clear existing interval
                 if (notificationIntervals.has(medicationId)) {
                     clearInterval(notificationIntervals.get(medicationId));
                     notificationIntervals.delete(medicationId);
@@ -299,7 +286,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 data.settings.forEach(setting => {
                     if (setting.interval_hours !== null) {
-                        // Interval notification
                         const intervalMs = setting.interval_hours * 60 * 60 * 1000;
                         const intervalId = setInterval(() => {
                             showNotification('Medication Reminder', {
@@ -308,13 +294,11 @@ document.addEventListener('DOMContentLoaded', function() {
                             });
                         }, intervalMs);
                         notificationIntervals.set(medicationId, intervalId);
-                        // Immediate notification to confirm
                         showNotification('Medication Reminder', {
                             body: `Medication (ID: ${medicationId}) set to notify every ${setting.interval_hours} hours`,
                             vibrate: [200, 100, 200]
                         });
                     } else if (setting.notification_time !== '00:00:00') {
-                        // Specific time notification
                         const [hours, minutes] = setting.notification_time.split(':');
                         const now = new Date();
                         let notificationTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
@@ -330,7 +314,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                     vibrate: [200, 100, 200],
                                     data: { notificationId: setting.notification_id }
                                 });
-                                // Delete notification after triggering
                                 fetch('../actions/prescription_notification_actions.php', {
                                     method: 'POST',
                                     headers: {
@@ -353,7 +336,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Initialize notifications for enabled checkboxes
     reminderCheckboxes.forEach(checkbox => {
         if (checkbox.checked) {
             scheduleNotifications(checkbox.dataset.medicationId, checkbox.dataset.patientId);

@@ -7,26 +7,22 @@ if (!function_exists('sanitize_input')) {
     }
 }
 
-// Function to add new department
 function adddepartmentController($department_id, $departmentName) {
     $department= new department_class();
     return $department->adddepartment($department_id, $departmentName);
 }
 
-// Function to delete department
 function deletedepartmentController($id) {
     $department = new department_class();
     return $department->deletedepartment($id);
 }
 
-// Function to view all departments
 function viewdepartmentsController() {
     $departments = new department_class();
     return $departments->getdepartments();
 }
 
 
-// Function to view departments by ID
 function viewdepartmentsByIDController($department_id) {
     $department = new department_class();
     return $department->getdepartmentsbyID($department_id);

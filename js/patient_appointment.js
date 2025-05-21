@@ -26,17 +26,14 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
 
-    // Bind click events for modal buttons
     addAppointmentBtn.addEventListener('click', openAddAppointmentModal);
     addAppointmentCancelBtn.addEventListener('click', closeAddAppointmentModal);
     editAppointmentCancelBtn.addEventListener('click', closeEditAppointmentModal);
     confirmCancelNoBtn.addEventListener('click', closeConfirmModal);
     confirmCancelBtn.addEventListener('click', confirmCancelAppointment);
 
-    // Load appointments on page load
     loadAppointments();
 
-    // Fetch available dates for a doctor
     async function populateDates(selectElement, staffId) {
         if (!selectElement || !staffId) return;
         try {
@@ -60,7 +57,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Fetch available times for a doctor and date
     async function populateTimes(doctorSelect, dateSelect, timeSelect) {
         if (!doctorSelect || !dateSelect || !timeSelect) return;
         const staffId = doctorSelect.value;
@@ -90,16 +86,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Load patient appointments
     async function loadAppointments() {
         try {
             const response = await fetch('../actions/patient_get_appointments.php');
             const data = await response.json();
             appointmentsBody.innerHTML = '';
             if (data.success && Array.isArray(data.appointments) && data.appointments.length > 0) {
-                const currentDateTime = new Date(); // For logging purposes
+                const currentDateTime = new Date();
                 data.appointments.forEach(apt => {
-                    // Normalize data
                     const dateTime = apt.date && apt.time ? `${new Date(apt.date).toLocaleDateString()} - ${apt.time.slice(0, 5)}` : 'N/A';
                     const appointmentDateTime = new Date(`${apt.date} ${apt.time}`);
                     const clinicName = apt.clinic_name || 'Unknown';
@@ -108,7 +102,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     const status = apt.status || 'Pending';
                     const bookingId = apt.booking_id || '';
 
-                    // Log status for debugging
                     console.log(`Appointment ID: ${bookingId}, Date: ${dateTime}, Status: ${status}, Is Past: ${appointmentDateTime < currentDateTime}`);
 
                     const statusClass = {
@@ -139,7 +132,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     `;
                     appointmentsBody.appendChild(row);
                 });
-                // Bind events after rows are added
                 bindActionButtons();
             } else {
                 appointmentsBody.innerHTML = `
@@ -162,7 +154,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Bind edit and cancel button events
     function bindActionButtons() {
         const editButtons = document.querySelectorAll('.edit-btn');
         const cancelButtons = document.querySelectorAll('.cancel-btn');
@@ -180,7 +171,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Open add appointment modal
     function openAddAppointmentModal() {
         addAppointmentForm.reset();
         addDateSelect.innerHTML = '<option value="">Select a date</option>';
@@ -188,7 +178,6 @@ document.addEventListener('DOMContentLoaded', function() {
         addAppointmentModal.style.display = 'block';
     }
 
-    // Open edit appointment modal
     async function editAppointment(id) {
         currentAppointmentId = id;
         try {
@@ -224,13 +213,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Open confirmation modal for cancellation
     function cancelAppointment(id) {
         currentAppointmentId = id;
         confirmModal.style.display = 'block';
     }
 
-    // Close modals
     function closeAddAppointmentModal() {
         addAppointmentModal.style.display = 'none';
     }
@@ -243,7 +230,6 @@ document.addEventListener('DOMContentLoaded', function() {
         confirmModal.style.display = 'none';
     }
 
-    // Handle add appointment form submission
     addAppointmentForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         const formData = new FormData(addAppointmentForm);
@@ -264,7 +250,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 await loadAppointments();
             } else if (data.redirect) {
                 alert(data.message);
-                window.location.href = data.redirect; // Redirect to Zoom OAuth
+                window.location.href = data.redirect;
             } else {
                 alert(data.message || 'Failed to book appointment: Unknown error');
             }
@@ -274,7 +260,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Handle edit appointment form submission
     editAppointmentForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         const formData = new FormData(editAppointmentForm);
@@ -299,7 +284,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Handle cancellation confirmation
     async function confirmCancelAppointment() {
         try {
             const response = await fetch('../actions/patient_delete_appointment.php', {
@@ -321,7 +305,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Populate dates when doctor changes
     addDoctorSelect.addEventListener('change', function() {
         addDateSelect.innerHTML = '<option value="">Select a date</option>';
         addTimeSelect.innerHTML = '<option value="">Select a time</option>';
@@ -338,7 +321,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Populate times when date changes
     addDateSelect.addEventListener('change', function() {
         populateTimes(addDoctorSelect, addDateSelect, addTimeSelect);
     });
@@ -347,7 +329,6 @@ document.addEventListener('DOMContentLoaded', function() {
         populateTimes(editDoctorSelect, editDateSelect, editTimeSelect);
     });
 
-    // Close modals when clicking outside
     window.addEventListener('click', function(event) {
         if (event.target === addAppointmentModal) {
             closeAddAppointmentModal();

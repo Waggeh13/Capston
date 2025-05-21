@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../images/bafrow_logo.png" type="image/png">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/lab_request.css">
     <link rel="stylesheet" href="../css/message.css">
@@ -36,12 +39,12 @@
             display: none;
         }
         .user {
-        display: inline-block;
-        white-space: nowrap;
-        margin-left: 10px;
-        }
-        .fas.fa-bell {
-        margin-left: 1180px;
+            display: inline-block;
+            white-space: nowrap;
+            margin-left: 10px;
+            position: absolute;
+            right: 150px;
+            overflow: visible;
         }
         .profile-text{
         color: black;
@@ -74,30 +77,25 @@ if (session_status() === PHP_SESSION_NONE) {
 
 redirect_doctor_if_not_logged_in();
 
-// Set doctor_id and user_role
 $doctor_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
 $user_role = isset($_SESSION['user_role']) ? $_SESSION['user_role'] : null;
 
-// Log session variables
 error_log("doc_message.php user_id: " . ($doctor_id ?? 'not set'));
 error_log("doc_message.php user_role: " . ($user_role ?? 'not set'));
 
 $userProfile = new userName_class();
 
-// Initialize message class
 $db = new Message_class();
 if (!$db->db_conn()) {
     error_log("doc_message.php: Database connection failed");
     die("Error: Unable to connect to the database.");
 }
 
-// Get chats
 $chats = $db->getChats($doctor_id, $user_role) ?? [];
 
-// Get selected patient ID (sanitize input)
+
 $selected_patient_id = isset($_GET['patient_id']) ? filter_var($_GET['patient_id']) : null;
 
-// Get messages and patient name
 $messages = $selected_patient_id ? $db->getMessages($doctor_id, $selected_patient_id) : [];
 $selected_patient_name = $selected_patient_id ? $db->getContactName($selected_patient_id) : 'Select a patient';
 ?>
@@ -175,15 +173,13 @@ $selected_patient_name = $selected_patient_id ? $db->getContactName($selected_pa
     </div>
     <div class="main">
         <div class="top-bar">
-            <i class="fas fa-bell"></i>
             <div class="user">
                 <span class="profile-text"><?php echo htmlspecialchars($userProfile->getUserName()); ?></span>
             </div>
         </div>
         <div class="message-container">
-            <!-- Chat List (Left Side) -->
             <div class="chat-list">
-                <div class="chat-list-header">Chats</div>
+                <div class="chat-list-header">Doctor Message</div>
                 <div class="search-bar">
                     <input type="text" id="patientSearch" placeholder="Search for a patient...">
                     <div id="searchResults" class="search-results" style="display: none;"></div>
@@ -198,7 +194,6 @@ $selected_patient_name = $selected_patient_id ? $db->getContactName($selected_pa
                     </div>
                 <?php endforeach; ?>
             </div>
-            <!-- Chat Window (Right Side) -->
             <div class="chat-window">
                 <div class="chat-header"><?php echo htmlspecialchars($selected_patient_name); ?></div>
                 <div class="chat-messages">

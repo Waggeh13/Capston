@@ -12,7 +12,6 @@ class appointment_class extends db_connection {
         try {
             mysqli_begin_transaction($conn);
 
-            // Get patient_id
             $names = explode(' ', trim($patientName), 2);
             $firstName = mysqli_real_escape_string($conn, $names[0]);
             $lastName = isset($names[1]) ? mysqli_real_escape_string($conn, $names[1]) : '';
@@ -27,7 +26,6 @@ class appointment_class extends db_connection {
             $patient_row = mysqli_fetch_assoc($patient_result);
             $patient_id = $patient_row['patient_id'];
 
-            // Insert into booking_table
             $appointmentType = $appointmentType === 'inPerson' ? 'In-Person' : 'Virtual';
             $sql = "INSERT INTO booking_table (patient_id, timeslot_id, appointment_type, clinic_id, status) 
                     VALUES (?, ?, ?, ?, 'Scheduled')";
@@ -42,7 +40,6 @@ class appointment_class extends db_connection {
                 throw new Exception("Failed to book appointment: " . mysqli_error($conn));
             }
 
-            // Update timeslot status
             $update_sql = "UPDATE appointment_timeslots SET status = 'Booked' WHERE timeslot_id = ?";
             $update_stmt = mysqli_prepare($conn, $update_sql);
             if ($update_stmt === false) {
@@ -82,7 +79,6 @@ class appointment_class extends db_connection {
         try {
             mysqli_begin_transaction($conn);
 
-            // Get patient_id
             $names = explode(' ', trim($patientName), 2);
             $firstName = mysqli_real_escape_string($conn, $names[0]);
             $lastName = isset($names[1]) ? mysqli_real_escape_string($conn, $names[1]) : '';
@@ -97,7 +93,6 @@ class appointment_class extends db_connection {
             $patient_row = mysqli_fetch_assoc($patient_result);
             $patient_id = $patient_row['patient_id'];
 
-            // Get old timeslot_id
             $old_sql = "SELECT timeslot_id FROM booking_table WHERE booking_id = ?";
             $old_stmt = mysqli_prepare($conn, $old_sql);
             if ($old_stmt === false) {
@@ -108,7 +103,6 @@ class appointment_class extends db_connection {
             $old_result = mysqli_stmt_get_result($old_stmt);
             $old_timeslot_id = mysqli_fetch_assoc($old_result)['timeslot_id'] ?? null;
 
-            // Update old timeslot to Available
             if ($old_timeslot_id && $old_timeslot_id != $timeslot_id) {
                 $avail_sql = "UPDATE appointment_timeslots SET status = 'Available' WHERE timeslot_id = ?";
                 $avail_stmt = mysqli_prepare($conn, $avail_sql);
@@ -120,7 +114,6 @@ class appointment_class extends db_connection {
                 mysqli_stmt_close($avail_stmt);
             }
 
-            // Update booking
             $appointmentType = $appointmentType === 'inPerson' ? 'In-Person' : 'Virtual';
             $sql = "UPDATE booking_table 
                     SET patient_id = ?, timeslot_id = ?, appointment_type = ?, clinic_id = ?
@@ -135,7 +128,6 @@ class appointment_class extends db_connection {
                 throw new Exception("Failed to update appointment: " . mysqli_error($conn));
             }
 
-            // Update new timeslot to Booked
             $update_sql = "UPDATE appointment_timeslots SET status = 'Booked' WHERE timeslot_id = ?";
             $update_stmt = mysqli_prepare($conn, $update_sql);
             if ($update_stmt === false) {
@@ -177,8 +169,6 @@ class appointment_class extends db_connection {
 
         try {
             mysqli_begin_transaction($conn);
-
-            // Get timeslot_id
             $sql = "SELECT timeslot_id FROM booking_table WHERE booking_id = ?";
             $stmt = mysqli_prepare($conn, $sql);
             if ($stmt === false) {
@@ -189,7 +179,6 @@ class appointment_class extends db_connection {
             $result = mysqli_stmt_get_result($stmt);
             $timeslot_id = mysqli_fetch_assoc($result)['timeslot_id'] ?? null;
 
-            // Delete booking
             $delete_sql = "DELETE FROM booking_table WHERE booking_id = ?";
             $delete_stmt = mysqli_prepare($conn, $delete_sql);
             if ($delete_stmt === false) {
@@ -201,7 +190,6 @@ class appointment_class extends db_connection {
                 throw new Exception("Failed to delete appointment: " . mysqli_error($conn));
             }
 
-            // Update timeslot to Available
             if ($timeslot_id) {
                 $update_sql = "UPDATE appointment_timeslots SET status = 'Available' WHERE timeslot_id = ?";
                 $update_stmt = mysqli_prepare($conn, $update_sql);
@@ -306,7 +294,6 @@ class appointment_class extends db_connection {
         $appointment = mysqli_fetch_assoc($result);
         
         if ($appointment) {
-            // Normalize appointment_type
             $appointment['appointment_type'] = strtolower($appointment['appointment_type']) === 'in-person' ? 'inPerson' : 'virtual';
         }
 

@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../images/bafrow_logo.png" type="image/png">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/style_adminDoctor.css">
     <link rel="stylesheet" href="../css/sidebar.css">
@@ -10,6 +13,27 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>Staff</title>
 </head>
+<style>
+    .sidebar ul li a {
+    width: 100%;
+    text-decoration: none;
+    color: #fff;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    }
+    .user {
+            display: inline-block;
+            white-space: nowrap;
+            margin-left: 10px;
+            position: absolute;
+            right: 150px;
+            overflow: visible;
+        }
+    .profile-text{
+    color: black;
+    }
+</style>
 <?php
 require_once('../controllers/staff_controller.php');
 require_once('../controllers/department_controller.php');
@@ -84,13 +108,8 @@ redirect_superadmin_if_not_logged_in();
         </div>
         <div class="main">
             <div class="top-bar">
-                <div class="search">
-                    <input type="text" name="search" placeholder="search here">
-                    <label for="search"><i class="fas fa-search"></i></label>
-                </div>
-                <i class="fas fa-bell"></i>
                 <div class="user">
-                    <span class="profile-text">Profile</span>
+                    <span class="profile-text">Fatou Waggeh</span>
                 </div>
             </div>
             <div class="doctor-available">
@@ -216,6 +235,7 @@ redirect_superadmin_if_not_logged_in();
             <h3>Edit Staff</h3>
             <form id="editItem">
                 <!-- Staff Details -->
+                <input type="hidden" id="originalstaffId" name="originalstaffId">
                 <div class="form-group">
                     <label for="editStaffId">Staff ID:</label>
                     <input type="text" id="editStaffId" name="staffId" required>

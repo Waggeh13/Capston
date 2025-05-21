@@ -2,9 +2,8 @@
 require("../controllers/admin_controller.php");
 
 if (isset($_POST['admin_id']) && !empty($_POST['admin_id'])) {
-    $admin_id = intval($_POST['admin_id']);
+    $admin_id = $_POST['admin_id'];
     
-    // Call the delete function from the controller
     $result = deleteadminController($admin_id);
 
     if ($result) {
@@ -21,7 +20,7 @@ if (isset($_POST['admin_id']) && !empty($_POST['admin_id'])) {
 } else {
     echo json_encode([
         'success' => false,
-        'message' => 'No admin ID provided'
+        'message' => 'No patient ID provided'
     ]);
 }
 exit();

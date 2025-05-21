@@ -87,7 +87,6 @@ h1 {
     transform: translateX(20px);
 }
 
-/* Dark Mode Styles */
 body.dark-mode .settings-container {
     background-color: #1a1a1a;
 }

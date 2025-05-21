@@ -3,7 +3,6 @@ require_once("../settings/db_class.php");
 
 class staff_class extends db_connection {
 
-    // Add staff
     public function addstaff($staff_id, $first_name, $last_name, $gender, $position, $department_id,$contact,$email) {
         $staff_id = mysqli_real_escape_string($this->db_conn(), $staff_id);
         $first_name = mysqli_real_escape_string($this->db_conn(), $first_name);
@@ -19,29 +18,25 @@ class staff_class extends db_connection {
         return $this->db_query($sql);
     }
 
-    // Delete a staff by id
     public function deletestaff($id) {
         $id = mysqli_real_escape_string($this->db_conn(), $id);
         $sql = "DELETE FROM user_table WHERE user_id = '$id'";
         return $this->db_query($sql);
     }
 
-    // Get all staff records
+
     public function getstaffs() {
         $sql = "SELECT * FROM staff_table";
         return $this->db_fetch_all($sql);
     }
 
-    // Get staff information by id
     public function getstaffsbyID($id) {
         $id = mysqli_real_escape_string($this->db_conn(), $id);
         $sql = "SELECT * FROM staff_table WHERE staff_id = '$id'";
         return $this->db_fetch_all($sql);
     }
 
-    // Update staff
     public function updatestaff($staff_id, $first_name, $last_name, $gender, $position, $department_id, $contact, $email) {
-        // Sanitize inputs to prevent SQL injection
         $staff_id = mysqli_real_escape_string($this->db_conn(), $staff_id);
         $first_name = mysqli_real_escape_string($this->db_conn(), $first_name);
         $last_name = mysqli_real_escape_string($this->db_conn(), $last_name);
@@ -51,7 +46,6 @@ class staff_class extends db_connection {
         $contact = mysqli_real_escape_string($this->db_conn(), $contact);
         $email = mysqli_real_escape_string($this->db_conn(), $email);
         
-        // Create the SQL query to update the staff record
         $sql = "UPDATE staff_table
                 SET first_name = '$first_name',
                     last_name = '$last_name',
@@ -62,7 +56,6 @@ class staff_class extends db_connection {
                     email = '$email'
                 WHERE staff_id = '$staff_id'";
         
-        // Execute the query
         return $this->db_query($sql);
     }
     
@@ -85,5 +78,18 @@ class staff_class extends db_connection {
         $sql = "SELECT user_id FROM user_table WHERE user_id = '$staff_id'";
         return $this->db_fetch_all($sql);
     }
+
+public function update_ID($original_staff_id, $staffId)
+{
+    $staff_id = mysqli_real_escape_string($this->db_conn(), $staffId);
+    $original_staffid = mysqli_real_escape_string($this->db_conn(), $original_staff_id);
+
+    $sql = "UPDATE user_table
+    SET user_id = '$staff_id'
+    WHERE user_id = '$original_staffid'";
+    
+return $this->db_query($sql);
+
+}
 }
 ?>

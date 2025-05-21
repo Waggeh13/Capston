@@ -106,7 +106,6 @@ body {
     background-color: #e0e0e0;
 }
 
-/* Modal Styles */
 .modal {
     display: none;
     position: fixed;
@@ -152,7 +151,6 @@ body {
     color: #777;
 }
 
-/* Form Styles to match your form.jpg */
 .lab-form {
     width: 100%;
     font-size: 14px;
@@ -221,7 +219,6 @@ body {
     color: red;
 }
 
-/* Dark Mode Styles */
 body.dark-mode {
     background-color: #1a1a1a;
     color: #e0e0e0;
@@ -232,7 +229,7 @@ body.dark-mode .dashboard {
 }
 
 body.dark-mode .header {
-    border-bottom: 2px solid #007bff; /* Lighter blue for visibility */
+    border-bottom: 2px solid #007bff;
 }
 
 body.dark-mode .search-bar {
@@ -247,7 +244,7 @@ body.dark-mode .request-card {
 }
 
 body.dark-mode .patient-photo {
-    background-color: #007bff; /* Lighter blue for visibility */
+    background-color: #007bff;
 }
 
 body.dark-mode .btn-primary {
@@ -281,7 +278,7 @@ body.dark-mode .modal-header {
 }
 
 body.dark-mode .modal-header h2 {
-    color: #66b0ff; /* Lighter blue for visibility */
+    color: #66b0ff;
 }
 
 body.dark-mode .close-btn {

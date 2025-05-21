@@ -12,11 +12,10 @@
     cursor: pointer;
 }
 
-/* Dark Mode Styles */
 body.dark-mode .btn:hover {
-    background: #ff3333; /* Slightly lighter red for better visibility in dark mode */
+    background: #ff3333;
 }
 
 body.dark-mode .cards {
-    background-color: #2c2c2c; /* Dark background for the cards container */
+    background-color: #2c2c2c;
 }

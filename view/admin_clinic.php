@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../images/bafrow_logo.png" type="image/png">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/style_adminDoctor.css">
     <link rel="stylesheet" href="../css/sidebar.css">
@@ -29,14 +32,13 @@ $userProfile = new userName_class();
     align-items: center;
     }
     .user {
-    display: inline-block;
-    white-space: nowrap;
-    margin-left: 10px;
-    margin-top: 22px;
-    }
-    .fas.fa-bell {
-        margin-left: 1180px;
-    }
+            display: inline-block;
+            white-space: nowrap;
+            margin-left: 10px;
+            position: absolute;
+            right: 150px;
+            overflow: visible;
+        }
     .profile-text{
     color: black;
     font-size: 20px;
@@ -104,7 +106,6 @@ $userProfile = new userName_class();
         </div>
         <div class="main">
             <div class="top-bar">
-                <i class="fas fa-bell"></i>
                 <div class="user">
                     <span id="username"><?php echo $userProfile->getUserName(); ?></span>
                 </div>
@@ -122,12 +123,11 @@ $userProfile = new userName_class();
                         <td>Action</td>
                     </thead>
                     <tbody>
-                        <!-- Data will be fetched from the database -->
                         <?php
                             $clinics = viewclinicsController();
                             $departments = viewdepartmentsController();
                             foreach ($departments as $dept) {
-                                $departmentMap[$dept['department_id']] = $dept['department_name']; // Fixed the assignment operator
+                                $departmentMap[$dept['department_id']] = $dept['department_name'];
                                 }
                                 if (!empty($clinics)) {
                                     foreach ($clinics as $clinic) {
@@ -151,7 +151,6 @@ $userProfile = new userName_class();
                         </div>
         </div>
 
-        <!-- Add Item Pop-up Form -->
         <div class="overlay" id="overlay"></div>
         <div class="popup-form" id="addItemForm">
             <h3>Add Clinic</h3>
@@ -159,7 +158,6 @@ $userProfile = new userName_class();
                 <input type="text" id="clinicID" name="clinicID" placeholder="Enter clinic ID" required>
                 <input type="text" id="clinicName" name="clinicName" placeholder="Enter clinic name" required>
                 
-                <!-- Dropdown for Category -->
                 <label for="department">Department:</label>
                 <select id="department" name="department_id" required>
                     <option value="">Select a department</option>
@@ -177,14 +175,12 @@ $userProfile = new userName_class();
             </form>
         </div>
 
-        <!-- Edit Item Pop-up Form -->
         <div class="popup-form" id="editItemForm">
             <h3>Edit Clinic</h3>
             <form id="editItem">
                 <input type="hidden" id="editclinicId" name="editclinicId">
                 <input type="text" id="editclinicName" name="editclinicName" placeholder="Edit clinic name" required>
                 
-                <!-- Dropdown for Category -->
                 <label for="editDepartment">Department:</label>
                     <select id="editDepartment" name="editDepartment" required>
                         <option value="">Select a department</option>

@@ -1,4 +1,3 @@
-/* Existing styles (assumed) */
 .modal {
     display: none;
     position: fixed;
@@ -112,7 +111,6 @@
     background-color: #FF0000;
 }
 
-/* Ensure action-card styles are consistent */
 .action-card {
     background-color: #fff;
     padding: 20px;

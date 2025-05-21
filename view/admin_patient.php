@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../images/bafrow_logo.png" type="image/png">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/style_adminDoctor.css">
     <link rel="stylesheet" href="../css/sidebar.css">
@@ -28,14 +31,13 @@ $userProfile = new userName_class();
     align-items: center;
     }
     .user {
-    display: inline-block;
-    white-space: nowrap;
-    margin-left: 10px;
-    margin-top: 22px;
-    }
-    .fas.fa-bell {
-        margin-left: 1180px;
-    }
+            display: inline-block;
+            white-space: nowrap;
+            margin-left: 10px;
+            position: absolute;
+            right: 150px;
+            overflow: visible;
+        }
     .profile-text{
     color: black;
     font-size: 20px;
@@ -103,7 +105,6 @@ $userProfile = new userName_class();
         </div>
         <div class="main">
             <div class="top-bar">
-                <i class="fas fa-bell"></i>
                 <div class="user">
                     <span id="username"><?php echo $userProfile->getUserName(); ?></span>
                 </div>
@@ -153,12 +154,10 @@ $userProfile = new userName_class();
                 </table>
             </div>
         </div>
-        <!-- Add Patient Pop-up Form -->
         <div class="overlay" id="overlay"></div>
         <div class="popup-form" id="addItemForm">
             <h3>Add Patient</h3>
             <form id="addItem">
-                <!-- Patient Details -->
                 <input type="text" id="patientId" name="patientId" placeholder="Patient ID" required>
                 <input type="text" id="firstName" name="firstName" placeholder="First Name" required>
                 <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
@@ -166,7 +165,6 @@ $userProfile = new userName_class();
                 <input type="number" id="weight" name="weight" placeholder="Weight (kg)" required>
                 <input type="text" id="address" name="address" placeholder="Address" required>
                 <input type="tel" id="contact" name="contact" placeholder="Contact Number" required>
-                <!-- Gender Field (missing in original form) -->
                 <select id="gender" name="gender" required>
                     <option value="">Select Gender</option>
                     <option value="Male">Male</option>
@@ -174,7 +172,6 @@ $userProfile = new userName_class();
                     <option value="Other">Other</option>
                 </select>
                 
-                <!-- Next of Kin Details -->
                 <input type="text" id="nextOfKin" name="nextOfKin" placeholder="Next of Kin" required>
                 <input type="tel" id="nextOfKinContact" name="nextOfKinContact" placeholder="Next of Kin Contact" required>
                 <select id="nextOfKinGender" name="nextOfKinGender" required>
@@ -184,19 +181,16 @@ $userProfile = new userName_class();
                     <option value="Other">Other</option>
                 </select>
                 <input type="text" id="nextOfKinRelationship" name="nextOfKinRelationship" placeholder="Relationship to Kin" required>
-                <!-- Hidden password field -->
                 <input type="hidden" id="default-password" name="default-password" value="Bafrrow@2025">
-                <!-- Form buttons -->
                 <button type="submit">Add</button>
                 <button type="button" class="cancel" id="cancelAddItem">Cancel</button>
             </form>
         </div>
         
-        <!-- Edit Patient Pop-up Form -->
         <div class="popup-form" id="editItemForm">
             <h3>Edit Patient</h3>
             <form id="editItem">
-                <!-- Patient Details -->
+                <input type="hidden" id="originalpatientId" name="originalpatientId">
                 <input type="hidden" id="editPatientId" name="patient_id" required>
                 <input type="text" id="editFirstName" name="first_name" placeholder="First Name" required>
                 <input type="text" id="editLastName" name="last_name" placeholder="Last Name" required>
@@ -210,7 +204,6 @@ $userProfile = new userName_class();
                     <option value="Female">Female</option>
                     <option value="Other">Other</option>
                 </select>
-                <!-- Next of Kin Details -->
                 <input type="text" id="editNextOfKin" name="nextofkinname" placeholder="Next of Kin" required>
                 <input type="tel" id="editNextOfKinContact" name="nextofkincontact" placeholder="Next of Kin Contact" required>
                 <select id="editNextOfKinGender" name="nextofkingender" required>

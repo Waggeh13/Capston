@@ -6,7 +6,6 @@ $response = array("success" => false, "message" => "");
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $patientId = sanitize_input($_POST['patientId']);
 
-    // Check if ID already exists
     if (ID_exists_ctr($patientId)) {
         $response = [
             "success" => false,

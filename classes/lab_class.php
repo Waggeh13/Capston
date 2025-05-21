@@ -10,7 +10,6 @@ class lab_class extends db_connection {
             throw new Exception("Database connection failed.");
         }
 
-        // Sanitize inputs
         $staff_id = mysqli_real_escape_string($conn, $staff_id);
         $patient_fullname = mysqli_real_escape_string($conn, $patient_fullname);
         $susdiag = mysqli_real_escape_string($conn, $susdiag);
@@ -18,13 +17,12 @@ class lab_class extends db_connection {
         $ext = mysqli_real_escape_string($conn, $ext);
         $request_date = mysqli_real_escape_string($conn, $request_date);
 
-        // Start transaction
         if (!mysqli_begin_transaction($conn)) {
             throw new Exception("Failed to start transaction: " . mysqli_error($conn));
         }
 
         try {
-            // Get patient_id
+
             $names = explode(' ', $patient_fullname, 2);
             $firstName = mysqli_real_escape_string($conn, $names[0]);
             $lastName = isset($names[1]) ? mysqli_real_escape_string($conn, $names[1]) : '';
@@ -40,7 +38,6 @@ class lab_class extends db_connection {
             $patient_id = $patient_row['patient_id'];
 
 
-            // Insert into lab_table with doctor_id (staff_id)
             $lab_sql = "INSERT INTO lab_table (
                             patient_id, 
                             staff_id, 
@@ -66,14 +63,11 @@ class lab_class extends db_connection {
                 throw new Exception("Failed to get lab ID");
             }
 
-            // Deduplicate test requests
             $testRequests = array_unique($testRequests);
 
-            // Insert each test request into lab_test_table
             foreach ($testRequests as $testName) {
                 $testName = mysqli_real_escape_string($conn, $testName);
                 
-                // Check if test already exists for this lab_id to prevent duplicates
                 $check_sql = "SELECT COUNT(*) FROM lab_test_table lt
                             JOIN test_type_table tt ON lt.test_type_id = tt.test_type_id
                             WHERE lt.lab_id = '$lab_id' AND tt.test_name = '$testName'";
@@ -81,10 +75,9 @@ class lab_class extends db_connection {
                 $count = mysqli_fetch_row($check_result)[0];
                 
                 if ($count > 0) {
-                    continue; // Skip if test already exists for this lab_id
+                    continue;
                 }
 
-                // Get or create test_type_id
                 $test_sql = "SELECT test_type_id FROM test_type_table WHERE test_name = '$testName'";
                 $test_result = mysqli_query($conn, $test_sql);
                 
@@ -103,7 +96,6 @@ class lab_class extends db_connection {
                     $test_type_id = $test_row['test_type_id'];
                 }
 
-                // Insert into lab_test_table
                 $lab_test_sql = "INSERT INTO lab_test_table (
                                     lab_id, 
                                     test_type_id, 
@@ -119,7 +111,6 @@ class lab_class extends db_connection {
                 }
             }
 
-            // Commit transaction
             if (!mysqli_commit($conn)) {
                 throw new Exception("Failed to commit transaction: " . mysqli_error($conn));
             }

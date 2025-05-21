@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../images/bafrow_logo.png" type="image/png">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/lab_request.css">
     <link rel="stylesheet" href="../css/lab_container.css">
@@ -23,6 +26,25 @@
         margin-top: 5px;
         font-size: 14px;
         font-weight: bold;
+    }
+    .sidebar ul li a {
+    width: 100%;
+    text-decoration: none;
+    color: #fff;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    }
+    .user {
+            display: inline-block;
+            white-space: nowrap;
+            margin-left: 10px;
+            position: absolute;
+            right: 150px;
+            overflow: visible;
+        }
+    .profile-text{
+    color: black;
     }
 </style>
 <?php
@@ -97,18 +119,12 @@ redirect_superadmin_if_not_logged_in();
         </div>
         <div class="main">
             <div class="top-bar">
-                <div class="search">
-                    <input type="text" name="search" placeholder="search here">
-                    <label for="search"><i class="fas fa-search"></i></label>
-                </div>
-                <i class="fas fa-bell"></i>
                 <div class="user">
-                    <span class="profile-text">Profile</span>
+                    <span class="profile-text">Fatou Waggeh</span>
                 </div>
             </div>
             <div class="settings-container">
                 <h1>Settings</h1>
-                <!-- Light/Dark Mode Toggle -->
                 <div class="settings-section">
                     <h2>Appearance</h2>
                     <div class="settings-option">
@@ -118,14 +134,12 @@ redirect_superadmin_if_not_logged_in();
                         </div>
                     </div>
                 </div>
-                <!-- Change password -->
                 <div class="settings-section">
                     <h2>Password</h2>
                     <div class="settings-option">
                         <button class="change-password-btn" onclick="openPasswordModal()">Change Password</button>
                     </div>
                 </div>
-                <!-- Language Selection -->
                 <div class="settings-section">
                     <h2>Language</h2>
                     <div class="settings-option">
@@ -138,7 +152,6 @@ redirect_superadmin_if_not_logged_in();
                     </div>
                 </div>
 
-                <!-- Font Size Adjustment -->
                 <div class="settings-section">
                     <h2>Font Size</h2>
                     <div class="settings-option">
@@ -155,7 +168,6 @@ redirect_superadmin_if_not_logged_in();
             </div>
         </div>
 
-        <!-- Password Reset Modal -->
         <div class="password-modal" id="passwordModal">
             <div class="modal-content">
                 <div class="modal-header">

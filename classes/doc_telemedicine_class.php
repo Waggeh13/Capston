@@ -4,7 +4,7 @@ require_once("../settings/db_class.php");
 class doctor_telemedicine_class extends db_connection {
     private $zoom_client_id = 'JWxNJ_siTs6WKTBZZ9IFw';
     private $zoom_client_secret = 'DNxXbSOv70Md8i5ohHgazs6ooxDuuGTW';
-    private $zoom_redirect_uri = 'https://eccb-41-79-97-5.ngrok-free.app/capston/utils/zoom-callback.php';
+    private $zoom_redirect_uri = 'http://178.128.172.82/utils/zoom-callback.php';
 
     public function get_doctor_telemedicine_appointments($staff_id) {
         $conn = $this->db_conn();
@@ -168,15 +168,15 @@ class doctor_telemedicine_class extends db_connection {
 
     private function generate_signature($meeting_id) {
         $iat = time();
-        $exp = $iat + 60 * 60 * 2; // Signature valid for 2 hours
+        $exp = $iat + 60 * 60 * 2; 
         
         $data = array(
-            'sdkKey' => $this->zoom_client_id, // Use client_id as sdkKey
+            'sdkKey' => $this->zoom_client_id,
             'mn' => $meeting_id,
-            'role' => 1, // 1 for host (doctor)
+            'role' => 1,
             'iat' => $iat,
             'exp' => $exp,
-            'appKey' => $this->zoom_client_id, // Use client_id as appKey
+            'appKey' => $this->zoom_client_id,
             'tokenExp' => $exp
         );
 

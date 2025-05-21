@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../images/bafrow_logo.png" type="image/png">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/style_adminDoctor.css">
     <link rel="stylesheet" href="../css/sidebar.css">
@@ -10,6 +13,27 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>Patients</title>
 </head>
+<style>
+    .sidebar ul li a {
+    width: 100%;
+    text-decoration: none;
+    color: #fff;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    }
+    .user {
+            display: inline-block;
+            white-space: nowrap;
+            margin-left: 10px;
+            position: absolute;
+            right: 150px;
+            overflow: visible;
+        }
+    .profile-text{
+    color: black;
+    }
+</style>
 <?php
 require('../controllers/patient_controller.php');
 require_once('../settings/core.php');
@@ -70,7 +94,7 @@ redirect_superadmin_if_not_logged_in();
                 </li>
                 <li>
                     <a href="super_admin_setting.php">
-                        <i class="fas fa-briefcase-medical"></i>
+                        <i class="fas fa-cog"></i>
                         <div class="title">Settings</div>
                     </a>
                 </li>
@@ -84,13 +108,8 @@ redirect_superadmin_if_not_logged_in();
         </div>
         <div class="main">
             <div class="top-bar">
-                <div class="search">
-                    <input type="text" name="search" placeholder="search here">
-                    <label for="search"><i class="fas fa-search"></i></label>
-                </div>
-                <i class="fas fa-bell"></i>
                 <div class="user">
-                    <span class="profile-text">Profile</span>
+                    <span class="profile-text">Fatou Waggeh</span>
                 </div>
             </div>
             <div class="doctor-available">
@@ -138,12 +157,10 @@ redirect_superadmin_if_not_logged_in();
                 </table>
             </div>
         </div>
-        <!-- Add Patient Pop-up Form -->
         <div class="overlay" id="overlay"></div>
         <div class="popup-form" id="addItemForm">
             <h3>Add Patient</h3>
             <form id="addItem">
-                <!-- Patient Details -->
                 <input type="text" id="patientId" name="patientId" placeholder="Patient ID" required>
                 <input type="text" id="firstName" name="firstName" placeholder="First Name" required>
                 <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
@@ -151,7 +168,6 @@ redirect_superadmin_if_not_logged_in();
                 <input type="number" id="weight" name="weight" placeholder="Weight (kg)" required>
                 <input type="text" id="address" name="address" placeholder="Address" required>
                 <input type="tel" id="contact" name="contact" placeholder="Contact Number" required>
-                <!-- Gender Field (missing in original form) -->
                 <select id="gender" name="gender" required>
                     <option value="">Select Gender</option>
                     <option value="Male">Male</option>
@@ -159,7 +175,6 @@ redirect_superadmin_if_not_logged_in();
                     <option value="Other">Other</option>
                 </select>
                 
-                <!-- Next of Kin Details -->
                 <input type="text" id="nextOfKin" name="nextOfKin" placeholder="Next of Kin" required>
                 <input type="tel" id="nextOfKinContact" name="nextOfKinContact" placeholder="Next of Kin Contact" required>
                 <select id="nextOfKinGender" name="nextOfKinGender" required>
@@ -169,20 +184,17 @@ redirect_superadmin_if_not_logged_in();
                     <option value="Other">Other</option>
                 </select>
                 <input type="text" id="nextOfKinRelationship" name="nextOfKinRelationship" placeholder="Relationship to Kin" required>
-                <!-- Hidden password field -->
                 <input type="hidden" id="default-password" name="default-password" value="Bafrrow@2025">
-                <!-- Form buttons -->
                 <button type="submit">Add</button>
                 <button type="button" class="cancel" id="cancelAddItem">Cancel</button>
             </form>
         </div>
         
-        <!-- Edit Patient Pop-up Form -->
         <div class="popup-form" id="editItemForm">
             <h3>Edit Patient</h3>
             <form id="editItem">
-                <!-- Patient Details -->
-                <input type="hidden" id="editPatientId" name="patient_id" required>
+                <input type="hidden" id="originalpatientId" name="originalpatientId">
+                <input type="text" id="editPatientId" name="patient_id" required>
                 <input type="text" id="editFirstName" name="first_name" placeholder="First Name" required>
                 <input type="text" id="editLastName" name="last_name" placeholder="Last Name" required>
                 <input type="date" id="editDob" name="DOB" placeholder="Date of Birth" required>
@@ -195,7 +207,6 @@ redirect_superadmin_if_not_logged_in();
                     <option value="Female">Female</option>
                     <option value="Other">Other</option>
                 </select>
-                <!-- Next of Kin Details -->
                 <input type="text" id="editNextOfKin" name="nextofkinname" placeholder="Next of Kin" required>
                 <input type="tel" id="editNextOfKinContact" name="nextofkincontact" placeholder="Next of Kin Contact" required>
                 <select id="editNextOfKinGender" name="nextofkingender" required>

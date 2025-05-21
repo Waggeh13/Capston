@@ -4,7 +4,6 @@ function toggleMode() {
 }
 
 function startDispensing(prescriptionId, patientId) {
-    // Fetch prescription details via AJAX
     fetch('../actions/get_prescription_by_id.php', {
         method: 'POST',
         headers: {
@@ -19,7 +18,6 @@ function startDispensing(prescriptionId, patientId) {
             return;
         }
 
-        // Verify data structure
         if (!data.patient || !data.patient.first_name || !data.patient.last_name || !data.medications) {
             alert('Error: Invalid prescription data received.');
             return;
@@ -29,10 +27,8 @@ function startDispensing(prescriptionId, patientId) {
         const patient = prescription.patient;
         const medications = prescription.medications;
 
-        // Generate initials from first_name and last_name
         const initials = (patient.first_name[0] || '') + (patient.last_name[0] || '');
 
-        // Update patient info in dispense mode
         const patientInfoDiv = document.getElementById('dispensePatientInfo');
         patientInfoDiv.innerHTML = `
             <div class="patient-photo">${initials}</div>
@@ -42,7 +38,6 @@ function startDispensing(prescriptionId, patientId) {
             </div>
         `;
 
-        // Update medications table
         const tbody = document.querySelector('#dispenseTable tbody');
         tbody.innerHTML = '';
 
@@ -55,7 +50,6 @@ function startDispensing(prescriptionId, patientId) {
             tbody.appendChild(row);
         });
 
-        // Store prescription and patient IDs in the form for submission
         document.getElementById('dispenseForm').dataset.prescriptionId = prescriptionId;
         document.getElementById('dispenseForm').dataset.patientId = patientId;
 
@@ -72,7 +66,6 @@ function cancelPrescription(prescriptionId) {
         return;
     }
 
-    // Send AJAX request to delete the prescription
     fetch('../actions/delete_prescription.php', {
         method: 'POST',
         headers: {
@@ -84,7 +77,7 @@ function cancelPrescription(prescriptionId) {
     .then(data => {
         if (data.success) {
             alert('Prescription cancelled successfully.');
-            window.location.reload(); // Refresh to update prescription list
+            window.location.reload();
         } else {
             alert('Error: ' + data.error);
         }
@@ -102,7 +95,6 @@ document.getElementById('dispenseForm').addEventListener('submit', function(e) {
     const patientId = this.dataset.patientId;
     const dispensedQuantities = [];
 
-    // Collect dispensed quantities
     document.querySelectorAll('#dispenseTable tbody input[name="dispensedQty"]').forEach(input => {
         dispensedQuantities.push({
             medication_id: input.dataset.medicationId,
@@ -110,7 +102,6 @@ document.getElementById('dispenseForm').addEventListener('submit', function(e) {
         });
     });
 
-    // Send data to server
     fetch('../actions/dispense_medication.php', {
         method: 'POST',
         headers: {
@@ -126,7 +117,7 @@ document.getElementById('dispenseForm').addEventListener('submit', function(e) {
     .then(data => {
         if (data.success) {
             alert('Dispensing record sent to cashier!');
-            window.location.reload(); // Refresh to update prescription list
+            window.location.reload();
         } else {
             alert('Error: ' + data.error);
         }

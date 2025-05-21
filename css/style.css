@@ -127,7 +127,7 @@ body{
 
 .cards {
    margin-top: 60px;
-   width: 100%; 
+   width: 100%;
    padding: 35px 20px;
    display: grid;
    grid-template-columns: repeat(5, 1fr);
@@ -259,7 +259,6 @@ td i {
     background: red;
 }
 
-/* Responsive Styles */
 @media(max-width: 1200px){
     .cards {
         grid-template-columns: repeat(3, 1fr);
@@ -398,7 +397,6 @@ td i {
     }
 }
 
-/* Dark Mode Styles */
 body.dark-mode {
     background: #1a1a1a;
 }

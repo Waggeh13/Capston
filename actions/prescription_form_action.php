@@ -1,12 +1,11 @@
 <?php
-session_start(); // Start the session
+session_start();
 include("../controllers/prescription_controller.php");
 
 $response = array("success" => false, "message" => "");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
-        // Get staff_id from session instead of form
         if (!isset($_SESSION['user_id'])) {
             throw new Exception("Doctor not authenticated. Please log in.");
         }
@@ -18,7 +17,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $dosages = $_POST['dosages'] ?? [];
         $instructions = $_POST['instructions'] ?? [];
 
-        // Ensure arrays have the same length
         if (count($medicines) !== count($dosages) || count($dosages) !== count($instructions)) {
             throw new Exception("Mismatch in medication, dosage, or instructions count.");
         }

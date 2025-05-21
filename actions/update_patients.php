@@ -4,6 +4,7 @@ include("../controllers/patient_controller.php");
 $response = array("success" => false, "message" => "");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $original_patient_id = sanitize_input($_POST['originalpatientId']);
     $patientId = sanitize_input($_POST['patient_id']);
     $firstName = sanitize_input($_POST['first_name']);
     $lastName = sanitize_input($_POST['last_name']);
@@ -17,7 +18,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nextOfKinRelationship = sanitize_input($_POST['nextofkinrelationship']);
     $address = sanitize_input($_POST['address']);
 
-    $result = updatePatientController($patientId, $firstName, $lastName, $dob, $gender, $weight, $address, $contact, $nextOfKin, $nextOfKinContact, $nextOfKinGender, $nextOfKinRelationship);
+    if($original_patient_id== $patientId)
+    {
+        $result = updatePatientController($patientId, $firstName, $lastName, $dob, $gender, $weight, $address, $contact, $nextOfKin, $nextOfKinContact, $nextOfKinGender, $nextOfKinRelationship);
+    }
+    else{
+        $idchange = update_id($original_patient_id, $patientId);
+        if($idchange)
+        {
+            $result = updatePatientController($patientId, $firstName, $lastName, $dob, $gender, $weight, $address, $contact, $nextOfKin, $nextOfKinContact, $nextOfKinGender, $nextOfKinRelationship);
+        }
+    }
     if ($result) {
         $response["success"] = true;
         $response["message"] = "Patient updated successfully.";

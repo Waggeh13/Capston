@@ -1,9 +1,7 @@
-// Load the saved theme on page load
 document.addEventListener('DOMContentLoaded', function() {
     const darkModeToggle = document.getElementById('dark-mode');
     const body = document.body;
 
-    // Check if a theme preference exists in localStorage
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'dark') {
         body.classList.add('dark-mode');
@@ -12,7 +10,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Add event listener for dark mode toggle
     if (darkModeToggle) {
         darkModeToggle.addEventListener('change', function() {
             if (this.checked) {

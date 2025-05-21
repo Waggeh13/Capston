@@ -1,4 +1,4 @@
-/* Pop-up Form Styles */
+
 .popup-form {
     display: none;
     position: fixed;
@@ -65,7 +65,6 @@
     margin-left: 10px;
 }
 
-/* Radio Button Styles */
 .radio-group {
     display: flex;
     gap: 15px; 
@@ -83,18 +82,18 @@
     margin-right: 5px;
 }
 
-/* Dark Mode Styles */
+
 body.dark-mode .popup-form {
-    background: #333; /* Dark background for the form */
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); /* Lighter shadow for dark mode */
+    background: #333;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
 }
 
 body.dark-mode .overlay {
-    background: rgba(0, 0, 0, 0.7); /* Darker overlay for dark mode */
+    background: rgba(0, 0, 0, 0.7);
 }
 
 body.dark-mode .popup-form h3 {
-    color: #e0e0e0; /* Lighter text color */
+    color: #e0e0e0;
 }
 
 body.dark-mode .popup-form input,
@@ -105,13 +104,13 @@ body.dark-mode .popup-form select {
 }
 
 body.dark-mode .popup-form label {
-    color: #d1d1d1; /* Lighter text color */
+    color: #d1d1d1;
 }
 
 body.dark-mode .popup-form button {
-    background: #005bb5; /* Darker blue for buttons */
+    background: #005bb5;
 }
 
 body.dark-mode .popup-form button.cancel {
-    background: #555; /* Darker gray for cancel button */
+    background: #555;
 }

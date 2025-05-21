@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../images/bafrow_logo.png" type="image/png">
     <title>Pharmacist Dashboard</title>
     <link rel="stylesheet" href="../css/pharmacist.css">
     <link rel="stylesheet" href="../css/pharmacist_header.css">
@@ -14,7 +17,7 @@ require_once('../classes/userName_class.php');
 require_once('../controllers/pharmacist_controller.php');
 redirect_pharmacist_if_not_logged_in();
 $userProfile = new userName_class();
-$prescriptions = viewPendingPrescriptionsController(); // Fetch pending prescriptions
+$prescriptions = viewPendingPrescriptionsController();
 ?>
 <body>
     <div class="dashboard">
@@ -36,7 +39,6 @@ $prescriptions = viewPendingPrescriptionsController(); // Fetch pending prescrip
             </div>
         </div>
         
-        <!-- View Prescription Mode -->
         <div class="view-mode" id="viewMode">
             <h2><i class="fas fa-prescription-bottle-alt"></i> Prescriptions to Fill</h2>
             
@@ -47,7 +49,7 @@ $prescriptions = viewPendingPrescriptionsController(); // Fetch pending prescrip
                     $medications = $prescription['medications'];
                     $staff = $prescription['staff'];
                     ?>
-                    <!-- Prescription Card -->
+
                     <div class="prescription-card">
                         <div class="patient-info">
                             <div class="patient-photo">
@@ -83,11 +85,9 @@ $prescriptions = viewPendingPrescriptionsController(); // Fetch pending prescrip
             ?>
         </div>
         
-        <!-- Dispensing Form Mode -->
         <div class="dispense-mode hidden" id="dispenseMode">
             <h2><i class="fas fa-pills"></i> Dispense Medication</h2>
             <div class="patient-info" id="dispensePatientInfo">
-                <!-- Patient info will be inserted here by JavaScript -->
             </div>
             
             <form class="dispense-form" id="dispenseForm">
@@ -99,7 +99,6 @@ $prescriptions = viewPendingPrescriptionsController(); // Fetch pending prescrip
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Medication rows will be inserted here by JavaScript -->
                     </tbody>
                 </table>
                 

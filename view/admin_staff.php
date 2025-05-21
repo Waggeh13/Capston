@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../images/bafrow_logo.png" type="image/png">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/style_adminDoctor.css">
     <link rel="stylesheet" href="../css/sidebar.css">
@@ -29,14 +32,13 @@ $userProfile = new userName_class();
     align-items: center;
     }
     .user {
-    display: inline-block;
-    white-space: nowrap;
-    margin-left: 10px;
-    margin-top: 22px;
-    }
-    .fas.fa-bell {
-        margin-left: 1180px;
-    }
+            display: inline-block;
+            white-space: nowrap;
+            margin-left: 10px;
+            position: absolute;
+            right: 150px;
+            overflow: visible;
+        }
     .profile-text{
     color: black;
     font-size: 20px;
@@ -104,7 +106,6 @@ $userProfile = new userName_class();
         </div>
         <div class="main">
             <div class="top-bar">
-                <i class="fas fa-bell"></i>
                 <div class="user">
                     <span id="username"><?php echo $userProfile->getUserName(); ?></span>
                 </div>
@@ -129,10 +130,10 @@ $userProfile = new userName_class();
                     <tbody>
                     <?php
                     $staffs = viewstaffsController();
-                    $departments = viewdepartmentsController(); // Fetch all departments once
+                    $departments = viewdepartmentsController();
                     $departmentMap = [];
                     foreach ($departments as $dept) {
-                        $departmentMap[$dept['department_id']] = $dept['department_name']; // Fixed the assignment operator
+                        $departmentMap[$dept['department_id']] = $dept['department_name'];
                         }
                         if (!empty($staffs)) {
                             foreach ($staffs as $staff) {
@@ -141,8 +142,7 @@ $userProfile = new userName_class();
                                 echo "<td>{$staff['first_name']}</td>";
                                 echo "<td>{$staff['last_name']}</td>";
                                 echo "<td>{$staff['position']}</td>";
-                                // Get department name from the map with a fallback
-                                $deptName = $departmentMap[$staff['department_id']] ?? 'N/A'; // Fixed array access
+                                $deptName = $departmentMap[$staff['department_id']] ?? 'N/A';
                                 echo "<td>{$deptName}</td>";
                                 echo "<td>{$staff['Gender']}</td>";
                                 echo "<td>{$staff['phone']}</td>";
@@ -161,12 +161,10 @@ $userProfile = new userName_class();
                 </table>
             </div>
         </div>
-        <!-- Add Staff Pop-up Form -->
         <div class="overlay" id="overlay"></div>
         <div class="popup-form" id="addItemForm">
             <h3>Add Staff</h3>
             <form id="addItem">
-                <!-- Staff Details -->
                 <div class="form-group">
                     <label for="staffId">Staff ID:</label>
                     <input type="text" id="staffId" name="staffId" placeholder="Enter staff ID" required>
@@ -233,13 +231,13 @@ $userProfile = new userName_class();
             </form>
         </div>
 
-        <!-- Edit Staff Pop-up Form -->
         <div class="popup-form" id="editItemForm">
             <h3>Edit Staff</h3>
             <form id="editItem">
-                <!-- Staff Details -->
+                <input type="hidden" id="originalstaffId" name="originalstaffId">
                 <div class="form-group">
-                    <input type="hidden" id="editStaffId" name="staffId" required>
+                    <label for="editStaffId">Staff ID:</label>
+                    <input type="text" id="editStaffId" name="staffId" required>
                 </div>
 
                 <div class="form-group">

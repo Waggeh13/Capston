@@ -3,21 +3,19 @@ session_start();
 require_once("../controllers/lab_controller.php");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Check if the user is logged in and has the correct role
     if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'Lab Technician') {
         echo json_encode(["success" => false, "message" => "Unauthorized: You must be logged in as a lab technician"]);
         exit;
     }
 
     $lab_id = isset($_POST['lab_id']) ? $_POST['lab_id'] : null;
-    $lab_tech_id = $_SESSION['user_id']; // Retrieve lab_tech_id from session
+    $lab_tech_id = $_SESSION['user_id'];
 
     if (!$lab_id || !$lab_tech_id) {
         echo json_encode(["success" => false, "message" => "Invalid lab ID or lab technician ID"]);
         exit;
     }
 
-    // Collect results dynamically from form inputs named test_<test_type_id>
     $results = [];
     foreach ($_POST as $key => $value) {
         if (strpos($key, 'test_') === 0 && !empty($value)) {

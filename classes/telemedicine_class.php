@@ -4,7 +4,7 @@ require_once("../settings/db_class.php");
 class patient_telemedicine_class extends db_connection {
     private $zoom_client_id = 'JWxNJ_siTs6WKTBZZ9IFw';
     private $zoom_client_secret = 'DNxXbSOv70Md8i5ohHgazs6ooxDuuGTW';
-    private $zoom_redirect_uri = 'https://eccb-41-79-97-5.ngrok-free.app/capston/utils/zoom-callback.php';
+    private $zoom_redirect_uri = 'http://178.128.172.82/utils/zoom-callback.php';
 
     public function get_telemedicine_appointments($patient_id) {
         $conn = $this->db_conn();
@@ -52,7 +52,6 @@ class patient_telemedicine_class extends db_connection {
         mysqli_free_result($result);
         mysqli_stmt_close($stmt);
 
-        // Check for expired appointments
         $current_time = date('Y-m-d H:i:s');
         foreach ($appointments as &$appointment) {
             $end_time = date('Y-m-d H:i:s', strtotime($appointment['start_time'] . " +{$appointment['duration']} minutes"));
@@ -109,7 +108,7 @@ class patient_telemedicine_class extends db_connection {
         mysqli_close($conn);
         
         if ($meeting) {
-            $meeting['sdk_key'] = $this->zoom_client_id; // Use client_id as sdkKey
+            $meeting['sdk_key'] = $this->zoom_client_id;
             $meeting['signature'] = $this->generate_signature($meeting['meeting_id']);
             return $meeting;
         }
@@ -174,15 +173,15 @@ class patient_telemedicine_class extends db_connection {
 
     private function generate_signature($meeting_id) {
         $iat = time();
-        $exp = $iat + 60 * 60 * 2; // Signature valid for 2 hours
+        $exp = $iat + 60 * 60 * 2;
         
         $data = array(
-            'sdkKey' => $this->zoom_client_id, // Use client_id as sdkKey
+            'sdkKey' => $this->zoom_client_id,
             'mn' => $meeting_id,
-            'role' => 0, // 0 for participant
+            'role' => 0,
             'iat' => $iat,
             'exp' => $exp,
-            'appKey' => $this->zoom_client_id, // Use client_id as appKey
+            'appKey' => $this->zoom_client_id,
             'tokenExp' => $exp
         );
 

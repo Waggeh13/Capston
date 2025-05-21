@@ -42,27 +42,32 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
         if (this.status === 200) {
           if (response.error) {
             document.getElementById("idError").textContent = response.message;
+          } else if (response.is_default_password) {
+            sessionStorage.setItem('temp_user_id', response.user_id);
+            openPasswordModal();
+            document.getElementById("idError").textContent = "Please change your default password and log in again.";
           } else {
-            switch (response.user_role) {
-              case "SuperAdmin":
+            sessionStorage.removeItem('temp_user_id');
+            switch (response.user_role.toLowerCase()) {
+              case "superadmin":
                 window.location.href = '../view/super_admin_dashboard.php';
                 break;
-              case "Admin":
+              case "admin":
                 window.location.href = '../view/admin_dashboard.php';
                 break;
-              case "Doctor":
+              case "doctor":
                 window.location.href = '../view/doctor_dashboard.php';
                 break;
-              case "Lab Technician":
+              case "lab technician":
                 window.location.href = '../view/lab_technician.php';
                 break;
-              case "Pharmacist":
+              case "pharmacist":
                 window.location.href = '../view/pharmacist.php';
                 break;
-              case "Cashier":
+              case "cashier":
                 window.location.href = '../view/cashier.php';
                 break;
-              case "Patient":
+              case "patient":
                 window.location.href = '../view/patient_dashboard.php';
                 break;
               default:
@@ -71,11 +76,13 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
           }
         }
       } catch (e) {
+        console.error('Parse Error:', e);
         document.getElementById("idError").textContent = "An error occurred during login.";
       }
     });
 
     xhr.addEventListener('error', function () {
+      console.error('Network Error');
       document.getElementById("idError").textContent = "Network error occurred.";
     });
 
@@ -83,7 +90,6 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
   }
 });
 
-// Optional: Only run this code if show-password icon exists
 var showPasswordIcon = document.getElementById("show-password");
 var passwordField = document.getElementById("password");
 

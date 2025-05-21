@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../images/bafrow_logo.png" type="image/png">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/style_adminDoctor.css">
     <link rel="stylesheet" href="../css/sidebar.css">
@@ -10,6 +13,27 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>Clinics</title>
 </head>
+<style>
+    .sidebar ul li a {
+    width: 100%;
+    text-decoration: none;
+    color: #fff;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    }
+    .user {
+            display: inline-block;
+            white-space: nowrap;
+            margin-left: 10px;
+            position: absolute;
+            right: 150px;
+            overflow: visible;
+        }
+    .profile-text{
+    color: black;
+    }
+</style>
 <?php
 require_once('../controllers/clinic_controller.php');
 require_once('../controllers/department_controller.php');
@@ -84,13 +108,8 @@ redirect_superadmin_if_not_logged_in();
         </div>
         <div class="main">
             <div class="top-bar">
-                <div class="search">
-                    <input type="text" name="search" placeholder="search here">
-                    <label for="search"><i class="fas fa-search"></i></label>
-                </div>
-                <i class="fas fa-bell"></i>
                 <div class="user">
-                    <span class="profile-text">Profile</span>
+                    <span class="profile-text">Fatou Waggeh</span>
                 </div>
             </div>
             <div class="doctor-available">
@@ -106,12 +125,11 @@ redirect_superadmin_if_not_logged_in();
                         <td>Action</td>
                     </thead>
                     <tbody>
-                        <!-- Data will be fetched from the database -->
                         <?php
                             $clinics = viewclinicsController();
                             $departments = viewdepartmentsController();
                             foreach ($departments as $dept) {
-                                $departmentMap[$dept['department_id']] = $dept['department_name']; // Fixed the assignment operator
+                                $departmentMap[$dept['department_id']] = $dept['department_name'];
                                 }
                                 if (!empty($clinics)) {
                                     foreach ($clinics as $clinic) {
@@ -135,7 +153,6 @@ redirect_superadmin_if_not_logged_in();
                         </div>
         </div>
 
-        <!-- Add Item Pop-up Form -->
         <div class="overlay" id="overlay"></div>
         <div class="popup-form" id="addItemForm">
             <h3>Add Clinic</h3>
@@ -143,7 +160,6 @@ redirect_superadmin_if_not_logged_in();
                 <input type="text" id="clinicID" name="clinicID" placeholder="Enter clinic ID" required>
                 <input type="text" id="clinicName" name="clinicName" placeholder="Enter clinic name" required>
                 
-                <!-- Dropdown for Category -->
                 <label for="department">Department:</label>
                 <select id="department" name="department_id" required>
                     <option value="">Select a department</option>
@@ -161,14 +177,12 @@ redirect_superadmin_if_not_logged_in();
             </form>
         </div>
 
-        <!-- Edit Item Pop-up Form -->
         <div class="popup-form" id="editItemForm">
             <h3>Edit Clinic</h3>
             <form id="editItem">
                 <input type="hidden" id="editclinicId" name="editclinicId">
                 <input type="text" id="editclinicName" name="editclinicName" placeholder="Edit clinic name" required>
                 
-                <!-- Dropdown for Category -->
                 <label for="editDepartment">Department:</label>
                     <select id="editDepartment" name="editDepartment" required>
                         <option value="">Select a department</option>

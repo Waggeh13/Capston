@@ -6,7 +6,6 @@ $response = array("success" => false, "message" => "");
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $departmentId = sanitize_input($_POST['departmentId']);
 
-    // Check if ID already exists
     if (department_exists_ctr($departmentId)) {
         $response = [
             "success" => false,

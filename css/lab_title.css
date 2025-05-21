@@ -21,7 +21,6 @@
     font-weight: 600;
 }
 
-/* Dark Mode Styles */
 body.dark-mode .lab-results-header {
     background: #2c2c2c;
     box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);

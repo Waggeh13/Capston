@@ -29,6 +29,9 @@ $next_patient = $dashboard->getNextPatient();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../images/bafrow_logo.png" type="image/png">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/btn_style.css">
     <link rel="stylesheet" href="../css/calender.css">
@@ -49,9 +52,9 @@ $next_patient = $dashboard->getNextPatient();
             display: inline-block;
             white-space: nowrap;
             margin-left: 10px;
-        }
-        .fas.fa-bell {
-            margin-left: 1180px;
+            position: absolute;
+            right: 150px;
+            overflow: visible;
         }
         .profile-text {
             color: black;
@@ -132,7 +135,6 @@ $next_patient = $dashboard->getNextPatient();
         </div>
         <div class="main">
             <div class="top-bar">
-                <i class="fas fa-bell"></i>
                 <div class="user">
                     <span class="profile-text"><?php echo htmlspecialchars($userProfile->getUserName()); ?></span>
                 </div>

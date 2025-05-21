@@ -1,8 +1,6 @@
 <?php
-// Start session
 session_start(); 
 
-// For header redirection
 ob_start();
 
 /**
@@ -11,11 +9,14 @@ ob_start();
  */
 function redirect_if_not_role($required_role)
 {
-    $user_id = isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : null;
-    $user_role = isset($_SESSION['user_role']) ? trim($_SESSION['user_role']) : null;
+    // Check if session variables exist
+    if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_role'])) {
+        header("Location: ../view/login.php");
+        exit();
+    }
     
-    // Check if user_id is valid (positive integer) and role matches (case-insensitive)
-    if (!$user_id || !$user_role || strcasecmp($user_role, $required_role) !== 0) {
+    // Check if role matches (case-insensitive)
+    if (strcasecmp(trim($_SESSION['user_role']), $required_role) !== 0) {
         header("Location: ../view/login.php");
         exit();
     }
@@ -77,44 +78,53 @@ function redirect_patient_if_not_logged_in()
     redirect_if_not_role('Patient');
 }
 
-
 function redirect_if_logged_in() {
     if (isset($_SESSION['user_id'])) {
         if (isset($_SESSION['user_role'])) {
-            if ($_SESSION['user_role'] == "SuperAdmin") {
-                header("Location: super_admin_dashboard.php");
-                exit();
-            } else if ($_SESSION['user_role'] == "Admin") {
-                header("Location: admin_dashboard.php");
-                exit();
-            }else if ($_SESSION['user_role']=="Doctor")
-            {
-                header("Location: doctor_dashboard.php");
-                exit();
+            // Only redirect if we're not already on the correct page
+            $current_page = basename($_SERVER['PHP_SELF']);
+            $target_page = '';
+            
+            switch ($_SESSION['user_role']) {
+                case "SuperAdmin":
+                    $target_page = 'super_admin_dashboard.php';
+                    break;
+                case "Admin":
+                    $target_page = 'admin_dashboard.php';
+                    break;
+                case "Doctor":
+                    $target_page = 'doctor_dashboard.php';
+                    break;
+                case "Lab Technician":
+                    $target_page = 'lab_technician.php';
+                    break;
+                case "Pharmacist":
+                    $target_page = 'pharmacist.php';
+                    break;
+                case "Cashier":
+                    $target_page = 'cashier.php';
+                    break;
+                case "Patient":
+                    $target_page = 'patient_dashboard.php';
+                    break;
             }
-            else if ($_SESSION['user_role']=="Lab Technician")
-            {
-                header("Location: lab_technician.php");
-                exit();
-            }
-            else if ($_SESSION['user_role']=="Pharmacist")
-            {
-                header("Location: pharmacist.php");
-                exit();
-            }
-            else if ($_SESSION['user_role']=="Cashier")
-            {
-                header("Location: cashier.php");
-                exit();
-            }
-            else if ($_SESSION['user_role']=="Patient")
-            {
-                header("Location: patient_dashboard.php");
+            
+            if ($target_page && $current_page !== $target_page) {
+                header("Location: $target_page");
                 exit();
             }
         }
     }
 }
 
+function redirect_if_not_logged_in()
+{
+    $user_id = $_SESSION['user_id'] ?? null;
+    if (!$user_id) {
+        header("Location: ../view/login.php");
+        exit();
+    }
+
+}
 
 ?>

@@ -3,7 +3,6 @@ require("../settings/db_class.php");
 
 class customerlogin_class extends db_connection
 {
-    //--SELECT USER--//
     public function get_user_by_id($user_id)
     {
         $sql = "SELECT user_id, role, password FROM user_table WHERE user_id = ?";
@@ -28,7 +27,6 @@ class customerlogin_class extends db_connection
         }
     }
 
-    // Function to verify password
     public function verify_password($password, $hashedPassword)
     {
         return password_verify($password, $hashedPassword);

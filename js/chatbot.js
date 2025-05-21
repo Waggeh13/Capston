@@ -5,7 +5,6 @@ async function sendMessage() {
 
     const messages = document.querySelector('.chatbot-messages');
 
-    // Append user's message
     const sentMessage = document.createElement('div');
     sentMessage.className = 'message sent';
     sentMessage.innerHTML = `<div class="message-content">${message}</div>`;
@@ -14,7 +13,6 @@ async function sendMessage() {
     messages.scrollTop = messages.scrollHeight;
 
     try {
-        // Send request to PHP proxy
         const response = await fetch('../actions/openai_proxy.php', {
             method: 'POST',
             headers: {
@@ -34,7 +32,6 @@ async function sendMessage() {
 
         const botMessage = data.reply;
 
-        // Append bot's response
         const responseDiv = document.createElement('div');
         responseDiv.className = 'message received';
         responseDiv.innerHTML = `<div class="message-content">${botMessage}</div>`;
@@ -50,7 +47,6 @@ async function sendMessage() {
     }
 }
 
-// Handle Enter key
 document.getElementById('chatbotInput').addEventListener('keypress', function(e) {
     if (e.key === 'Enter') sendMessage();
 });

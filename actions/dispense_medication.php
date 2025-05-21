@@ -2,10 +2,8 @@
 require("../controllers/pharmacist_controller.php");
 require_once("../settings/core.php");
 
-// Set header first to ensure proper content type
 header('Content-Type: application/json');
 
-// Check if required data is provided
 $input = json_decode(file_get_contents('php://input'), true);
 if (
     isset($input['prescription_id']) &&

@@ -78,7 +78,6 @@ class getUpcomingAppointments_class extends db_connection {
             $result = $stmt->get_result();
             $row = $result->fetch_assoc();
             
-            // Debug output
             error_log("Appointment count: " . $row['appointment_count']);
             
             return (int)$row['appointment_count'];
@@ -110,7 +109,6 @@ class getUpcomingAppointments_class extends db_connection {
             $result = $stmt->get_result();
             $row = $result->fetch_assoc();
             
-            // Debug output
             error_log("Patient count: " . $row['patient_count']);
             
             return (int)$row['patient_count'];
@@ -142,7 +140,6 @@ class getUpcomingAppointments_class extends db_connection {
             $result = $stmt->get_result();
             $row = $result->fetch_assoc();
             
-            // Debug output
             error_log("Staff count: " . $row['staff_count']);
             
             return (int)$row['staff_count'];
@@ -174,7 +171,6 @@ class getUpcomingAppointments_class extends db_connection {
             $result = $stmt->get_result();
             $row = $result->fetch_assoc();
             
-            // Debug output
             error_log("Department count: " . $row['department_count']);
             
             return (int)$row['department_count'];

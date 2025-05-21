@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const addMedicationBtn = document.getElementById('addMedicationBtn');
     const form = document.getElementById('prescriptionForm');
     
-    // Add new medication entry
     addMedicationBtn.addEventListener('click', function() {
         const newEntry = document.createElement('div');
         newEntry.className = 'medication-entry';
@@ -29,20 +28,17 @@ document.addEventListener('DOMContentLoaded', function() {
         
         medicationsContainer.appendChild(newEntry);
         
-        // Add event listener to the new remove button
         newEntry.querySelector('.remove-btn').addEventListener('click', function() {
             medicationsContainer.removeChild(newEntry);
         });
     });
     
-    // Form submission with AJAX
     form.addEventListener('submit', function(e) {
-        e.preventDefault(); // Prevent default form submission
+        e.preventDefault();
         
-        const formData = new FormData(form); // Collect all form data, including arrays
+        const formData = new FormData(form);
         const submitButton = form.querySelector('.request-btn');
         
-        // Disable button to prevent multiple submissions
         submitButton.disabled = true;
         submitButton.textContent = 'Submitting...';
 
@@ -50,12 +46,11 @@ document.addEventListener('DOMContentLoaded', function() {
             method: 'POST',
             body: formData
         })
-        .then(response => response.json()) // Parse JSON response from PHP
+        .then(response => response.json())
         .then(data => {
             if (data.success) {
-                // Show success message
-                alert(data.message); // Or use a custom UI element
-                form.reset(); // Clear the form
+                alert(data.message);
+                form.reset();
                 medicationsContainer.innerHTML = `
                     <div class="medication-entry">
                         <div class="input-row">
@@ -73,9 +68,8 @@ document.addEventListener('DOMContentLoaded', function() {
                             <textarea name="instructions[]" rows="3" placeholder="Enter instructions (frequency, duration, etc.)" required></textarea>
                         </div>
                     </div>
-                `; // Reset to one medication entry
+                `;
             } else {
-                // Show error message
                 alert(data.message);
             }
         })
@@ -84,7 +78,6 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('An error occurred while submitting the prescription.');
         })
         .finally(() => {
-            // Re-enable the submit button
             submitButton.disabled = false;
             submitButton.textContent = 'Submit Prescription';
         });

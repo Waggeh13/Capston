@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../images/bafrow_logo.png" type="image/png">
     <title>Lab Technician Dashboard</title>
     <link rel="stylesheet" href="../css/lab_tech.css">
-    <link rel="stylesheet" href="../css/pharmacist_header.css"> 
+    <link rel="stylesheet" href="../css/pharmacist_header.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <?php
@@ -28,9 +31,9 @@ $userProfile = new userName_class();
                     <i class="fas fa-calendar-alt"></i> 
                     <span id="real-time-date"></span>
                 </div>
-                <button class="settings-btn" id="settingsBtn" title="Settings">
+                <a href="lab_tech_setting.php" class="settings-btn" id="settingsBtn" title="Settings">
                     <i class="fas fa-cog"></i>
-                </button>
+                </a>
                 <a href="../actions/logoutactions.php" class="logout-btn" id="logoutBtn">
                     <i class="fas fa-sign-out-alt"></i> Logout
                 </a>
@@ -39,11 +42,63 @@ $userProfile = new userName_class();
         
         <h2>Pending Lab Requests</h2>
         <div class="request-cards" id="requestCards">
-            <!-- Lab request cards will be populated dynamically -->
+        </div>
+    </div>
+    <div class="modal" id="requestModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Lab Request Form</h2>
+                <button class="close-btn" id="closeRequestModal">×</button>
+            </div>
+            <div class="lab-form">
+                <div class="section-title">BAFROW</div>
+                <div class="section-title">HAEMATOLOGY</div>
+                
+                <table>
+                    <tr>
+                        <th colspan="2">PATIENT INFORMATION</th>
+                    </tr>
+                    <tr>
+                        <td width="50%">
+                            <strong>NAME:</strong> <span id="patientName"></span><br>
+                            <strong>AGE:</strong> <span id="patientAge"></span><br>
+                            <strong>SEX:</strong> <span id="patientGender"></span>
+                        </td>
+                        <td>
+                            <strong>ID NUMBER:</strong> <span id="patientId"></span><br>
+                            <strong>DATE OF BIRTH:</strong> <span id="patientDOB"></span>
+                        </td>
+                    </tr>
+                </table>
+                
+                <table>
+                    <tr>
+                        <th colspan="2">ORDERING PHYSICIAN INFORMATION</th>
+                    </tr>
+                    <tr>
+                        <td width="50%">
+                            <strong>NAME:</strong> <span id="doctorName"></span><br>
+                            <strong>SIGNATURE:</strong> <span id="doctorSignature"></span>
+                        </td>
+                        <td>
+                            <strong>REQUEST DATE:</strong> <span id="requestDate"></span>
+                        </td>
+                    </tr>
+                </table>
+                
+                <div class="section-title">REQUEST:</div>
+                <div id="testCheckboxes" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px;">
+                </div>
+                
+                <div class="form-actions">
+                    <button class="btn btn-secondary" id="closeRequestModalBtn">
+                        <i class="fas fa-times"></i> Close
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Results Entry Modal -->
     <div class="modal" id="resultsModal">
         <div class="modal-content">
             <div class="modal-header">

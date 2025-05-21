@@ -1,13 +1,12 @@
 <?php
 session_start();
 
-// Clear conversation history
 if (isset($_SESSION['chat_history'])) {
     unset($_SESSION['chat_history']);
 }
-$_SESSION = array(); // Clear session variables
+$_SESSION = array();
 session_destroy();
-session_regenerate_id(true); // Prevent session fixation attacks
+session_regenerate_id(true);
 
 header("Location: ../view/login.php");
 exit();

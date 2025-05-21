@@ -1,12 +1,10 @@
 <?php
 header('Content-Type: application/json');
 
-// Start session
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Load API key from config file
 $config = include('../settings/config.php');
 $OPENAI_API_KEY = $config['OPENAI_API_KEY'];
 
@@ -25,18 +23,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    // Initialize chat history if not set
     if (!isset($_SESSION['chat_history'])) {
         $_SESSION['chat_history'] = [];
     }
 
-    // Add user message to chat history
     $_SESSION['chat_history'][] = [
         'role' => 'user',
         'content' => $user_message
     ];
 
-    // Prepare messages for OpenAI API (system prompt + chat history)
     $messages = [
         [
             'role' => 'system',
@@ -80,7 +75,6 @@ Do not provide medical advice, diagnoses, or treatment recommendations. For any 
 
     $bot_message = $result['choices'][0]['message']['content'] ?? 'No response';
 
-    // Add bot response to chat history
     $_SESSION['chat_history'][] = [
         'role' => 'assistant',
         'content' => $bot_message

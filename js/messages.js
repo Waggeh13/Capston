@@ -1,5 +1,4 @@
-// Get user_role from PHP (injected via patient_message.php or doc_message.php)
-const userRole = document.body.dataset.userRole || 'Doctor'; // Fallback to 'Doctor'
+const userRole = document.body.dataset.userRole || 'Doctor';
 
 function sendMessage(senderId, receiverId) {
     const input = document.getElementById('messageInput');

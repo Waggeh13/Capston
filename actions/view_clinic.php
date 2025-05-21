@@ -1,10 +1,8 @@
 <?php
 require("../controllers/clinic_controller.php");
 
-// Set header first to ensure proper content type
 header('Content-Type: application/json');
 
-// Check if clinicID is set and not empty
 if (isset($_POST['clinic_id']) && !empty($_POST['clinic_id'])) {
     $clinicID = $_POST['clinic_id'];
     
